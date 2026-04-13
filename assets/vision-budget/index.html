@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>비전 기반 예산 할당 · Money Calendar</title>
+    <meta
+      name="description"
+      content="단기·장기 비전을 우선순위로 두고, 수입에서 비전 할당 후 잔여 가용 예산을 확인합니다."
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="./vision-budget.css" />
+  </head>
+  <body class="page-vision">
+    <div class="container">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">목표 연동 · 예산</p>
+          <h1>비전 기반 예산 할당</h1>
+          <p class="mt-10 text-body">
+            삶의 목표를 먼저 적고, 이번 달 수입에서 비전으로 보낼 금액을 최우선으로 배정합니다. 그
+            다음에야 일상 가용 예산이 남습니다.
+          </p>
+        </div>
+        <div class="page-head__actions">
+          <a class="btn-secondary" href="../index.html">메인</a>
+          <a class="btn-secondary" href="../income-design/index.html">수입 설계</a>
+          <a class="btn-secondary" href="../budget-setup/index.html">예산 엔진</a>
+        </div>
+      </header>
+
+      <section class="card mt-24" aria-labelledby="income-title">
+        <h2 id="income-title">전체 수입(가용)</h2>
+        <p class="text-sm mt-10">
+          이번 달 예산을 짜는 기준 수입입니다. 계층형 수입 설계에서 합산한 금액을 불러올 수 있습니다.
+        </p>
+        <div class="income-row mt-16">
+          <label class="field-grow">
+            <span class="field-label">월 가용 수입</span>
+            <div class="money-wrap">
+              <input
+                id="total-income"
+                class="money-input"
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="0"
+                aria-describedby="income-help"
+              />
+              <span class="won" aria-hidden="true">원</span>
+            </div>
+          </label>
+          <button id="btn-sync-income" class="btn-secondary" type="button">
+            수입 설계 합계 불러오기
+          </button>
+        </div>
+        <p id="income-help" class="text-sm mt-10">
+          비전 할당이 수입을 넘으면 경고가 표시됩니다.
+        </p>
+      </section>
+
+      <section class="card mt-24" aria-labelledby="vision-form-title">
+        <h2 id="vision-form-title">비전 설정</h2>
+        <p class="text-sm mt-10">
+          단기·장기 목표와 <strong>최종 목표 금액</strong>, <strong>이번 달 비전 할당액</strong>(수입
+          최우선 차감)을 입력하세요. 진행률은 현재까지 모은 금액을 넣으면 계산됩니다.
+        </p>
+
+        <form id="vision-add-form" class="vision-form mt-20">
+          <div class="form-grid">
+            <label class="field">
+              <span class="field-label">구분</span>
+              <select id="vf-horizon" name="horizon" required>
+                <option value="short">단기 목표</option>
+                <option value="long">장기 목표</option>
+              </select>
+            </label>
+            <label class="field field-span-2">
+              <span class="field-label">목표 이름</span>
+              <input
+                id="vf-title"
+                name="title"
+                type="text"
+                maxlength="80"
+                required
+                placeholder="예: 비상금 1,000만 원, N잡 수익 시드"
+              />
+            </label>
+            <label class="field">
+              <span class="field-label">최종 목표 금액</span>
+              <div class="money-wrap">
+                <input
+                  id="vf-target"
+                  class="money-input"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="0"
+                  required
+                />
+                <span class="won" aria-hidden="true">원</span>
+              </div>
+            </label>
+            <label class="field">
+              <span class="field-label">현재까지(누적)</span>
+              <div class="money-wrap">
+                <input
+                  id="vf-progress"
+                  class="money-input"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="0"
+                />
+                <span class="won" aria-hidden="true">원</span>
+              </div>
+            </label>
+            <label class="field">
+              <span class="field-label">이번 달 비전 할당</span>
+              <div class="money-wrap">
+                <input
+                  id="vf-monthly"
+                  class="money-input"
+                  type="text"
+                  inputmode="numeric"
+                  placeholder="0"
+                  required
+                />
+                <span class="won" aria-hidden="true">원</span>
+              </div>
+            </label>
+          </div>
+          <div class="mt-20">
+            <button class="btn" type="submit">비전 추가</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="mt-24" aria-labelledby="priority-title">
+        <div class="card">
+          <h2 id="priority-title">우선순위 연동 예산 배분</h2>
+          <p class="text-sm mt-10">
+            위에 적힌 순서가 곧 차감 순서입니다. 번호가 작을수록 수입에서 먼저 할당됩니다.
+          </p>
+
+          <div id="waterfall" class="waterfall mt-20" role="region" aria-live="polite"></div>
+
+          <div id="over-alert" class="alert alert--warn mt-16 is-hidden" role="alert">
+            비전 할당 합이 월 가용 수입을 초과했습니다. 할당액이나 수입을 조정해 주세요.
+          </div>
+
+          <div id="vision-list" class="vision-list mt-24"></div>
+        </div>
+      </section>
+
+      <section class="card mt-24" aria-labelledby="export-title">
+        <div class="flex-between export-head">
+          <h2 id="export-title">보내기</h2>
+          <button id="btn-excel" class="btn" type="button">엑셀 다운로드</button>
+        </div>
+        <p class="text-sm mt-10">비전 목록과 할당·잔여 요약을 시트로 정리합니다.</p>
+      </section>
+
+      <footer class="page-foot mt-24 mb-20">
+        <p class="text-sm text-center">
+          Money Calendar · 비전 기반 예산 — 정보 제공 목적이며 투자·세무 자문이 아닙니다.
+        </p>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="./vision-budget.js"></script>
+  </body>
+</html>

@@ -1,0 +1,281 @@
+/* 예산안 확정 및 락 관리 */
+
+.page-budget-lock {
+  padding-bottom: 24px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-head__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+}
+
+.hint-banner {
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), #fff);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: #92400e;
+}
+
+.hint-banner strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
+}
+
+.is-hidden {
+  display: none !important;
+}
+
+.month-row {
+  align-items: center;
+}
+
+.month-wrap input {
+  max-width: 200px;
+}
+
+.status-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 800;
+  border: 1px solid var(--border-default);
+  background: #f8fafc;
+}
+
+.status-pill--locked {
+  border-color: rgba(34, 197, 94, 0.45);
+  background: rgba(34, 197, 94, 0.1);
+  color: #166534;
+}
+
+.status-pill--open {
+  border-color: #cbd5e1;
+  color: var(--color-text-secondary);
+}
+
+.lock-icon {
+  font-size: 1rem;
+}
+
+.lock-badge {
+  font-size: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.fieldset {
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0;
+}
+
+.fieldset legend {
+  font-weight: 800;
+  font-size: 0.875rem;
+  padding: 0 8px;
+}
+
+.fieldset label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.fieldset label:first-of-type {
+  margin-top: 8px;
+}
+
+.fieldset input {
+  font-weight: 600;
+}
+
+.fieldset:disabled {
+  opacity: 0.72;
+}
+
+.summary-line {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid #e2e8f0;
+  margin-left: 10px;
+}
+
+.timeline li {
+  position: relative;
+  padding: 0 0 20px 20px;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: -7px;
+  top: 4px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #e2e8f0;
+}
+
+.timeline li.kind-unlock::before {
+  background: #f59e0b;
+}
+
+.timeline li.kind-relock::before {
+  background: #3b82f6;
+}
+
+.tl-time {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.tl-title {
+  margin-top: 4px;
+  font-weight: 800;
+}
+
+.tl-deltas {
+  margin-top: 8px;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.tl-deltas li {
+  list-style: disc;
+  margin-left: 1.1rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+}
+
+.archive-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.archive-table th,
+.archive-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #eef2f7;
+  text-align: left;
+  font-size: 0.875rem;
+}
+
+.archive-table thead th {
+  background: #f8fafc;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.archive-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.page-foot {
+  border-top: 1px solid var(--border-default);
+  padding-top: 16px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+}
+
+.tl-deltas ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}

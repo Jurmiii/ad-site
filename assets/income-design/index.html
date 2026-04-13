@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>계층형 수입 설계 엔진 · Money Calendar</title>
+    <meta
+      name="description"
+      content="실제·예정·기타·희망 소득을 계층별로 입력하고 확정 자산과 잠재 자산을 실시간으로 확인하세요."
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="./income-design.css" />
+  </head>
+  <body class="page-income">
+    <div class="container">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">핵심 기능 · 소득 구조</p>
+          <h1>계층형 수입 설계 엔진</h1>
+          <p class="mt-10 text-body">
+            소득을 네 겹으로 나누어 직시합니다. 색으로 계층을 구분하고, 확정 자산과 잠재 자산이
+            어떻게 쌓이는지 실시간으로 확인한 뒤 표와 엑셀로 남기세요.
+          </p>
+        </div>
+        <div class="page-head__actions">
+          <a class="btn-secondary" href="../index.html">메인</a>
+          <a class="btn-secondary" href="../vision-budget/index.html">비전 예산</a>
+          <a class="btn-secondary" href="../budget-setup/index.html">예산 설계</a>
+        </div>
+      </header>
+
+      <section class="dashboard card mt-24" aria-labelledby="dash-title">
+        <h2 id="dash-title" class="dash-title">실시간 합산 대시보드</h2>
+        <p class="dash-legend text-sm">
+          <strong>확정 자산</strong>은 실제소득 + 예정소득,
+          <strong>잠재 자산</strong>은 기타소득 + 희망소득입니다. (미니멀 가정: 확정/예정은 상대적으로
+          확실한 축, 기타·희망은 변동·목표 축)
+        </p>
+        <div class="dash-grid mt-20">
+          <div class="dash-tile dash-tile--confirmed">
+            <p class="dash-label">확정 자산</p>
+            <p id="dash-confirmed" class="dash-value">0원</p>
+            <p class="text-sm dash-sub" id="dash-confirmed-hint">실제 + 예정</p>
+          </div>
+          <div class="dash-tile dash-tile--latent">
+            <p class="dash-label">잠재 자산</p>
+            <p id="dash-latent" class="dash-value">0원</p>
+            <p class="text-sm dash-sub" id="dash-latent-hint">기타 + 희망</p>
+          </div>
+          <div class="dash-tile dash-tile--total">
+            <p class="dash-label">총 소득</p>
+            <p id="dash-total" class="dash-value">0원</p>
+            <p class="text-sm dash-sub">4계층 합계</p>
+          </div>
+        </div>
+        <div class="dash-bar mt-20" role="img" aria-label="소득 계층 비율">
+          <span id="bar-real" class="bar-seg bar-real" style="width: 0%"></span>
+          <span id="bar-scheduled" class="bar-seg bar-scheduled" style="width: 0%"></span>
+          <span id="bar-other" class="bar-seg bar-other" style="width: 0%"></span>
+          <span id="bar-hope" class="bar-seg bar-hope" style="width: 0%"></span>
+        </div>
+      </section>
+
+      <section class="mt-24" aria-labelledby="form-title">
+        <div class="card">
+          <h2 id="form-title">수입 계층 입력</h2>
+          <p class="text-sm mt-10">금액은 천 단위 콤마로 표시됩니다. 1원 단위까지 구분해 입력해 보세요.</p>
+
+          <ol class="tier-form mt-20">
+            <li class="tier tier--real">
+              <div class="tier-main">
+                <span class="tier-badge">1</span>
+                <div>
+                  <h3 class="tier-name">실제소득</h3>
+                  <p class="text-sm tier-desc">현재 확보된 가용 자산</p>
+                </div>
+              </div>
+              <label class="tier-field">
+                <span class="sr-only">실제소득 금액</span>
+                <input
+                  id="amt-real"
+                  class="money-input"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="0"
+                  aria-describedby="hint-real"
+                />
+                <span class="won" aria-hidden="true">원</span>
+              </label>
+              <p id="hint-real" class="text-sm tier-hint">Deep Blue — 이미 손에 있는 축</p>
+            </li>
+
+            <li class="tier tier--scheduled">
+              <div class="tier-main">
+                <span class="tier-badge">2</span>
+                <div>
+                  <h3 class="tier-name">예정소득</h3>
+                  <p class="text-sm tier-desc">이번 달 등 확실도가 높은 입금 예정</p>
+                </div>
+              </div>
+              <label class="tier-field">
+                <span class="sr-only">예정소득 금액</span>
+                <input
+                  id="amt-scheduled"
+                  class="money-input"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="0"
+                  aria-describedby="hint-scheduled"
+                />
+                <span class="won" aria-hidden="true">원</span>
+              </label>
+              <p id="hint-scheduled" class="text-sm tier-hint">Light Blue — 곧 현실화될 축</p>
+            </li>
+
+            <li class="tier tier--other">
+              <div class="tier-main">
+                <span class="tier-badge">3</span>
+                <div>
+                  <h3 class="tier-name">기타소득</h3>
+                  <p class="text-sm tier-desc">부수입·비정기적 수입</p>
+                </div>
+              </div>
+              <label class="tier-field">
+                <span class="sr-only">기타소득 금액</span>
+                <input
+                  id="amt-other"
+                  class="money-input"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="0"
+                  aria-describedby="hint-other"
+                />
+                <span class="won" aria-hidden="true">원</span>
+              </label>
+              <p id="hint-other" class="text-sm tier-hint">Green — 변동 가능성이 있는 축</p>
+            </li>
+
+            <li class="tier tier--hope">
+              <div class="tier-main">
+                <span class="tier-badge tier-badge--hope" aria-hidden="true">✦</span>
+                <div>
+                  <h3 class="tier-name">희망소득</h3>
+                  <p class="text-sm tier-desc">N잡·목표로 두는 미래 소득</p>
+                </div>
+              </div>
+              <label class="tier-field">
+                <span class="sr-only">희망소득 금액</span>
+                <input
+                  id="amt-hope"
+                  class="money-input"
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="0"
+                  aria-describedby="hint-hope"
+                />
+                <span class="won" aria-hidden="true">원</span>
+              </label>
+              <p id="hint-hope" class="text-sm tier-hint">Purple — 비전·상향 시나리오 축</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="mt-24" aria-labelledby="table-title">
+        <div class="card">
+          <div class="flex-between table-head">
+            <h2 id="table-title">구조화 데이터</h2>
+            <button id="btn-excel" class="btn" type="button">엑셀 다운로드</button>
+          </div>
+          <p class="text-sm mt-10">입력과 동일하게 표에 반영되며 브라우저에 자동 저장됩니다.</p>
+
+          <div class="table-wrap mt-16">
+            <table class="data-table" id="preview-table">
+              <caption class="sr-only">
+                계층형 소득 요약 표. 각 행은 소득 계층과 금액, 비중을 나타냅니다.
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">계층</th>
+                  <th scope="col">색상 구분</th>
+                  <th scope="col" class="col-num">금액</th>
+                  <th scope="col" class="col-num">총 대비 비중</th>
+                </tr>
+              </thead>
+              <tbody id="table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <footer class="page-foot mt-24 mb-20">
+        <p class="text-sm text-center">
+          Money Calendar · 계층형 수입 설계 — 정보 제공 목적이며 투자·세무 자문이 아닙니다.
+        </p>
+      </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="./income-design.js"></script>
+  </body>
+</html>

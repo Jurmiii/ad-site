@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weekly 예산안 수립 엔진 · Money Calendar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="./budget-setup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">1단계 · 재정 비전 설계</p>
+          <h1>Weekly 예산안 수립 엔진</h1>
+          <p class="mt-10 text-body">
+            소득을 우선순위에 따라 직시하고, 1원 단위까지 예산이 흘러가는 과정을 확인한 뒤 확정하세요.
+          </p>
+        </div>
+        <div class="header-actions">
+          <a class="btn-secondary" href="../income-design/index.html">수입 설계</a>
+          <a class="btn-secondary" href="../vision-budget/index.html">비전 예산</a>
+          <a class="btn-secondary" href="../budget-lock/index.html">예산 락</a>
+          <a class="btn-secondary" href="../index.html">이전 화면</a>
+        </div>
+      </header>
+
+      <!-- 확정 배너 (JS에서 표시) -->
+      <div id="locked-banner" class="locked-banner is-hidden" role="status" aria-live="polite">
+        <span class="locked-dot" aria-hidden="true"></span>
+        <div>
+          <strong>이번 달 예산안이 확정되었습니다.</strong>
+          <p class="text-sm mt-10">
+            입력이 잠겨 있습니다. 상단 기준 월을 바꾸면 다른 달 계획을 편집할 수 있습니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-main mt-24">
+        <!-- 좌: 기준 월 + 소득 -->
+        <section class="card stack" aria-labelledby="income-heading">
+          <div class="flex-between">
+            <h2 id="income-heading">소득 구조 (우선순위)</h2>
+            <label class="month-field">
+              <span class="sr-only">기준 월</span>
+              <input id="plan-month" type="month" />
+            </label>
+          </div>
+          <p class="text-sm mt-10">위에서 아래로 합산됩니다. 희망소득은 목표·비전 구간으로 별도 표시됩니다.</p>
+
+          <ol class="income-list mt-16">
+            <li class="income-row">
+              <div class="income-label">
+                <span class="income-step">1</span>
+                <div>
+                  <h3>실제소득</h3>
+                  <p class="text-sm">현재 확정된 가용 자산</p>
+                </div>
+              </div>
+              <div class="income-input">
+                <input id="income-real" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                <span class="won">원</span>
+              </div>
+            </li>
+            <li class="income-row">
+              <div class="income-label">
+                <span class="income-step">2</span>
+                <div>
+                  <h3>예정소득</h3>
+                  <p class="text-sm">이번 달 발생이 확실한 급여 등</p>
+                </div>
+              </div>
+              <div class="income-input">
+                <input id="income-scheduled" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                <span class="won">원</span>
+              </div>
+            </li>
+            <li class="income-row">
+              <div class="income-label">
+                <span class="income-step">3</span>
+                <div>
+                  <h3>기타소득</h3>
+                  <p class="text-sm">부수입·비정기 수입</p>
+                </div>
+              </div>
+              <div class="income-input">
+                <input id="income-other" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                <span class="won">원</span>
+              </div>
+            </li>
+            <li class="income-row income-row--dream">
+              <div class="income-label">
+                <span class="income-step income-step--dream" aria-hidden="true">✦</span>
+                <div>
+                  <h3>희망소득</h3>
+                  <p class="text-sm">N잡·목표로 두는 미래 소득 (비전 반영)</p>
+                </div>
+              </div>
+              <div class="income-input">
+                <input id="income-hope" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                <span class="won">원</span>
+              </div>
+            </li>
+          </ol>
+
+          <div class="total-strip mt-20">
+            <div>
+              <p class="text-sm">총 소득 (4항목 합산)</p>
+              <p id="total-income" class="total-amount">0원</p>
+            </div>
+            <p id="income-hint" class="text-sm text-right">숫자를 입력하면 막대에 비율이 반영됩니다.</p>
+          </div>
+
+          <div class="bar-caption flex-between mt-10">
+            <span class="text-sm">소득 구성 비율</span>
+            <span id="income-legend" class="text-sm"></span>
+          </div>
+          <div class="stack-bar stack-bar--income" role="img" aria-label="소득 구성 막대">
+            <span id="seg-real" class="seg seg-real" style="width: 0%"></span>
+            <span id="seg-scheduled" class="seg seg-scheduled" style="width: 0%"></span>
+            <span id="seg-other" class="seg seg-other" style="width: 0%"></span>
+            <span id="seg-hope" class="seg seg-hope" style="width: 0%"></span>
+          </div>
+        </section>
+
+        <!-- 우: 예산 배분 + 대조 시각화 -->
+        <section class="card stack" aria-labelledby="budget-heading">
+          <div class="flex-between">
+            <h2 id="budget-heading">예산 배분</h2>
+            <span id="alloc-pct" class="pill pill-muted">배분 0%</span>
+          </div>
+          <p class="text-sm mt-10">총 소득 대비 생활비·활동비·필수비용을 나누고, 남는 금액(잔여)을 실시간으로 확인하세요.</p>
+
+          <div class="compare mt-16">
+            <div class="compare-col">
+              <p class="compare-title">들어온 소득</p>
+              <p id="compare-income" class="compare-num">0원</p>
+              <div class="mini-bar mini-bar--income" aria-hidden="true">
+                <span id="mini-income" style="width: 100%"></span>
+              </div>
+            </div>
+            <div class="compare-arrow" aria-hidden="true">→</div>
+            <div class="compare-col">
+              <p class="compare-title">예산으로 쓴 금액</p>
+              <p id="compare-allocated" class="compare-num">0원</p>
+              <p id="compare-remainder" class="compare-sub text-sm mt-10">잔여 0원</p>
+              <div class="mini-bar mini-bar--split" aria-hidden="true">
+                <span id="mini-alloc" class="mini-alloc"></span>
+                <span id="mini-left" class="mini-left"></span>
+              </div>
+            </div>
+          </div>
+
+          <ul class="budget-fields mt-20">
+            <li>
+              <label class="field">
+                <span class="field-label">생활비</span>
+                <input id="budget-living" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+              </label>
+            </li>
+            <li>
+              <label class="field">
+                <span class="field-label">활동비</span>
+                <input id="budget-activity" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+              </label>
+            </li>
+            <li>
+              <label class="field">
+                <span class="field-label">필수비용</span>
+                <input id="budget-essential" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+              </label>
+            </li>
+          </ul>
+
+          <div class="remainder-box mt-20">
+            <div class="flex-between">
+              <div>
+                <p class="text-sm">잔여 소득 (총소득 − 배분 합)</p>
+                <p id="remainder" class="remainder-num">0원</p>
+              </div>
+              <p id="remainder-hint" class="text-sm text-right"></p>
+            </div>
+            <div class="stack-bar stack-bar--budget mt-10" role="img" aria-label="예산 배분 막대">
+              <span id="b-living" class="seg b-living" style="width: 0%"></span>
+              <span id="b-activity" class="seg b-activity" style="width: 0%"></span>
+              <span id="b-essential" class="seg b-essential" style="width: 0%"></span>
+              <span id="b-left" class="seg b-left" style="width: 0%"></span>
+            </div>
+          </div>
+
+          <div class="actions mt-24 flex-between">
+            <button id="btn-lock" class="btn" type="button">예산안 확정 (Lock)</button>
+            <div class="action-group">
+              <button id="btn-export" class="btn-secondary" type="button">엑셀 다운로드</button>
+            </div>
+          </div>
+          <p id="export-hint" class="text-sm mt-10">확정 전에도보내기는 가능합니다. 확정 후에는 수정할 수 없습니다.</p>
+        </section>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="./budget-setup.js"></script>
+  </body>
+</html>
