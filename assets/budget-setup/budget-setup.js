@@ -330,7 +330,11 @@ function exportExcel() {
   const ws2 = XLSX.utils.json_to_sheet(detail);
   XLSX.utils.book_append_sheet(wb, ws2, "상세");
 
-  XLSX.writeFile(wb, `money-calendar-budget_${monthKey}.xlsx`);
+  const fname =
+    typeof ExcelManager !== "undefined" && ExcelManager.makeFilename
+      ? ExcelManager.makeFilename(`BudgetSetup_${monthKey.replace("-", "")}`)
+      : `MoneyCalendar_BudgetSetup_${monthKey.replace("-", "")}.xlsx`;
+  XLSX.writeFile(wb, fname);
 }
 
 function onInput() {
@@ -341,6 +345,48 @@ function onInput() {
 }
 
 function init() {
+  // Excel Manager (template download + import with merge modal)
+  if (typeof ExcelManager !== "undefined") {
+    try {
+      ExcelManager.mount("excel-tools", "BudgetSetup", function (mode, parsed) {
+        const row = parsed && parsed.BudgetSetup ? parsed.BudgetSetup : null;
+        if (!row) throw new Error("BudgetSetup 시트를 찾지 못했습니다.");
+
+        const incoming = {
+          real: parseNonNeg(row.real),
+          scheduled: parseNonNeg(row.scheduled),
+          other: parseNonNeg(row.other),
+          hope: parseNonNeg(row.hope),
+          living: parseNonNeg(row.living),
+          activity: parseNonNeg(row.activity),
+          essential: parseNonNeg(row.essential),
+          locked: Boolean(row.locked),
+          lockedAt: typeof row.lockedAt === "string" ? row.lockedAt : null,
+        };
+
+        if (mode === "overwrite") {
+          state = { ...emptyState(), ...incoming };
+        } else {
+          // merge: keep current values, fill zeros from import
+          readInputsIntoState();
+          const merged = { ...state };
+          for (const k of ["real", "scheduled", "other", "hope", "living", "activity", "essential"]) {
+            if (parseNonNeg(merged[k]) === 0 && parseNonNeg(incoming[k]) > 0) merged[k] = incoming[k];
+          }
+          merged.locked = Boolean(state.locked || incoming.locked);
+          merged.lockedAt = state.lockedAt || incoming.lockedAt || null;
+          state = merged;
+        }
+
+        persist();
+        writeInputsFromState();
+        render();
+      });
+    } catch {
+      /* ignore */
+    }
+  }
+
   els.month.value = currentMonthKey();
   lastMonthKey = els.month.value;
   loadMonth(els.month.value);

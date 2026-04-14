@@ -408,7 +408,11 @@ function exportSnapshotExcel(snap, labelMonth, lockedAt) {
   const ws = XLSX.utils.json_to_sheet(rows);
   XLSX.utils.book_append_sheet(wb, ws, "예산스냅샷");
   const safe = labelMonth.replace(/[^\d-]/g, "");
-  XLSX.writeFile(wb, `money-calendar-budget-lock_${safe}_${lockedAt.slice(0, 10)}.xlsx`);
+  const fname =
+    typeof ExcelManager !== "undefined" && ExcelManager.makeFilename
+      ? ExcelManager.makeFilename(`BudgetLock_${safe.replace("-", "")}_${lockedAt.slice(0, 10).replace(/-/g, "")}`)
+      : `MoneyCalendar_BudgetLock_${safe.replace("-", "")}_${lockedAt.slice(0, 10).replace(/-/g, "")}.xlsx`;
+  XLSX.writeFile(wb, fname);
 }
 
 function renderArchive() {
@@ -528,6 +532,56 @@ function render() {
 }
 
 function init() {
+  // Excel Manager (template download + import → localStorage 기반 동기화)
+  if (typeof ExcelManager !== "undefined") {
+    try {
+      ExcelManager.mount("excel-tools", "BudgetSetup", function (mode, parsed) {
+        const row = parsed && parsed.BudgetSetup ? parsed.BudgetSetup : null;
+        if (!row) throw new Error("BudgetSetup 시트를 찾지 못했습니다.");
+        // monthKey를 엑셀에서 가져오되, 없으면 현재 월로 적용
+        const targetMonthKey =
+          typeof row.monthKey === "string" && /^\d{4}-\d{2}$/.test(row.monthKey)
+            ? row.monthKey
+            : currentMonthKey();
+
+        const incoming = {
+          real: Math.max(0, Math.trunc(Number(row.real) || 0)),
+          scheduled: Math.max(0, Math.trunc(Number(row.scheduled) || 0)),
+          other: Math.max(0, Math.trunc(Number(row.other) || 0)),
+          hope: Math.max(0, Math.trunc(Number(row.hope) || 0)),
+          living: Math.max(0, Math.trunc(Number(row.living) || 0)),
+          activity: Math.max(0, Math.trunc(Number(row.activity) || 0)),
+          essential: Math.max(0, Math.trunc(Number(row.essential) || 0)),
+          locked: Boolean(row.locked),
+          lockedAt: typeof row.lockedAt === "string" ? row.lockedAt : null,
+        };
+
+        if (mode === "overwrite") {
+          saveBudget(targetMonthKey, { ...state, ...incoming });
+        } else {
+          const cur = loadBudget(targetMonthKey);
+          const merged = { ...cur };
+          for (const k of ["real", "scheduled", "other", "hope", "living", "activity", "essential"]) {
+            if ((Number(merged[k]) || 0) === 0 && (Number(incoming[k]) || 0) > 0) merged[k] = incoming[k];
+          }
+          merged.locked = Boolean(cur.locked || incoming.locked);
+          merged.lockedAt = cur.lockedAt || incoming.lockedAt || null;
+          saveBudget(targetMonthKey, merged);
+        }
+
+        // 현재 화면 월도 맞춰서 즉시 반영
+        els.month.value = targetMonthKey;
+        monthKey = targetMonthKey;
+        state = loadBudget(monthKey);
+        unlockBaseline = null;
+        writeStateToForm();
+        render();
+      });
+    } catch {
+      /* ignore */
+    }
+  }
+
   els.month.value = currentMonthKey();
   monthKey = els.month.value;
   state = loadBudget(monthKey);

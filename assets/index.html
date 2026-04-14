@@ -24,6 +24,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
     />
+    <script src="./js/theme.js"></script>
     <link rel="stylesheet" href="./css/common.css" />
     <link rel="stylesheet" href="./css/style.css" />
   </head>
@@ -33,103 +34,148 @@
     <header class="site-header">
       <div class="container site-header__inner">
         <a class="brand" href="./" aria-current="page">
-          <span class="brand__mark" aria-hidden="true"></span>
+          <span class="brand__mark" aria-hidden="true">
+            <svg class="brand__logo" viewBox="0 0 64 64" role="img" aria-label="Money Calendar">
+              <defs>
+                <linearGradient id="mcGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#22c55e" />
+                  <stop offset="1" stop-color="#0f766e" />
+                </linearGradient>
+              </defs>
+              <rect x="8" y="8" width="48" height="48" rx="18" fill="url(#mcGrad)" />
+              <path
+                d="M20 43V22c0-2.5 3.4-3.3 4.7-1.2l7.3 11.4c.5.8 1.7.8 2.2 0l7.1-11.3c1.3-2.1 4.7-1.2 4.7 1.3V43"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="4.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18.5 19.2c4.4-4.2 10.2-6.6 16.6-6.6s12.2 2.4 16.6 6.6"
+                fill="none"
+                stroke="rgba(255,255,255,.55)"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <circle cx="46" cy="18.7" r="2.4" fill="rgba(255,255,255,.9)" />
+            </svg>
+          </span>
           <span class="brand__text">
             <span class="brand__name">Money Calendar</span>
             <span class="brand__tag">머니 캘린더</span>
           </span>
         </a>
-        <nav class="site-nav" aria-label="서비스 기능">
-          <details class="nav-dropdown">
-            <summary class="nav-dropdown__summary">서비스 기능</summary>
-            <div class="nav-dropdown__panel" role="menu">
-              <a role="menuitem" href="./budget-setup/index.html">예산 설계</a>
-              <a role="menuitem" href="./daily/index.html">소비 기록</a>
-              <a role="menuitem" href="./#main">머니 캘린더</a>
-              <a role="menuitem" href="./vision-budget/index.html">재정 분석</a>
-            </div>
-          </details>
-        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb" aria-hidden="true"></span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="hamburger"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-controls="drawer"
+            aria-expanded="false"
+            id="drawer-open"
+          >
+            <span class="hamburger__icon" aria-hidden="true"></span>
+          </button>
+        </div>
       </div>
     </header>
 
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="서비스 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">메뉴</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+        </div>
+
+        <nav class="drawer__nav" aria-label="서비스 기능">
+          <a class="drawer__item" href="./budget-setup/index.html">예산 설계</a>
+          <a class="drawer__item" href="./daily/index.html">소비 기록</a>
+          <a class="drawer__item" href="./vision-budget/index.html">재정 분석</a>
+          <a class="drawer__item" href="./income-design/index.html">수입 설계</a>
+          <a class="drawer__item" href="./budget-simulator/index.html">예산 시뮬레이터</a>
+          <a class="drawer__item" href="./budget-lock/index.html">예산 확정 · 이력</a>
+        </nav>
+
+        <div class="drawer__meta">
+          <p class="text-sm">작게 기록하고, 크게 흔들리지 않기.</p>
+        </div>
+      </div>
+    </div>
+
     <main id="main" class="home-main">
-      <div class="container home-layout">
-        <section class="home-hero card" aria-labelledby="hero-title">
-          <p class="home-hero__eyebrow">Money Calendar</p>
-          <h1 id="hero-title" class="home-hero__title">오늘의 선택이, 한 달의 여유를 만듭니다.</h1>
-          <div class="home-progress" aria-live="polite">
-            <div class="home-progress__head">
-              <span class="home-progress__label" id="home-progress-label">이번 달 예산 진행</span>
-              <span class="home-progress__value" id="home-progress-pct">—</span>
+      <div class="container home-shell">
+        <section class="cover card reveal reveal--in" aria-labelledby="hero-title">
+          <div class="cover__inner">
+            <p class="cover__kicker">Money Calendar</p>
+            <h1 id="hero-title" class="cover__title">1원의 가치로 설계하는 당신의 재정 비전</h1>
+            <p class="cover__lead">정갈하게 설계하고, 부드럽게 기록하는 가계부.</p>
+            <div class="cover__cta">
+              <a class="btn btn--lg" href="./budget-setup/index.html">시작하기</a>
             </div>
-            <div class="home-progress__track" aria-hidden="true">
-              <div class="home-progress__fill" id="home-progress-fill"></div>
+
+            <div class="cover__progress" aria-live="polite">
+              <div class="cover__progress-head">
+                <span class="cover__progress-label" id="home-progress-label">이번 달 예산 진행</span>
+                <span class="cover__progress-value" id="home-progress-pct">—</span>
+              </div>
+              <div class="cover__progress-track" aria-hidden="true">
+                <div class="cover__progress-fill" id="home-progress-fill"></div>
+              </div>
+              <p class="cover__progress-hint text-sm" id="home-progress-hint">
+                예산 설계에서 이번 달 금액을 입력하면 진행률이 반영됩니다.
+              </p>
             </div>
-            <p class="home-progress__hint text-sm" id="home-progress-hint">
-              예산 설계에서 이번 달 금액을 입력하면 진행률이 반영됩니다.
+          </div>
+          <div class="cover__paper" aria-hidden="true"></div>
+        </section>
+
+        <section class="about" aria-labelledby="about-title">
+          <header class="about__head reveal">
+            <h2 id="about-title" class="about__title">가계부를 ‘표’가 아닌 ‘구조’로</h2>
+            <p class="about__subtitle">
+              소득을 네 겹으로 분리하면, 오늘 쓸 돈과 지켜야 할 돈의 경계가 또렷해집니다.
             </p>
+          </header>
+
+          <div class="about__grid">
+            <article class="mini card reveal">
+              <p class="mini__tag">실제소득</p>
+              <h3 class="mini__title">지금 손에 쥔 돈</h3>
+              <p class="mini__desc text-sm">당장 선택의 기준이 되는 가용 자원.</p>
+            </article>
+            <article class="mini card reveal">
+              <p class="mini__tag">예정소득</p>
+              <h3 class="mini__title">곧 들어올 흐름</h3>
+              <p class="mini__desc text-sm">현실화 가능성이 높은 이번 달 현금 흐름.</p>
+            </article>
+            <article class="mini card reveal">
+              <p class="mini__tag">기타소득</p>
+              <h3 class="mini__title">변동 요인 분리</h3>
+              <p class="mini__desc text-sm">기대치를 관리해 흔들림을 줄입니다.</p>
+            </article>
+            <article class="mini card reveal">
+              <p class="mini__tag">희망소득</p>
+              <h3 class="mini__title">방향을 위한 숫자</h3>
+              <p class="mini__desc text-sm">미래 레버리지를 ‘계획 가능한 언어’로.</p>
+            </article>
           </div>
         </section>
 
-        <div class="home-grid">
-          <section class="home-cards" aria-labelledby="home-cards-title">
-            <h2 id="home-cards-title" class="visually-hidden">핵심 작업</h2>
-            <article class="entry-card card">
-              <p class="entry-card__eyebrow">오늘</p>
-              <h3 class="entry-card__title">오늘의 지출 기록</h3>
-              <p class="entry-card__desc text-sm">
-                하루 단위로 가볍게 남기고, 패턴을 스스로 점검합니다.
-              </p>
-              <a class="btn entry-card__cta" href="./daily/index.html">소비 기록 열기</a>
-            </article>
-            <article class="entry-card card">
-              <p class="entry-card__eyebrow">이번 주</p>
-              <h3 class="entry-card__title">이번 주 예산 확인</h3>
-              <p class="entry-card__desc text-sm">
-                소득 구조와 항목 배분을 맞추고, 잔여를 한눈에 봅니다.
-              </p>
-              <a class="btn btn--outline entry-card__cta" href="./budget-setup/index.html"
-                >예산 설계 열기</a
-              >
-            </article>
-          </section>
+        <section class="entry reveal" aria-label="빠른 시작">
+          <div class="entry__row">
+            <a class="btn btn--pill" href="./daily/index.html">오늘의 지출 기록</a>
+            <a class="btn btn--pill btn--ghost" href="./budget-setup/index.html">이번 주 예산 확인</a>
+          </div>
+        </section>
 
-          <aside class="home-aside card" aria-labelledby="aside-title">
-            <h2 id="aside-title" class="home-aside__title">추가 도구</h2>
-            <p class="home-aside__lead text-sm">
-              설계·기록 다음 단계나, 상황에 맞는 보조 화면입니다.
-            </p>
-            <ul class="home-aside__list">
-              <li><a href="./income-design/index.html">계층형 수입 설계</a></li>
-              <li><a href="./vision-budget/index.html">비전 기반 예산</a></li>
-              <li><a href="./budget-simulator/index.html">예산 분배 시뮬레이터</a></li>
-              <li><a href="./budget-lock/index.html">예산 확정 · 이력</a></li>
-            </ul>
-            <div class="home-aside__divider" role="presentation"></div>
-            <h3 class="home-aside__subhead">참고 자료</h3>
-            <ul class="home-aside__list home-aside__list--compact">
-              <li>
-                <a href="https://www.fss.or.kr/fss/main/main.do" target="_blank" rel="noopener noreferrer"
-                  >금융감독원</a
-                >
-              </li>
-              <li>
-                <a href="https://www.fss.or.kr/edu/" target="_blank" rel="noopener noreferrer"
-                  >e-금융교육센터</a
-                >
-              </li>
-              <li>
-                <a
-                  href="https://www.bok.or.kr/portal/main/contents.do?menuNo=201690"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >한국은행 경제교육</a
-                >
-              </li>
-            </ul>
-          </aside>
-        </div>
+        <div class="bottom-nav-space" aria-hidden="true"></div>
       </div>
     </main>
 
@@ -149,6 +195,78 @@
 
     <script>
       (function () {
+        // Drawer (hamburger menu)
+        var drawer = document.getElementById("drawer");
+        var openBtn = document.getElementById("drawer-open");
+        if (drawer && openBtn) {
+          var lastFocus = null;
+
+          function setExpanded(v) {
+            openBtn.setAttribute("aria-expanded", v ? "true" : "false");
+            openBtn.setAttribute("aria-label", v ? "메뉴 닫기" : "메뉴 열기");
+          }
+
+          function openDrawer() {
+            if (!drawer.hidden) return;
+            lastFocus = document.activeElement;
+            drawer.hidden = false;
+            drawer.classList.add("is-open");
+            document.body.classList.add("is-drawer-open");
+            setExpanded(true);
+            var focusTarget = drawer.querySelector(".drawer__close");
+            if (focusTarget) focusTarget.focus();
+          }
+
+          function closeDrawer() {
+            if (drawer.hidden) return;
+            drawer.classList.remove("is-open");
+            document.body.classList.remove("is-drawer-open");
+            setExpanded(false);
+            window.setTimeout(function () {
+              drawer.hidden = true;
+              if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+              lastFocus = null;
+            }, 240);
+          }
+
+          openBtn.addEventListener("click", function () {
+            if (drawer.hidden) openDrawer();
+            else closeDrawer();
+          });
+
+          drawer.addEventListener("click", function (e) {
+            var t = e.target;
+            if (t && t.closest && t.closest("[data-drawer-close]")) closeDrawer();
+          });
+
+          window.addEventListener("keydown", function (e) {
+            if (e.key === "Escape") closeDrawer();
+          });
+        }
+
+        // Scroll reveal (soft fade-in)
+        var revealEls = document.querySelectorAll(".reveal:not(.reveal--in)");
+        if (revealEls.length && "IntersectionObserver" in window) {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (en) {
+                if (en.isIntersecting) {
+                  en.target.classList.add("reveal--in");
+                  io.unobserve(en.target);
+                }
+              });
+            },
+            { threshold: 0.16, rootMargin: "0px 0px -10% 0px" }
+          );
+          revealEls.forEach(function (el) {
+            io.observe(el);
+          });
+        } else {
+          revealEls.forEach(function (el) {
+            el.classList.add("reveal--in");
+          });
+        }
+
         var PREFIX = "moneyCalendar.budgetSetup.v1";
         function monthKey() {
           var d = new Date();

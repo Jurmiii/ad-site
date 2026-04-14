@@ -1,0 +1,221 @@
+.excel-tools {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+}
+
+.excel-tools__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.excel-tools__hint {
+  text-align: right;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.excel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-weight: 750;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.excel-btn:hover {
+  background: var(--color-surface-2);
+  border-color: var(--border-strong);
+}
+
+.excel-btn:active {
+  transform: scale(0.99);
+}
+
+.excel-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
+}
+
+.dropzone {
+  width: min(520px, 100%);
+  padding: 16px 16px;
+  border-radius: 20px;
+  border: 1px dashed var(--border-strong);
+  background: var(--color-surface-2);
+  color: var(--color-text-secondary);
+  text-align: center;
+  line-height: 1.5;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.12s ease;
+}
+
+.dropzone strong {
+  color: var(--color-text-primary);
+}
+
+.dropzone.is-dragover {
+  background: rgba(34, 197, 94, 0.06);
+  border-color: rgba(34, 197, 94, 0.6);
+  transform: scale(1.01);
+}
+
+.dropzone__sub {
+  margin-top: 6px;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+.excel-status {
+  width: min(520px, 100%);
+  border-radius: 18px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  padding: 12px 14px;
+}
+
+.excel-status.is-hidden {
+  display: none;
+}
+
+.excel-status--ok {
+  border-color: rgba(34, 197, 94, 0.28);
+  background: rgba(34, 197, 94, 0.06);
+}
+
+.excel-status--err {
+  border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.excel-status__title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 850;
+  color: var(--color-text-primary);
+}
+
+.excel-check {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.excel-check path {
+  stroke-dasharray: 42;
+  stroke-dashoffset: 42;
+  animation: mcDraw 0.55s ease forwards;
+}
+
+@keyframes mcDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.excel-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.excel-modal[hidden] {
+  display: none;
+}
+
+.excel-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.46);
+}
+
+.excel-modal__panel {
+  position: relative;
+  width: min(520px, 96vw);
+  border-radius: 26px;
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-default);
+  box-shadow: 0 26px 80px rgba(15, 23, 42, 0.22);
+  padding: 18px 16px 14px;
+}
+
+.excel-modal__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.excel-modal__title {
+  font-size: 1.02rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.excel-modal__desc {
+  margin-top: 8px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.excel-modal__close {
+  min-width: 48px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 16px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.excel-modal__actions {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.excel-modal__primary {
+  background: #22c55e;
+  color: #fff;
+  border-color: transparent;
+}
+
+.excel-modal__primary:hover {
+  background: #16a34a;
+}
+
+@media (max-width: 640px) {
+  .excel-tools {
+    justify-items: stretch;
+  }
+  .excel-tools__row {
+    justify-content: flex-start;
+  }
+  .dropzone,
+  .excel-status {
+    width: 100%;
+    text-align: left;
+  }
+  .excel-modal__actions {
+    grid-template-columns: 1fr;
+  }
+}

@@ -358,7 +358,11 @@ function exportExcel() {
   const ws2 = XLSX.utils.json_to_sheet(summary);
   XLSX.utils.book_append_sheet(wb, ws2, "요약");
 
-  XLSX.writeFile(wb, `money-calendar-vision-budget_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  const fname =
+    typeof ExcelManager !== "undefined" && ExcelManager.makeFilename
+      ? ExcelManager.makeFilename("VisionBudget_" + new Date().toISOString().slice(0, 10).replace(/-/g, ""))
+      : `MoneyCalendar_VisionBudget_${new Date().toISOString().slice(0, 10).replace(/-/g, "")}.xlsx`;
+  XLSX.writeFile(wb, fname);
 }
 
 function initForm() {
@@ -410,6 +414,50 @@ function init() {
   $("btn-sync-income").addEventListener("click", syncFromIncomeDesign);
   $("vision-list").addEventListener("click", onVisionListClick);
   $("btn-excel").addEventListener("click", exportExcel);
+
+  // Excel Manager (template download + import)
+  if (typeof ExcelManager !== "undefined") {
+    try {
+      ExcelManager.mount("excel-tools", "VisionBudget", function (mode, parsed) {
+        const sum = parsed && parsed.Summary ? parsed.Summary : null;
+        const list = parsed && parsed.Visions ? parsed.Visions : null;
+        if (!sum || !list) throw new Error("Summary/Visions 시트를 찾지 못했습니다.");
+
+        const incomingTotal = Math.max(0, Math.trunc(Number(sum.totalIncome) || 0));
+        const incomingVisions = Array.isArray(list)
+          ? list
+              .map((v, i) => ({
+                id: createId(),
+                title: String(v.title || "").slice(0, 80),
+                horizon: v.horizon === "long" ? "long" : "short",
+                targetAmount: Math.max(0, Math.trunc(Number(v.targetAmount) || 0)),
+                currentProgress: Math.max(0, Math.trunc(Number(v.currentProgress) || 0)),
+                monthlyAllocation: Math.max(0, Math.trunc(Number(v.monthlyAllocation) || 0)),
+                order: Number.isFinite(Number(v.order)) ? Number(v.order) : i,
+              }))
+              .filter((v) => v.title)
+          : [];
+
+        if (mode === "overwrite") {
+          totalIncome = incomingTotal;
+          visions = incomingVisions;
+          normalizeOrders();
+        } else {
+          // merge: keep current, append incoming (order will be normalized)
+          if (totalIncome === 0 && incomingTotal > 0) totalIncome = incomingTotal;
+          visions = visions.concat(incomingVisions);
+          normalizeOrders();
+        }
+
+        save();
+        ti.value = totalIncome ? formatWon(totalIncome) : "";
+        render();
+      });
+    } catch {
+      /* ignore */
+    }
+  }
+
   initForm();
   render();
 }

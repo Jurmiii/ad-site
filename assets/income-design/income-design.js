@@ -217,7 +217,11 @@ function exportExcel() {
   const ws2 = XLSX.utils.json_to_sheet(meta);
   XLSX.utils.book_append_sheet(wb, ws2, "메타");
 
-  XLSX.writeFile(wb, `money-calendar-income-design_${new Date().toISOString().slice(0, 10)}.xlsx`);
+  const fname =
+    typeof ExcelManager !== "undefined" && ExcelManager.makeFilename
+      ? ExcelManager.makeFilename("IncomeDesign_" + new Date().toISOString().slice(0, 10).replace(/-/g, ""))
+      : `MoneyCalendar_IncomeDesign_${new Date().toISOString().slice(0, 10).replace(/-/g, "")}.xlsx`;
+  XLSX.writeFile(wb, fname);
 }
 
 function render() {
@@ -241,6 +245,41 @@ function hydrateInputs() {
 function init() {
   load();
   hydrateInputs();
+
+  // Excel Manager (template download + import)
+  if (typeof ExcelManager !== "undefined") {
+    try {
+      ExcelManager.mount("excel-tools", "IncomeDesign", function (mode, parsed) {
+        const row = parsed && parsed.IncomeDesign ? parsed.IncomeDesign : null;
+        if (!row) throw new Error("IncomeDesign 시트를 찾지 못했습니다.");
+        const incoming = {
+          real: Math.max(0, Math.trunc(Number(row.real) || 0)),
+          scheduled: Math.max(0, Math.trunc(Number(row.scheduled) || 0)),
+          other: Math.max(0, Math.trunc(Number(row.other) || 0)),
+          hope: Math.max(0, Math.trunc(Number(row.hope) || 0)),
+        };
+
+        if (mode === "overwrite") {
+          amounts.real = incoming.real;
+          amounts.scheduled = incoming.scheduled;
+          amounts.other = incoming.other;
+          amounts.hope = incoming.hope;
+        } else {
+          // merge: fill empty(0) fields only
+          if (amounts.real === 0 && incoming.real > 0) amounts.real = incoming.real;
+          if (amounts.scheduled === 0 && incoming.scheduled > 0) amounts.scheduled = incoming.scheduled;
+          if (amounts.other === 0 && incoming.other > 0) amounts.other = incoming.other;
+          if (amounts.hope === 0 && incoming.hope > 0) amounts.hope = incoming.hope;
+        }
+        save();
+        hydrateInputs();
+        render();
+      });
+    } catch {
+      /* ignore */
+    }
+  }
+
   wireMoneyInput("amt-real", "real");
   wireMoneyInput("amt-scheduled", "scheduled");
   wireMoneyInput("amt-other", "other");

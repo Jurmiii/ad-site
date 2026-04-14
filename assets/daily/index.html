@@ -3,30 +3,89 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily 소비 행태 · Money Calendar</title>
-    <meta name="description" content="일일 소비 기록 기능 준비 페이지입니다." />
+    <title>Daily 소비 기록 · Money Calendar</title>
+    <meta name="description" content="엑셀 업로드/다운로드로 연속성을 유지하는 일일 재정 기록장입니다." />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
     />
+    <script src="../js/theme.js"></script>
     <link rel="stylesheet" href="../css/common.css" />
-    <style>
-      .wrap {
-        max-width: 560px;
-        margin: 48px auto;
-        padding: 0 16px;
-      }
-    </style>
+    <link rel="stylesheet" href="../js/excel-manager.css" />
+    <link rel="stylesheet" href="./daily.css" />
   </head>
-  <body>
-    <div class="wrap card">
-      <h1>Daily 소비 행태</h1>
-      <p class="mt-10 text-body">이 화면은 곧 제공될 일일 기록 기능을 위한 자리입니다.</p>
-      <p class="mt-16 text-sm">메인으로 돌아가 Weekly 예산 설계를 먼저 이용해 보세요.</p>
-      <div class="mt-20 flex flex-wrap gap-12">
-        <a class="btn" href="../index.html">메인으로</a>
-        <a class="btn-secondary" href="../budget-setup/index.html">예산 설계</a>
-      </div>
+  <body class="page-daily">
+    <div class="container daily-shell">
+      <header class="page-head">
+        <div>
+          <p class="eyebrow">핵심 기능 · 기록</p>
+          <h1>Daily 소비 기록</h1>
+          <p class="mt-10 text-body">엑셀로 과거 기록을 불러오고, 오늘의 기록을 자연스럽게 이어갑니다.</p>
+        </div>
+        <div class="page-head__actions">
+          <div id="excel-tools" class="excel-tools"></div>
+          <a class="btn-secondary" href="../index.html">메인</a>
+          <a class="btn-secondary" href="../budget-setup/index.html">예산 설계</a>
+        </div>
+      </header>
+
+      <section class="card mt-24 daily-card" aria-labelledby="daily-head">
+        <div class="flex-between">
+          <h2 id="daily-head">오늘의 시작</h2>
+          <input id="daily-date" type="date" class="daily-date" />
+        </div>
+        <div class="daily-start mt-16">
+          <label class="field">
+            <span class="field-label">시작 잔액</span>
+            <div class="money-wrap">
+              <input id="start-balance" class="money-input" type="text" inputmode="numeric" placeholder="0" />
+              <span class="won" aria-hidden="true">원</span>
+            </div>
+          </label>
+          <div class="daily-summary">
+            <p class="text-sm">현재 잔액</p>
+            <p id="now-balance" class="daily-balance">0원</p>
+            <p id="balance-hint" class="text-sm mt-10"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card mt-24 daily-card" aria-labelledby="tx-title">
+        <div class="flex-between">
+          <h2 id="tx-title">기록</h2>
+          <div class="daily-actions">
+            <button id="btn-add" class="btn-secondary" type="button">항목 추가</button>
+            <button id="btn-export" class="btn" type="button">엑셀 다운로드</button>
+          </div>
+        </div>
+        <p class="text-sm mt-10">
+          지출은 잔액에서 차감, 수입은 잔액에 더합니다. 업로드한 파일의 마지막 잔액(endBalance)은 자동으로 다음 시작 잔액으로 이어질 수 있습니다.
+        </p>
+
+        <div class="table-wrap mt-16">
+          <table class="daily-table" aria-label="일일 거래 내역">
+            <thead>
+              <tr>
+                <th scope="col">구분</th>
+                <th scope="col">카테고리</th>
+                <th scope="col">메모</th>
+                <th scope="col" class="num">금액</th>
+                <th scope="col" class="num">잔액</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody id="tx-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer class="page-foot mt-24 mb-20">
+        <p class="text-sm text-center">Money Calendar · Daily 기록 — 로컬 우선 저장</p>
+      </footer>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../js/excel-manager.js"></script>
+    <script src="./daily.js"></script>
   </body>
 </html>
