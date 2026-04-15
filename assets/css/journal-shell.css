@@ -423,9 +423,9 @@ html.is-drawer-open body {
 
 .mc-page-intro__kicker {
   font-size: 0.6875rem;
-  font-weight: 850;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: none;
   /* 기능 요약 가이드: 브랜드 톤은 유지하되 가독성 우선 */
   color: color-mix(in srgb, var(--color-primary) 54%, var(--color-text-secondary));
   margin-bottom: 6px;

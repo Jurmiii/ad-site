@@ -99,9 +99,7 @@
 
 @media (max-width: 640px) {
   .daily-quick {
-    position: sticky;
-    top: 0;
-    z-index: 15;
+    position: static;
     padding-top: 14px;
     margin-top: 8px !important;
     border-radius: var(--radius-xl);

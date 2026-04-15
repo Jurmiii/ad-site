@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>15. 공개형 공유 페이지 · Money Calendar</title>
+    <title>15. 종합 재정 성취 리포트 및 자산 현황판 · Money Calendar</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
@@ -25,7 +25,7 @@
           <span class="mc-brand__mark" aria-hidden="true">M</span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">14. 공개형 공유 페이지</span>
+            <span class="mc-brand__page">15. 종합 재정 성취 리포트 및 자산 현황판</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
@@ -64,30 +64,67 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">15 · 공개형 공유 페이지</p>
-            <h1>15. 공개형 공유 페이지</h1>
+            <p class="mc-page-intro__kicker">15 · 종합 재정 성취 리포트</p>
+            <h1>15. 종합 재정 성취 리포트 및 자산 현황판</h1>
             <p class="mc-page-intro__lead text-body">
-              익명 닉네임과 짧은 재정 습관·성공 노하우를 남깁니다. 서버 전송 없이 브라우저에만 보관되는 목업 게시판입니다.
+              수립한 예산과 기록된 데이터를 총망라하여 나의 재정 성취도를 한눈에 확인합니다.
             </p>
           </header>
-          
-          <section class="card mt-24">
-            <h2 class="text-body" style="font-weight: 800">글쓰기</h2>
-            <form id="co-form" class="co-form mt-16">
-              <label class="field">
-                <span class="field-label">닉네임 (익명)</span>
-                <input id="co-nick" maxlength="24" required placeholder="예: 절약하는펭귄" />
-              </label>
-              <label class="field mt-16">
-                <span class="field-label">내용</span>
-                <textarea id="co-body" rows="4" maxlength="800" required placeholder="이번 달에 시도한 습관을 적어 주세요."></textarea>
-              </label>
-              <button class="btn mt-16" type="submit">등록</button>
-            </form>
+
+          <section class="card mt-24 finale-hero" aria-labelledby="finale-title">
+            <div class="finale-hero__head">
+              <h2 id="finale-title" class="finale-hero__title">이번 달 성취</h2>
+              <p class="text-sm finale-hero__sub" id="finale-month-label"></p>
+            </div>
+            <p class="finale-hero__msg" id="finale-message">—</p>
+            <div class="finale-hero__grid mt-16" aria-label="요약 지표">
+              <div class="finale-kpi">
+                <p class="text-sm">총 수입</p>
+                <p class="finale-kpi__value" id="kpi-income">—</p>
+              </div>
+              <div class="finale-kpi">
+                <p class="text-sm">총 지출</p>
+                <p class="finale-kpi__value" id="kpi-expense">—</p>
+              </div>
+              <div class="finale-kpi">
+                <p class="text-sm">예산</p>
+                <p class="finale-kpi__value" id="kpi-budget">—</p>
+              </div>
+              <div class="finale-kpi">
+                <p class="text-sm">예산 대비</p>
+                <p class="finale-kpi__value" id="kpi-saved">—</p>
+              </div>
+            </div>
           </section>
-          <section class="card mt-24">
-            <h2 class="text-body" style="font-weight: 800">게시판</h2>
-            <ul id="co-list" class="co-list mt-16"></ul>
+
+          <section class="card mt-24" aria-labelledby="compare-title">
+            <div class="flex-between">
+              <h2 id="compare-title">총 수입 vs 총 지출</h2>
+              <p class="text-sm" id="compare-hint"></p>
+            </div>
+            <div class="compare-bars mt-16" role="img" aria-label="총 수입과 총 지출 비교 막대">
+              <div class="compare-row">
+                <span class="compare-label">수입</span>
+                <span class="compare-track"><span id="bar-income" class="compare-fill compare-fill--income" style="width: 0%"></span></span>
+                <span class="compare-value" id="val-income">—</span>
+              </div>
+              <div class="compare-row">
+                <span class="compare-label">지출</span>
+                <span class="compare-track"><span id="bar-expense" class="compare-fill compare-fill--expense" style="width: 0%"></span></span>
+                <span class="compare-value" id="val-expense">—</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="donut-title">
+            <div class="flex-between">
+              <h2 id="donut-title">지출 카테고리 비중</h2>
+              <p class="text-sm" id="donut-hint"></p>
+            </div>
+            <div class="donut-wrap mt-16">
+              <canvas id="donut" width="320" height="320" aria-label="지출 카테고리 도넛 차트"></canvas>
+              <div class="donut-legend" id="donut-legend" aria-label="카테고리 목록"></div>
+            </div>
           </section>
         </main>
       </div>

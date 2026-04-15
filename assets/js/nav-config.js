@@ -20,6 +20,6 @@
     { id: 12, path: "ai-feedback/index.html", title: "AI 재정 피드백", kicker: "12 · 규칙 기반 분석" },
     { id: 13, path: "export-center/index.html", title: "전 기능 엑셀 익스포트", kicker: "13 · 통합 워크북" },
     { id: 14, path: "backup-security/index.html", title: "데이터 암호화 및 백업", kicker: "" },
-    { id: 15, path: "community/index.html", title: "공개형 공유 페이지", kicker: "" },
+    { id: 15, path: "community/index.html", title: "종합 재정 성취 리포트 및 자산 현황판", kicker: "15 · 피날레" },
   ];
 })(window);
