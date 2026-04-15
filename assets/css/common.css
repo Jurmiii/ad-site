@@ -96,6 +96,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Brand typography (홈/기능 공통) */
+.brand__text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.brand__name {
+  font-weight: 850;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.brand__tag {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
 /* Smooth theme transition (respects reduce motion) */
 @media (prefers-reduced-motion: no-preference) {
   html[data-theme] body,

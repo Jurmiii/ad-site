@@ -326,86 +326,9 @@ html[data-theme="dark"] .theme-toggle:hover {
   margin-top: 10px;
 }
 
-/* 홈·기능 공통: 15개 메뉴가 패널 안에서 스크롤 없이 배치되도록 journal-shell과 동기 */
-#mc-drawer-list.drawer__nav {
-  margin-top: 4px;
-  flex: 1;
-  min-height: 0;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3px;
-  align-content: start;
-  padding-right: 0;
-}
-
-@media (min-width: 360px) and (min-height: 640px) {
-  #mc-drawer-list.drawer__nav {
-    grid-template-columns: 1fr 1fr;
-    gap: 4px 6px;
-  }
-}
-
-.drawer__item {
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  padding: 12px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--border-default);
-  background: var(--color-surface);
-  font-size: 0.9375rem;
-  font-weight: 750;
-  color: var(--color-text-primary);
-  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
-}
-
-.drawer__item:hover {
-  background: var(--color-surface-2);
-  border-color: var(--border-strong);
-}
-
-.drawer__item:active {
-  transform: scale(0.99);
-}
-
-#mc-drawer-list .drawer__item.mc-drawer__item {
-  min-height: 0;
-  padding: 6px 8px;
-  border-radius: 12px;
-  font-size: 0.8125rem;
-  font-weight: 800;
-}
-
-/* 홈 드로어: 카테고리 섹션 스타일 (journal-shell과 동일 톤) */
-#mc-drawer-list .mc-drawer__section {
-  border: 1px solid var(--border-default);
-  border-radius: 16px;
-  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
-  padding: 10px 10px 8px;
-}
-
-#mc-drawer-list .mc-drawer__section-title {
-  font-size: 0.6875rem;
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
-  padding: 2px 4px 8px;
-}
-
-#mc-drawer-list .mc-drawer__section-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 4px;
-}
-
-@media (min-width: 360px) and (min-height: 640px) {
-  #mc-drawer-list.drawer__nav {
-    grid-template-columns: 1fr 1fr;
-    gap: 6px;
-  }
-}
+/* 홈은 journal-shell.css 를 함께 로드하므로,
+   메뉴(4개 카테고리 + 1~15) 레이아웃은 기능 페이지와 100% 동일하게 유지한다.
+   (home 전용 오버라이드 제거/무력화) */
 
 .drawer__meta {
   margin-top: auto;
