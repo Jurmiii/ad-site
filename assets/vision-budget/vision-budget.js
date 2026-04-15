@@ -413,45 +413,47 @@ function init() {
 
   $("btn-sync-income").addEventListener("click", syncFromIncomeDesign);
   $("vision-list").addEventListener("click", onVisionListClick);
-  $("btn-excel").addEventListener("click", exportExcel);
-
   // Excel Manager (template download + import)
   if (typeof ExcelManager !== "undefined") {
     try {
-      ExcelManager.mount("excel-tools", "VisionBudget", function (mode, parsed) {
-        const sum = parsed && parsed.Summary ? parsed.Summary : null;
-        const list = parsed && parsed.Visions ? parsed.Visions : null;
-        if (!sum || !list) throw new Error("Summary/Visions 시트를 찾지 못했습니다.");
+      ExcelManager.mount("excel-control-root", "VisionBudget", {
+        applyData(mode, parsed) {
+          const sum = parsed && parsed.Summary ? parsed.Summary : null;
+          const list = parsed && parsed.Visions ? parsed.Visions : null;
+          if (!sum || !list) throw new Error("Summary/Visions 시트를 찾지 못했습니다.");
 
-        const incomingTotal = Math.max(0, Math.trunc(Number(sum.totalIncome) || 0));
-        const incomingVisions = Array.isArray(list)
-          ? list
-              .map((v, i) => ({
-                id: createId(),
-                title: String(v.title || "").slice(0, 80),
-                horizon: v.horizon === "long" ? "long" : "short",
-                targetAmount: Math.max(0, Math.trunc(Number(v.targetAmount) || 0)),
-                currentProgress: Math.max(0, Math.trunc(Number(v.currentProgress) || 0)),
-                monthlyAllocation: Math.max(0, Math.trunc(Number(v.monthlyAllocation) || 0)),
-                order: Number.isFinite(Number(v.order)) ? Number(v.order) : i,
-              }))
-              .filter((v) => v.title)
-          : [];
+          const incomingTotal = Math.max(0, Math.trunc(Number(sum.totalIncome) || 0));
+          const incomingVisions = Array.isArray(list)
+            ? list
+                .map((v, i) => ({
+                  id: createId(),
+                  title: String(v.title || "").slice(0, 80),
+                  horizon: v.horizon === "long" ? "long" : "short",
+                  targetAmount: Math.max(0, Math.trunc(Number(v.targetAmount) || 0)),
+                  currentProgress: Math.max(0, Math.trunc(Number(v.currentProgress) || 0)),
+                  monthlyAllocation: Math.max(0, Math.trunc(Number(v.monthlyAllocation) || 0)),
+                  order: Number.isFinite(Number(v.order)) ? Number(v.order) : i,
+                }))
+                .filter((v) => v.title)
+            : [];
 
-        if (mode === "overwrite") {
-          totalIncome = incomingTotal;
-          visions = incomingVisions;
-          normalizeOrders();
-        } else {
-          // merge: keep current, append incoming (order will be normalized)
-          if (totalIncome === 0 && incomingTotal > 0) totalIncome = incomingTotal;
-          visions = visions.concat(incomingVisions);
-          normalizeOrders();
-        }
+          if (mode === "overwrite") {
+            totalIncome = incomingTotal;
+            visions = incomingVisions;
+            normalizeOrders();
+          } else {
+            if (totalIncome === 0 && incomingTotal > 0) totalIncome = incomingTotal;
+            visions = visions.concat(incomingVisions);
+            normalizeOrders();
+          }
 
-        save();
-        ti.value = totalIncome ? formatWon(totalIncome) : "";
-        render();
+          save();
+          ti.value = totalIncome ? formatWon(totalIncome) : "";
+          render();
+        },
+        onExportCurrent() {
+          exportExcel();
+        },
       });
     } catch {
       /* ignore */

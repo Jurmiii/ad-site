@@ -223,8 +223,23 @@
             { key: "date", label: "date", type: "text", required: true }, // YYYY-MM-DD
             { key: "startBalance", label: "startBalance", type: "int", required: true },
             { key: "endBalance", label: "endBalance", type: "int", required: false },
+            {
+              key: "dayRating",
+              label: "dayRating",
+              type: "enum",
+              required: false,
+              optional: true,
+              enum: ["", "good", "normal", "bad"],
+            },
+            { key: "dayNote", label: "dayNote", type: "text", required: false, optional: true },
           ],
-          sampleRow: { date: "2026-04-14", startBalance: 150000, endBalance: 120000 },
+          sampleRow: {
+            date: "2026-04-14",
+            startBalance: 150000,
+            endBalance: 120000,
+            dayRating: "normal",
+            dayNote: "커피 줄였음",
+          },
         },
         {
           name: "Transactions",
@@ -248,7 +263,402 @@
         },
       ],
     },
+    /** 9~15 등 공통 셸: 가져오기는 비워 두고 통합 추출만 사용 가능 */
+    ShellTooling: {
+      key: "ShellTooling",
+      label: "공통 도구",
+      sheets: [
+        {
+          name: "Readme",
+          rowMode: "single",
+          columns: [{ key: "note", label: "note", type: "text", required: false }],
+          sampleRow: { note: "이 시트는 안내용입니다." },
+        },
+      ],
+    },
   };
+
+  function masterSafeSheetName(name) {
+    var n = String(name || "Sheet").replace(/[[\]*?:/\\]/g, "_");
+    if (n.length > 31) n = n.slice(0, 31);
+    return n;
+  }
+
+  function masterAppendRows(wb, name, rows) {
+    var ws = XLSX.utils.json_to_sheet(rows && rows.length ? rows : [{ _note: "(데이터 없음)" }]);
+    XLSX.utils.book_append_sheet(wb, ws, masterSafeSheetName(name));
+  }
+
+  function masterLoadJson(key, fallback) {
+    try {
+      var r = localStorage.getItem(key);
+      if (!r) return fallback;
+      return JSON.parse(r);
+    } catch (e) {
+      return fallback;
+    }
+  }
+
+  function masterMonthNow() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  }
+
+  function masterSumDayExpenses(day) {
+    if (!day || !Array.isArray(day.txs)) return 0;
+    var s = 0;
+    for (var i = 0; i < day.txs.length; i++) {
+      var t = day.txs[i];
+      if (t && t.type === "expense") s += Math.max(0, Math.trunc(Number(t.amount) || 0));
+    }
+    return s;
+  }
+
+  function masterMonthCap(mk) {
+    try {
+      var r = localStorage.getItem("moneyCalendar.budgetSetup.v1." + mk);
+      if (r) {
+        var o = JSON.parse(r);
+        var a =
+          Math.max(0, Math.trunc(Number(o.living) || 0)) +
+          Math.max(0, Math.trunc(Number(o.activity) || 0)) +
+          Math.max(0, Math.trunc(Number(o.essential) || 0));
+        if (a > 0) return a;
+      }
+      var r2 = localStorage.getItem("moneyCalendar.budgetSimulator.v1." + mk);
+      if (r2) {
+        var o2 = JSON.parse(r2);
+        return Math.max(0, Math.trunc(Number(o2.total) || 0));
+      }
+    } catch (e) {
+      /* ignore */
+    }
+    return 0;
+  }
+
+  function masterIsoWeekKey(dateStr) {
+    var p = dateStr.split("-");
+    var d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+    d.setHours(0, 0, 0, 0);
+    var dayNr = (d.getDay() + 6) % 7;
+    d.setDate(d.getDate() - dayNr + 3);
+    var jan4 = new Date(d.getFullYear(), 0, 4);
+    var week =
+      1 +
+      Math.round(((d.getTime() - jan4.getTime()) / 86400000 - 3 + ((jan4.getDay() + 6) % 7)) / 7);
+    return d.getFullYear() + "-W" + String(week).padStart(2, "0");
+  }
+
+  function masterBucket(cat) {
+    var c = String(cat || "").toLowerCase();
+    if (/식|카페|마트|배달|주거|관리|통신|보험|의료|세금|공과/.test(c)) return "living";
+    if (/문화|여가|취미|교육|구독|쇼핑|의류/.test(c)) return "activity";
+    if (/대출|이자|저축|비상|고정/.test(c)) return "essential";
+    return "activity";
+  }
+
+  function masterSpendByBucket(mk, dailyMap) {
+    var out = { living: 0, activity: 0, essential: 0 };
+    Object.keys(dailyMap).forEach(function (ds) {
+      if (ds.slice(0, 7) !== mk) return;
+      var day = dailyMap[ds];
+      if (!day || !Array.isArray(day.txs)) return;
+      day.txs.forEach(function (t) {
+        if (!t || t.type !== "expense") return;
+        var amt = Math.max(0, Math.trunc(Number(t.amount) || 0));
+        out[masterBucket(t.category)] += amt;
+      });
+    });
+    return out;
+  }
+
+  function masterAiMessages(mk) {
+    var b = masterLoadJson("moneyCalendar.budgetSetup.v1." + mk, {});
+    var living = Math.max(0, Math.trunc(Number(b.living) || 0));
+    var activity = Math.max(0, Math.trunc(Number(b.activity) || 0));
+    var essential = Math.max(0, Math.trunc(Number(b.essential) || 0));
+    var alloc = living + activity + essential;
+    var sim = masterLoadJson("moneyCalendar.budgetSimulator.v1." + mk, {});
+    var cap = alloc > 0 ? alloc : Math.max(0, Math.trunc(Number(sim.total) || 0));
+    var dailyMap = masterLoadJson("moneyCalendar.dailyLedger.v1", {});
+    var spent = 0;
+    Object.keys(dailyMap).forEach(function (ds) {
+      if (ds.slice(0, 7) !== mk) return;
+      var day = dailyMap[ds];
+      if (!day || !Array.isArray(day.txs)) return;
+      day.txs.forEach(function (x) {
+        if (x && x.type === "expense") spent += Math.max(0, Math.trunc(Number(x.amount) || 0));
+      });
+    });
+    var msgs = [];
+    if (cap > 0 && spent > cap * 1.05) {
+      msgs.push({
+        type: "warn",
+        tag: "지출",
+        text: "이번 달 데일리 지출 합이 기준(배분 또는 시뮬 총예산)보다 5%를 넘었습니다.",
+      });
+    }
+    if (living > 0 && activity > living * 0.45) {
+      msgs.push({
+        type: "warn",
+        tag: "비율",
+        text: "활동비 배분이 생활비의 45%를 넘습니다. 유흥·구독 항목을 점검해 보세요.",
+      });
+    }
+    if (cap > 0 && spent < cap * 0.7) {
+      msgs.push({
+        type: "ok",
+        tag: "여유",
+        text: "지출 속도가 기준 대비 여유롭습니다. 비전 저축으로 이월할 금액을 검토해 보세요.",
+      });
+    }
+    if (!msgs.length) {
+      msgs.push({
+        type: "ok",
+        tag: "관측",
+        text: "데이터가 부족하거나 규칙에 해당하는 이상 징후가 없습니다.",
+      });
+    }
+    return msgs.map(function (m, idx) {
+      return { order: idx + 1, type: m.type, tag: m.tag, message: m.text };
+    });
+  }
+
+  /**
+   * 1~15 전 기능: 통합 워크북 (기능 번호별 시트)
+   * @returns {void}
+   */
+  function runMasterExportWorkbook() {
+    ensureXlsx();
+    var wb = XLSX.utils.book_new();
+    var mk = masterMonthNow();
+
+    var inc = masterLoadJson("moneyCalendar.incomeDesign.v1", null);
+    masterAppendRows(wb, "01_계층형수입설계", inc && typeof inc === "object" ? [inc] : []);
+
+    var vis = masterLoadJson("moneyCalendar.visionBudget.v1", null);
+    if (vis && typeof vis === "object") {
+      var visRows = [];
+      visRows.push({
+        kind: "summary",
+        totalIncome: vis.totalIncome != null ? vis.totalIncome : "",
+        json: truncateCell(JSON.stringify(vis), 30000),
+      });
+      masterAppendRows(wb, "02_비전기반예산", visRows);
+    } else {
+      masterAppendRows(wb, "02_비전기반예산", []);
+    }
+
+    var lockRows = [];
+    var arch = masterLoadJson("moneyCalendar.budgetLockArchive.v1", null);
+    if (arch) lockRows.push({ kind: "archive", payload: truncateCell(JSON.stringify(arch), 30000) });
+    for (var li = 0; li < localStorage.length; li++) {
+      var lk = localStorage.key(li);
+      if (lk && lk.indexOf("moneyCalendar.budgetLockHistory.v1.") === 0) {
+        lockRows.push({
+          kind: "history",
+          monthKey: lk.split(".").pop(),
+          payload: truncateCell(localStorage.getItem(lk) || "", 30000),
+        });
+      }
+    }
+    masterAppendRows(wb, "03_예산안확정락", lockRows);
+
+    var simRows = [];
+    for (var si = 0; si < localStorage.length; si++) {
+      var sk = localStorage.key(si);
+      if (sk && sk.indexOf("moneyCalendar.budgetSimulator.v1.") === 0) {
+        var sm = sk.slice("moneyCalendar.budgetSimulator.v1.".length);
+        var so = masterLoadJson(sk, {});
+        simRows.push({
+          monthKey: sm,
+          total: so.total,
+          living: so.living,
+          activity: so.activity,
+          essential: so.essential,
+          confirmed: so.confirmed,
+          confirmedAt: so.confirmedAt,
+        });
+      }
+    }
+    masterAppendRows(wb, "04_예산분배시뮬", simRows);
+
+    var dailyMap = masterLoadJson("moneyCalendar.dailyLedger.v1", {});
+    var rows05 = [];
+    var rows06 = [];
+    var rows07 = [];
+    var rows08 = [];
+    Object.keys(dailyMap).forEach(function (date) {
+      var day = dailyMap[date];
+      if (!day || !Array.isArray(day.txs)) return;
+      var dayExp = masterSumDayExpenses(day);
+      day.txs.forEach(function (t) {
+        rows05.push({
+          date: date,
+          type: t.type,
+          category: t.category,
+          memo: t.memo,
+          amount: t.amount,
+          dayRating: day.dayRating || "",
+          dayNote: day.dayNote || "",
+        });
+      });
+      rows06.push({
+        date: date,
+        dayRating: day.dayRating || "",
+        dayNote: day.dayNote || "",
+        dayExpenseTotal: dayExp,
+      });
+      var capD = masterMonthCap(date.slice(0, 7));
+      rows07.push({
+        date: date,
+        monthKey: date.slice(0, 7),
+        dayExpenseTotal: dayExp,
+        monthBudgetCap: capD,
+        pctOfMonthCap: capD > 0 ? Math.round((dayExp / capD) * 10000) / 100 : "",
+      });
+      rows08.push({
+        date: date,
+        dayExpenseTotal: dayExp,
+        noSpendDay: dayExp === 0 ? 1 : 0,
+      });
+    });
+    masterAppendRows(wb, "05_퀵인풋_거래", rows05);
+    masterAppendRows(wb, "06_한줄평_요약", rows06);
+    masterAppendRows(wb, "07_체감지수_일별", rows07);
+    masterAppendRows(wb, "08_무지출챌린지", rows08);
+
+    var weeks = {};
+    Object.keys(dailyMap).forEach(function (ds) {
+      if (ds.slice(0, 7) !== mk) return;
+      var wk = masterIsoWeekKey(ds);
+      weeks[wk] = (weeks[wk] || 0) + masterSumDayExpenses(dailyMap[ds]);
+    });
+    var wkRows = [];
+    var capM = masterMonthCap(mk);
+    Object.keys(weeks)
+      .sort()
+      .forEach(function (k) {
+        var sp = weeks[k];
+        wkRows.push({
+          monthKey: mk,
+          isoWeek: k,
+          weekSpend: sp,
+          monthCap: capM,
+          weekPctOfMonthCap: capM > 0 ? Math.round((sp / capM) * 10000) / 100 : "",
+        });
+      });
+    masterAppendRows(wb, "09_주간실천리포트", wkRows);
+
+    var bud = masterLoadJson("moneyCalendar.budgetSetup.v1." + mk, {
+      living: 0,
+      activity: 0,
+      essential: 0,
+    });
+    var spb = masterSpendByBucket(mk, dailyMap);
+    var mrRows = [];
+    mrRows.push({ section: "복기대상월", monthKey: mk, label: "", budget: "", spendApprox: "", diff: "" });
+    mrRows.push({
+      section: "항목별비교",
+      monthKey: mk,
+      label: "생활비",
+      budget: Math.max(0, Math.trunc(Number(bud.living) || 0)),
+      spendApprox: spb.living,
+      diff: Math.max(0, Math.trunc(Number(bud.living) || 0)) - spb.living,
+    });
+    mrRows.push({
+      section: "항목별비교",
+      monthKey: mk,
+      label: "활동비",
+      budget: Math.max(0, Math.trunc(Number(bud.activity) || 0)),
+      spendApprox: spb.activity,
+      diff: Math.max(0, Math.trunc(Number(bud.activity) || 0)) - spb.activity,
+    });
+    mrRows.push({
+      section: "항목별비교",
+      monthKey: mk,
+      label: "필수비용",
+      budget: Math.max(0, Math.trunc(Number(bud.essential) || 0)),
+      spendApprox: spb.essential,
+      diff: Math.max(0, Math.trunc(Number(bud.essential) || 0)) - spb.essential,
+    });
+    for (var bi = 0; bi < localStorage.length; bi++) {
+      var bk = localStorage.key(bi);
+      if (!bk || bk.indexOf("moneyCalendar.budgetSetup.v1.") !== 0) continue;
+      var bmon = bk.slice("moneyCalendar.budgetSetup.v1.".length);
+      var bo = masterLoadJson(bk, {});
+      mrRows.push({
+        section: "예산안배분원본",
+        monthKey: bmon,
+        income_real: bo.real,
+        income_scheduled: bo.scheduled,
+        income_other: bo.other,
+        income_hope: bo.hope,
+        alloc_living: Math.max(0, Math.trunc(Number(bo.living) || 0)),
+        alloc_activity: Math.max(0, Math.trunc(Number(bo.activity) || 0)),
+        alloc_essential: Math.max(0, Math.trunc(Number(bo.essential) || 0)),
+        locked: bo.locked,
+        lockedAt: bo.lockedAt,
+      });
+    }
+    masterAppendRows(wb, "10_월간예산복기", mrRows);
+
+    var tlKeys = [];
+    var d0 = new Date();
+    for (var ti = 11; ti >= 0; ti--) {
+      var u = new Date(d0.getFullYear(), d0.getMonth() - ti, 1);
+      tlKeys.push(u.getFullYear() + "-" + String(u.getMonth() + 1).padStart(2, "0"));
+    }
+    var tlRows = tlKeys.map(function (k) {
+      var t = 0;
+      Object.keys(dailyMap).forEach(function (ds) {
+        if (ds.slice(0, 7) !== k) return;
+        t += masterSumDayExpenses(dailyMap[ds]);
+      });
+      return { monthKey: k, expenseTotal: t };
+    });
+    masterAppendRows(wb, "11_과거타임라인", tlRows);
+
+    masterAppendRows(wb, "12_AI재정피드백", masterAiMessages(mk));
+
+    masterAppendRows(wb, "13_전기능익스포트", [
+      {
+        note:
+          "이 워크북은 상단 통합 추출로 생성되었습니다. 각 시트는 기획서 기능 1~15번과 대응합니다.",
+        generatedMonth: mk,
+      },
+    ]);
+
+    var lsRows = [];
+    for (var ri = 0; ri < localStorage.length; ri++) {
+      var rk = localStorage.key(ri);
+      if (!rk || rk.indexOf("moneyCalendar.") !== 0) continue;
+      var raw = localStorage.getItem(rk) || "";
+      lsRows.push({ storageKey: rk, value: truncateCell(raw, 12000) });
+    }
+    masterAppendRows(wb, "14_암호화백업용원본", lsRows);
+
+    var posts = masterLoadJson("moneyCalendar.publicBoard.v1", []);
+    var pr = Array.isArray(posts)
+      ? posts.map(function (p, i) {
+          return {
+            idx: i + 1,
+            at: p.at,
+            nick: p.nick,
+            body: p.body,
+          };
+        })
+      : [];
+    masterAppendRows(wb, "15_공개형공유", pr);
+
+    XLSX.writeFile(wb, makeFilename("Master15_All"));
+  }
+
+  function truncateCell(s, max) {
+    s = String(s || "");
+    if (s.length > max) return s.slice(0, max) + "…(truncated)";
+    return s;
+  }
 
   function validateAndParseAoa(aoa, sheetSchema) {
     if (!aoa || !aoa.length) {
@@ -262,18 +672,21 @@
     var expectedNorm = expected.map(normalizeHeaderCell);
 
     for (var i = 0; i < expectedNorm.length; i++) {
-      if (header[i] !== expectedNorm[i]) {
-        var col = colLetter(i);
-        throw new Error(
-          "컬럼명이 일치하지 않습니다. " +
-            col +
-            "열은 '" +
-            expectedNorm[i] +
-            "' 이어야 합니다. (현재: '" +
-            (header[i] || "") +
-            "')"
-        );
-      }
+      var hCell = normalizeHeaderCell(header[i] != null ? header[i] : "");
+      var exp = expectedNorm[i];
+      var colDef0 = sheetSchema.columns[i];
+      if (hCell === exp) continue;
+      if (colDef0 && colDef0.optional && hCell === "") continue;
+      var col = colLetter(i);
+      throw new Error(
+        "컬럼명이 일치하지 않습니다. " +
+          col +
+          "열은 '" +
+          exp +
+          "' 이어야 합니다. (현재: '" +
+          hCell +
+          "')"
+      );
     }
 
     function parseCell(type, raw, colIdx, rowIdx) {
@@ -293,6 +706,9 @@
         return m;
       }
       if (type === "int") {
+        var colDefI = sheetSchema.columns[colIdx];
+        var rawInt = String(raw == null ? "" : raw).trim();
+        if (rawInt === "" && colDefI && colDefI.required === false) return null;
         var n = toIntNonNeg(raw);
         if (n == null) {
           throw new Error("엑셀의 " + col + "열(금액) 형식이 올바르지 않습니다. 숫자만 입력해 주세요.");
@@ -301,11 +717,13 @@
       }
       if (type === "enum") {
         var v = String(raw == null ? "" : raw).trim();
-        if (sheetSchema.columns[colIdx] && sheetSchema.columns[colIdx].enum) {
-          var allowed = sheetSchema.columns[colIdx].enum;
+        var colDefE = sheetSchema.columns[colIdx];
+        if (colDefE && colDefE.enum) {
+          var allowed = colDefE.enum;
+          if (v === "" && colDefE.required === false) return "";
           if (allowed.indexOf(v) >= 0) return v;
           throw new Error(
-            "엑셀의 " + col + "열 값이 올바르지 않습니다. 허용: " + allowed.join(", ")
+            "엑셀의 " + col + "열 값이 올바르지 않습니다. 허용: " + allowed.filter(Boolean).join(", ")
           );
         }
         return v;
@@ -362,47 +780,138 @@
   }
 
   function renderTools(container, opts) {
-    // opts: { schema, onImportRequest(file, parsed), getCurrent, applyData(mode, parsed) }
-    var root = document.createElement("div");
-    root.className = "excel-tools";
+    // opts: { schema, applyData(mode, parsed), onExportCurrent?: () => void }
+    container.textContent = "";
 
-    var row = document.createElement("div");
-    row.className = "excel-tools__row";
+    var root = document.createElement("div");
+    root.className = "excel-control-box excel-control-center";
+
+    var head = document.createElement("div");
+    head.className = "excel-control-box__head";
+    var headLabel = document.createElement("span");
+    headLabel.className = "excel-control-box__label";
+    headLabel.textContent = "Excel Control Center";
+    var headSub = document.createElement("span");
+    headSub.className = "excel-control-box__schema";
+    headSub.textContent = opts.schema.label || opts.schema.key;
+    head.appendChild(headLabel);
+    head.appendChild(headSub);
+
+    var zones = document.createElement("div");
+    zones.className = "excel-control-box__zones";
+
+    var zoneIn = document.createElement("div");
+    zoneIn.className = "excel-zone excel-zone--import";
+    var zinTitle = document.createElement("div");
+    zinTitle.className = "excel-zone__title";
+    zinTitle.textContent = "가져오기 · Import";
+    var zinLead = document.createElement("p");
+    zinLead.className = "excel-zone__lead text-sm";
+    zinLead.textContent = "표준 양식을 받거나 파일을 선택해 검증 후 화면에 반영합니다.";
+    zoneIn.appendChild(zinTitle);
+    zoneIn.appendChild(zinLead);
+
+    var zoneOut = document.createElement("div");
+    zoneOut.className = "excel-zone excel-zone--export";
+    var zoutTitle = document.createElement("div");
+    zoutTitle.className = "excel-zone__title";
+    zoutTitle.textContent = "보내기 · Export";
+    var zoutLead = document.createElement("p");
+    zoutLead.className = "excel-zone__lead text-sm";
+    zoutLead.textContent = "지금 화면의 값을 엑셀로 저장해 백업하거나 다른 도구로 옮깁니다.";
+    zoneOut.appendChild(zoutTitle);
+    zoneOut.appendChild(zoutLead);
+
+    var actionsIn = document.createElement("div");
+    actionsIn.className = "excel-control-box__actions excel-control-box__actions--import";
 
     var btnTpl = document.createElement("button");
     btnTpl.type = "button";
-    btnTpl.className = "excel-btn";
-    btnTpl.textContent = "표준 엑셀 양식 다운로드";
+    btnTpl.className = "excel-control-box__btn excel-control-box__btn--ghost";
+    btnTpl.textContent = "표준 양식 다운로드";
 
     var btnUpload = document.createElement("button");
     btnUpload.type = "button";
-    btnUpload.className = "excel-btn";
-    btnUpload.textContent = "엑셀 업로드";
+    btnUpload.className = "excel-control-box__btn excel-control-box__btn--ghost";
+    btnUpload.textContent = "파일에서 불러오기";
 
     var file = document.createElement("input");
     file.type = "file";
     file.accept = ".xlsx";
     file.hidden = true;
 
-    row.appendChild(btnTpl);
-    row.appendChild(btnUpload);
-    row.appendChild(file);
+    actionsIn.appendChild(btnTpl);
+    actionsIn.appendChild(btnUpload);
+    actionsIn.appendChild(file);
+    zoneIn.appendChild(actionsIn);
+
+    var actionsOut = document.createElement("div");
+    actionsOut.className = "excel-control-box__actions excel-control-box__actions--export";
+
+    var btnSave = document.createElement("button");
+    btnSave.type = "button";
+    btnSave.className = "excel-control-box__btn excel-control-box__btn--primary";
+    btnSave.textContent = "현재 화면 엑셀 저장";
+
+    var hasExport = typeof opts.onExportCurrent === "function";
+    if (!hasExport) {
+      btnSave.disabled = true;
+      btnSave.setAttribute("aria-disabled", "true");
+      btnSave.title = "이 기능의 엑셀 보내기는 아직 연결되지 않았습니다.";
+    }
+
+    actionsOut.appendChild(btnSave);
+    zoneOut.appendChild(actionsOut);
+
+    zones.appendChild(zoneIn);
+    zones.appendChild(zoneOut);
+
+    var featureId = 0;
+    try {
+      featureId = parseInt((document.body && document.body.dataset && document.body.dataset.mcFeatureId) || "0", 10) || 0;
+    } catch (eFeat) {
+      featureId = 0;
+    }
+
+    var masterRow = null;
+    var btnMaster = null;
+    if (featureId === 13) {
+      masterRow = document.createElement("div");
+      masterRow.className = "excel-control-box__master";
+      btnMaster = document.createElement("button");
+      btnMaster.type = "button";
+      btnMaster.className = "excel-control-box__btn excel-control-box__btn--master";
+      btnMaster.textContent = "1~15 전 기능 통합 엑셀 추출";
+      masterRow.appendChild(btnMaster);
+    }
+
+    var advanced = document.createElement("details");
+    advanced.className = "excel-control-box__advanced";
+
+    var sum = document.createElement("summary");
+    sum.className = "excel-control-box__summary";
+    sum.textContent = "드래그 앤 드롭으로 불러오기 (고급)";
 
     var dz = document.createElement("div");
-    dz.className = "dropzone";
+    dz.className = "dropzone excel-control-box__dropzone";
     dz.tabIndex = 0;
     dz.setAttribute("role", "button");
-    dz.setAttribute("aria-label", "엑셀 파일을 업로드하세요");
+    dz.setAttribute("aria-label", "엑셀 파일을 여기에 놓아 업로드");
     dz.innerHTML =
-      "<div><strong>.xlsx</strong> 파일을 여기로 드래그 앤 드롭</div>" +
-      "<div class=\"dropzone__sub\">또는 ‘엑셀 업로드’ 버튼을 눌러 선택하세요.</div>";
+      "<div><strong>.xlsx</strong> 파일을 이 영역으로 드래그하세요.</div>" +
+      "<div class=\"dropzone__sub\">「파일에서 불러오기」와 동일하게 검증 후 적용됩니다.</div>";
+
+    advanced.appendChild(sum);
+    advanced.appendChild(dz);
+    zoneIn.appendChild(advanced);
 
     var hint = document.createElement("p");
-    hint.className = "excel-tools__hint text-sm";
-    hint.textContent = "표준 양식을 사용하면 데이터 파싱 오류를 최소화할 수 있습니다.";
+    hint.className = "excel-control-box__hint text-sm";
+    hint.textContent =
+      "표준 양식으로 주고받으면 다른 기능 페이지와도 숫자가 자연스럽게 이어집니다.";
 
     var status = document.createElement("div");
-    status.className = "excel-status is-hidden";
+    status.className = "excel-status excel-control-box__status is-hidden";
     status.setAttribute("role", "status");
     status.setAttribute("aria-live", "polite");
 
@@ -425,8 +934,9 @@
       "  </div>" +
       "</div>";
 
-    root.appendChild(row);
-    root.appendChild(dz);
+    root.appendChild(head);
+    root.appendChild(zones);
+    if (masterRow) root.appendChild(masterRow);
     root.appendChild(hint);
     root.appendChild(status);
     root.appendChild(modal);
@@ -523,6 +1033,25 @@
     btnUpload.addEventListener("click", function () {
       file.click();
     });
+    btnSave.addEventListener("click", function () {
+      if (!hasExport) return;
+      try {
+        opts.onExportCurrent();
+        setStatus("ok", "저장 파일을 만들었습니다.", "다운로드 폴더에서 엑셀 파일을 확인해 주세요.");
+      } catch (e) {
+        setStatus("err", "저장 실패", String(e && e.message ? e.message : e));
+      }
+    });
+    if (btnMaster) {
+      btnMaster.addEventListener("click", function () {
+        try {
+          runMasterExportWorkbook();
+          setStatus("ok", "통합 워크북을 만들었습니다.", "기능 1~15에 대응하는 15개 시트로 저장됩니다.");
+        } catch (e) {
+          setStatus("err", "통합 추출 실패", String(e && e.message ? e.message : e));
+        }
+      });
+    }
     file.addEventListener("change", function () {
       handleFile(file.files && file.files[0]);
       file.value = "";
@@ -585,18 +1114,30 @@
     });
   }
 
-  function mount(containerId, schemaName, applyData) {
+  function mount(containerId, schemaName, third) {
     var el = document.getElementById(containerId);
     if (!el) return;
     var schema = Schemas[schemaName];
     if (!schema) throw new Error("알 수 없는 스키마: " + schemaName);
-    renderTools(el, { schema: schema, applyData: applyData });
+    var applyData;
+    var onExportCurrent = null;
+    if (typeof third === "function") {
+      applyData = third;
+    } else if (third && typeof third === "object") {
+      applyData = typeof third.applyData === "function" ? third.applyData : function () {};
+      onExportCurrent =
+        typeof third.onExportCurrent === "function" ? third.onExportCurrent : null;
+    } else {
+      applyData = function () {};
+    }
+    renderTools(el, { schema: schema, applyData: applyData, onExportCurrent: onExportCurrent });
   }
 
   window.ExcelManager = {
     Schemas: Schemas,
     makeFilename: makeFilename,
     mount: mount,
+    runMasterExportWorkbook: runMasterExportWorkbook,
     utils: {
       makeFilename: makeFilename,
       yyyymmdd: yyyymmdd,

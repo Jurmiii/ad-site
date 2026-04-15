@@ -1,0 +1,451 @@
+/* Money Calendar — 종이 가계부 시리즈 공통 셸 (기능 페이지) */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+  width: auto;
+  height: auto;
+  padding: 10px 14px;
+  background: #0f172a;
+  color: #fff;
+  border-radius: 10px;
+  z-index: 1000;
+}
+
+.mc-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--mc-paper-bg);
+  background-image: var(--mc-paper-texture);
+}
+
+.mc-app__canvas {
+  flex: 1;
+  padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+}
+
+/* —— Global header —— */
+.mc-global-header {
+  position: sticky;
+  top: 0;
+  z-index: 70;
+  background: color-mix(in srgb, var(--mc-paper-veil) 92%, transparent);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-default);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text-primary) 4%, transparent);
+}
+
+.mc-global-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 56px;
+}
+
+.mc-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+}
+
+.mc-brand:focus-visible {
+  outline: none;
+  border-radius: var(--radius-md);
+  box-shadow: var(--focus-ring);
+}
+
+.mc-brand__mark {
+  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: linear-gradient(145deg, #0ea5e9, #10b981);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+}
+
+.mc-brand__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mc-brand__series {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.mc-brand__page {
+  /* 세부 기능 제목은 본문에 존재하므로 헤더에서는 숨김(레이아웃 고정) */
+  display: none;
+}
+
+.mc-global-header__tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Theme toggle (기능 페이지용) */
+.mc-global-header .theme-toggle {
+  position: relative;
+  width: 54px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--color-text-muted) 16%, var(--color-surface));
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.12s ease, background-color 0.22s ease, border-color 0.22s ease;
+}
+
+.mc-global-header .theme-toggle:hover {
+  border-color: var(--border-strong);
+}
+
+.mc-global-header .theme-toggle:active {
+  transform: scale(0.99);
+}
+
+.mc-global-header .theme-toggle:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mc-global-header .theme-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.14);
+  transform: translateX(0);
+  transition: transform 0.22s ease;
+}
+
+html[data-theme="dark"] .mc-global-header .theme-toggle__thumb {
+  transform: translateX(20px);
+}
+
+html[data-theme="dark"] .mc-global-header .theme-toggle {
+  background: color-mix(in srgb, var(--color-primary) 26%, var(--color-surface));
+  border-color: color-mix(in srgb, var(--color-primary) 32%, var(--border-default));
+}
+
+.mc-global-header .theme-toggle__icon {
+  display: none;
+}
+
+/* Hamburger */
+.mc-hamburger,
+.mc-global-header .hamburger {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform 0.12s ease, background 0.2s ease;
+}
+
+.mc-hamburger:hover,
+.mc-global-header .hamburger:hover {
+  background: var(--color-surface-2);
+  border-color: var(--border-strong);
+}
+
+.mc-hamburger:focus-visible,
+.mc-global-header .hamburger:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mc-hamburger__icon,
+.mc-global-header .hamburger__icon {
+  width: 18px;
+  height: 12px;
+  position: relative;
+}
+
+.mc-hamburger__icon::before,
+.mc-global-header .hamburger__icon::before,
+.mc-hamburger__icon::after,
+.mc-global-header .hamburger__icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  border-radius: 99px;
+  background: var(--color-text-primary);
+  opacity: 0.85;
+}
+
+.mc-hamburger__icon::before,
+.mc-global-header .hamburger__icon::before {
+  top: 0;
+  box-shadow: 0 5px 0 var(--color-text-primary), 0 10px 0 var(--color-text-primary);
+}
+
+/* Drawer */
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.drawer[hidden] {
+  display: none;
+}
+
+.drawer__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.44);
+  opacity: 0;
+  transition: opacity 0.24s ease;
+}
+
+.drawer__panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  max-height: 100dvh;
+  width: min(380px, 94vw);
+  padding: 16px 14px calc(18px + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--mc-paper-veil) 94%, transparent);
+  backdrop-filter: blur(18px);
+  border-left: 1px solid var(--border-default);
+  transform: translate3d(12px, 0, 0);
+  opacity: 0;
+  transition: transform 0.24s ease, opacity 0.24s ease;
+  box-shadow: -20px 0 50px rgba(0, 0, 0, 0.18);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.drawer.is-open .drawer__backdrop {
+  opacity: 1;
+}
+
+.drawer.is-open .drawer__panel {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+
+.is-drawer-open {
+  overflow: hidden;
+}
+
+html.is-drawer-open {
+  overflow: hidden;
+  height: 100%;
+}
+
+html.is-drawer-open body {
+  overflow: hidden;
+}
+
+.drawer__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 2px 8px;
+}
+
+.drawer__title {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.drawer__close {
+  min-height: 44px;
+  min-width: 52px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-weight: 750;
+  color: var(--color-text-primary);
+}
+
+.drawer__close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.28);
+}
+
+/* 15개 항목이 패널 안에 스크롤 없이 들어가도록 밀도 조정 (내부 스크롤 제거) */
+#mc-drawer-list {
+  margin-top: 4px;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: block;
+  padding-right: 6px;
+}
+
+.mc-drawer__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 0;
+  padding: 12px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+}
+
+.mc-drawer__section {
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  padding: 10px 10px 8px;
+  margin-bottom: 10px;
+}
+
+.mc-drawer__section-title {
+  font-size: 0.6875rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: 2px 4px 8px;
+}
+
+.mc-drawer__section-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+.mc-drawer__section .mc-drawer__item {
+  padding: 12px 12px;
+  border-radius: 16px;
+}
+
+.mc-drawer__num {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 0.8125rem;
+  font-weight: 900;
+  background: var(--color-surface-2);
+  color: var(--color-text-primary);
+  border: 1px solid var(--border-default);
+}
+
+.mc-drawer__title {
+  font-size: 0.9375rem;
+  font-weight: 850;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  display: block;
+}
+
+.mc-drawer__item:hover {
+  background: var(--color-surface-2);
+  border-color: var(--border-strong);
+}
+
+.mc-drawer__item.is-active {
+  border-color: color-mix(in srgb, var(--color-primary) 45%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+/* (legacy) 이전 2열 컴팩트 스타일 제거됨 */
+
+.drawer__meta {
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-default);
+}
+
+.mc-excel-slot {
+  margin-top: 20px;
+  margin-bottom: 4px;
+}
+
+.mc-app__canvas .container {
+  padding-top: 8px;
+}
+
+/* 페이지 도입부 (기능별) */
+.mc-page-intro {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.mc-page-intro__kicker {
+  font-size: 0.6875rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-primary) 70%, var(--color-text-muted));
+  margin-bottom: 6px;
+}
+
+.mc-page-intro h1 {
+  font-size: clamp(1.35rem, 3.5vw, 1.65rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.22;
+}
+
+.mc-page-intro .mc-page-intro__lead {
+  margin-top: 10px;
+  max-width: 62ch;
+}
+
+/* 엑셀 컨트롤 슬롯은 excel-manager.css 에서 스타일 */
+
+@media (max-width: 480px) {
+  .mc-brand__page {
+    font-size: 0.9375rem;
+  }
+}

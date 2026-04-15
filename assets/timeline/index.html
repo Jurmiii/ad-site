@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>11. 과거 데이터 타임라인 · Money Calendar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <script src="../js/theme.js"></script>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/journal-shell.css" />
+    <link rel="stylesheet" href="../js/excel-manager.css" />
+    <link rel="stylesheet" href="./timeline.css" />
+  </head>
+  <body class="mc-app" data-mc-feature-id="11">
+    <script>
+      window.__MC_ASSETS_BASE = "..";
+    </script>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <header class="mc-global-header" role="banner">
+      <div class="container mc-global-header__inner">
+        <a class="mc-brand" href="../index.html">
+          <span class="mc-brand__mark" aria-hidden="true">M</span>
+          <span class="mc-brand__titles">
+            <span class="mc-brand__series">Money Calendar</span>
+            <span class="mc-brand__page">11. 과거 데이터 타임라인</span>
+          </span>
+        </a>
+        <div class="mc-global-header__tools">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb" aria-hidden="true"></span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="mc-hamburger hamburger"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-controls="drawer"
+            aria-expanded="false"
+            id="drawer-open"
+          >
+            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">머니 캘린더</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+        </div>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
+        <div class="drawer__meta">
+          <p class="text-sm">월별 합계는 데일리 지출 합산입니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mc-app__canvas">
+      <div class="container">
+        <main id="main">
+          <header class="mc-page-intro">
+            <p class="mc-page-intro__kicker">11 · 과거 데이터 타임라인</p>
+            <h1>11. 과거 데이터 타임라인</h1>
+            <p class="mc-page-intro__lead text-body">
+              최근 12개월에 대해 데일리에 기록된 지출 합계를 월 단위로 집계하여 선 그래프로 보여 줍니다.
+            </p>
+          </header>
+          <div id="excel-control-root" class="mc-excel-slot"></div>
+          <section class="card mt-24">
+            <canvas id="tl-canvas" width="900" height="320" aria-label="월별 지출 추이"></canvas>
+            <p id="tl-legend" class="text-sm mt-16"></p>
+          </section>
+        </main>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../js/nav-config.js"></script>
+    <script src="../js/excel-manager.js"></script>
+    <script src="../js/app-shell.js"></script>
+    <script src="./timeline.js"></script>
+  </body>
+</html>

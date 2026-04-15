@@ -112,7 +112,6 @@ const els = {
   bLeft: $("b-left"),
   allocPct: $("alloc-pct"),
   btnLock: /** @type {HTMLButtonElement} */ ($("btn-lock")),
-  btnExport: /** @type {HTMLButtonElement} */ ($("btn-export")),
   lockedBanner: $("locked-banner"),
 };
 
@@ -348,39 +347,44 @@ function init() {
   // Excel Manager (template download + import with merge modal)
   if (typeof ExcelManager !== "undefined") {
     try {
-      ExcelManager.mount("excel-tools", "BudgetSetup", function (mode, parsed) {
-        const row = parsed && parsed.BudgetSetup ? parsed.BudgetSetup : null;
-        if (!row) throw new Error("BudgetSetup 시트를 찾지 못했습니다.");
+      ExcelManager.mount("excel-control-root", "BudgetSetup", {
+        applyData(mode, parsed) {
+          const row = parsed && parsed.BudgetSetup ? parsed.BudgetSetup : null;
+          if (!row) throw new Error("BudgetSetup 시트를 찾지 못했습니다.");
 
-        const incoming = {
-          real: parseNonNeg(row.real),
-          scheduled: parseNonNeg(row.scheduled),
-          other: parseNonNeg(row.other),
-          hope: parseNonNeg(row.hope),
-          living: parseNonNeg(row.living),
-          activity: parseNonNeg(row.activity),
-          essential: parseNonNeg(row.essential),
-          locked: Boolean(row.locked),
-          lockedAt: typeof row.lockedAt === "string" ? row.lockedAt : null,
-        };
+          const incoming = {
+            real: parseNonNeg(row.real),
+            scheduled: parseNonNeg(row.scheduled),
+            other: parseNonNeg(row.other),
+            hope: parseNonNeg(row.hope),
+            living: parseNonNeg(row.living),
+            activity: parseNonNeg(row.activity),
+            essential: parseNonNeg(row.essential),
+            locked: Boolean(row.locked),
+            lockedAt: typeof row.lockedAt === "string" ? row.lockedAt : null,
+          };
 
-        if (mode === "overwrite") {
-          state = { ...emptyState(), ...incoming };
-        } else {
-          // merge: keep current values, fill zeros from import
-          readInputsIntoState();
-          const merged = { ...state };
-          for (const k of ["real", "scheduled", "other", "hope", "living", "activity", "essential"]) {
-            if (parseNonNeg(merged[k]) === 0 && parseNonNeg(incoming[k]) > 0) merged[k] = incoming[k];
+          if (mode === "overwrite") {
+            state = { ...emptyState(), ...incoming };
+          } else {
+            readInputsIntoState();
+            const merged = { ...state };
+            for (const k of ["real", "scheduled", "other", "hope", "living", "activity", "essential"]) {
+              if (parseNonNeg(merged[k]) === 0 && parseNonNeg(incoming[k]) > 0) merged[k] = incoming[k];
+            }
+            merged.locked = Boolean(state.locked || incoming.locked);
+            merged.lockedAt = state.lockedAt || incoming.lockedAt || null;
+            state = merged;
           }
-          merged.locked = Boolean(state.locked || incoming.locked);
-          merged.lockedAt = state.lockedAt || incoming.lockedAt || null;
-          state = merged;
-        }
 
-        persist();
-        writeInputsFromState();
-        render();
+          persist();
+          writeInputsFromState();
+          render();
+        },
+        onExportCurrent() {
+          readInputsIntoState();
+          exportExcel();
+        },
       });
     } catch {
       /* ignore */
@@ -411,11 +415,6 @@ function init() {
   els.btnLock.addEventListener("click", () => {
     readInputsIntoState();
     if (!state.locked) lockPlan();
-  });
-
-  els.btnExport.addEventListener("click", () => {
-    readInputsIntoState();
-    exportExcel();
   });
 }
 

@@ -1,24 +1,12 @@
 /* Weekly 예산안 수립 엔진 — 페이지 전용 */
 
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  flex-wrap: wrap;
+.journal-card {
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
-.eyebrow {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-primary);
-  margin-bottom: 6px;
-}
-
-.header-actions {
-  flex-shrink: 0;
+html[data-theme="dark"] .journal-card {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .sr-only {

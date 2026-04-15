@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>계층형 수입 설계 엔진 · Money Calendar</title>
+    <title>1. 계층형 수입 설계 엔진 · Money Calendar</title>
     <meta
       name="description"
       content="실제·예정·기타·희망 소득을 계층별로 입력하고 확정 자산과 잠재 자산을 실시간으로 확인하세요."
@@ -14,27 +14,72 @@
     />
     <script src="../js/theme.js"></script>
     <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/journal-shell.css" />
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="./income-design.css" />
   </head>
-  <body class="page-income">
-    <div class="container">
-      <header class="page-head">
-        <div>
-          <p class="eyebrow">핵심 기능 · 소득 구조</p>
-          <h1>계층형 수입 설계 엔진</h1>
-          <p class="mt-10 text-body">
-            소득을 네 겹으로 나누어 직시합니다. 색으로 계층을 구분하고, 확정 자산과 잠재 자산이
-            어떻게 쌓이는지 실시간으로 확인한 뒤 표와 엑셀로 남기세요.
-          </p>
+  <body class="mc-app page-income" data-mc-feature-id="1">
+    <script>
+      window.__MC_ASSETS_BASE = "..";
+    </script>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+    <header class="mc-global-header" role="banner">
+      <div class="container mc-global-header__inner">
+        <a class="mc-brand" href="../index.html">
+          <span class="mc-brand__mark" aria-hidden="true">M</span>
+          <span class="mc-brand__titles">
+            <span class="mc-brand__series">Money Calendar</span>
+            <span class="mc-brand__page">1. 계층형 수입 설계 엔진</span>
+          </span>
+        </a>
+        <div class="mc-global-header__tools">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb" aria-hidden="true"></span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="mc-hamburger hamburger"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-controls="drawer"
+            aria-expanded="false"
+            id="drawer-open"
+          >
+            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+          </button>
         </div>
-        <div class="page-head__actions">
-          <div id="excel-tools" class="excel-tools"></div>
-          <a class="btn-secondary" href="../index.html">메인</a>
-          <a class="btn-secondary" href="../vision-budget/index.html">비전 예산</a>
-          <a class="btn-secondary" href="../budget-setup/index.html">예산 설계</a>
+      </div>
+    </header>
+
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">가계부 시리즈</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
-      </header>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
+        <div class="drawer__meta">
+          <p class="text-sm">엑셀 표준 양식으로 수입·예산 흐름을 이어갑니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc-app__canvas">
+      <div class="container">
+        <main id="main">
+          <header class="mc-page-intro">
+            <p class="mc-page-intro__kicker">1 · 계층형 수입 설계 엔진</p>
+            <h1>1. 계층형 수입 설계 엔진</h1>
+            <p class="mc-page-intro__lead text-body">
+              소득을 네 겹으로 나누어 직시합니다. 색으로 계층을 구분하고, 확정 자산과 잠재 자산이 어떻게 쌓이는지
+              실시간으로 확인한 뒤 표와 엑셀로 남기세요.
+            </p>
+          </header>
+
+          <div id="excel-control-root" class="mc-excel-slot"></div>
 
       <section class="dashboard card mt-24" aria-labelledby="dash-title">
         <h2 id="dash-title" class="dash-title">실시간 합산 대시보드</h2>
@@ -177,7 +222,6 @@
         <div class="card">
           <div class="flex-between table-head">
             <h2 id="table-title">구조화 데이터</h2>
-            <button id="btn-excel" class="btn" type="button">엑셀 다운로드</button>
           </div>
           <p class="text-sm mt-10">입력과 동일하게 표에 반영되며 브라우저에 자동 저장됩니다.</p>
 
@@ -205,10 +249,14 @@
           Money Calendar · 계층형 수입 설계 — 정보 제공 목적이며 투자·세무 자문이 아닙니다.
         </p>
       </footer>
+        </main>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../js/nav-config.js"></script>
     <script src="../js/excel-manager.js"></script>
+    <script src="../js/app-shell.js"></script>
     <script src="./income-design.js"></script>
   </body>
 </html>

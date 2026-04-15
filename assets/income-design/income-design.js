@@ -249,31 +249,35 @@ function init() {
   // Excel Manager (template download + import)
   if (typeof ExcelManager !== "undefined") {
     try {
-      ExcelManager.mount("excel-tools", "IncomeDesign", function (mode, parsed) {
-        const row = parsed && parsed.IncomeDesign ? parsed.IncomeDesign : null;
-        if (!row) throw new Error("IncomeDesign 시트를 찾지 못했습니다.");
-        const incoming = {
-          real: Math.max(0, Math.trunc(Number(row.real) || 0)),
-          scheduled: Math.max(0, Math.trunc(Number(row.scheduled) || 0)),
-          other: Math.max(0, Math.trunc(Number(row.other) || 0)),
-          hope: Math.max(0, Math.trunc(Number(row.hope) || 0)),
-        };
+      ExcelManager.mount("excel-control-root", "IncomeDesign", {
+        applyData(mode, parsed) {
+          const row = parsed && parsed.IncomeDesign ? parsed.IncomeDesign : null;
+          if (!row) throw new Error("IncomeDesign 시트를 찾지 못했습니다.");
+          const incoming = {
+            real: Math.max(0, Math.trunc(Number(row.real) || 0)),
+            scheduled: Math.max(0, Math.trunc(Number(row.scheduled) || 0)),
+            other: Math.max(0, Math.trunc(Number(row.other) || 0)),
+            hope: Math.max(0, Math.trunc(Number(row.hope) || 0)),
+          };
 
-        if (mode === "overwrite") {
-          amounts.real = incoming.real;
-          amounts.scheduled = incoming.scheduled;
-          amounts.other = incoming.other;
-          amounts.hope = incoming.hope;
-        } else {
-          // merge: fill empty(0) fields only
-          if (amounts.real === 0 && incoming.real > 0) amounts.real = incoming.real;
-          if (amounts.scheduled === 0 && incoming.scheduled > 0) amounts.scheduled = incoming.scheduled;
-          if (amounts.other === 0 && incoming.other > 0) amounts.other = incoming.other;
-          if (amounts.hope === 0 && incoming.hope > 0) amounts.hope = incoming.hope;
-        }
-        save();
-        hydrateInputs();
-        render();
+          if (mode === "overwrite") {
+            amounts.real = incoming.real;
+            amounts.scheduled = incoming.scheduled;
+            amounts.other = incoming.other;
+            amounts.hope = incoming.hope;
+          } else {
+            if (amounts.real === 0 && incoming.real > 0) amounts.real = incoming.real;
+            if (amounts.scheduled === 0 && incoming.scheduled > 0) amounts.scheduled = incoming.scheduled;
+            if (amounts.other === 0 && incoming.other > 0) amounts.other = incoming.other;
+            if (amounts.hope === 0 && incoming.hope > 0) amounts.hope = incoming.hope;
+          }
+          save();
+          hydrateInputs();
+          render();
+        },
+        onExportCurrent() {
+          exportExcel();
+        },
       });
     } catch {
       /* ignore */
@@ -284,7 +288,6 @@ function init() {
   wireMoneyInput("amt-scheduled", "scheduled");
   wireMoneyInput("amt-other", "other");
   wireMoneyInput("amt-hope", "hope");
-  $("btn-excel").addEventListener("click", exportExcel);
   render();
 }
 

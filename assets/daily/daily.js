@@ -1,14 +1,20 @@
 /* global XLSX, ExcelManager */
 /**
- * Daily 기록 (연속성: 엑셀 업로드/다운로드)
- * - localStorage 저장
- * - 업로드 파일의 마지막 endBalance → 오늘 startBalance 자동 매핑(merge 시)
+ * Money Calendar 기능 5~8 (기획서 명칭)
+ * 5. 반응형 퀵-인풋(Quick-Input)
+ * 6. 데일리 소비 한 줄 평
+ * 7. 1원 단위 체감 지수
+ * 8. 무지출 챌린지 스티커
+ * - localStorage: moneyCalendar.dailyLedger.v1
+ * - 월 기준: moneyCalendar.budgetSetup.v1.{YYYY-MM}, moneyCalendar.budgetSimulator.v1.{YYYY-MM}
  */
 
 (function () {
   "use strict";
 
   var STORAGE_KEY = "moneyCalendar.dailyLedger.v1";
+  var BUDGET_PREFIX = "moneyCalendar.budgetSetup.v1";
+  var SIM_PREFIX = "moneyCalendar.budgetSimulator.v1";
 
   function $(id) {
     var el = document.getElementById(id);
@@ -48,11 +54,57 @@
     return y + "-" + m + "-" + day;
   }
 
+  function monthKeyFromDate(dateStr) {
+    return String(dateStr || "").slice(0, 7);
+  }
+
+  function loadBudgetAllocated(monthKey) {
+    try {
+      var raw = localStorage.getItem(BUDGET_PREFIX + "." + monthKey);
+      if (!raw) return 0;
+      var o = JSON.parse(raw);
+      var living = Math.max(0, Math.trunc(Number(o.living) || 0));
+      var activity = Math.max(0, Math.trunc(Number(o.activity) || 0));
+      var essential = Math.max(0, Math.trunc(Number(o.essential) || 0));
+      return living + activity + essential;
+    } catch {
+      return 0;
+    }
+  }
+
+  function loadSimulatorTotal(monthKey) {
+    try {
+      var raw = localStorage.getItem(SIM_PREFIX + "." + monthKey);
+      if (!raw) return 0;
+      var o = JSON.parse(raw);
+      return Math.max(0, Math.trunc(Number(o.total) || 0));
+    } catch {
+      return 0;
+    }
+  }
+
+  /** @returns {{ cap: number, mode: 'alloc'|'sim'|'none' }} */
+  function getMonthlyBudgetCap(monthKey) {
+    var alloc = loadBudgetAllocated(monthKey);
+    if (alloc > 0) return { cap: alloc, mode: "alloc" };
+    var sim = loadSimulatorTotal(monthKey);
+    if (sim > 0) return { cap: sim, mode: "sim" };
+    return { cap: 0, mode: "none" };
+  }
+
+  function formatPctRatio(numer, denom) {
+    if (!Number.isFinite(numer) || !Number.isFinite(denom) || denom <= 0 || numer <= 0) return "0";
+    var p = (numer / denom) * 100;
+    if (p < 0.01) return p.toFixed(6);
+    if (p < 1) return p.toFixed(4);
+    return p.toFixed(2);
+  }
+
   /** @typedef {{ id:string, type:'expense'|'income', category:string, memo:string, amount:number }} Tx */
-  /** @typedef {{ date:string, startBalance:number, txs:Tx[] }} DayState */
+  /** @typedef {{ date:string, startBalance:number, txs:Tx[], dayRating?:string, dayNote?:string }} DayState */
 
   /** @type {DayState} */
-  var state = { date: today(), startBalance: 0, txs: [] };
+  var state = { date: today(), startBalance: 0, txs: [], dayRating: "", dayNote: "" };
 
   function loadAll() {
     try {
@@ -69,10 +121,16 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
   }
 
+  function normalizeRating(v) {
+    var s = String(v || "").trim().toLowerCase();
+    if (s === "good" || s === "normal" || s === "bad") return s;
+    return "";
+  }
+
   function loadDay(date) {
     var all = loadAll();
     var d = all[date];
-    if (!d) return { date: date, startBalance: 0, txs: [] };
+    if (!d) return { date: date, startBalance: 0, txs: [], dayRating: "", dayNote: "" };
     return {
       date: date,
       startBalance: Math.max(0, Math.trunc(Number(d.startBalance) || 0)),
@@ -87,6 +145,8 @@
             };
           })
         : [],
+      dayRating: normalizeRating(d.dayRating),
+      dayNote: String(d.dayNote || "").slice(0, 120),
     };
   }
 
@@ -94,6 +154,28 @@
     var all = loadAll();
     all[state.date] = state;
     saveAll(all);
+  }
+
+  function sumDayExpenses(dayState) {
+    if (!dayState || !dayState.txs) return 0;
+    var s = 0;
+    for (var i = 0; i < dayState.txs.length; i++) {
+      var t = dayState.txs[i];
+      if (t.type === "expense") s += Math.max(0, Math.trunc(Number(t.amount) || 0));
+    }
+    return s;
+  }
+
+  /** 합계: 해당 월의 모든 일자 지출 합. excludeDate 가 있으면 그날은 제외(미리보기용). */
+  function sumMonthExpenses(monthKey, excludeDate) {
+    var all = loadAll();
+    var tot = 0;
+    Object.keys(all).forEach(function (k) {
+      if (k.slice(0, 7) !== monthKey) return;
+      if (excludeDate && k === excludeDate) return;
+      tot += sumDayExpenses(all[k]);
+    });
+    return tot;
   }
 
   function createId() {
@@ -113,6 +195,157 @@
     return out;
   }
 
+  function updateQuickBudgetUI() {
+    var mk = monthKeyFromDate(state.date);
+    var ctx = getMonthlyBudgetCap(mk);
+    var budget = ctx.cap;
+    var draft = parseWon(/** @type {HTMLInputElement} */ ($("quick-amount")).value);
+    var spentOther = sumMonthExpenses(mk, state.date);
+    var todaySpent = sumDayExpenses(state);
+    var line = $("quick-budget-line");
+    var fill = $("quick-pct-fill");
+    var pctLabel = $("quick-pct-label");
+
+    if (budget <= 0) {
+      line.textContent =
+        "이번 달 비교 기준이 없습니다. 「Weekly 예산안」에서 생활·활동·필수 배분을 입력하거나, 「예산 시뮬레이터」에서 총예산을 저장하면 실시간 잔액이 표시됩니다.";
+      fill.style.width = "0%";
+      pctLabel.textContent = "";
+      return;
+    }
+
+    var capLabel =
+      ctx.mode === "sim"
+        ? "시뮬레이터 총예산"
+        : "배분 예산(생활+활동+필수)";
+
+    var projected = spentOther + todaySpent + draft;
+    var left = budget - projected;
+    var sign = left >= 0 ? "+" : "−";
+    var absLeft = Math.abs(left);
+    line.textContent =
+      "이번 달 " +
+      capLabel +
+      " " +
+      formatKRW(budget) +
+      " · 누적 지출 " +
+      formatKRW(spentOther + todaySpent) +
+      (draft > 0 ? " · 입력 중 " + formatKRW(draft) : "") +
+      " → 남은 여유 " +
+      sign +
+      " " +
+      formatKRW(absLeft);
+
+    if (draft <= 0) {
+      fill.style.width = "0%";
+      pctLabel.textContent =
+        "금액을 입력하면 이 기준 대비 비중(%)이 소수점까지 표시됩니다. (작은 지출도 비율로 체감)";
+    } else {
+      var pctNum = (draft / budget) * 100;
+      var w = Math.min(100, Math.max(pctNum, pctNum > 0 ? 0.55 : 0));
+      fill.style.width = w + "%";
+      pctLabel.textContent =
+        "입력 중 " +
+        formatKRW(draft) +
+        " → 월 기준 " +
+        formatPctRatio(draft, budget) +
+        "% (전체 한 달 기준 비중)";
+    }
+  }
+
+  function renderRatingButtons() {
+    var r = state.dayRating || "";
+    document.querySelectorAll(".daily-rate-btn").forEach(function (btn) {
+      var v = btn.getAttribute("data-rate") || "";
+      btn.classList.toggle("is-active", v === r);
+    });
+  }
+
+  function renderMoneyCalendar() {
+    var host = $("money-calendar");
+    var mk = monthKeyFromDate(state.date);
+    var parts = mk.split("-");
+    $("cal-month-label").textContent =
+      parts[0] + "년 " + String(parseInt(parts[1], 10)) + "월";
+    var y = parseInt(parts[0], 10);
+    var m = parseInt(parts[1], 10) - 1;
+    var first = new Date(y, m, 1);
+    var lastDay = new Date(y, m + 1, 0).getDate();
+    var startWeekday = first.getDay();
+
+    host.textContent = "";
+    var head = document.createElement("div");
+    head.className = "money-cal__dow";
+    "일월화수목금토".split("").forEach(function (d) {
+      var c = document.createElement("div");
+      c.className = "money-cal__dow-cell";
+      c.textContent = d;
+      head.appendChild(c);
+    });
+    host.appendChild(head);
+
+    var grid = document.createElement("div");
+    grid.className = "money-cal__grid";
+
+    for (var i = 0; i < startWeekday; i++) {
+      var pad = document.createElement("div");
+      pad.className = "money-cal__cell money-cal__cell--pad";
+      grid.appendChild(pad);
+    }
+
+    var all = loadAll();
+    for (var day = 1; day <= lastDay; day++) {
+      var ds =
+        parts[0] +
+        "-" +
+        parts[1] +
+        "-" +
+        String(day).padStart(2, "0");
+      var cell = document.createElement("div");
+      cell.className = "money-cal__cell";
+      if (ds === state.date) cell.classList.add("is-today");
+
+      var num = document.createElement("span");
+      num.className = "money-cal__num";
+      num.textContent = String(day);
+      cell.appendChild(num);
+
+      var st = all[ds];
+      var hasRecord = Boolean(st);
+      var exp = hasRecord ? sumDayExpenses(st) : null;
+
+      var amtEl = document.createElement("span");
+      amtEl.className = "money-cal__amt";
+      if (!hasRecord) {
+        amtEl.textContent = "—";
+        amtEl.classList.add("is-muted");
+      } else {
+        amtEl.textContent = formatKRW(exp);
+      }
+      cell.appendChild(amtEl);
+      if (hasRecord && exp === 0) {
+        var sticker = document.createElement("span");
+        sticker.className = "money-cal__sticker";
+        sticker.textContent = "무지출";
+        sticker.title = "이 날 지출 합계 0원";
+        cell.appendChild(sticker);
+        cell.classList.add("has-nospend");
+      }
+
+      cell.addEventListener("click", function (dstr) {
+        return function () {
+          state = loadDay(dstr);
+          persist();
+          render();
+        };
+      }(ds));
+
+      grid.appendChild(cell);
+    }
+
+    host.appendChild(grid);
+  }
+
   function render() {
     $("daily-date").value = state.date;
     $("start-balance").value = state.startBalance ? formatWon(state.startBalance) : "";
@@ -124,6 +357,11 @@
     var hint = $("balance-hint");
     if (state.txs.length === 0) hint.textContent = "아직 기록이 없습니다. 오늘의 첫 항목을 추가해 보세요.";
     else hint.textContent = "총 " + state.txs.length + "건 기록됨";
+
+    /** @type {HTMLInputElement} */ ($("day-note")).value = state.dayNote || "";
+    renderRatingButtons();
+    renderMoneyCalendar();
+    updateQuickBudgetUI();
 
     var body = $("tx-body");
     body.innerHTML = "";
@@ -251,10 +489,26 @@
     });
   }
 
+  function quickAddExpense() {
+    var amt = parseWon(/** @type {HTMLInputElement} */ ($("quick-amount")).value);
+    var cat = String(/** @type {HTMLInputElement} */ ($("quick-cat")).value || "").trim().slice(0, 40);
+    if (amt <= 0) return;
+    state.txs.push({
+      id: createId(),
+      type: "expense",
+      category: cat || "기타",
+      memo: "퀵 입력",
+      amount: amt,
+    });
+    /** @type {HTMLInputElement} */ ($("quick-amount")).value = "";
+    /** @type {HTMLInputElement} */ ($("quick-cat")).value = "";
+    persist();
+    render();
+  }
+
   function exportExcel() {
     if (typeof XLSX === "undefined" || !XLSX.utils || !XLSX.writeFile) {
-      alert("엑셀 라이브러리를 불러오지 못했습니다.");
-      return;
+      throw new Error("엑셀 라이브러리를 불러오지 못했습니다.");
     }
 
     var balances = computeBalances();
@@ -265,6 +519,8 @@
         date: state.date,
         startBalance: state.startBalance,
         endBalance: end,
+        dayRating: state.dayRating || "",
+        dayNote: state.dayNote || "",
       },
     ];
 
@@ -293,65 +549,79 @@
   function mountExcel() {
     if (typeof ExcelManager === "undefined") return;
     try {
-      ExcelManager.mount("excel-tools", "DailyLedger", function (mode, parsed) {
-        var header = parsed && parsed.Header ? parsed.Header : null;
-        var txs = parsed && parsed.Transactions ? parsed.Transactions : [];
-        if (!header) throw new Error("Header 시트를 찾지 못했습니다.");
+      ExcelManager.mount("excel-control-root", "DailyLedger", {
+        applyData: function (mode, parsed) {
+          var header = parsed && parsed.Header ? parsed.Header : null;
+          var txs = parsed && parsed.Transactions ? parsed.Transactions : [];
+          if (!header) throw new Error("Header 시트를 찾지 못했습니다.");
 
-        var date = String(header.date || "").trim();
-        if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-          throw new Error("엑셀의 date 형식이 올바르지 않습니다. 예: 2026-04-14");
-        }
-
-        var startBalance = Math.max(0, Math.trunc(Number(header.startBalance) || 0));
-
-        var incomingTxs = Array.isArray(txs)
-          ? txs
-              .map(function (r) {
-                return {
-                  id: createId(),
-                  type: r.type === "income" ? "income" : "expense",
-                  category: String(r.category || "").slice(0, 40),
-                  memo: String(r.memo || "").slice(0, 80),
-                  amount: Math.max(0, Math.trunc(Number(r.amount) || 0)),
-                  _endBalance: Number(r.endBalance),
-                };
-              })
-              .filter(function (t) {
-                return t.category || t.memo || t.amount > 0;
-              })
-          : [];
-
-        var lastEnd = null;
-        if (incomingTxs.length) {
-          var maybe = incomingTxs[incomingTxs.length - 1]._endBalance;
-          if (Number.isFinite(maybe) && maybe >= 0) lastEnd = Math.trunc(maybe);
-        }
-        // fallback: Header.endBalance
-        if (lastEnd == null && Number.isFinite(Number(header.endBalance))) {
-          var eb = Number(header.endBalance);
-          if (Number.isFinite(eb) && eb >= 0) lastEnd = Math.trunc(eb);
-        }
-
-        if (mode === "overwrite") {
-          state = { date: date, startBalance: startBalance, txs: incomingTxs.map(stripTmp) };
-        } else {
-          // merge: "어제의 최종 결산 잔액" → "오늘의 시작 잔액"
-          // 사용자가 오늘 날짜를 보고 있다면, 업로드된 마지막 잔액을 startBalance로 자동 세팅
-          var currentDate = state.date;
-          if (currentDate && currentDate !== date && lastEnd != null) {
-            // 이어쓰기: 업로드(date)의 마지막 잔액을 현재 날짜 시작 잔액으로
-            state.startBalance = lastEnd;
+          var date = String(header.date || "").trim();
+          if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            throw new Error("엑셀의 date 형식이 올바르지 않습니다. 예: 2026-04-14");
           }
-          // 그리고 거래는 append
-          state.txs = state.txs.concat(incomingTxs.map(stripTmp));
-        }
 
-        persist();
-        render();
+          var startBalance = Math.max(0, Math.trunc(Number(header.startBalance) || 0));
+          var importedRating = normalizeRating(header.dayRating);
+          var importedNote = String(header.dayNote || "").slice(0, 120);
+
+          var incomingTxs = Array.isArray(txs)
+            ? txs
+                .map(function (r) {
+                  return {
+                    id: createId(),
+                    type: r.type === "income" ? "income" : "expense",
+                    category: String(r.category || "").slice(0, 40),
+                    memo: String(r.memo || "").slice(0, 80),
+                    amount: Math.max(0, Math.trunc(Number(r.amount) || 0)),
+                    _endBalance: Number(r.endBalance),
+                  };
+                })
+                .filter(function (t) {
+                  return t.category || t.memo || t.amount > 0;
+                })
+            : [];
+
+          var lastEnd = null;
+          if (incomingTxs.length) {
+            var maybe = incomingTxs[incomingTxs.length - 1]._endBalance;
+            if (Number.isFinite(maybe) && maybe >= 0) lastEnd = Math.trunc(maybe);
+          }
+          if (lastEnd == null && Number.isFinite(Number(header.endBalance))) {
+            var eb = Number(header.endBalance);
+            if (Number.isFinite(eb) && eb >= 0) lastEnd = Math.trunc(eb);
+          }
+
+          if (mode === "overwrite") {
+            state = {
+              date: date,
+              startBalance: startBalance,
+              txs: incomingTxs.map(stripTmp),
+              dayRating: importedRating,
+              dayNote: importedNote,
+            };
+          } else {
+            var currentDate = state.date;
+            if (currentDate && currentDate !== date && lastEnd != null) {
+              state.startBalance = lastEnd;
+            }
+            state.txs = state.txs.concat(incomingTxs.map(stripTmp));
+            if (date === state.date) {
+              if (importedRating) state.dayRating = importedRating;
+              if (importedNote) state.dayNote = importedNote;
+            }
+          }
+
+          persist();
+          render();
+        },
+        onExportCurrent: function () {
+          exportExcel();
+        },
       });
-    } catch {
-      /* ignore */
+    } catch (err) {
+      if (typeof console !== "undefined" && console.warn) {
+        console.warn("[Daily] ExcelManager 연결 실패:", err);
+      }
     }
   }
 
@@ -360,19 +630,113 @@
   }
 
   function init() {
+    (function applyDailyMode() {
+      var mode = 0;
+      try {
+        if (window.__MC_DAILY_MODE != null) mode = parseInt(String(window.__MC_DAILY_MODE), 10) || 0;
+      } catch (eMode) {
+        mode = 0;
+      }
+      if (!mode) {
+        try {
+          mode = parseInt((document.body && document.body.dataset && document.body.dataset.mcFeatureId) || "0", 10) || 0;
+        } catch (eMode2) {
+          mode = 0;
+        }
+      }
+      if (!(mode >= 5 && mode <= 8)) return;
+
+      function hideSectionByHeadId(headId) {
+        var h = document.getElementById(headId);
+        if (!h || !h.closest) return;
+        var sec = h.closest("section");
+        if (sec) sec.hidden = true;
+      }
+
+      // 기본: 모두 숨기고 필요한 것만 살린다.
+      // 5/7: 퀵-인풋(체감 지수 포함) + 거래표(기록)
+      // 6: 소비 한 줄 평
+      // 8: 무지출 챌린지 스티커(머니 캘린더)
+      if (mode === 6) {
+        hideSectionByHeadId("quick-head");
+        hideSectionByHeadId("cal-head");
+        hideSectionByHeadId("daily-head");
+      } else if (mode === 8) {
+        hideSectionByHeadId("quick-head");
+        hideSectionByHeadId("eval-head");
+        hideSectionByHeadId("daily-head");
+      } else {
+        // 5,7
+        hideSectionByHeadId("eval-head");
+        hideSectionByHeadId("cal-head");
+      }
+    })();
+
     state = loadDay(today());
     persist();
     render();
     wireStartBalance();
     wireDate();
     $("btn-add").addEventListener("click", addTx);
-    $("btn-export").addEventListener("click", exportExcel);
     $("tx-body").addEventListener("click", handleTableInput);
     $("tx-body").addEventListener("input", handleTableInput);
     $("tx-body").addEventListener("change", handleTableInput);
+
+    $("quick-add").addEventListener("click", quickAddExpense);
+    $("quick-amount").addEventListener("input", updateQuickBudgetUI);
+    $("quick-amount").addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        quickAddExpense();
+      }
+    });
+
+    $("day-note").addEventListener("input", function () {
+      state.dayNote = String(/** @type {HTMLInputElement} */ ($("day-note")).value || "").slice(0, 120);
+      persist();
+    });
+    $("day-note").addEventListener("blur", function () {
+      state.dayNote = String(/** @type {HTMLInputElement} */ ($("day-note")).value || "").slice(0, 120);
+      persist();
+    });
+
+    document.querySelectorAll(".daily-rate-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var v = normalizeRating(btn.getAttribute("data-rate"));
+        state.dayRating = state.dayRating === v ? "" : v;
+        persist();
+        render();
+      });
+    });
+
     mountExcel();
+
+    (function legacyScrollToFeatureSection() {
+      var loc = (window.location.pathname || "").replace(/\\/g, "/").toLowerCase();
+      if (loc.indexOf("/daily/index.html") < 0) return;
+      var p = new URLSearchParams(window.location.search || "");
+      var f = parseInt(p.get("f") || "5", 10);
+      if (!(f >= 5 && f <= 8)) f = 5;
+      var headId = f === 6 ? "eval-head" : f === 8 ? "cal-head" : "quick-head";
+      var el = document.getElementById(headId);
+      if (el) {
+        requestAnimationFrame(function () {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
+    })();
+
+    window.addEventListener("storage", function (e) {
+      if (!e.key) return;
+      if (e.key.indexOf(BUDGET_PREFIX) === 0 || e.key.indexOf(SIM_PREFIX) === 0) {
+        updateQuickBudgetUI();
+      }
+      if (e.key === STORAGE_KEY) {
+        state = loadDay(state.date);
+        render();
+      }
+    });
   }
 
   document.addEventListener("DOMContentLoaded", init);
 })();
-

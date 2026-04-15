@@ -1,0 +1,30 @@
+.co-form textarea {
+  width: 100%;
+  resize: vertical;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  padding: 12px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.co-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.co-post {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+  padding: 14px 16px;
+  background: var(--color-surface-2);
+}
+
+.co-post__meta {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}

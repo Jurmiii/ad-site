@@ -26,9 +26,13 @@
     />
     <script src="./js/theme.js"></script>
     <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/journal-shell.css" />
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body class="page-home">
+    <script>
+      window.__MC_ASSETS_BASE = ".";
+    </script>
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
     <header class="site-header">
@@ -94,14 +98,7 @@
           <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
 
-        <nav class="drawer__nav" aria-label="서비스 기능">
-          <a class="drawer__item" href="./budget-setup/index.html">예산 설계</a>
-          <a class="drawer__item" href="./daily/index.html">소비 기록</a>
-          <a class="drawer__item" href="./vision-budget/index.html">재정 분석</a>
-          <a class="drawer__item" href="./income-design/index.html">수입 설계</a>
-          <a class="drawer__item" href="./budget-simulator/index.html">예산 시뮬레이터</a>
-          <a class="drawer__item" href="./budget-lock/index.html">예산 확정 · 이력</a>
-        </nav>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
 
         <div class="drawer__meta">
           <p class="text-sm">작게 기록하고, 크게 흔들리지 않기.</p>
@@ -117,7 +114,7 @@
             <h1 id="hero-title" class="cover__title">1원의 가치로 설계하는 당신의 재정 비전</h1>
             <p class="cover__lead">정갈하게 설계하고, 부드럽게 기록하는 가계부.</p>
             <div class="cover__cta">
-              <a class="btn btn--lg" href="./budget-setup/index.html">시작하기</a>
+              <a class="btn btn--lg" href="./income-design/index.html">시작하기</a>
             </div>
 
             <div class="cover__progress" aria-live="polite">
@@ -175,6 +172,33 @@
           </div>
         </section>
 
+        <section class="card mt-24 reveal" aria-labelledby="guide-title">
+          <h2 id="guide-title">머니 캘린더 가이드</h2>
+          <div class="mt-16" style="display: grid; gap: 14px">
+            <div>
+              <p class="text-sm" style="font-weight: 800; letter-spacing: 0.02em">1) 작성 방법</p>
+              <p class="text-body mt-10">
+                먼저 1~4번에서 수입과 예산 구조를 설계합니다. 그다음 5~8번에서 하루 지출을 기록하고, 9~12번에서
+                주간·월간·시계열·피드백으로 흐름을 정리합니다.
+              </p>
+            </div>
+            <div>
+              <p class="text-sm" style="font-weight: 800; letter-spacing: 0.02em">2) 관리 방식</p>
+              <p class="text-body mt-10">
+                데이터는 이 브라우저의 localStorage에 저장됩니다. 필요할 때 엑셀 다운로드/업로드로 데이터를 직접
+                소유하고, 다시 화면에 불러와 이어서 사용할 수 있습니다.
+              </p>
+            </div>
+            <div>
+              <p class="text-sm" style="font-weight: 800; letter-spacing: 0.02em">3) 엑셀 활용</p>
+              <p class="text-body mt-10">
+                각 화면 상단의 「표준 양식 다운로드」로 템플릿을 받고, 「파일에서 불러오기」로 동일한 양식을 다시
+                적용하세요. 13번 화면에서는 1~15 데이터를 한 파일로 통합 추출할 수 있습니다.
+              </p>
+            </div>
+          </div>
+        </section>
+
         <div class="bottom-nav-space" aria-hidden="true"></div>
       </div>
     </main>
@@ -190,60 +214,24 @@
           본 서비스는 투자·세무·법률 자문을 제공하지 않습니다. 중요한 결정은 전문가 상담과 공식
           자료를 병행하세요.
         </p>
+        <div class="site-footer__links">
+          <a class="btn btn--pill btn--ghost site-footer__link" href="https://www.fss.or.kr/" target="_blank" rel="noopener noreferrer">
+            <span aria-hidden="true">↗</span> 금융감독원
+          </a>
+          <a class="btn btn--pill btn--ghost site-footer__link" href="https://www.bok.or.kr/" target="_blank" rel="noopener noreferrer">
+            <span aria-hidden="true">↗</span> 한국은행
+          </a>
+          <a class="btn btn--pill btn--ghost site-footer__link" href="https://www.data.go.kr/" target="_blank" rel="noopener noreferrer">
+            <span aria-hidden="true">↗</span> 공공데이터포털
+          </a>
+        </div>
       </div>
     </footer>
 
+    <script src="./js/nav-config.js"></script>
+    <script src="./js/app-shell.js"></script>
     <script>
       (function () {
-        // Drawer (hamburger menu)
-        var drawer = document.getElementById("drawer");
-        var openBtn = document.getElementById("drawer-open");
-        if (drawer && openBtn) {
-          var lastFocus = null;
-
-          function setExpanded(v) {
-            openBtn.setAttribute("aria-expanded", v ? "true" : "false");
-            openBtn.setAttribute("aria-label", v ? "메뉴 닫기" : "메뉴 열기");
-          }
-
-          function openDrawer() {
-            if (!drawer.hidden) return;
-            lastFocus = document.activeElement;
-            drawer.hidden = false;
-            drawer.classList.add("is-open");
-            document.body.classList.add("is-drawer-open");
-            setExpanded(true);
-            var focusTarget = drawer.querySelector(".drawer__close");
-            if (focusTarget) focusTarget.focus();
-          }
-
-          function closeDrawer() {
-            if (drawer.hidden) return;
-            drawer.classList.remove("is-open");
-            document.body.classList.remove("is-drawer-open");
-            setExpanded(false);
-            window.setTimeout(function () {
-              drawer.hidden = true;
-              if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
-              lastFocus = null;
-            }, 240);
-          }
-
-          openBtn.addEventListener("click", function () {
-            if (drawer.hidden) openDrawer();
-            else closeDrawer();
-          });
-
-          drawer.addEventListener("click", function (e) {
-            var t = e.target;
-            if (t && t.closest && t.closest("[data-drawer-close]")) closeDrawer();
-          });
-
-          window.addEventListener("keydown", function (e) {
-            if (e.key === "Escape") closeDrawer();
-          });
-        }
-
         // Scroll reveal (soft fade-in)
         var revealEls = document.querySelectorAll(".reveal:not(.reveal--in)");
         if (revealEls.length && "IntersectionObserver" in window) {

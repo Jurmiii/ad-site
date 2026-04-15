@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="refresh" content="0;url=../daily-quick/index.html" />
-    <title>Money Calendar</title>
+    <title>8. 무지출 챌린지 스티커 · Money Calendar</title>
+    <meta name="description" content="지출이 0원인 날에 무지출 스티커가 자동으로 표시됩니다." />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
@@ -13,11 +13,12 @@
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/journal-shell.css" />
     <link rel="stylesheet" href="../js/excel-manager.css" />
-    <link rel="stylesheet" href="./daily.css" />
+    <link rel="stylesheet" href="../daily/daily.css" />
   </head>
-  <body>
+  <body class="mc-app page-daily" data-mc-feature-id="8">
     <script>
-      location.replace("../daily-quick/index.html");
+      window.__MC_ASSETS_BASE = "..";
+      window.__MC_DAILY_MODE = 8;
     </script>
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
@@ -27,7 +28,7 @@
           <span class="mc-brand__mark" aria-hidden="true">M</span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">데일리 가계부 (5~8번)</span>
+            <span class="mc-brand__page">8. 무지출 챌린지 스티커</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
@@ -54,12 +55,12 @@
       <div class="drawer__backdrop" data-drawer-close></div>
       <div class="drawer__panel" role="document">
         <div class="drawer__top">
-          <p class="drawer__title">가계부 시리즈</p>
+          <p class="drawer__title">머니 캘린더</p>
           <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
         <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">데일리 기록은 엑셀 Header의 평가 필드와 함께보낼 수 있습니다.</p>
+          <p class="text-sm">무지출은 ‘안 쓴 날’을 기분 좋게 확인하는 습관입니다.</p>
         </div>
       </div>
     </div>
@@ -68,12 +69,9 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">5~8 · 반응형 퀵-인풋 · 한 줄 평 · 체감 지수 · 무지출 스티커</p>
-            <h1>데일리 가계부</h1>
-            <p class="mc-page-intro__lead text-body">
-              5번 퀵-인풋, 6번 한 줄 평(Good/Normal/Bad), 7번 예산 대비 비중, 8번 머니 캘린더 무지출 스티커를 한 화면에서 다룹니다. 메뉴
-              링크의 번호에 따라 안내 섹션으로 스크롤됩니다.
-            </p>
+            <p class="mc-page-intro__kicker">8 · 무지출 챌린지 스티커</p>
+            <h1>8. 무지출 챌린지 스티커</h1>
+            <p class="mc-page-intro__lead text-body">지출이 0원인 날은 스티커가 자동으로 표시됩니다.</p>
           </header>
 
           <div id="excel-control-root" class="mc-excel-slot"></div>
@@ -206,6 +204,7 @@
     <script src="../js/nav-config.js"></script>
     <script src="../js/excel-manager.js"></script>
     <script src="../js/app-shell.js"></script>
-    <script src="./daily.js"></script>
+    <script src="../daily/daily.js"></script>
   </body>
 </html>
+

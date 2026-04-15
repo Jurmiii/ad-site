@@ -222,7 +222,6 @@ const els = {
   diffBody: $("diff-body"),
   btnConfirm: /** @type {HTMLButtonElement} */ ($("btn-confirm")),
   btnUnconfirm: /** @type {HTMLButtonElement} */ ($("btn-unconfirm")),
-  btnExcel: /** @type {HTMLButtonElement} */ ($("btn-excel")),
 };
 
 /** @type {import('chart.js').Chart | null} */
@@ -545,41 +544,45 @@ function init() {
   // Excel Manager (template download + import)
   if (typeof ExcelManager !== "undefined") {
     try {
-      ExcelManager.mount("excel-tools", "BudgetSimulator", function (mode, parsed) {
-        const row = parsed && parsed.BudgetSimulator ? parsed.BudgetSimulator : null;
-        if (!row) throw new Error("BudgetSimulator 시트를 찾지 못했습니다.");
-        const mk =
-          typeof row.monthKey === "string" && /^\d{4}-\d{2}$/.test(row.monthKey)
-            ? row.monthKey
-            : currentMonthKey();
+      ExcelManager.mount("excel-control-root", "BudgetSimulator", {
+        applyData(mode, parsed) {
+          const row = parsed && parsed.BudgetSimulator ? parsed.BudgetSimulator : null;
+          if (!row) throw new Error("BudgetSimulator 시트를 찾지 못했습니다.");
+          const mk =
+            typeof row.monthKey === "string" && /^\d{4}-\d{2}$/.test(row.monthKey)
+              ? row.monthKey
+              : currentMonthKey();
 
-        const incoming = {
-          monthKey: mk,
-          total: Math.max(0, Math.trunc(Number(row.total) || 0)),
-          living: Math.max(0, Math.trunc(Number(row.living) || 0)),
-          activity: Math.max(0, Math.trunc(Number(row.activity) || 0)),
-          essential: Math.max(0, Math.trunc(Number(row.essential) || 0)),
-          confirmed: Boolean(row.confirmed),
-          confirmedAt: typeof row.confirmedAt === "string" ? row.confirmedAt : null,
-        };
+          const incoming = {
+            monthKey: mk,
+            total: Math.max(0, Math.trunc(Number(row.total) || 0)),
+            living: Math.max(0, Math.trunc(Number(row.living) || 0)),
+            activity: Math.max(0, Math.trunc(Number(row.activity) || 0)),
+            essential: Math.max(0, Math.trunc(Number(row.essential) || 0)),
+            confirmed: Boolean(row.confirmed),
+            confirmedAt: typeof row.confirmedAt === "string" ? row.confirmedAt : null,
+          };
 
-        if (mode === "overwrite") {
-          state = { ...state, ...incoming };
-        } else {
-          // merge: fill zeros only
-          if ((Number(state.total) || 0) === 0 && incoming.total > 0) state.total = incoming.total;
-          if ((Number(state.living) || 0) === 0 && incoming.living > 0) state.living = incoming.living;
-          if ((Number(state.activity) || 0) === 0 && incoming.activity > 0) state.activity = incoming.activity;
-          if ((Number(state.essential) || 0) === 0 && incoming.essential > 0) state.essential = incoming.essential;
-          state.confirmed = Boolean(state.confirmed || incoming.confirmed);
-          state.confirmedAt = state.confirmedAt || incoming.confirmedAt || null;
-          state.monthKey = mk;
-        }
+          if (mode === "overwrite") {
+            state = { ...state, ...incoming };
+          } else {
+            if ((Number(state.total) || 0) === 0 && incoming.total > 0) state.total = incoming.total;
+            if ((Number(state.living) || 0) === 0 && incoming.living > 0) state.living = incoming.living;
+            if ((Number(state.activity) || 0) === 0 && incoming.activity > 0) state.activity = incoming.activity;
+            if ((Number(state.essential) || 0) === 0 && incoming.essential > 0) state.essential = incoming.essential;
+            state.confirmed = Boolean(state.confirmed || incoming.confirmed);
+            state.confirmedAt = state.confirmedAt || incoming.confirmedAt || null;
+            state.monthKey = mk;
+          }
 
-        monthKey = mk;
-        els.month.value = mk;
-        persist();
-        renderAll();
+          monthKey = mk;
+          els.month.value = mk;
+          persist();
+          renderAll();
+        },
+        onExportCurrent() {
+          exportExcel();
+        },
       });
     } catch {
       /* ignore */
@@ -625,7 +628,6 @@ function init() {
 
   els.btnConfirm.addEventListener("click", confirmSim);
   els.btnUnconfirm.addEventListener("click", unconfirmSim);
-  els.btnExcel.addEventListener("click", exportExcel);
 
   // 차트 컨테이너 높이 확보
   const canvas = /** @type {HTMLCanvasElement} */ ($("donut"));

@@ -68,11 +68,12 @@
 }
 
 .brand__mark {
-  width: 40px;
-  height: 40px;
-  border-radius: 18px;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
   overflow: hidden;
   flex: 0 0 auto;
+  background: linear-gradient(145deg, #0ea5e9, #10b981);
   box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
 }
 
@@ -259,8 +260,9 @@ html[data-theme="dark"] .theme-toggle:hover {
   top: 0;
   right: 0;
   height: 100%;
+  max-height: 100dvh;
   width: min(360px, 92vw);
-  padding: 18px 16px 20px;
+  padding: 18px 16px calc(20px + env(safe-area-inset-bottom, 0px));
   background: color-mix(in srgb, var(--color-surface) 88%, transparent);
   backdrop-filter: blur(18px);
   border-left: 1px solid var(--border-default);
@@ -268,6 +270,10 @@ html[data-theme="dark"] .theme-toggle:hover {
   opacity: 0;
   transition: transform 0.24s ease, opacity 0.24s ease;
   box-shadow: -24px 0 60px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .drawer.is-open .drawer__backdrop {
@@ -318,8 +324,26 @@ html[data-theme="dark"] .theme-toggle:hover {
 
 .drawer__nav {
   margin-top: 10px;
+}
+
+/* 홈·기능 공통: 15개 메뉴가 패널 안에서 스크롤 없이 배치되도록 journal-shell과 동기 */
+#mc-drawer-list.drawer__nav {
+  margin-top: 4px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
   display: grid;
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 3px;
+  align-content: start;
+  padding-right: 0;
+}
+
+@media (min-width: 360px) and (min-height: 640px) {
+  #mc-drawer-list.drawer__nav {
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 6px;
+  }
 }
 
 .drawer__item {
@@ -345,9 +369,48 @@ html[data-theme="dark"] .theme-toggle:hover {
   transform: scale(0.99);
 }
 
+#mc-drawer-list .drawer__item.mc-drawer__item {
+  min-height: 0;
+  padding: 6px 8px;
+  border-radius: 12px;
+  font-size: 0.8125rem;
+  font-weight: 800;
+}
+
+/* 홈 드로어: 카테고리 섹션 스타일 (journal-shell과 동일 톤) */
+#mc-drawer-list .mc-drawer__section {
+  border: 1px solid var(--border-default);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  padding: 10px 10px 8px;
+}
+
+#mc-drawer-list .mc-drawer__section-title {
+  font-size: 0.6875rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: 2px 4px 8px;
+}
+
+#mc-drawer-list .mc-drawer__section-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 4px;
+}
+
+@media (min-width: 360px) and (min-height: 640px) {
+  #mc-drawer-list.drawer__nav {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+}
+
 .drawer__meta {
-  margin-top: 18px;
-  padding-top: 14px;
+  margin-top: auto;
+  flex-shrink: 0;
+  padding-top: 12px;
   border-top: 1px solid var(--border-default);
 }
 
@@ -637,6 +700,24 @@ html[data-theme="dark"] .theme-toggle:hover {
   justify-self: end;
   line-height: 1.55;
   color: var(--color-text-muted);
+}
+
+.site-footer__links {
+  grid-column: 1 / -1;
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap; /* 가로 1열 */
+  align-items: center;
+}
+
+.site-footer__link.btn.btn--pill {
+  padding: 8px 12px; /* 과한 패딩 축소 */
+  min-height: 36px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 750;
+  gap: 6px;
 }
 
 @media (max-width: 900px) {

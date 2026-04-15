@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>비전 기반 예산 할당 · Money Calendar</title>
+    <title>2. 비전 기반 예산 할당 · Money Calendar</title>
     <meta
       name="description"
       content="단기·장기 비전을 우선순위로 두고, 수입에서 비전 할당 후 잔여 가용 예산을 확인합니다."
@@ -14,27 +14,72 @@
     />
     <script src="../js/theme.js"></script>
     <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/journal-shell.css" />
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="./vision-budget.css" />
   </head>
-  <body class="page-vision">
-    <div class="container">
-      <header class="page-head">
-        <div>
-          <p class="eyebrow">목표 연동 · 예산</p>
-          <h1>비전 기반 예산 할당</h1>
-          <p class="mt-10 text-body">
-            삶의 목표를 먼저 적고, 이번 달 수입에서 비전으로 보낼 금액을 최우선으로 배정합니다. 그
-            다음에야 일상 가용 예산이 남습니다.
-          </p>
+  <body class="mc-app page-vision" data-mc-feature-id="2">
+    <script>
+      window.__MC_ASSETS_BASE = "..";
+    </script>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+    <header class="mc-global-header" role="banner">
+      <div class="container mc-global-header__inner">
+        <a class="mc-brand" href="../index.html">
+          <span class="mc-brand__mark" aria-hidden="true">M</span>
+          <span class="mc-brand__titles">
+            <span class="mc-brand__series">Money Calendar</span>
+            <span class="mc-brand__page">2. 비전 기반 예산 할당</span>
+          </span>
+        </a>
+        <div class="mc-global-header__tools">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb" aria-hidden="true"></span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="mc-hamburger hamburger"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-controls="drawer"
+            aria-expanded="false"
+            id="drawer-open"
+          >
+            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+          </button>
         </div>
-        <div class="page-head__actions">
-          <div id="excel-tools" class="excel-tools"></div>
-          <a class="btn-secondary" href="../index.html">메인</a>
-          <a class="btn-secondary" href="../income-design/index.html">수입 설계</a>
-          <a class="btn-secondary" href="../budget-setup/index.html">예산 엔진</a>
+      </div>
+    </header>
+
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">가계부 시리즈</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
-      </header>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
+        <div class="drawer__meta">
+          <p class="text-sm">비전 할당과 수입 설계를 엑셀로 맞춰 두면 다음 달에도 이어집니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc-app__canvas">
+      <div class="container">
+        <main id="main">
+          <header class="mc-page-intro">
+            <p class="mc-page-intro__kicker">2 · 비전 기반 예산 할당</p>
+            <h1>2. 비전 기반 예산 할당</h1>
+            <p class="mc-page-intro__lead text-body">
+              삶의 목표를 먼저 적고, 이번 달 수입에서 비전으로 보낼 금액을 최우선으로 배정합니다. 그다음에야
+              일상 가용 예산이 남습니다.
+            </p>
+          </header>
+
+          <div id="excel-control-root" class="mc-excel-slot"></div>
 
       <section class="card mt-24" aria-labelledby="income-title">
         <h2 id="income-title">전체 수입(가용)</h2>
@@ -159,11 +204,8 @@
       </section>
 
       <section class="card mt-24" aria-labelledby="export-title">
-        <div class="flex-between export-head">
-          <h2 id="export-title">보내기</h2>
-          <button id="btn-excel" class="btn" type="button">엑셀 다운로드</button>
-        </div>
-        <p class="text-sm mt-10">비전 목록과 할당·잔여 요약을 시트로 정리합니다.</p>
+        <h2 id="export-title">보내기 안내</h2>
+        <p class="text-sm mt-10">비전 목록과 할당·잔여 요약은 상단 통합 엑셀 컨트롤의 「현재 화면 엑셀 저장」으로 받을 수 있습니다.</p>
       </section>
 
       <footer class="page-foot mt-24 mb-20">
@@ -171,10 +213,14 @@
           Money Calendar · 비전 기반 예산 — 정보 제공 목적이며 투자·세무 자문이 아닙니다.
         </p>
       </footer>
+        </main>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../js/nav-config.js"></script>
     <script src="../js/excel-manager.js"></script>
+    <script src="../js/app-shell.js"></script>
     <script src="./vision-budget.js"></script>
   </body>
 </html>

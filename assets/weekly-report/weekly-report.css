@@ -1,0 +1,51 @@
+.wk-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wk-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 72px;
+  gap: 10px;
+  align-items: center;
+}
+
+.wk-bar {
+  height: 14px;
+  border-radius: 99px;
+  background: var(--color-surface-2);
+  border: 1px solid var(--border-default);
+  overflow: hidden;
+}
+
+.wk-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 55%, #0f766e));
+  max-width: 100%;
+}
+
+.wk-summary {
+  font-weight: 750;
+  color: var(--color-text-primary);
+}
+
+.wk-tip {
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--border-strong);
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
+  line-height: 1.55;
+}
+
+.card--inset {
+  box-shadow: none;
+}
+
+@media (max-width: 520px) {
+  .wk-row {
+    grid-template-columns: 1fr;
+  }
+}

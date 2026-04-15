@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>10. 월간 예산 복기 시스템 · Money Calendar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <script src="../js/theme.js"></script>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/journal-shell.css" />
+    <link rel="stylesheet" href="../js/excel-manager.css" />
+    <link rel="stylesheet" href="./monthly-review.css" />
+  </head>
+  <body class="mc-app" data-mc-feature-id="10">
+    <script>
+      window.__MC_ASSETS_BASE = "..";
+    </script>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <header class="mc-global-header" role="banner">
+      <div class="container mc-global-header__inner">
+        <a class="mc-brand" href="../index.html">
+          <span class="mc-brand__mark" aria-hidden="true">M</span>
+          <span class="mc-brand__titles">
+            <span class="mc-brand__series">Money Calendar</span>
+            <span class="mc-brand__page">10. 월간 예산 복기 시스템</span>
+          </span>
+        </a>
+        <div class="mc-global-header__tools">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb" aria-hidden="true"></span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="mc-hamburger hamburger"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-controls="drawer"
+            aria-expanded="false"
+            id="drawer-open"
+          >
+            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">머니 캘린더</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+        </div>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
+        <div class="drawer__meta">
+          <p class="text-sm">예산안 배분 데이터는 <a href="../budget-setup/index.html">예산안 입력</a> 화면에서 저장됩니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mc-app__canvas">
+      <div class="container">
+        <main id="main">
+          <header class="mc-page-intro">
+            <p class="mc-page-intro__kicker">10 · 월간 예산 복기 시스템</p>
+            <h1>10. 월간 예산 복기 시스템</h1>
+            <p class="mc-page-intro__lead text-body">
+              기능 1~4에서 확정한 배분(생활·활동·필수)과 기능 5~8 데일리 지출을 같은 달 기준으로 대조합니다. 카테고리 문자열을
+              키워드로 생활/활동/필수에 근사 배분합니다.
+            </p>
+          </header>
+          <div id="excel-control-root" class="mc-excel-slot"></div>
+          <section class="card mt-24">
+            <label class="field">
+              <span class="field-label">기준 월</span>
+              <input id="mr-month" type="month" />
+            </label>
+            <div id="mr-table-wrap" class="table-wrap mt-20"></div>
+            <div id="mr-chart" class="mr-chart mt-20" role="img" aria-label="배분 대비 지출 막대"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../js/nav-config.js"></script>
+    <script src="../js/excel-manager.js"></script>
+    <script src="../js/app-shell.js"></script>
+    <script src="./monthly-review.js"></script>
+  </body>
+</html>
