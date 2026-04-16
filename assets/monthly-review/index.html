@@ -65,7 +65,7 @@
         <main id="main">
           <header class="mc-page-intro">
             <p class="mc-page-intro__kicker">10 · 월간 예산 복기 시스템</p>
-            <h1>10. 월간 예산 복기 시스템</h1>
+            <h1 class="mc-page-intro__title">10. 월간 예산 복기 시스템</h1>
             <p class="mc-page-intro__lead text-body">
               기능 1~4에서 확정한 배분(생활·활동·필수)과 기능 5~8 데일리 지출을 같은 달 기준으로 대조합니다. 카테고리 문자열을
               키워드로 생활/활동/필수에 근사 배분합니다.
@@ -78,6 +78,7 @@
               <input id="mr-month" type="month" />
             </label>
             <div id="mr-table-wrap" class="table-wrap mt-20"></div>
+            <p id="mr-vision-hint" class="text-sm mt-16" hidden></p>
             <div id="mr-chart" class="mr-chart mt-20" role="img" aria-label="배분 대비 지출 막대"></div>
           </section>
         </main>
@@ -87,6 +88,7 @@
     <script src="../js/nav-config.js"></script>
     <script src="../js/excel-manager.js"></script>
     <script src="../js/app-shell.js"></script>
+    <script src="../js/vision-budget-utils.js"></script>
     <script src="./monthly-review.js"></script>
   </body>
 </html>

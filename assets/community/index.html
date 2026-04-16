@@ -64,10 +64,10 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">15 · 종합 재정 성취 리포트</p>
-            <h1>15. 종합 재정 성취 리포트 및 자산 현황판</h1>
+            <p class="mc-page-intro__kicker">15 · 종합 재정 성취 리포트 및 자산 현황판</p>
+            <h1 class="mc-page-intro__title">15. 종합 재정 성취 리포트 및 자산 현황판</h1>
             <p class="mc-page-intro__lead text-body">
-              수립한 예산과 기록된 데이터를 총망라하여 나의 재정 성취도를 한눈에 확인합니다.
+              KPI 카드와 성취 메시지, 종합 막대·도넛 차트로 이번 달 재정 흐름을 한 번에 점검해 보세요.
             </p>
           </header>
 
@@ -94,6 +94,24 @@
                 <p class="text-sm">예산 대비</p>
                 <p class="finale-kpi__value" id="kpi-saved">—</p>
               </div>
+            </div>
+          </section>
+
+          <section class="card mt-24 composite-chart-card" aria-labelledby="composite-title">
+            <div class="flex-between">
+              <h2 id="composite-title">종합 재정 차트</h2>
+              <p class="text-sm composite-chart-card__hint" id="composite-hint"></p>
+            </div>
+            <p class="text-sm mt-10 composite-chart-card__lead">
+              수입·예산(상한)·지출을 같은 눈금으로 나란히 비교하는 종합 뷰입니다.
+            </p>
+            <div class="composite-chart-wrap mt-16">
+              <canvas
+                id="composite-chart"
+                width="640"
+                height="168"
+                aria-label="수입, 예산, 지출 종합 막대 그래프"
+              ></canvas>
             </div>
           </section>
 
@@ -132,6 +150,7 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="../js/nav-config.js"></script>
     <script src="../js/app-shell.js"></script>
+    <script src="../js/vision-budget-utils.js"></script>
     <script src="./community.js"></script>
   </body>
 </html>

@@ -29,7 +29,7 @@ html[data-theme="dark"] .journal-card {
   padding: 14px 16px;
   border-radius: var(--radius-lg);
   border: 1px solid rgba(34, 197, 94, 0.35);
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), #fff);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), var(--color-surface));
 }
 
 .locked-banner strong {
@@ -84,12 +84,12 @@ html[data-theme="dark"] .journal-card {
   padding: 14px 14px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
-  background: #fff;
+  background: var(--color-surface);
 }
 
 .income-row--dream {
   border: 1px solid transparent;
-  background: linear-gradient(#fff, #fff) padding-box,
+  background: linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
     linear-gradient(120deg, #a78bfa, #22c55e, #38bdf8) border-box;
   box-shadow: 0 8px 28px rgba(99, 102, 241, 0.08);
 }
@@ -106,7 +106,7 @@ html[data-theme="dark"] .journal-card {
   width: 28px;
   height: 28px;
   border-radius: 8px;
-  background: #f1f5f9;
+  background: var(--color-surface-2);
   color: var(--color-text-secondary);
   font-weight: 800;
   font-size: 0.8125rem;
@@ -146,7 +146,7 @@ html[data-theme="dark"] .journal-card {
   flex-wrap: wrap;
   padding: 16px;
   border-radius: var(--radius-md);
-  background: #f8fafc;
+  background: var(--color-bg-soft);
   border: 1px solid var(--border-default);
 }
 
@@ -167,7 +167,7 @@ html[data-theme="dark"] .journal-card {
   height: 14px;
   border-radius: 999px;
   overflow: hidden;
-  background: #e2e8f0;
+  background: color-mix(in srgb, var(--color-text-muted) 24%, var(--color-surface));
 }
 
 .stack-bar--budget {
@@ -204,7 +204,7 @@ html[data-theme="dark"] .journal-card {
   background: #f59e0b;
 }
 .b-left {
-  background: #e2e8f0;
+  background: color-mix(in srgb, var(--color-text-muted) 24%, var(--color-surface));
 }
 
 .compare {
@@ -215,7 +215,7 @@ html[data-theme="dark"] .journal-card {
   padding: 14px;
   border-radius: var(--radius-md);
   border: 1px dashed #cbd5e1;
-  background: #fff;
+  background: var(--color-surface);
 }
 
 .compare-title {
@@ -247,7 +247,7 @@ html[data-theme="dark"] .journal-card {
   border-radius: 999px;
   margin-top: 10px;
   overflow: hidden;
-  background: #e2e8f0;
+  background: color-mix(in srgb, var(--color-text-muted) 24%, var(--color-surface));
 }
 
 .mini-bar--income span {
@@ -269,7 +269,7 @@ html[data-theme="dark"] .journal-card {
 .mini-left {
   display: block;
   height: 100%;
-  background: #e2e8f0;
+  background: color-mix(in srgb, var(--color-text-muted) 24%, var(--color-surface));
 }
 
 .budget-fields {
@@ -297,7 +297,7 @@ html[data-theme="dark"] .journal-card {
   padding: 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
-  background: #fafafa;
+  background: var(--color-surface-2);
 }
 
 .remainder-num {
@@ -324,7 +324,7 @@ html[data-theme="dark"] .journal-card {
 }
 
 .pill-muted {
-  background: #f1f5f9;
+  background: var(--color-surface-2);
   color: var(--color-text-secondary);
 }
 

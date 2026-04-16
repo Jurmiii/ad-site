@@ -49,14 +49,21 @@
   }
 
   function loadBudgetCap(mk) {
-    // 배분 예산(생활+활동+필수) 우선, 없으면 시뮬레이터 총예산
+    // 배분 예산(생활+활동+필수) 우선 → 시뮬레이터 총예산 → 2번 잔여 가용(수입−고정−비전)
     var o = safeJson(BUDGET_PREFIX + "." + mk, null);
     if (o) {
       var a = toInt0(o.living) + toInt0(o.activity) + toInt0(o.essential);
       if (a > 0) return a;
     }
     var sim = safeJson(SIM_PREFIX + "." + mk, null);
-    if (sim) return toInt0(sim.total);
+    if (sim) {
+      var st = toInt0(sim.total);
+      if (st > 0) return st;
+    }
+    if (typeof window.MoneyCalendarVisionBudget !== "undefined") {
+      var snap = window.MoneyCalendarVisionBudget.read();
+      if (snap && snap.disposable > 0) return snap.disposable;
+    }
     return 0;
   }
 
@@ -143,6 +150,63 @@
     });
   }
 
+  function themeInk() {
+    return document.documentElement.getAttribute("data-theme") === "dark" ? "#e5e7eb" : "#0f172a";
+  }
+
+  function themeMuted() {
+    return document.documentElement.getAttribute("data-theme") === "dark" ? "#94a3b8" : "#64748b";
+  }
+
+  function renderCompositeChart(income, budget, expense, mk) {
+    var c = document.getElementById("composite-chart");
+    var hint = document.getElementById("composite-hint");
+    if (!c || !c.getContext) return;
+    var ctx = c.getContext("2d");
+    var rect = c.getBoundingClientRect();
+    var wCss = Math.max(280, Math.min(920, Math.floor(rect.width || 640)));
+    var hCss = 168;
+    var dpr = window.devicePixelRatio || 1;
+    c.width = Math.round(wCss * dpr);
+    c.height = Math.round(hCss * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    ctx.clearRect(0, 0, wCss, hCss);
+    ctx.fillStyle = "rgba(15,23,42,0.04)";
+    ctx.fillRect(8, 8, wCss - 16, hCss - 16);
+
+    var labels = ["수입", "예산(상한)", "지출"];
+    var vals = [income, budget, expense];
+    var colors = ["#22c55e", "#0ea5e9", "#fb7185"];
+    var max = Math.max(1, income, budget, expense);
+    var pad = 14;
+    var chartH = hCss - 56;
+    var chartTop = 18;
+    var gap = 14;
+    var bw = (wCss - pad * 2 - gap * 2) / 3;
+
+    for (var i = 0; i < 3; i++) {
+      var x = pad + i * (bw + gap);
+      var h = (vals[i] / max) * chartH;
+      var y = chartTop + chartH - h;
+      ctx.fillStyle = colors[i];
+      ctx.fillRect(x, y, bw, Math.max(h, 2));
+      ctx.fillStyle = themeInk();
+      ctx.font = "800 11px Pretendard, system-ui, sans-serif";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "bottom";
+      ctx.fillText(fmtKRW(vals[i]), x + bw / 2, y - 6);
+      ctx.fillStyle = themeMuted();
+      ctx.font = "650 12px Pretendard, system-ui, sans-serif";
+      ctx.textBaseline = "top";
+      ctx.fillText(labels[i], x + bw / 2, chartTop + chartH + 8);
+    }
+
+    if (hint) {
+      hint.textContent = mk + " · 눈금 최대 " + fmtKRW(max);
+    }
+  }
+
   function renderDonut(items, total) {
     var c = document.getElementById("donut");
     if (!c || !c.getContext) return;
@@ -207,6 +271,19 @@
     ctx.fillText(fmtKRW(total), cx, cy + size * 0.05);
   }
 
+  var chartState = {
+    items: [],
+    expense: 0,
+    income: 0,
+    budget: 0,
+    mk: "",
+  };
+
+  function redrawFinaleCharts() {
+    renderDonut(chartState.items, chartState.expense);
+    renderCompositeChart(chartState.income, chartState.budget, chartState.expense, chartState.mk);
+  }
+
   function init() {
     var mk = monthNow();
     setText("finale-month-label", mk);
@@ -263,11 +340,15 @@
 
     setText("donut-hint", expense > 0 ? "카테고리별 지출 비중" : "이번 달 지출 기록이 아직 없습니다.");
     renderLegend(items, expense);
-    renderDonut(items, expense);
+    chartState.items = items;
+    chartState.expense = expense;
+    chartState.income = income;
+    chartState.budget = budget;
+    chartState.mk = mk;
+    redrawFinaleCharts();
 
-    window.addEventListener("resize", function () {
-      renderDonut(items, expense);
-    });
+    window.addEventListener("resize", redrawFinaleCharts);
+    window.addEventListener("mc-theme-change", redrawFinaleCharts);
   }
 
   document.addEventListener("DOMContentLoaded", init);

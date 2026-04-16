@@ -5,18 +5,6 @@
   background: var(--color-bg);
 }
 
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 .skip-link {
   position: absolute;
   left: -9999px;
@@ -56,8 +44,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  min-height: 56px;
 }
 
 .brand {
@@ -111,7 +100,7 @@
 .theme-toggle {
   position: relative;
   width: 54px;
-  height: 32px;
+  height: 34px;
   border-radius: 999px;
   border: 1px solid var(--border-default);
   background: color-mix(in srgb, var(--color-text-muted) 18%, var(--color-surface));
@@ -153,7 +142,7 @@
 }
 
 html[data-theme="dark"] .theme-toggle__thumb {
-  transform: translateX(22px);
+  transform: translateX(20px);
   background: color-mix(in srgb, var(--color-primary) 20%, rgba(229, 231, 235, 0.95));
 }
 
@@ -187,9 +176,9 @@ html[data-theme="dark"] .theme-toggle:hover {
 }
 
 .hamburger {
-  width: 46px;
-  height: 46px;
-  border-radius: 18px;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
   border: 1px solid var(--border-default);
   background: var(--color-surface-2);
   cursor: pointer;
@@ -261,15 +250,15 @@ html[data-theme="dark"] .theme-toggle:hover {
   right: 0;
   height: 100%;
   max-height: 100dvh;
-  width: min(360px, 92vw);
-  padding: 18px 16px calc(20px + env(safe-area-inset-bottom, 0px));
-  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  width: min(380px, 94vw);
+  padding: 16px 14px calc(18px + env(safe-area-inset-bottom, 0px));
+  background: color-mix(in srgb, var(--mc-paper-veil) 94%, transparent);
   backdrop-filter: blur(18px);
   border-left: 1px solid var(--border-default);
   transform: translate3d(12px, 0, 0);
   opacity: 0;
   transition: transform 0.24s ease, opacity 0.24s ease;
-  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.22);
+  box-shadow: -20px 0 50px rgba(0, 0, 0, 0.18);
   display: flex;
   flex-direction: column;
   min-height: 0;
@@ -289,31 +278,40 @@ html[data-theme="dark"] .theme-toggle:hover {
   overflow: hidden;
 }
 
+html.is-drawer-open {
+  overflow: hidden;
+  height: 100%;
+}
+
+html.is-drawer-open body {
+  overflow: hidden;
+}
+
 .drawer__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 6px 4px 10px;
+  padding: 4px 2px 8px;
 }
 
 .drawer__title {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-secondary);
 }
 
 .drawer__close {
-  min-width: 56px;
-  height: 40px;
-  padding: 0 12px;
-  border-radius: 16px;
+  min-height: 44px;
+  min-width: 52px;
+  padding: 0 14px;
+  border-radius: 14px;
   border: 1px solid var(--border-default);
   background: var(--color-surface);
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 750;
   color: var(--color-text-primary);
 }
 
@@ -323,7 +321,7 @@ html[data-theme="dark"] .theme-toggle:hover {
 }
 
 .drawer__nav {
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 /* 홈은 journal-shell.css 를 함께 로드하므로,
@@ -627,20 +625,45 @@ html[data-theme="dark"] .theme-toggle:hover {
 
 .site-footer__links {
   grid-column: 1 / -1;
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: nowrap; /* 가로 1열 */
-  align-items: center;
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  align-items: stretch;
 }
 
 .site-footer__link.btn.btn--pill {
-  padding: 8px 12px; /* 과한 패딩 축소 */
-  min-height: 36px;
-  border-radius: 999px;
+  padding: 10px 12px;
+  min-height: 0;
+  border-radius: 14px;
   font-size: 0.8125rem;
   font-weight: 750;
-  gap: 6px;
+  gap: 4px;
+  justify-content: center;
+}
+
+.site-footer__link--finance {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  text-align: left;
+  line-height: 1.28;
+}
+
+.site-footer__link-title {
+  font-weight: 850;
+  font-size: 0.8125rem;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.site-footer__link-desc {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  line-height: 1.35;
 }
 
 @media (max-width: 900px) {
@@ -664,5 +687,9 @@ html[data-theme="dark"] .theme-toggle:hover {
 
   .site-footer__legal {
     justify-self: start;
+  }
+
+  .site-footer__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

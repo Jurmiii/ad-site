@@ -37,6 +37,26 @@ function currentMonthKey() {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
 }
 
+function todayIsoDate() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+/** @param {HTMLInputElement} el */
+function monthKeyFromDateInput(el) {
+  const v = el.value;
+  if (!v || v.length < 7) return currentMonthKey();
+  return v.slice(0, 7);
+}
+
+/** @param {string} mk */
+function purgeMonthStorage(mk) {
+  localStorage.removeItem(storageKeyBudget(mk));
+  localStorage.removeItem(storageKeyHistory(mk));
+  const all = loadArchive().filter((x) => x.monthKey !== mk);
+  saveArchive(all);
+}
+
 function storageKeyBudget(monthKey) {
   return `${BUDGET_PREFIX}.${monthKey}`;
 }
@@ -171,7 +191,8 @@ let state = emptyState();
 let unlockBaseline = null;
 
 const els = {
-  month: /** @type {HTMLInputElement} */ ($("plan-month")),
+  planDate: /** @type {HTMLInputElement} */ ($("plan-date")),
+  btnPurgeMonth: /** @type {HTMLButtonElement} */ ($("btn-purge-month")),
   fields: {
     real: /** @type {HTMLInputElement} */ ($("f-real")),
     scheduled: /** @type {HTMLInputElement} */ ($("f-scheduled")),
@@ -326,7 +347,7 @@ function renderCalendarHint() {
   const hint = els.calendarHint;
   const now = new Date();
   const cm = currentMonthKey();
-  const selected = els.month.value || cm;
+  const selected = monthKey;
   const show =
     isLastWeekOfCalendarMonth(now) && selected === cm && !state.locked;
 
@@ -540,7 +561,7 @@ function exportCurrentBudgetSetupExcel() {
     throw new Error("엑셀 매니저를 불러오지 못했습니다.");
   }
   const sheetDef = ExcelManager.Schemas.BudgetSetup.sheets[0];
-  const mk = els.month.value || currentMonthKey();
+  const mk = monthKey;
   const row = {
     monthKey: mk,
     real: state.real,
@@ -600,7 +621,7 @@ function init() {
             saveBudget(targetMonthKey, merged);
           }
 
-          els.month.value = targetMonthKey;
+          els.planDate.value = `${targetMonthKey}-01`;
           monthKey = targetMonthKey;
           state = loadBudget(monthKey);
           unlockBaseline = null;
@@ -616,17 +637,26 @@ function init() {
     }
   }
 
-  els.month.value = currentMonthKey();
-  monthKey = els.month.value;
+  els.planDate.value = todayIsoDate();
+  monthKey = monthKeyFromDateInput(els.planDate);
   state = loadBudget(monthKey);
   writeStateToForm();
 
-  els.month.addEventListener("change", () => {
-    const next = els.month.value || currentMonthKey();
+  els.planDate.addEventListener("change", () => {
+    const next = monthKeyFromDateInput(els.planDate);
     readFormIntoState();
     saveBudget(monthKey, state);
     monthKey = next;
     state = loadBudget(monthKey);
+    unlockBaseline = null;
+    writeStateToForm();
+    render();
+  });
+
+  els.btnPurgeMonth.addEventListener("click", () => {
+    if (!window.MoneyCalendarDelete.confirm()) return;
+    purgeMonthStorage(monthKey);
+    state = emptyState();
     unlockBaseline = null;
     writeStateToForm();
     render();

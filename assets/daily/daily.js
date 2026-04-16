@@ -16,6 +16,13 @@
   var BUDGET_PREFIX = "moneyCalendar.budgetSetup.v1";
   var SIM_PREFIX = "moneyCalendar.budgetSimulator.v1";
 
+  function loadVisionDisposableCap() {
+    if (typeof window.MoneyCalendarVisionBudget === "undefined") return 0;
+    var snap = window.MoneyCalendarVisionBudget.read();
+    if (!snap) return 0;
+    return Math.max(0, snap.disposable);
+  }
+
   function $(id) {
     var el = document.getElementById(id);
     if (!el) throw new Error("#" + id + " not found");
@@ -83,12 +90,14 @@
     }
   }
 
-  /** @returns {{ cap: number, mode: 'alloc'|'sim'|'none' }} */
+  /** @returns {{ cap: number, mode: 'alloc'|'sim'|'vision'|'none' }} */
   function getMonthlyBudgetCap(monthKey) {
     var alloc = loadBudgetAllocated(monthKey);
     if (alloc > 0) return { cap: alloc, mode: "alloc" };
     var sim = loadSimulatorTotal(monthKey);
     if (sim > 0) return { cap: sim, mode: "sim" };
+    var vis = loadVisionDisposableCap();
+    if (vis > 0) return { cap: vis, mode: "vision" };
     return { cap: 0, mode: "none" };
   }
 
@@ -166,6 +175,79 @@
     return s;
   }
 
+  /** 5~8번 daily 페이지 — body / __MC_DAILY_MODE */
+  function getDailyFeatureMode() {
+    var mode = 0;
+    try {
+      if (window.__MC_DAILY_MODE != null) mode = parseInt(String(window.__MC_DAILY_MODE), 10) || 0;
+    } catch (e) {
+      mode = 0;
+    }
+    if (!mode) {
+      try {
+        mode = parseInt((document.body && document.body.dataset && document.body.dataset.mcFeatureId) || "0", 10) || 0;
+      } catch (e2) {
+        mode = 0;
+      }
+    }
+    return mode;
+  }
+
+  /**
+   * 8. 무지출 챌린지: 달력 날짜 클릭 = 스티커 토글 + localStorage 동기화
+   * - 스티커 있음(지출 합 0): 확인 후 해당 일자 키 삭제
+   * - 지출 있음: 무지출로 바꿀지 확인 후 지출 분만 제거
+   * - 기록 없음: 빈 일자 저장 → 스티커 부착
+   */
+  function handleNoSpendCalendarClick(dstr) {
+    var all = loadAll();
+    var st = all[dstr];
+    var hasRecord = Boolean(st);
+    var exp = st ? sumDayExpenses(st) : 0;
+
+    if (hasRecord && exp === 0) {
+      if (!confirm("해당 날짜의 무지출 기록을 삭제하시겠습니까?")) {
+        state = loadDay(dstr);
+        render();
+        return;
+      }
+      var map = loadAll();
+      delete map[dstr];
+      saveAll(map);
+      state = loadDay(dstr);
+      render();
+      return;
+    }
+
+    if (hasRecord && exp > 0) {
+      if (!confirm("지출 내역이 존재합니다. 무지출로 변경하시겠습니까?")) {
+        state = loadDay(dstr);
+        render();
+        return;
+      }
+      var map2 = loadAll();
+      var d = map2[dstr];
+      if (!d || !Array.isArray(d.txs)) {
+        state = loadDay(dstr);
+        render();
+        return;
+      }
+      d.txs = d.txs.filter(function (t) {
+        return t.type === "income";
+      });
+      map2[dstr] = d;
+      saveAll(map2);
+      state = loadDay(dstr);
+      persist();
+      render();
+      return;
+    }
+
+    state = loadDay(dstr);
+    persist();
+    render();
+  }
+
   /** 합계: 해당 월의 모든 일자 지출 합. excludeDate 가 있으면 그날은 제외(미리보기용). */
   function sumMonthExpenses(monthKey, excludeDate) {
     var all = loadAll();
@@ -208,7 +290,7 @@
 
     if (budget <= 0) {
       line.textContent =
-        "이번 달 비교 기준이 없습니다. 「Weekly 예산안」에서 생활·활동·필수 배분을 입력하거나, 「예산 시뮬레이터」에서 총예산을 저장하면 실시간 잔액이 표시됩니다.";
+        "이번 달 비교 기준이 없습니다. 「Weekly 예산안」배분, 「예산 시뮬레이터」총예산, 또는 「비전 기반 예산」에서 수입·고정·비전을 입력하면 실시간 잔액이 표시됩니다.";
       fill.style.width = "0%";
       pctLabel.textContent = "";
       return;
@@ -217,7 +299,9 @@
     var capLabel =
       ctx.mode === "sim"
         ? "시뮬레이터 총예산"
-        : "배분 예산(생활+활동+필수)";
+        : ctx.mode === "vision"
+          ? "2번 잔여 가용(수입−고정−비전)"
+          : "배분 예산(생활+활동+필수)";
 
     var projected = spentOther + todaySpent + draft;
     var left = budget - projected;
@@ -263,6 +347,7 @@
 
   function renderMoneyCalendar() {
     var host = $("money-calendar");
+    var modeFeat = getDailyFeatureMode();
     var mk = monthKeyFromDate(state.date);
     var parts = mk.split("-");
     $("cal-month-label").textContent =
@@ -327,13 +412,30 @@
         var sticker = document.createElement("span");
         sticker.className = "money-cal__sticker";
         sticker.textContent = "무지출";
-        sticker.title = "이 날 지출 합계 0원";
+        sticker.title =
+          modeFeat === 8
+            ? "무지출 기록 — 클릭하면 해제할 수 있습니다"
+            : "이 날 지출 합계 0원";
         cell.appendChild(sticker);
         cell.classList.add("has-nospend");
       }
 
+      if (modeFeat === 8) {
+        if (hasRecord && exp === 0) {
+          cell.title = "무지출 기록 — 클릭하여 해제";
+        } else if (hasRecord && exp > 0) {
+          cell.title = "지출이 있는 날 — 클릭하면 무지출 처리 안내";
+        } else {
+          cell.title = "기록 없음 — 클릭하여 무지출 스티커 부착";
+        }
+      }
+
       cell.addEventListener("click", function (dstr) {
         return function () {
+          if (getDailyFeatureMode() === 8) {
+            handleNoSpendCalendarClick(dstr);
+            return;
+          }
           state = loadDay(dstr);
           persist();
           render();
@@ -423,6 +525,7 @@
   }
 
   function deleteTx(id) {
+    if (!window.MoneyCalendarDelete.confirm()) return;
     state.txs = state.txs.filter(function (t) {
       return t.id !== id;
     });
@@ -673,7 +776,10 @@
     })();
 
     state = loadDay(today());
-    persist();
+    /* 8번: 빈 오늘을 자동 저장하면 해제한 무지출 스티커가 새로고침 시 복구됨 */
+    if (getDailyFeatureMode() !== 8) {
+      persist();
+    }
     render();
     wireStartBalance();
     wireDate();

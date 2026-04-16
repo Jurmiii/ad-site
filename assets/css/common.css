@@ -69,6 +69,18 @@ html[data-theme="dark"] {
     );
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 *,
 *::before,
 *::after {
@@ -251,13 +263,33 @@ textarea {
 input[type="text"],
 input[type="number"],
 input[type="month"],
-select {
+input[type="date"],
+input[type="datetime-local"],
+select,
+textarea {
   width: 100%;
   padding: 10px 12px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-default);
   background: var(--color-surface);
   color: var(--color-text-primary);
+}
+
+textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea {
+  color-scheme: dark;
+}
+
+html[data-theme="light"] input,
+html[data-theme="light"] select,
+html[data-theme="light"] textarea {
+  color-scheme: light;
 }
 
 input:focus,

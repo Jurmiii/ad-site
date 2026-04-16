@@ -32,6 +32,8 @@
 .mc-app__canvas {
   flex: 1;
   padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  /* 본문은 일반 블록 플로우만 사용 (제목·가이드가 위로 밀리지 않도록) */
+  min-height: 0;
 }
 
 /* —— Global header —— */
@@ -407,35 +409,88 @@ html.is-drawer-open body {
 }
 
 .mc-excel-slot {
-  margin-top: 20px;
+  margin-top: 14px;
   margin-bottom: 4px;
 }
 
-.mc-app__canvas .container {
-  padding-top: 8px;
+/* 공용 PC 등 — 엑셀 백업 후 브라우저 데이터 삭제 안내 */
+.mc-security-tip {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  padding: 14px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--color-warn) 42%, var(--border-default));
+  background: color-mix(in srgb, var(--color-warn) 11%, var(--color-surface));
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text-primary) 5%, transparent);
 }
 
-/* 페이지 도입부 (기능별) */
+html[data-theme="dark"] .mc-security-tip {
+  background: color-mix(in srgb, var(--color-warn) 12%, var(--color-bg-soft));
+  border-color: color-mix(in srgb, var(--color-warn) 32%, var(--border-default));
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.mc-security-tip__text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.mc-security-tip__icon {
+  margin-right: 6px;
+}
+
+.mc-security-tip__label {
+  font-weight: 850;
+  letter-spacing: -0.01em;
+}
+
+.mc-security-tip__link {
+  color: var(--color-primary);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mc-security-tip__link:hover {
+  color: var(--color-primary-hover);
+}
+
+.mc-app__canvas .container {
+  padding-top: 6px;
+}
+
+.mc-app #main {
+  display: block;
+}
+
+/* 페이지 도입부 (기능별): 가이드 → 검은 제목 → 리드 — 항상 본문 최상단 고정 */
 .mc-page-intro {
-  margin-top: 20px;
-  margin-bottom: 8px;
+  margin-top: 4px;
+  margin-bottom: 10px;
 }
 
 .mc-page-intro__kicker {
-  font-size: 0.6875rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
+  font-size: 0.98rem;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.55;
   text-transform: none;
-  /* 기능 요약 가이드: 브랜드 톤은 유지하되 가독성 우선 */
-  color: color-mix(in srgb, var(--color-primary) 54%, var(--color-text-secondary));
-  margin-bottom: 6px;
+  color: var(--color-text-secondary);
+  margin-bottom: 0;
+  max-width: 68ch;
 }
 
-.mc-page-intro h1 {
-  font-size: clamp(1.35rem, 3.5vw, 1.65rem);
+.mc-page-intro__title {
+  margin: 10px 0 0;
+  font-size: clamp(1.28rem, 3.4vw, 1.62rem);
   font-weight: 900;
   letter-spacing: -0.035em;
   line-height: 1.22;
+  color: var(--color-text-primary);
+  max-width: 42ch;
 }
 
 .mc-page-intro .mc-page-intro__lead {

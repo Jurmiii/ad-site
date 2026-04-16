@@ -66,6 +66,22 @@ function roundInt(n) {
   return Math.trunc(Number.isFinite(n) ? n : 0);
 }
 
+/** 2번 비전 예산: 수입−고정−비전 합이 양수이고 시뮬 총액이 비어 있으면 시드 */
+function trySeedFromVisionRemainder() {
+  if (state.confirmed) return false;
+  if (state.total > 0) return false;
+  if (typeof window.MoneyCalendarVisionBudget === "undefined") return false;
+  var snap = window.MoneyCalendarVisionBudget.read();
+  if (!snap || snap.disposable <= 0) return false;
+  var t = snap.disposable;
+  state.total = t;
+  state.living = roundInt(t * GUIDE.living);
+  state.activity = roundInt(t * GUIDE.activity);
+  state.essential = t - state.living - state.activity;
+  normalizeToTotal(state);
+  return true;
+}
+
 /** @returns {SimState} */
 function emptyState(monthKey) {
   return {
@@ -593,6 +609,7 @@ function init() {
   monthKey = els.month.value;
   state = loadState(monthKey);
   state.monthKey = monthKey;
+  if (trySeedFromVisionRemainder()) persist();
 
   els.month.addEventListener("change", () => {
     const next = els.month.value || currentMonthKey();
@@ -602,6 +619,7 @@ function init() {
     monthKey = next;
     state = loadState(monthKey);
     state.monthKey = monthKey;
+    if (trySeedFromVisionRemainder()) persist();
     renderAll();
   });
 

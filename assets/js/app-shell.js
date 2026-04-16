@@ -60,6 +60,13 @@
     }
   }
 
+  function normalizeDrawerAria() {
+    var drawer = document.getElementById("drawer");
+    if (!drawer || (drawer.getAttribute && drawer.getAttribute("data-mc-drawer-aria") === "1")) return;
+    drawer.setAttribute("aria-label", "가계부 시리즈 메뉴");
+    drawer.setAttribute("data-mc-drawer-aria", "1");
+  }
+
   function assetBase() {
     var b = window.__MC_ASSETS_BASE;
     if (b == null || b === "") return ".";
@@ -105,8 +112,6 @@
     if (!nav || !nav.length) return 0;
     var loc = (window.location.pathname || "").replace(/\\/g, "/").toLowerCase();
     var have = new URLSearchParams(window.location.search || "");
-
-    if (pathMatches(loc, "daily/index.html")) return 5;
 
     for (var i = 0; i < nav.length; i++) {
       var item = nav[i];
@@ -240,11 +245,44 @@
     });
   }
 
+  function injectSecurityTip() {
+    var id = inferFeatureId();
+    if (!id || id < 1 || id > 15) return;
+    if (document.querySelector('[data-mc-security-tip="1"]')) return;
+
+    var exportHref = joinBase("export-center/index.html");
+
+    var el = document.createElement("aside");
+    el.className = "mc-security-tip";
+    el.setAttribute("data-mc-security-tip", "1");
+    el.setAttribute("role", "note");
+    el.innerHTML =
+      '<p class="mc-security-tip__text">' +
+      '<span class="mc-security-tip__icon" aria-hidden="true">💡</span>' +
+      '<strong class="mc-security-tip__label">보안 팁:</strong> ' +
+      "공용 환경에서 이용하신 경우, 반드시 " +
+      '<a class="mc-security-tip__link" href="' +
+      exportHref +
+      '">13. 전 기능 엑셀 익스포트</a>를 통해 기록을 소장하신 후 ' +
+      "브라우저의 '쿠키 및 사이트 데이터 삭제'를 진행하여 개인 재정 정보를 보호해 주세요." +
+      "</p>";
+
+    var root = document.getElementById("excel-control-root");
+    if (root && root.parentNode) {
+      root.insertAdjacentElement("afterend", el);
+      return;
+    }
+    var intro = document.querySelector("main .mc-page-intro");
+    if (intro && intro.parentNode) {
+      intro.insertAdjacentElement("afterend", el);
+    }
+  }
+
   function injectFeatureGuide() {
     // 기능 페이지 본문 상단의 '초록색 중복 제목'(.mc-page-intro__kicker)만 교체한다.
     var guideById = {
       1: "나의 소득을 4단계로 분류하여 자산의 성격을 명확히 파악합니다.",
-      2: "미래의 꿈과 현재의 지출을 연결하여 우선순위 예산을 수립합니다.",
+      2: "필수 고정 지출을 먼저 확보한 후, 남은 재원을 나의 비전과 목표에 전략적으로 할당합니다.",
       3: "확정된 계획은 기록으로 남겨 목표 달성을 위한 엄격함을 유지합니다.",
       4: "지출 비중을 시각적으로 조정하여 가장 건강한 예산 비율을 찾습니다.",
       5: "이동 중에도 지연 없이, 즉시 지출을 기록하고 남은 예산을 확인합니다.",
@@ -257,7 +295,8 @@
       12: "데이터 속에 숨겨진 지출 패턴을 찾아 똑똑한 조언을 제공합니다.",
       13: "머니 캘린더의 모든 데이터를 시트별로 정리된 단 하나의 파일로 소장합니다.",
       14: "매우 중요한 개인 재정 정보를 안전하게 보호하고 파일로 백업합니다.",
-      15: "수립한 예산과 기록된 데이터를 총망라하여 나의 재정 성취도를 한눈에 확인합니다.",
+      15:
+        "수입·지출·예산을 한 화면에 모아 성취 메시지와 종합 차트로 나의 재정 상태를 한눈에 살핍니다.",
     };
 
     var id = inferFeatureId();
@@ -276,7 +315,9 @@
     injectBrandMark();
     normalizeBrandText();
     normalizeDrawerTitle();
+    normalizeDrawerAria();
     injectFeatureGuide();
+    injectSecurityTip();
     buildDrawerList(inferFeatureId());
     wireDrawer();
   }

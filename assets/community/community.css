@@ -54,6 +54,30 @@
   font-variant-numeric: tabular-nums;
 }
 
+.composite-chart-card__lead {
+  color: var(--color-text-muted);
+  line-height: 1.55;
+  max-width: 62ch;
+}
+
+.composite-chart-card__hint {
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.composite-chart-wrap {
+  border-radius: 18px;
+  border: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  overflow: hidden;
+}
+
+#composite-chart {
+  display: block;
+  width: 100%;
+  height: 168px;
+}
+
 .compare-bars {
   display: grid;
   gap: 12px;

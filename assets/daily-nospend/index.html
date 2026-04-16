@@ -70,8 +70,11 @@
         <main id="main">
           <header class="mc-page-intro">
             <p class="mc-page-intro__kicker">8 · 무지출 챌린지 스티커</p>
-            <h1>8. 무지출 챌린지 스티커</h1>
-            <p class="mc-page-intro__lead text-body">지출이 0원인 날은 스티커가 자동으로 표시됩니다.</p>
+            <h1 class="mc-page-intro__title">8. 무지출 챌린지 스티커</h1>
+            <p class="mc-page-intro__lead text-body">
+              달력에서 날짜를 누르면 무지출 스티커를 붙이거나 해제할 수 있습니다. 지출 합계가 0원인 날에도 스티커가
+              표시됩니다.
+            </p>
           </header>
 
           <div id="excel-control-root" class="mc-excel-slot"></div>
@@ -139,7 +142,10 @@
               <h2 id="cal-head">머니 캘린더</h2>
               <p id="cal-month-label" class="text-sm"></p>
             </div>
-            <p class="text-sm mt-10">날짜별 지출 합계를 보여 줍니다. 지출이 0원이면 무지출 스티커가 붙습니다.</p>
+            <p class="text-sm mt-10">
+              날짜별 지출 합계를 보여 줍니다. 셀을 눌러 스티커를 토글하면 해당 날짜의 저장 데이터가 함께
+              갱신됩니다.
+            </p>
             <div id="money-calendar" class="money-calendar mt-16" aria-label="월간 지출 요약"></div>
           </section>
 
@@ -203,6 +209,7 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="../js/nav-config.js"></script>
     <script src="../js/excel-manager.js"></script>
+    <script src="../js/mc-delete-confirm.js"></script>
     <script src="../js/app-shell.js"></script>
     <script src="../daily/daily.js"></script>
   </body>

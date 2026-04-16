@@ -1,7 +1,7 @@
 /**
  * 비전 기반 예산 할당
- * - 비전 목록(단기/장기, 최종 목표, 누적 진행, 이번 달 할당)
- * - 우선순위 순으로 수입에서 차감 → 잔여 가용 예산
+ * - 고정 지출(필수 생활비)을 수입에서 최우선 차감
+ * - 남은 가용 재원에서 비전 목록을 우선순위 순으로 차감 → 최종 잔여 가용 예산
  * - 진행률 프로그레스 바, localStorage, xlsx
  */
 
@@ -12,6 +12,9 @@ const INCOME_DESIGN_KEY = "moneyCalendar.incomeDesign.v1";
 
 /** @type {number} */
 let totalIncome = 0;
+
+/** @type {number} 고정 지출(필수 생활비) — 비전보다 먼저 차감 */
+let fixedExpense = 0;
 
 /** @type {Vision[]} */
 let visions = [];
@@ -59,7 +62,7 @@ function sumMonthly() {
 }
 
 function remainderAfterVision() {
-  return totalIncome - sumMonthly();
+  return totalIncome - fixedExpense - sumMonthly();
 }
 
 function load() {
@@ -68,6 +71,7 @@ function load() {
     if (!raw) return;
     const o = JSON.parse(raw);
     totalIncome = Math.max(0, Math.trunc(Number(o.totalIncome) || 0));
+    fixedExpense = Math.max(0, Math.trunc(Number(o.fixedExpense) || 0));
     const arr = Array.isArray(o.visions) ? o.visions : [];
     visions = arr
       .map((v, i) => ({
@@ -91,6 +95,7 @@ function save() {
     STORAGE_KEY,
     JSON.stringify({
       totalIncome,
+      fixedExpense,
       visions,
     })
   );
@@ -144,7 +149,24 @@ function renderWaterfall() {
   row0.innerHTML = `<div class="wf-label">① 월 가용 수입</div><div class="wf-amt">${formatWonAlways(totalIncome)}</div>`;
   box.appendChild(row0);
 
-  let running = totalIncome;
+  const rowFix = document.createElement("div");
+  rowFix.className = "wf-row wf-row--fixed";
+  rowFix.innerHTML = `
+    <div class="wf-label">② 고정 지출(필수 생활비) <span class="wf-meta">최우선 차감</span></div>
+    <div class="wf-amt">− ${formatWonAlways(fixedExpense)}</div>
+  `;
+  box.appendChild(rowFix);
+
+  let running = totalIncome - fixedExpense;
+  const rowAfterFix = document.createElement("div");
+  rowAfterFix.className = "wf-row";
+  const negFix = running < 0;
+  rowAfterFix.innerHTML = `
+    <div class="wf-label">잔여 가용 예산 <span class="wf-meta">고정 지출 반영 후 · 비전 배분 전</span></div>
+    <div class="wf-amt ${negFix ? "wf-amt--neg" : "wf-amt--remain"}">${formatWonAlways(running)}</div>
+  `;
+  box.appendChild(rowAfterFix);
+
   const ordered = sortedVisions();
 
   ordered.forEach((v, idx) => {
@@ -175,8 +197,8 @@ function renderWaterfall() {
     const empty = document.createElement("div");
     empty.className = "wf-row";
     empty.innerHTML = `
-      <div class="wf-label">비전이 없습니다. 위 폼에서 목표를 추가하면 여기에 차감 흐름이 나타납니다.</div>
-      <div class="wf-amt wf-amt--remain">${formatWonAlways(totalIncome)}</div>
+      <div class="wf-label">등록된 비전이 없습니다. 고정 지출을 제외한 위 금액이 일상 가용으로 남습니다. 목표를 추가하면 비전 차감 흐름이 이어집니다.</div>
+      <div class="wf-amt wf-amt--remain">${formatWonAlways(Math.max(0, totalIncome - fixedExpense))}</div>
     `;
     box.appendChild(empty);
   }
@@ -186,7 +208,7 @@ function renderWaterfall() {
   const rem = remainderAfterVision();
   const over = rem < 0;
   total.innerHTML = `
-    <div class="wf-label">최종 잔여 가용 예산 <span class="wf-meta">비전 할당 합 이후</span></div>
+    <div class="wf-label">최종 잔여 가용 예산 <span class="wf-meta">고정 + 비전 할당 반영 후</span></div>
     <div class="wf-amt ${over ? "wf-amt--neg" : "wf-amt--remain"}">${formatWonAlways(rem)}</div>
   `;
   box.appendChild(total);
@@ -303,7 +325,7 @@ function moveVision(id, dir) {
 }
 
 function deleteVision(id) {
-  if (!confirm("이 비전을 삭제할까요?")) return;
+  if (!window.MoneyCalendarDelete.confirm()) return;
   visions = visions.filter((v) => v.id !== id);
   normalizeOrders();
   save();
@@ -351,6 +373,7 @@ function exportExcel() {
 
   const summary = [
     { 항목: "월가용수입", 금액: totalIncome },
+    { 항목: "고정지출", 금액: fixedExpense },
     { 항목: "비전할당합", 금액: sumMonthly() },
     { 항목: "잔여가용예산", 금액: remainderAfterVision() },
     { 항목: "생성일시", 금액: new Date().toISOString() },
@@ -411,6 +434,14 @@ function init() {
     render();
   });
 
+  const fe = /** @type {HTMLInputElement} */ ($("fixed-expense"));
+  fe.value = fixedExpense ? formatWon(fixedExpense) : "";
+  wireMoneyField(fe, (n) => {
+    fixedExpense = n;
+    save();
+    render();
+  });
+
   $("btn-sync-income").addEventListener("click", syncFromIncomeDesign);
   $("vision-list").addEventListener("click", onVisionListClick);
   // Excel Manager (template download + import)
@@ -423,6 +454,7 @@ function init() {
           if (!sum || !list) throw new Error("Summary/Visions 시트를 찾지 못했습니다.");
 
           const incomingTotal = Math.max(0, Math.trunc(Number(sum.totalIncome) || 0));
+          const incomingFixed = Math.max(0, Math.trunc(Number(sum.fixedExpense) || 0));
           const incomingVisions = Array.isArray(list)
             ? list
                 .map((v, i) => ({
@@ -439,16 +471,20 @@ function init() {
 
           if (mode === "overwrite") {
             totalIncome = incomingTotal;
+            fixedExpense = incomingFixed;
             visions = incomingVisions;
             normalizeOrders();
           } else {
             if (totalIncome === 0 && incomingTotal > 0) totalIncome = incomingTotal;
+            if (fixedExpense === 0 && incomingFixed > 0) fixedExpense = incomingFixed;
             visions = visions.concat(incomingVisions);
             normalizeOrders();
           }
 
           save();
           ti.value = totalIncome ? formatWon(totalIncome) : "";
+          const fe = /** @type {HTMLInputElement} */ ($("fixed-expense"));
+          if (fe) fe.value = fixedExpense ? formatWon(fixedExpense) : "";
           render();
         },
         onExportCurrent() {

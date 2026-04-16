@@ -112,6 +112,32 @@
         "</span>";
       ch.appendChild(row);
     });
+
+    var vh = $("mr-vision-hint");
+    if (vh) {
+      if (typeof window.MoneyCalendarVisionBudget === "undefined") {
+        vh.hidden = true;
+        vh.textContent = "";
+      } else {
+        var snap = window.MoneyCalendarVisionBudget.read();
+        if (snap && snap.totalIncome > 0) {
+          vh.hidden = false;
+          vh.textContent =
+            "2번 비전 예산 스냅샷 — 수입 " +
+            snap.totalIncome.toLocaleString("ko-KR") +
+            "원 − 고정 " +
+            snap.fixedExpense.toLocaleString("ko-KR") +
+            "원 − 비전 " +
+            snap.visionSum.toLocaleString("ko-KR") +
+            "원 → 잔여 가용 " +
+            snap.disposable.toLocaleString("ko-KR") +
+            "원 (월간 복기 표의 배분 예산과는 별개의 참고용입니다).";
+        } else {
+          vh.hidden = true;
+          vh.textContent = "";
+        }
+      }
+    }
   }
 
   function exportXlsx() {

@@ -187,8 +187,11 @@
         {
           name: "Summary",
           rowMode: "single",
-          columns: [{ key: "totalIncome", label: "totalIncome", type: "int", required: true }],
-          sampleRow: { totalIncome: 2620000 },
+          columns: [
+            { key: "totalIncome", label: "totalIncome", type: "int", required: true },
+            { key: "fixedExpense", label: "fixedExpense", type: "int", required: false, optional: true },
+          ],
+          sampleRow: { totalIncome: 2620000, fixedExpense: 1200000 },
         },
         {
           name: "Visions",
@@ -438,10 +441,21 @@
 
     var vis = masterLoadJson("moneyCalendar.visionBudget.v1", null);
     if (vis && typeof vis === "object") {
+      var fi = Math.max(0, Math.trunc(Number(vis.totalIncome) || 0));
+      var fx = Math.max(0, Math.trunc(Number(vis.fixedExpense) || 0));
+      var vs = 0;
+      if (Array.isArray(vis.visions)) {
+        vis.visions.forEach(function (v) {
+          vs += Math.max(0, Math.trunc(Number(v && v.monthlyAllocation) || 0));
+        });
+      }
       var visRows = [];
       visRows.push({
         kind: "summary",
-        totalIncome: vis.totalIncome != null ? vis.totalIncome : "",
+        totalIncome: fi,
+        fixedExpense: fx,
+        visionAllocationSum: vs,
+        disposableAfterFixedAndVision: fi - fx - vs,
         json: truncateCell(JSON.stringify(vis), 30000),
       });
       masterAppendRows(wb, "02_비전기반예산", visRows);
