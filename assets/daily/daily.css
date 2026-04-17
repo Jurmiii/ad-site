@@ -8,6 +8,25 @@
   padding: 10px 12px;
   background: var(--color-surface);
   color: var(--color-text-primary);
+  width: 11.5rem;
+  max-width: 100%;
+}
+
+/* 7번 등: 헤더 옆 달력 사이즈 통일 */
+.flex-between .daily-date {
+  min-height: 44px;
+}
+
+/* 7번 '오늘의 시작' 헤더: 텍스트 깨짐/겹침 방지 */
+#daily-head {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.flex-between {
+  gap: 12px;
 }
 
 .daily-start {
@@ -81,6 +100,34 @@
   min-width: 92px;
 }
 
+/* 5번(퀵) 기록표: 수입/지출 탭 */
+.tx-type-tabs {
+  display: flex;
+  gap: 6px;
+}
+
+.tx-type-tab {
+  flex: 1;
+  min-height: 38px;
+  border-radius: 12px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.tx-type-tab.is-active {
+  border-color: color-mix(in srgb, var(--color-primary) 45%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+}
+
+.tx-type-tab[data-type="income"].is-active {
+  border-color: color-mix(in srgb, var(--color-income) 40%, var(--border-default));
+  background: color-mix(in srgb, var(--color-income) 12%, var(--color-surface));
+}
+
 .tx-del {
   min-width: 44px;
   height: 44px;
@@ -140,6 +187,69 @@
   font-weight: 800;
 }
 
+.daily-quick__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.daily-quick__date-wrap {
+  flex: 0 0 auto;
+}
+
+.daily-quick__mode {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.daily-quick__mode-btn {
+  flex: 1;
+  min-height: 44px;
+  border-radius: 14px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  font-weight: 800;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.daily-quick__mode-btn.is-active {
+  border-color: color-mix(in srgb, var(--color-primary) 45%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+}
+
+.daily-quick__mode-btn#quick-mode-income.is-active {
+  border-color: color-mix(in srgb, var(--color-income) 40%, var(--border-default));
+  background: color-mix(in srgb, var(--color-income) 12%, var(--color-surface));
+}
+
+.daily-quick__balance-block {
+  text-align: center;
+  padding: 16px 14px;
+  border-radius: 18px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface-2);
+}
+
+.daily-quick__balance-label {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--color-text-secondary);
+}
+
+.daily-quick__balance-amount {
+  margin: 8px 0 0;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
 .daily-quick__grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -183,6 +293,94 @@
 .daily-pct-label {
   margin-top: 8px;
   color: var(--color-text-secondary);
+}
+
+/* 6번: 웹 다이어리 감성 리스트 */
+.daily-note-row {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+}
+
+/* 6번: 달력/입력/리스트 사이 여백 추가(답답함 해소) */
+.page-daily[data-mc-feature-id="6"] .daily-rating-row {
+  margin-top: 18px !important;
+}
+.page-daily[data-mc-feature-id="6"] .daily-note-row {
+  margin-top: 18px !important;
+}
+.page-daily[data-mc-feature-id="6"] .diary-list {
+  margin-top: 18px !important;
+}
+
+@media (max-width: 720px) {
+  .daily-note-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.diary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.diary-item {
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  color: var(--color-text-primary);
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.diary-item--empty {
+  color: var(--color-text-muted);
+  font-weight: 650;
+}
+
+/* 8번: 미래 날짜 비활성 표시 + 선택 강조 */
+.money-cal__cell.is-future {
+  opacity: 0.45;
+  filter: grayscale(0.3);
+}
+
+.money-cal__cell.is-selected {
+  outline: 2px solid color-mix(in srgb, var(--color-primary) 40%, transparent);
+  outline-offset: 2px;
+}
+
+/* 8번: 더블 클릭(2회 클릭) 시 셀 내부 액션 */
+.nospend-cell-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.nospend-cell-actions__btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  border: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--color-text-primary);
+}
+
+.nospend-cell-actions__btn:hover {
+  border-color: var(--border-strong);
+}
+
+.nospend-cell-actions__btn--danger {
+  color: var(--color-expense);
+  border-color: rgba(239, 68, 68, 0.35);
 }
 
 /* —— 평가 버튼 —— */

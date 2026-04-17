@@ -2,3 +2,60 @@
   font-size: 1.05rem;
   font-weight: 800;
 }
+
+.mc-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.mc-modal__panel {
+  width: min(720px, calc(100vw - 32px));
+  border-radius: 22px;
+  border: 1px solid color-mix(in srgb, var(--border-default) 70%, transparent);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+  padding: 18px 18px;
+  color: var(--color-text-primary);
+}
+
+.mc-modal__title {
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+}
+
+.mc-modal__desc {
+  margin-top: 10px;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+  font-weight: 650;
+}
+
+.mc-modal__actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.mc-modal__btn {
+  min-height: 44px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-weight: 850;
+}
+
+.mc-modal__btn--primary {
+  border-color: color-mix(in srgb, var(--color-primary) 42%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+}

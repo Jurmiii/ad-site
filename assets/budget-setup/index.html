@@ -95,7 +95,7 @@
                 <h2 id="income-heading">4계층 소득 (1번 계층형 수입 설계와 동일 구조)</h2>
                 <label class="month-field">
                   <span class="sr-only">기준 월</span>
-                  <input id="plan-month" type="month" />
+                  <input id="plan-date" type="date" class="daily-date" />
                 </label>
               </div>
               <p class="text-sm mt-10">위에서 아래로 합산됩니다. 희망소득은 목표·비전 구간으로 별도 표시됩니다.</p>
@@ -110,7 +110,14 @@
                     </div>
                   </div>
                   <div class="income-input">
-                    <input id="income-real" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                    <input
+                      id="income-real"
+                      class="money-input"
+                      type="tel"
+                      inputmode="numeric"
+                      autocomplete="off"
+                      placeholder="0"
+                    />
                     <span class="won">원</span>
                   </div>
                 </li>
@@ -123,7 +130,14 @@
                     </div>
                   </div>
                   <div class="income-input">
-                    <input id="income-scheduled" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                    <input
+                      id="income-scheduled"
+                      class="money-input"
+                      type="tel"
+                      inputmode="numeric"
+                      autocomplete="off"
+                      placeholder="0"
+                    />
                     <span class="won">원</span>
                   </div>
                 </li>
@@ -136,7 +150,14 @@
                     </div>
                   </div>
                   <div class="income-input">
-                    <input id="income-other" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                    <input
+                      id="income-other"
+                      class="money-input"
+                      type="tel"
+                      inputmode="numeric"
+                      autocomplete="off"
+                      placeholder="0"
+                    />
                     <span class="won">원</span>
                   </div>
                 </li>
@@ -149,7 +170,14 @@
                     </div>
                   </div>
                   <div class="income-input">
-                    <input id="income-hope" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                    <input
+                      id="income-hope"
+                      class="money-input"
+                      type="tel"
+                      inputmode="numeric"
+                      autocomplete="off"
+                      placeholder="0"
+                    />
                     <span class="won">원</span>
                   </div>
                 </li>
@@ -208,19 +236,40 @@
                 <li>
                   <label class="field">
                     <span class="field-label">생활비</span>
-                    <input id="budget-living" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                    <input
+                      id="budget-living"
+                      class="money-input"
+                      type="tel"
+                      inputmode="numeric"
+                      autocomplete="off"
+                      placeholder="0"
+                    />
                   </label>
                 </li>
                 <li>
                   <label class="field">
                     <span class="field-label">활동비</span>
-                    <input id="budget-activity" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                    <input
+                      id="budget-activity"
+                      class="money-input"
+                      type="tel"
+                      inputmode="numeric"
+                      autocomplete="off"
+                      placeholder="0"
+                    />
                   </label>
                 </li>
                 <li>
                   <label class="field">
                     <span class="field-label">필수비용</span>
-                    <input id="budget-essential" type="number" min="0" step="1" inputmode="numeric" placeholder="0" />
+                    <input
+                      id="budget-essential"
+                      class="money-input"
+                      type="tel"
+                      inputmode="numeric"
+                      autocomplete="off"
+                      placeholder="0"
+                    />
                   </label>
                 </li>
               </ul>

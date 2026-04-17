@@ -74,12 +74,12 @@
           <div id="excel-control-root" class="mc-excel-slot"></div>
           <section class="card mt-24" aria-labelledby="wk-head">
             <h2 id="wk-head">이번 달 주차별 지출</h2>
-            <p class="text-sm mt-10">기준 월을 바꾸면 해당 월의 ISO 주차별 막대가 갱신됩니다.</p>
+            <p class="text-sm mt-10">기준 날짜를 고르면, 해당 날짜가 포함된 ‘주간(Weekly)’ 데이터가 정확히 로드됩니다.</p>
             <label class="field mt-16">
-              <span class="field-label">기준 월</span>
-              <input id="wk-month" type="month" />
+              <span class="field-label">기준 날짜</span>
+              <input id="wk-date" type="date" />
             </label>
-            <div id="wk-bars" class="wk-bars mt-20" role="img" aria-label="주차별 지출 막대"></div>
+            <div id="wk-bars" class="wk-bars mt-20" role="img" aria-label="선택 주간 요약"></div>
             <div id="wk-rate" class="wk-summary mt-16"></div>
             <div id="wk-tip" class="wk-tip mt-16 card card--inset"></div>
           </section>

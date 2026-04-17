@@ -339,6 +339,25 @@ html[data-theme="dark"] .alert--warn {
   text-align: center;
 }
 
+.vision-item--editing .vision-edit-form {
+  margin-top: 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.vision-edit-field .vision-edit-title {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--border-default);
+  padding: 10px 12px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.vision-item__actions--edit {
+  margin-top: 4px;
+}
+
 @media (max-width: 900px) {
   .vision-form .form-grid {
     grid-template-columns: 1fr;

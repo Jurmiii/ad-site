@@ -77,6 +77,12 @@ function formatKRW(n) {
   return `${new Intl.NumberFormat("ko-KR").format(Math.trunc(v))}원`;
 }
 
+function formatInputDisplay(n) {
+  const v = Number(n);
+  if (!Number.isFinite(v) || v <= 0) return "";
+  return new Intl.NumberFormat("ko-KR").format(Math.trunc(v));
+}
+
 /** @returns {BudgetState} */
 function emptyState() {
   return {
@@ -238,7 +244,7 @@ function writeStateToForm() {
     "activity",
     "essential",
   ])) {
-    els.fields[k].value = String(state[k] ?? 0);
+    els.fields[k].value = formatInputDisplay(state[k]);
   }
 }
 
@@ -532,6 +538,10 @@ function wireFieldInputs() {
   for (const el of Object.values(els.fields)) {
     el.addEventListener("input", () => {
       if (state.locked) return;
+      // 숫자 입력: 실시간 콤마 포맷(표시만), 저장은 number
+      const n = parseNonNeg(el.value);
+      const next = n === 0 && String(el.value || "").trim() === "" ? "" : formatInputDisplay(n);
+      if (el.value !== next) el.value = next;
       readFormIntoState();
       saveBudget(monthKey, state);
       applyLockUI();

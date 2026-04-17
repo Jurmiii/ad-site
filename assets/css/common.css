@@ -108,6 +108,26 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* 텍스트 입력: 한글 IME 우선 (브라우저가 지원하는 범위에서) */
+input[type="text"],
+input[type="search"],
+textarea,
+input:not([type]) {
+  ime-mode: active;
+}
+
+/* Date/Month picker: 내장 '삭제(클리어)' UI 숨김(지원 브라우저 한정) */
+input[type="date"]::-webkit-clear-button,
+input[type="month"]::-webkit-clear-button,
+input[type="date"]::-webkit-inner-spin-button,
+input[type="month"]::-webkit-inner-spin-button {
+  display: none;
+}
+input[type="date"]::-ms-clear,
+input[type="month"]::-ms-clear {
+  display: none;
+}
+
 /* Brand typography (홈/기능 공통) */
 .brand__text {
   display: flex;

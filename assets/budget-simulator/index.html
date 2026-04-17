@@ -86,7 +86,7 @@
           <h2 id="base-title">기준값</h2>
           <label class="month-wrap">
             <span class="sr-only">기준 월</span>
-            <input id="plan-month" type="month" />
+            <input id="plan-date" type="date" class="daily-date" />
           </label>
         </div>
         <p class="text-sm mt-10">
@@ -98,7 +98,7 @@
           <label class="field">
             <span class="field-label">총 예산(분배 합계)</span>
             <div class="money-wrap">
-              <input id="total-budget" class="money-input" type="text" inputmode="numeric" placeholder="0" />
+              <input id="total-budget" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
               <span class="won" aria-hidden="true">원</span>
             </div>
           </label>
@@ -125,7 +125,7 @@
                   <p class="text-sm">고정비·식비·주거·기본 생활</p>
                 </div>
                 <div class="sim-value">
-                  <input id="amt-living" class="money-input sm" type="text" inputmode="numeric" placeholder="0" />
+                  <input id="amt-living" class="money-input sm" type="tel" inputmode="numeric" placeholder="0" />
                   <span class="won">원</span>
                 </div>
               </div>
@@ -140,7 +140,7 @@
                   <p class="text-sm">취미·문화·외식·경험</p>
                 </div>
                 <div class="sim-value">
-                  <input id="amt-activity" class="money-input sm" type="text" inputmode="numeric" placeholder="0" />
+                  <input id="amt-activity" class="money-input sm" type="tel" inputmode="numeric" placeholder="0" />
                   <span class="won">원</span>
                 </div>
               </div>
@@ -155,7 +155,7 @@
                   <p class="text-sm">보험·세금·대출·필수 지출</p>
                 </div>
                 <div class="sim-value">
-                  <input id="amt-essential" class="money-input sm" type="text" inputmode="numeric" placeholder="0" />
+                  <input id="amt-essential" class="money-input sm" type="tel" inputmode="numeric" placeholder="0" />
                   <span class="won">원</span>
                 </div>
               </div>

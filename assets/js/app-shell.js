@@ -49,6 +49,23 @@
     }
   }
 
+  function normalizeHeaderBrandLayout() {
+    // 홈(index.html)의 brand 레이아웃을 표준으로 삼아, 기능 페이지 헤더도 동일 클래스/구조로 정규화한다.
+    var brands = document.querySelectorAll(".mc-brand");
+    for (var i = 0; i < brands.length; i++) {
+      var a = brands[i];
+      if (!a || (a.getAttribute && a.getAttribute("data-mc-brand-layout") === "1")) continue;
+      a.classList.add("brand");
+      // mark
+      var mark = a.querySelector(".mc-brand__mark");
+      if (mark) mark.classList.add("brand__mark");
+      // titles wrapper
+      var titles = a.querySelector(".mc-brand__titles");
+      if (titles) titles.classList.add("brand__text");
+      a.setAttribute("data-mc-brand-layout", "1");
+    }
+  }
+
   function normalizeDrawerTitle() {
     // 서비스 전체에서 동일한 드로어 타이틀(카테고리 메뉴) 표기 유지
     var els = document.querySelectorAll(".drawer__title");
@@ -65,6 +82,423 @@
     if (!drawer || (drawer.getAttribute && drawer.getAttribute("data-mc-drawer-aria") === "1")) return;
     drawer.setAttribute("aria-label", "가계부 시리즈 메뉴");
     drawer.setAttribute("data-mc-drawer-aria", "1");
+  }
+
+  var FAV_STORAGE_KEY = "moneyCalendar.navFavorites.v1";
+  var MAX_FAVORITES = 5;
+  var DEMO_ACTIVE_KEY = "moneyCalendar.demoActive.v1";
+  var DEMO_KEYS_KEY = "moneyCalendar.demoKeys.v1";
+  var DEMO_TUTORIAL_DONE_KEY = "moneyCalendar.demoTutorialDone.v1";
+
+  function showNotice(message) {
+    try {
+      var ex = document.getElementById("mc-notice");
+      if (ex) ex.remove();
+    } catch (e) {}
+
+    var el = document.createElement("div");
+    el.id = "mc-notice";
+    el.setAttribute("role", "status");
+    el.setAttribute("aria-live", "polite");
+    el.style.position = "fixed";
+    el.style.right = "16px";
+    el.style.bottom = "16px";
+    el.style.zIndex = "1200";
+    el.style.maxWidth = "420px";
+    el.style.padding = "12px 14px";
+    el.style.borderRadius = "14px";
+    el.style.border = "1px solid rgba(148,163,184,0.35)";
+    el.style.background = "color-mix(in srgb, var(--color-surface) 92%, transparent)";
+    el.style.backdropFilter = "blur(14px)";
+    el.style.boxShadow = "0 18px 60px rgba(0,0,0,0.22)";
+    el.style.color = "var(--color-text-primary)";
+    el.style.fontWeight = "750";
+    el.style.lineHeight = "1.35";
+    el.textContent = message;
+    document.body.appendChild(el);
+    window.setTimeout(function () {
+      try {
+        el.remove();
+      } catch (e) {}
+    }, 2400);
+  }
+
+  function isDemoActive() {
+    return String(localStorage.getItem(DEMO_ACTIVE_KEY) || "") === "1";
+  }
+
+  function readDemoKeys() {
+    try {
+      var raw = localStorage.getItem(DEMO_KEYS_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr.map(String) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function purgeDemoData() {
+    var keys = readDemoKeys();
+    for (var i = 0; i < keys.length; i++) {
+      try {
+        localStorage.removeItem(keys[i]);
+      } catch (e) {}
+    }
+    localStorage.removeItem(DEMO_KEYS_KEY);
+    localStorage.removeItem(DEMO_ACTIVE_KEY);
+    // 튜토리얼은 "데모였던 흔적"으로 남겨도 되지만, 신규 경험을 위해 함께 초기화.
+    localStorage.removeItem(DEMO_TUTORIAL_DONE_KEY);
+    showNotice("데모 데이터가 해제되고, 현재 월의 실제 기록으로 전환되었습니다.");
+  }
+
+  function hasRealUserData() {
+    // 데모/설정성 키를 제외하고, 실제 데이터성 키가 있으면 "사용자 데이터 있음"으로 판단
+    var ignorePrefix = ["moneyCalendar.navFavorites.", "moneyCalendar.demo"];
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      if (!k) continue;
+      if (k.indexOf("moneyCalendar.") !== 0) continue;
+      var ignored = false;
+      for (var j = 0; j < ignorePrefix.length; j++) {
+        if (k.indexOf(ignorePrefix[j]) === 0) ignored = true;
+      }
+      if (ignored) continue;
+      // theme 등 UI 설정은 데이터로 보지 않음
+      if (k === "moneyCalendar.theme") continue;
+      return true;
+    }
+    return false;
+  }
+
+  function monthKeyOf(d) {
+    var y = d.getFullYear();
+    var m = String(d.getMonth() + 1).padStart(2, "0");
+    return y + "-" + m;
+  }
+
+  function pad2(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  function makeDemoDataIfNeeded() {
+    if (hasRealUserData()) return;
+    if (isDemoActive()) return;
+
+    var now = new Date();
+    var prev = new Date(now.getFullYear(), now.getMonth() - 1, 15);
+    var prevMk = monthKeyOf(prev);
+    var keys = [];
+
+    function put(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+      keys.push(key);
+    }
+
+    // 1. 계층형 수입 설계(직전 월 기준 고액 예시)
+    put("moneyCalendar.incomeDesign.v1", {
+      real: 5000000,
+      scheduled: 0,
+      other: 0,
+      hope: 0,
+    });
+
+    // 4. Weekly 예산안(직전 월) — 예: 3월 수입 500만, 저축(잔여) 200만
+    put("moneyCalendar.budgetSetup.v1." + prevMk, {
+      real: 5000000,
+      scheduled: 0,
+      other: 0,
+      hope: 0,
+      living: 1500000,
+      activity: 800000,
+      essential: 700000,
+      locked: false,
+      lockedAt: null,
+    });
+
+    // 4. 예산 시뮬레이터(직전 월) — 총예산 기준을 제공
+    put("moneyCalendar.budgetSimulator.v1." + prevMk, {
+      total: 3000000,
+      living: 50,
+      activity: 27,
+      essential: 23,
+      at: new Date(prev.getFullYear(), prev.getMonth(), 3).toISOString(),
+    });
+
+    // 2. 비전 기반 예산(저축 목표 예시)
+    put("moneyCalendar.visionBudget.v1", {
+      totalIncome: 5000000,
+      fixedExpense: 1200000,
+      visions: [
+        {
+          id: "v1",
+          title: "비상금 2,000만 원",
+          horizon: "short",
+          targetAmount: 20000000,
+          currentProgress: 5200000,
+          monthlyAllocation: 800000,
+          order: 0,
+        },
+        {
+          id: "v2",
+          title: "연말 여행 적금",
+          horizon: "short",
+          targetAmount: 3000000,
+          currentProgress: 1200000,
+          monthlyAllocation: 300000,
+          order: 1,
+        },
+        {
+          id: "v3",
+          title: "투자/자기계발 시드",
+          horizon: "long",
+          targetAmount: 50000000,
+          currentProgress: 9800000,
+          monthlyAllocation: 600000,
+          order: 2,
+        },
+      ],
+    });
+
+    // 5~8. Daily Ledger(직전 월 일부 날짜)
+    var dailyKey = "moneyCalendar.dailyLedger.v1";
+    var ledger = {};
+    function addDay(day, startBalance, txs, note) {
+      var ds = prevMk + "-" + pad2(day);
+      ledger[ds] = {
+        date: ds,
+        startBalance: startBalance,
+        txs: txs,
+        dayRating: "",
+        dayNote: note || "",
+        notes: [],
+      };
+    }
+    addDay(
+      2,
+      3200000,
+      [
+        { id: "d1", type: "expense", category: "식비", memo: "외식", amount: 68000 },
+        { id: "d2", type: "expense", category: "교통", memo: "택시", amount: 22000 },
+      ],
+      "지출이 커도 '기준'이 있으면 흔들리지 않는다"
+    );
+    addDay(4, 3110000, [{ id: "d3", type: "expense", category: "생활", memo: "장보기", amount: 146000 }], "");
+    addDay(7, 2964000, [
+      { id: "d4", type: "expense", category: "카페", memo: "미팅", amount: 18000 },
+      { id: "d5", type: "income", category: "기타", memo: "부수입", amount: 120000 },
+    ]);
+    addDay(12, 3086000, [{ id: "d6", type: "expense", category: "활동", memo: "공연", amount: 98000 }], "");
+    addDay(18, 2988000, [{ id: "d7", type: "expense", category: "필수", memo: "보험", amount: 210000 }], "");
+    addDay(24, 2778000, [{ id: "d8", type: "expense", category: "식비", memo: "가족모임", amount: 185000 }], "");
+    addDay(28, 2593000, [{ id: "d9", type: "expense", category: "저축", memo: "자동이체", amount: 500000 }], "저축은 '지출'이 아니라 '확정'이다");
+    try {
+      var rawExisting = localStorage.getItem(dailyKey);
+      if (rawExisting) return; // 혹시 다른 탭/초기 상태가 있으면 덮어쓰지 않음
+    } catch (e) {}
+    put(dailyKey, ledger);
+
+    localStorage.setItem(DEMO_ACTIVE_KEY, "1");
+    localStorage.setItem(DEMO_KEYS_KEY, JSON.stringify(keys));
+
+    showNotice("신규 온보딩 데모: 직전 달에 예시 데이터가 준비되었습니다.");
+  }
+
+  function maybeShowDemoTutorialPrompt() {
+    if (!isDemoActive()) return;
+    if (String(localStorage.getItem(DEMO_TUTORIAL_DONE_KEY) || "") === "1") return;
+    try {
+      if (sessionStorage.getItem("mc.demoPrompted") === "1") return;
+      sessionStorage.setItem("mc.demoPrompted", "1");
+    } catch (e) {}
+
+    var ex = document.getElementById("mc-demo-tutorial");
+    if (ex) return;
+
+    var box = document.createElement("div");
+    box.id = "mc-demo-tutorial";
+    box.setAttribute("role", "dialog");
+    box.setAttribute("aria-modal", "true");
+    box.style.position = "fixed";
+    box.style.inset = "0";
+    box.style.zIndex = "1250";
+    box.style.display = "grid";
+    box.style.placeItems = "center";
+    box.style.background = "rgba(15,23,42,0.42)";
+
+    var panel = document.createElement("div");
+    panel.style.width = "min(560px, calc(100vw - 32px))";
+    panel.style.borderRadius = "20px";
+    panel.style.border = "1px solid rgba(148,163,184,0.35)";
+    panel.style.background = "color-mix(in srgb, var(--color-surface) 92%, transparent)";
+    panel.style.backdropFilter = "blur(16px)";
+    panel.style.boxShadow = "0 28px 90px rgba(0,0,0,0.35)";
+    panel.style.padding = "18px 18px";
+    panel.style.color = "var(--color-text-primary)";
+
+    var title = document.createElement("div");
+    title.style.fontWeight = "900";
+    title.style.fontSize = "1rem";
+    title.textContent = "튜토리얼 · 데모 데이터를 엑셀로 내려받기";
+
+    var desc = document.createElement("p");
+    desc.style.margin = "10px 0 0";
+    desc.style.color = "var(--color-text-secondary)";
+    desc.style.lineHeight = "1.6";
+    desc.textContent =
+      "신규 사용자에게 직전 달(데모) 데이터가 준비되었습니다. 13번 화면에서 「1~15 전 기능 통합 엑셀 추출」을 눌러 전체 파일을 한 번 내려받아 보세요.";
+
+    var actions = document.createElement("div");
+    actions.style.marginTop = "14px";
+    actions.style.display = "flex";
+    actions.style.gap = "10px";
+    actions.style.justifyContent = "flex-end";
+    actions.style.flexWrap = "wrap";
+
+    var go = document.createElement("button");
+    go.type = "button";
+    go.textContent = "13번으로 이동";
+    go.style.borderRadius = "14px";
+    go.style.border = "1px solid rgba(34,197,94,0.45)";
+    go.style.background = "color-mix(in srgb, var(--color-primary) 14%, var(--color-surface))";
+    go.style.color = "var(--color-text-primary)";
+    go.style.fontWeight = "850";
+    go.style.minHeight = "44px";
+    go.style.padding = "0 14px";
+    go.addEventListener("click", function () {
+      window.location.href = joinBase("demo-guide.html");
+    });
+
+    var later = document.createElement("button");
+    later.type = "button";
+    later.textContent = "나중에";
+    later.style.borderRadius = "14px";
+    later.style.border = "1px solid var(--border-default)";
+    later.style.background = "var(--color-surface)";
+    later.style.color = "var(--color-text-primary)";
+    later.style.fontWeight = "800";
+    later.style.minHeight = "44px";
+    later.style.padding = "0 14px";
+    later.addEventListener("click", function () {
+      try {
+        box.remove();
+      } catch (e) {}
+    });
+
+    actions.appendChild(later);
+    actions.appendChild(go);
+    panel.appendChild(title);
+    panel.appendChild(desc);
+    panel.appendChild(actions);
+    box.appendChild(panel);
+    box.addEventListener("click", function (e) {
+      if (e.target === box) later.click();
+    });
+    document.body.appendChild(box);
+  }
+
+  function maybeMarkTutorialDone() {
+    // 13번 화면 방문을 튜토리얼 완료로 간주
+    try {
+      var id = inferFeatureId();
+      if (id === 13 && isDemoActive() && String(localStorage.getItem(DEMO_TUTORIAL_DONE_KEY) || "") !== "1") {
+        localStorage.setItem(DEMO_TUTORIAL_DONE_KEY, "1");
+        showNotice("튜토리얼: 상단의 「1~15 전 기능 통합 엑셀 추출」을 눌러 데모를 내려받아 보세요.");
+      }
+    } catch (e) {}
+  }
+
+  function getFavorites() {
+    try {
+      var raw = localStorage.getItem(FAV_STORAGE_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      if (!Array.isArray(arr)) return [];
+      return arr
+        .map(function (x) {
+          return parseInt(String(x), 10);
+        })
+        .filter(function (id) {
+          return id >= 1 && id <= 15;
+        });
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function setFavorites(ids) {
+    var seen = {};
+    var out = [];
+    for (var i = 0; i < ids.length; i++) {
+      var id = ids[i];
+      if (id < 1 || id > 15 || seen[id]) continue;
+      seen[id] = true;
+      out.push(id);
+      if (out.length >= MAX_FAVORITES) break;
+    }
+    localStorage.setItem(FAV_STORAGE_KEY, JSON.stringify(out));
+  }
+
+  function isFavorite(id) {
+    return getFavorites().indexOf(id) >= 0;
+  }
+
+  function toggleFavorite(id) {
+    var favs = getFavorites().slice();
+    var i = favs.indexOf(id);
+    if (i >= 0) favs.splice(i, 1);
+    else {
+      if (favs.length >= MAX_FAVORITES) {
+        showNotice("즐겨찾기는 최대 5개까지 가능합니다.");
+        return;
+      }
+      favs.push(id);
+    }
+    setFavorites(favs);
+    buildDrawerList(inferFeatureId());
+    renderFavoriteBar();
+  }
+
+  function renderFavoriteBar() {
+    var nav = document.getElementById("mc-fav-bar");
+    if (!nav) return;
+    nav.textContent = "";
+    var favs = getFavorites();
+    var list = window.MONEY_CALENDAR_NAV || [];
+    for (var i = 0; i < favs.length; i++) {
+      var fid = favs[i];
+      var item = null;
+      for (var j = 0; j < list.length; j++) {
+        if (list[j].id === fid) {
+          item = list[j];
+          break;
+        }
+      }
+      if (!item) continue;
+      var a = document.createElement("a");
+      a.className = "mc-fav-bar__link";
+      a.href = navHref(item);
+      var label = item.title || "";
+      if (label.length > 20) label = label.slice(0, 20) + "…";
+      a.textContent = label;
+      a.title = item.title;
+      nav.appendChild(a);
+    }
+  }
+
+  function injectFavoriteBar() {
+    if (document.getElementById("mc-fav-bar")) {
+      renderFavoriteBar();
+      return;
+    }
+    var headerInner = document.querySelector(".site-header__inner, .mc-global-header__inner");
+    if (!headerInner) return;
+    var brand = headerInner.querySelector(".brand, .mc-brand");
+    if (!brand) return;
+    var nav = document.createElement("nav");
+    nav.id = "mc-fav-bar";
+    nav.className = "mc-fav-bar";
+    nav.setAttribute("aria-label", "즐겨찾기 바로가기");
+    brand.insertAdjacentElement("afterend", nav);
+    renderFavoriteBar();
   }
 
   function assetBase() {
@@ -161,25 +595,43 @@
           return x.id >= fromId && x.id <= toId;
         })
         .forEach(function (item) {
-      var a = document.createElement("a");
-      a.className = "drawer__item mc-drawer__item";
+          var row = document.createElement("div");
+          row.className = "mc-drawer__row";
+
+          var a = document.createElement("a");
+          a.className = "drawer__item mc-drawer__item mc-drawer__item-link";
           a.href = navHref(item);
           var isActive = item.id === activeId;
           if (isActive) {
-            a.classList.add("is-active");
+            row.classList.add("is-active");
             a.setAttribute("aria-current", "page");
           }
 
-      // 번호 + 기능명 (15단계 메커니즘 강조)
-      var num = document.createElement("span");
-      num.className = "mc-drawer__num";
-      num.textContent = String(item.id);
-      var t = document.createElement("span");
-      t.className = "mc-drawer__title";
-      t.textContent = item.title;
-      a.appendChild(num);
-      a.appendChild(t);
-          list.appendChild(a);
+          var num = document.createElement("span");
+          num.className = "mc-drawer__num";
+          num.textContent = String(item.id);
+          var t = document.createElement("span");
+          t.className = "mc-drawer__title";
+          t.textContent = item.title;
+          a.appendChild(num);
+          a.appendChild(t);
+
+          var starBtn = document.createElement("button");
+          starBtn.type = "button";
+          starBtn.className = "mc-drawer__fav" + (isFavorite(item.id) ? " is-on" : "");
+          starBtn.setAttribute("data-mc-fav-id", String(item.id));
+          starBtn.setAttribute("aria-label", (isFavorite(item.id) ? "즐겨찾기 해제: " : "즐겨찾기 추가: ") + item.title);
+          starBtn.setAttribute("aria-pressed", isFavorite(item.id) ? "true" : "false");
+          starBtn.textContent = isFavorite(item.id) ? "★" : "☆";
+          starBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFavorite(item.id);
+          });
+
+          row.appendChild(a);
+          row.appendChild(starBtn);
+          list.appendChild(row);
         });
 
       wrap.appendChild(list);
@@ -278,6 +730,31 @@
     }
   }
 
+  function injectDemoInlineGuide() {
+    if (!isDemoActive()) return;
+    if (document.querySelector('[data-mc-demo-guide="1"]')) return;
+    var id = inferFeatureId();
+    if (!id || id < 1 || id > 15) return;
+
+    var exportHref = joinBase("export-center/index.html");
+    var el = document.createElement("aside");
+    el.className = "mc-security-tip";
+    el.setAttribute("data-mc-demo-guide", "1");
+    el.setAttribute("role", "note");
+    el.innerHTML =
+      '<p class="mc-security-tip__text">' +
+      '<span class="mc-security-tip__icon" aria-hidden="true">🧪</span>' +
+      '<strong class="mc-security-tip__label">데모 안내:</strong> ' +
+      "지금 보시는 데이터는 예시입니다. 상단의 엑셀 다운로드 버튼을 눌러 정교한 재정 템플릿을 확인해 보세요! " +
+      '<a class="mc-security-tip__link" href="' +
+      exportHref +
+      '">13. 전 기능 엑셀 익스포트</a>' +
+      "</p>";
+
+    var intro = document.querySelector("main .mc-page-intro");
+    if (intro) intro.insertAdjacentElement("afterend", el);
+  }
+
   function injectFeatureGuide() {
     // 기능 페이지 본문 상단의 '초록색 중복 제목'(.mc-page-intro__kicker)만 교체한다.
     var guideById = {
@@ -314,13 +791,57 @@
   function init() {
     injectBrandMark();
     normalizeBrandText();
+    normalizeHeaderBrandLayout();
     normalizeDrawerTitle();
     normalizeDrawerAria();
     injectFeatureGuide();
     injectSecurityTip();
+    injectDemoInlineGuide();
+    (function normalizeCalendarInputs() {
+      var t = new Date();
+      var today =
+        t.getFullYear() +
+        "-" +
+        String(t.getMonth() + 1).padStart(2, "0") +
+        "-" +
+        String(t.getDate()).padStart(2, "0");
+      var thisMonth = today.slice(0, 7);
+
+      document.querySelectorAll('input[type="date"]').forEach(function (el) {
+        try {
+          if (!el.value) el.value = today;
+          el.max = today;
+        } catch (e) {}
+      });
+      document.querySelectorAll('input[type="month"]').forEach(function (el) {
+        try {
+          if (!el.value) el.value = thisMonth;
+          el.max = thisMonth;
+        } catch (e) {}
+      });
+    })();
+    makeDemoDataIfNeeded();
+    maybeShowDemoTutorialPrompt();
+    maybeMarkTutorialDone();
+    injectFavoriteBar();
     buildDrawerList(inferFeatureId());
     wireDrawer();
+    window.addEventListener("storage", function (e) {
+      if (e.key === FAV_STORAGE_KEY) {
+        buildDrawerList(inferFeatureId());
+        renderFavoriteBar();
+      }
+      if (e.key === DEMO_ACTIVE_KEY && !isDemoActive()) {
+        renderFavoriteBar();
+      }
+    });
   }
+
+  // 다른 기능 스크립트에서 데모 전환을 트리거할 수 있도록 노출
+  window.MoneyCalendarDemo = {
+    isActive: isDemoActive,
+    purge: purgeDemoData,
+  };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();

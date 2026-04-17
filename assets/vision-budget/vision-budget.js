@@ -19,6 +19,9 @@ let fixedExpense = 0;
 /** @type {Vision[]} */
 let visions = [];
 
+/** @type {string | null} */
+let editingVisionId = null;
+
 function $(id) {
   const el = document.getElementById(id);
   if (!el) throw new Error(`#${id} not found`);
@@ -254,6 +257,52 @@ function renderVisionList() {
     const pct = progressPct(v);
     const left = remainingToGoal(v);
 
+    if (editingVisionId === v.id) {
+      article.classList.add("vision-item--editing");
+      article.innerHTML = `
+        <div class="vision-item__top">
+          <h3 class="vision-item__title">비전 편집</h3>
+        </div>
+        <div class="vision-edit-form">
+          <label class="field vision-edit-field">
+            <span class="field-label">목표 이름</span>
+            <input
+              type="text"
+              class="vision-edit-title"
+              data-edit-field="title"
+              maxlength="80"
+              value="${escapeHtml(v.title)}"
+            />
+          </label>
+          <label class="field vision-edit-field">
+            <span class="field-label">최종 목표 금액</span>
+            <div class="money-wrap">
+              <input
+                type="tel"
+                inputmode="numeric"
+                class="money-input vision-edit-target"
+                data-edit-field="target"
+                autocomplete="off"
+                placeholder="0"
+                value="${v.targetAmount ? formatWon(v.targetAmount) : ""}"
+              />
+              <span class="won" aria-hidden="true">원</span>
+            </div>
+          </label>
+          <div class="vision-item__actions vision-item__actions--edit">
+            <button type="button" class="btn" data-action="save-edit" data-id="${v.id}">저장</button>
+            <button type="button" class="btn-ghost" data-action="cancel-edit">취소</button>
+          </div>
+        </div>
+      `;
+      host.appendChild(article);
+      const ti = article.querySelector(".vision-edit-target");
+      if (ti) {
+        wireMoneyField(/** @type {HTMLInputElement} */ (ti), () => {});
+      }
+      return;
+    }
+
     article.innerHTML = `
       <div class="vision-item__top">
         <h3 class="vision-item__title">${escapeHtml(v.title)}</h3>
@@ -290,6 +339,7 @@ function renderVisionList() {
         </div>
       </div>
       <div class="vision-item__actions">
+        <button type="button" class="btn-ghost" data-action="edit" data-id="${v.id}">수정</button>
         <button type="button" class="btn-ghost" data-action="up" data-id="${v.id}">순위 올리기</button>
         <button type="button" class="btn-ghost" data-action="down" data-id="${v.id}">순위 내리기</button>
         <button type="button" class="btn-ghost btn-danger-lite" data-action="del" data-id="${v.id}">삭제</button>
@@ -326,6 +376,7 @@ function moveVision(id, dir) {
 
 function deleteVision(id) {
   if (!window.MoneyCalendarDelete.confirm()) return;
+  if (editingVisionId === id) editingVisionId = null;
   visions = visions.filter((v) => v.id !== id);
   normalizeOrders();
   save();
@@ -343,7 +394,43 @@ function onVisionListClick(e) {
   if (!btn) return;
   const id = btn.getAttribute("data-id");
   const action = btn.getAttribute("data-action");
-  if (!id || !action) return;
+  if (!action) return;
+  if (action === "cancel-edit") {
+    editingVisionId = null;
+    render();
+    return;
+  }
+  if (action === "save-edit" && id) {
+    const article = btn.closest(".vision-item");
+    if (!article) return;
+    const titleEl = article.querySelector('[data-edit-field="title"]');
+    const targetEl = article.querySelector('[data-edit-field="target"]');
+    const title = titleEl ? String(/** @type {HTMLInputElement} */ (titleEl).value || "").trim() : "";
+    const targetAmount = targetEl ? parseWon(/** @type {HTMLInputElement} */ (targetEl).value) : 0;
+    if (!title) {
+      alert("목표 이름을 입력해 주세요.");
+      return;
+    }
+    if (targetAmount <= 0) {
+      alert("최종 목표 금액은 1원 이상이어야 합니다.");
+      return;
+    }
+    const item = visions.find((x) => x.id === id);
+    if (item) {
+      item.title = title.slice(0, 80);
+      item.targetAmount = targetAmount;
+    }
+    editingVisionId = null;
+    save();
+    render();
+    return;
+  }
+  if (action === "edit" && id) {
+    editingVisionId = id;
+    render();
+    return;
+  }
+  if (!id) return;
   if (action === "up") moveVision(id, "up");
   else if (action === "down") moveVision(id, "down");
   else if (action === "del") deleteVision(id);
@@ -441,6 +528,11 @@ function init() {
     save();
     render();
   });
+
+  // 비전 설정 폼(숫자 입력) — 전역 숫자 포맷(천 단위 콤마) 적용
+  wireMoneyField(/** @type {HTMLInputElement} */ ($("vf-target")), () => {});
+  wireMoneyField(/** @type {HTMLInputElement} */ ($("vf-progress")), () => {});
+  wireMoneyField(/** @type {HTMLInputElement} */ ($("vf-monthly")), () => {});
 
   $("btn-sync-income").addEventListener("click", syncFromIncomeDesign);
   $("vision-list").addEventListener("click", onVisionListClick);

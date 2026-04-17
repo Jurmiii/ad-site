@@ -19,6 +19,22 @@
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
   }
 
+  function today() {
+    var d = new Date();
+    return (
+      d.getFullYear() +
+      "-" +
+      String(d.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(d.getDate()).padStart(2, "0")
+    );
+  }
+
+  function monthKeyFromDate(v) {
+    var s = String(v || "");
+    return s.length >= 7 ? s.slice(0, 7) : monthNow();
+  }
+
   function loadBudget(mk) {
     try {
       var r = localStorage.getItem(BUDGET_PREFIX + "." + mk);
@@ -67,7 +83,7 @@
   }
 
   function render() {
-    var mk = /** @type {HTMLInputElement} */ ($("mr-month")).value || monthNow();
+    var mk = monthKeyFromDate(/** @type {HTMLInputElement} */ ($("mr-date")).value || today());
     var b = loadBudget(mk);
     var s = spendByBucket(mk);
     var rows = [
@@ -141,7 +157,7 @@
   }
 
   function exportXlsx() {
-    var mk = /** @type {HTMLInputElement} */ ($("mr-month")).value || monthNow();
+    var mk = monthKeyFromDate(/** @type {HTMLInputElement} */ ($("mr-date")).value || today());
     var b = loadBudget(mk);
     var s = spendByBucket(mk);
     var rows = [
@@ -155,8 +171,9 @@
   }
 
   function init() {
-    /** @type {HTMLInputElement} */ ($("mr-month")).value = monthNow();
-    $("mr-month").addEventListener("change", render);
+    /** @type {HTMLInputElement} */ ($("mr-date")).value = today();
+    /** @type {HTMLInputElement} */ ($("mr-date")).max = today();
+    $("mr-date").addEventListener("change", render);
     render();
     if (typeof ExcelManager !== "undefined") {
       ExcelManager.mount("excel-control-root", "ShellTooling", {

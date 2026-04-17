@@ -72,6 +72,11 @@
           </header>
           <div id="excel-control-root" class="mc-excel-slot"></div>
           <section class="card mt-24">
+            <div class="tl-controls" aria-label="월 선택">
+              <button id="tl-prev" class="btn-secondary" type="button" aria-label="이전 월">← Prev</button>
+              <p id="tl-month" class="text-sm" style="font-weight: 900; text-align: center; margin: 0"></p>
+              <button id="tl-next" class="btn-secondary" type="button" aria-label="다음 월">Next →</button>
+            </div>
             <canvas id="tl-canvas" width="900" height="320" aria-label="월별 지출 추이"></canvas>
             <p id="tl-legend" class="text-sm mt-16"></p>
           </section>

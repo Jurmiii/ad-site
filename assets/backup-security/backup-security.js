@@ -21,9 +21,108 @@
     URL.revokeObjectURL(a.href);
   }
 
-  function btnJson() {
-    var s = JSON.stringify(snapshot(), null, 2);
-    downloadBlob("MoneyCalendar_backup_" + ExcelManager.utils.yyyymmdd() + ".json", new Blob([s], { type: "application/json" }));
+  function yyyymmdd() {
+    try {
+      if (typeof ExcelManager !== "undefined" && ExcelManager.utils && ExcelManager.utils.yyyymmdd) {
+        return ExcelManager.utils.yyyymmdd();
+      }
+    } catch (e) {}
+    var d = new Date();
+    return (
+      d.getFullYear() +
+      String(d.getMonth() + 1).padStart(2, "0") +
+      String(d.getDate()).padStart(2, "0")
+    );
+  }
+
+  function showDownloadGuideModal() {
+    // 요구 문구(그대로)
+    var msg =
+      "이 파일은 머니 캘린더 전용 보안 파일(.zip)입니다. 일반적인 압축 해제나 엑셀 프로그램으로는 열리지 않는 것이 정상이니, 나중에 [불러오기] 메뉴를 통해 안전하게 복원해 주세요.";
+
+    var ex = document.getElementById("mc-backup-guide");
+    if (ex) ex.remove();
+
+    var root = document.createElement("div");
+    root.id = "mc-backup-guide";
+    root.className = "mc-modal";
+    root.setAttribute("role", "dialog");
+    root.setAttribute("aria-modal", "true");
+    root.setAttribute("aria-label", "보안 백업 안내");
+
+    var panel = document.createElement("div");
+    panel.className = "mc-modal__panel";
+
+    var title = document.createElement("div");
+    title.className = "mc-modal__title";
+    title.textContent = "보안 백업 파일 다운로드 안내";
+
+    var desc = document.createElement("p");
+    desc.className = "mc-modal__desc";
+    desc.textContent = msg;
+
+    var actions = document.createElement("div");
+    actions.className = "mc-modal__actions";
+
+    function close() {
+      try {
+        root.remove();
+      } catch (e) {}
+    }
+
+    var ok = document.createElement("button");
+    ok.type = "button";
+    ok.className = "mc-modal__btn mc-modal__btn--primary";
+    ok.textContent = "확인";
+    ok.addEventListener("click", close);
+
+    actions.appendChild(ok);
+    panel.appendChild(title);
+    panel.appendChild(desc);
+    panel.appendChild(actions);
+    root.appendChild(panel);
+    root.addEventListener("click", function (e) {
+      if (e.target === root) close();
+    });
+    window.addEventListener(
+      "keydown",
+      function onKey(e) {
+        if (e.key === "Escape") {
+          window.removeEventListener("keydown", onKey);
+          close();
+        }
+      },
+      { once: true }
+    );
+    document.body.appendChild(root);
+  }
+
+  async function zipBlob(filenameInZip, textPayload) {
+    if (typeof JSZip === "undefined") throw new Error("ZIP 라이브러리를 불러오지 못했습니다.");
+    var zip = new JSZip();
+    zip.file(filenameInZip, textPayload);
+    return zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
+  }
+
+  async function unzipToText(file) {
+    if (typeof JSZip === "undefined") throw new Error("ZIP 라이브러리를 불러오지 못했습니다.");
+    var buf = await file.arrayBuffer();
+    var zip = await JSZip.loadAsync(buf);
+    var names = Object.keys(zip.files || {});
+    if (!names.length) throw new Error("ZIP 내부 파일을 찾지 못했습니다.");
+    // 우선순위: manifest → payload
+    var preferred = null;
+    for (var i = 0; i < names.length; i++) {
+      var n = names[i];
+      if (n.toLowerCase().indexOf("payload") >= 0) {
+        preferred = n;
+        break;
+      }
+    }
+    if (!preferred) preferred = names[0];
+    var entry = zip.file(preferred);
+    if (!entry) throw new Error("ZIP 내부 파일을 읽지 못했습니다.");
+    return await entry.async("text");
   }
 
   function bufToB64(buf) {
@@ -66,22 +165,18 @@
       iv: bufToB64(iv.buffer),
       data: bufToB64(ct),
     };
-    var out = new Blob([JSON.stringify(pack)], { type: "application/octet-stream" });
-    downloadBlob("MoneyCalendar_encrypted_" + ExcelManager.utils.yyyymmdd() + ".mcb", out);
+    var payload = JSON.stringify(pack);
+    var z = await zipBlob("payload.mcsec", payload);
+    downloadBlob("MoneyCalendar_Backup_" + yyyymmdd() + ".zip", z);
+    showDownloadGuideModal();
   }
 
   async function restoreFromFile(file) {
-    var text = await file.text();
-    if (file.name.endsWith(".json") || text.trim().startsWith("{")) {
-      var o = JSON.parse(text);
-      if (!o || typeof o !== "object") throw new Error("JSON 형식이 올바르지 않습니다.");
-      if (!confirm("localStorage를 이 파일 내용으로 덮어씁니다. 계속할까요?")) return;
-      Object.keys(o).forEach(function (k) {
-        localStorage.setItem(k, String(o[k]));
-      });
-      alert("복원이 완료되었습니다.");
-      location.reload();
-      return;
+    var text = "";
+    if (String(file.name || "").toLowerCase().endsWith(".zip")) {
+      text = await unzipToText(file);
+    } else {
+      throw new Error("보안 백업 파일(.zip)만 복원할 수 있습니다.");
     }
     var pw = String(document.getElementById("bk-pass-in").value || "");
     if (pw.length < 4) throw new Error("복원 비밀번호를 입력해 주세요.");
@@ -128,13 +223,6 @@
   }
 
   function init() {
-    document.getElementById("btn-json").addEventListener("click", function () {
-      try {
-        btnJson();
-      } catch (e) {
-        alert(String(e && e.message ? e.message : e));
-      }
-    });
     document.getElementById("btn-enc").addEventListener("click", function () {
       btnEnc().catch(function (e) {
         alert(String(e && e.message ? e.message : e));

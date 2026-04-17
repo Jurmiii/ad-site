@@ -67,8 +67,7 @@
             <p class="mc-page-intro__kicker">14 · 데이터 암호화 및 백업</p>
             <h1 class="mc-page-intro__title">14. 데이터 암호화 및 백업</h1>
             <p class="mc-page-intro__lead text-body">
-              전체 localStorage 스냅샷을 JSON으로 내려받거나, 비밀번호로 AES-GCM 암호화한 바이너리(.mcb)로 저장할 수
-              있습니다. 복원 시 기존 키를 덮어쓰므로 주의하세요.
+              비밀번호로 AES-GCM 암호화한 보안 백업 파일(.zip)로 저장할 수 있습니다. 복원 시 기존 키를 덮어쓰므로 주의하세요.
             </p>
             <p class="text-sm" style="margin-top: 10px; color: var(--color-text-muted)">
               귀하의 재정 데이터는 서버에 저장되지 않으며 오직 엑셀과 브라우저에만 존재합니다.
@@ -76,18 +75,19 @@
           </header>
           <div id="excel-control-root" class="mc-excel-slot"></div>
           <section class="card mt-24">
-            <h2 class="bk-h2">평문 백업</h2>
-            <button id="btn-json" class="btn mt-16" type="button">JSON 전체 다운로드</button>
             <h2 class="bk-h2 mt-24">암호화 백업</h2>
             <label class="field mt-16">
               <span class="field-label">백업 비밀번호</span>
               <input id="bk-pass" type="password" autocomplete="new-password" placeholder="8자 이상 권장" />
             </label>
-            <button id="btn-enc" class="btn mt-16" type="button">암호화 파일(.mcb) 저장</button>
+            <button id="btn-enc" class="btn mt-16" type="button">보안 백업 파일(.zip) 저장</button>
             <h2 class="bk-h2 mt-24">복원</h2>
-            <input id="bk-file" type="file" accept=".json,.mcb,application/json" class="mt-16" />
+            <p class="text-sm mt-10">
+              보안 백업 파일(.zip)을 업로드하면 암호 확인 후 즉시 데이터가 복원됩니다.
+            </p>
+            <input id="bk-file" type="file" accept=".zip,application/zip" class="mt-16" />
             <label class="field mt-16">
-              <span class="field-label">복원 비밀번호 (.mcb 시)</span>
+              <span class="field-label">복원 비밀번호 (.zip)</span>
               <input id="bk-pass-in" type="password" autocomplete="new-password" />
             </label>
             <button id="btn-restore" class="btn-secondary mt-16" type="button">선택 파일에서 복원</button>
@@ -96,6 +96,7 @@
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <script src="../js/nav-config.js"></script>
     <script src="../js/excel-manager.js"></script>
     <script src="../js/app-shell.js"></script>

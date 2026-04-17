@@ -89,7 +89,7 @@
                   <input
                     id="quick-amount"
                     class="money-input daily-quick-amount"
-                    type="text"
+                    type="tel"
                     inputmode="numeric"
                     enterkeyhint="done"
                     autocomplete="off"
@@ -142,6 +142,9 @@
               <h2 id="cal-head">머니 캘린더</h2>
               <p id="cal-month-label" class="text-sm"></p>
             </div>
+            <p class="text-sm mt-10" style="color: var(--color-text-muted)">
+              클릭 시 : 날짜 선택 / 더블 클릭 시 : 수정, 삭제
+            </p>
             <p class="text-sm mt-10">
               날짜별 지출 합계를 보여 줍니다. 셀을 눌러 스티커를 토글하면 해당 날짜의 저장 데이터가 함께
               갱신됩니다.
@@ -158,7 +161,7 @@
               <label class="field">
                 <span class="field-label">시작 잔액</span>
                 <div class="money-wrap">
-                  <input id="start-balance" class="money-input" type="text" inputmode="numeric" placeholder="0" />
+                  <input id="start-balance" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
                   <span class="won" aria-hidden="true">원</span>
                 </div>
               </label>

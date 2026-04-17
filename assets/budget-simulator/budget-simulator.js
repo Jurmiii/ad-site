@@ -209,7 +209,7 @@ let monthKey = currentMonthKey();
 let state = emptyState(monthKey);
 
 const els = {
-  month: /** @type {HTMLInputElement} */ ($("plan-month")),
+  month: /** @type {HTMLInputElement} */ ($("plan-date")),
   total: /** @type {HTMLInputElement} */ ($("total-budget")),
   loadBudgetSetup: /** @type {HTMLButtonElement} */ ($("btn-load-budget-setup")),
   apply532: /** @type {HTMLButtonElement} */ ($("btn-apply-532")),
@@ -239,6 +239,17 @@ const els = {
   btnConfirm: /** @type {HTMLButtonElement} */ ($("btn-confirm")),
   btnUnconfirm: /** @type {HTMLButtonElement} */ ($("btn-unconfirm")),
 };
+
+function currentDateKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+function monthKeyFromDateInputValue(v) {
+  const s = String(v || "");
+  if (s.length >= 7) return s.slice(0, 7);
+  return currentMonthKey();
+}
 
 /** @type {import('chart.js').Chart | null} */
 let chart = null;
@@ -605,14 +616,15 @@ function init() {
     }
   }
 
-  els.month.value = currentMonthKey();
-  monthKey = els.month.value;
+  els.month.value = currentDateKey();
+  els.month.max = currentDateKey();
+  monthKey = monthKeyFromDateInputValue(els.month.value);
   state = loadState(monthKey);
   state.monthKey = monthKey;
   if (trySeedFromVisionRemainder()) persist();
 
   els.month.addEventListener("change", () => {
-    const next = els.month.value || currentMonthKey();
+    const next = monthKeyFromDateInputValue(els.month.value || currentDateKey());
     // 현재 저장
     persist();
     // 다음 로드

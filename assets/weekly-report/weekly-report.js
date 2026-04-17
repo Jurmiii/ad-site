@@ -20,6 +20,48 @@
     return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
   }
 
+  function today() {
+    var d = new Date();
+    return (
+      d.getFullYear() +
+      "-" +
+      String(d.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(d.getDate()).padStart(2, "0")
+    );
+  }
+
+  function monthKeyFromDate(dateStr) {
+    return String(dateStr || "").slice(0, 7);
+  }
+
+  function parseDate(dateStr) {
+    var p = String(dateStr || "").split("-");
+    if (p.length < 3) return null;
+    var d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+    if (!Number.isFinite(d.getTime())) return null;
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function formatISODate(d) {
+    return (
+      d.getFullYear() +
+      "-" +
+      String(d.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(d.getDate()).padStart(2, "0")
+    );
+  }
+
+  function startOfWeekMon(d) {
+    var x = new Date(d.getTime());
+    var dayNr = (x.getDay() + 6) % 7;
+    x.setDate(x.getDate() - dayNr);
+    x.setHours(0, 0, 0, 0);
+    return x;
+  }
+
   function loadDailyMap() {
     try {
       var raw = localStorage.getItem(DAILY_KEY);
@@ -77,48 +119,75 @@
   }
 
   function render() {
-    var mk = /** @type {HTMLInputElement} */ ($("wk-month")).value || monthNow();
+    var base = /** @type {HTMLInputElement} */ ($("wk-date")).value || today();
+    var baseD = parseDate(base);
+    if (!baseD) baseD = parseDate(today());
+    var mk = monthKeyFromDate(base);
+    var weekKey = isoWeekKey(formatISODate(baseD));
+    var start = startOfWeekMon(baseD);
+    var end = new Date(start.getTime());
+    end.setDate(start.getDate() + 6);
+
     var map = loadDailyMap();
-    var weeks = {};
-    Object.keys(map).forEach(function (ds) {
-      if (ds.slice(0, 7) !== mk) return;
-      var wk = isoWeekKey(ds);
-      weeks[wk] = (weeks[wk] || 0) + sumDayExpenses(map[ds]);
-    });
-    var keys = Object.keys(weeks).sort();
     var host = $("wk-bars");
     host.textContent = "";
     var totalSpent = 0;
-    keys.forEach(function (k) {
-      totalSpent += weeks[k];
+    var rows = [];
+    for (var i = 0; i < 7; i++) {
+      var d = new Date(start.getTime());
+      d.setDate(start.getDate() + i);
+      var ds = formatISODate(d);
+      var day = map[ds];
+      var exp = sumDayExpenses(day);
+      totalSpent += exp;
+      rows.push({ ds: ds, exp: exp });
+    }
+
+    var cap = monthCap(mk);
+    var head = document.createElement("div");
+    head.className = "wk-row";
+    head.innerHTML =
+      "<span class=\"text-sm\">" +
+      weekKey +
+      " (" +
+      formatISODate(start) +
+      " ~ " +
+      formatISODate(end) +
+      ")" +
+      "</span>" +
+      "<div class=\"wk-bar\"><span style=\"width:" +
+      (cap > 0 ? Math.min(100, (totalSpent / cap) * 100) : 0) +
+      "%\"></span></div>" +
+      "<span class=\"text-sm num\">" +
+      new Intl.NumberFormat("ko-KR").format(totalSpent) +
+      "원</span>";
+    host.appendChild(head);
+
+    rows.forEach(function (r) {
       var row = document.createElement("div");
       row.className = "wk-row";
-      var cap = monthCap(mk);
-      var pct = cap > 0 ? Math.min(100, (weeks[k] / cap) * 100) : 0;
+      var pct = cap > 0 ? Math.min(100, (r.exp / cap) * 100) : 0;
       row.innerHTML =
         "<span class=\"text-sm\">" +
-        k +
+        r.ds +
         "</span>" +
         "<div class=\"wk-bar\"><span style=\"width:" +
         pct +
         "%\"></span></div>" +
         "<span class=\"text-sm num\">" +
-        new Intl.NumberFormat("ko-KR").format(weeks[k]) +
+        new Intl.NumberFormat("ko-KR").format(r.exp) +
         "원</span>";
       host.appendChild(row);
     });
-    if (!keys.length) {
-      host.innerHTML = "<p class=\"text-sm\">이 달에 데일리 지출 기록이 없습니다.</p>";
-    }
 
-    var cap2 = monthCap(mk);
+    var cap2 = cap;
     var rateEl = $("wk-rate");
     if (cap2 <= 0) {
       rateEl.textContent = "이번 달 비교 기준(배분 예산 또는 시뮬레이터 총예산)이 없습니다.";
     } else {
       var rate = Math.min(100, (totalSpent / cap2) * 100);
       rateEl.textContent =
-        "월 누적 지출 " +
+        "선택 주간 지출 " +
         new Intl.NumberFormat("ko-KR").format(totalSpent) +
         "원 · 기준 " +
         new Intl.NumberFormat("ko-KR").format(cap2) +
@@ -141,11 +210,12 @@
 
   function exportSnapshot() {
     if (typeof XLSX === "undefined") throw new Error("엑셀 라이브러리가 없습니다.");
-    var mk = /** @type {HTMLInputElement} */ ($("wk-month")).value || monthNow();
+    var base = /** @type {HTMLInputElement} */ ($("wk-date")).value || today();
+    var mk = monthKeyFromDate(base);
     var map = loadDailyMap();
     var rows = [];
     Object.keys(map).forEach(function (ds) {
-      if (ds.slice(0, 7) !== mk) return;
+      if (isoWeekKey(ds) !== isoWeekKey(base)) return;
       rows.push({ date: ds, week: isoWeekKey(ds), expense: sumDayExpenses(map[ds]) });
     });
     var wb = XLSX.utils.book_new();
@@ -154,8 +224,9 @@
   }
 
   function init() {
-    /** @type {HTMLInputElement} */ ($("wk-month")).value = monthNow();
-    $("wk-month").addEventListener("change", render);
+    /** @type {HTMLInputElement} */ ($("wk-date")).value = today();
+    $("wk-date").max = today();
+    $("wk-date").addEventListener("change", render);
     render();
 
     if (typeof ExcelManager !== "undefined") {

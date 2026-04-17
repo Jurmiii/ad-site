@@ -86,7 +86,7 @@
                   <input
                     id="quick-amount"
                     class="money-input daily-quick-amount"
-                    type="text"
+                    type="tel"
                     inputmode="numeric"
                     enterkeyhint="done"
                     autocomplete="off"
@@ -122,16 +122,24 @@
 
           <section class="card mt-24 daily-card" aria-labelledby="eval-head">
             <h2 id="eval-head">오늘의 소비 평가</h2>
-            <p class="text-sm mt-10">하루를 마무리하며 Good / Normal / Bad 중 하나를 고르고, 한 줄로 남겨 보세요.</p>
+            <p class="text-sm mt-10">하루를 마무리하며 Good / Normal / Bad 중 하나를 고르고, 문장 하나로 남겨 보세요.</p>
             <div class="daily-rating-row mt-16" role="group" aria-label="오늘 소비 등급">
               <button type="button" class="daily-rate-btn" data-rate="good">Good</button>
               <button type="button" class="daily-rate-btn" data-rate="normal">Normal</button>
               <button type="button" class="daily-rate-btn" data-rate="bad">Bad</button>
             </div>
-            <label class="field mt-16">
-              <span class="field-label">한 줄 평</span>
-              <input id="day-note" type="text" maxlength="120" placeholder="예: 과소비했지만 내일 조정한다" />
-            </label>
+            <div class="daily-note-row mt-16">
+              <label class="field daily-note-row__date">
+                <span class="field-label">날짜</span>
+                <input id="daily-date" type="date" class="daily-date" />
+              </label>
+              <label class="field daily-note-row__input">
+                <span class="field-label">한 줄 평</span>
+                <input id="day-note" type="text" maxlength="120" placeholder="예: 과소비했지만 내일 조정한다" />
+              </label>
+              <button id="day-note-add" class="btn-secondary daily-note-row__btn" type="button">입력</button>
+            </div>
+            <ul id="day-note-list" class="diary-list mt-16" aria-label="한 줄 평 리스트"></ul>
           </section>
 
           <section class="card mt-24 daily-card" aria-labelledby="cal-head">
@@ -141,27 +149,6 @@
             </div>
             <p class="text-sm mt-10">날짜별 지출 합계를 보여 줍니다. 지출이 0원이면 무지출 스티커가 붙습니다.</p>
             <div id="money-calendar" class="money-calendar mt-16" aria-label="월간 지출 요약"></div>
-          </section>
-
-          <section class="card mt-24 daily-card" aria-labelledby="daily-head">
-            <div class="flex-between">
-              <h2 id="daily-head">오늘의 시작</h2>
-              <input id="daily-date" type="date" class="daily-date" />
-            </div>
-            <div class="daily-start mt-16">
-              <label class="field">
-                <span class="field-label">시작 잔액</span>
-                <div class="money-wrap">
-                  <input id="start-balance" class="money-input" type="text" inputmode="numeric" placeholder="0" />
-                  <span class="won" aria-hidden="true">원</span>
-                </div>
-              </label>
-              <div class="daily-summary">
-                <p class="text-sm">현재 잔액</p>
-                <p id="now-balance" class="daily-balance">0원</p>
-                <p id="balance-hint" class="text-sm mt-10"></p>
-              </div>
-            </div>
           </section>
 
           <section class="card mt-24 daily-card" aria-labelledby="tx-title">

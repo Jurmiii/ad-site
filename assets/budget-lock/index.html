@@ -112,16 +112,30 @@
         <div class="form-grid mt-20">
           <fieldset class="fieldset" id="fieldset-income">
             <legend>소득 (4단계)</legend>
-            <label>실제소득 <input id="f-real" type="number" min="0" step="1" /></label>
-            <label>예정소득 <input id="f-scheduled" type="number" min="0" step="1" /></label>
-            <label>기타소득 <input id="f-other" type="number" min="0" step="1" /></label>
-            <label>희망소득 <input id="f-hope" type="number" min="0" step="1" /></label>
+            <label>실제소득
+              <input id="f-real" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
+            </label>
+            <label>예정소득
+              <input id="f-scheduled" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
+            </label>
+            <label>기타소득
+              <input id="f-other" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
+            </label>
+            <label>희망소득
+              <input id="f-hope" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
+            </label>
           </fieldset>
           <fieldset class="fieldset" id="fieldset-budget">
             <legend>예산 배분</legend>
-            <label>생활비 <input id="f-living" type="number" min="0" step="1" /></label>
-            <label>활동비 <input id="f-activity" type="number" min="0" step="1" /></label>
-            <label>필수비용 <input id="f-essential" type="number" min="0" step="1" /></label>
+            <label>생활비
+              <input id="f-living" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
+            </label>
+            <label>활동비
+              <input id="f-activity" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
+            </label>
+            <label>필수비용
+              <input id="f-essential" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
+            </label>
           </fieldset>
         </div>
 

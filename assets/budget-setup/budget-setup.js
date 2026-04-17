@@ -36,6 +36,13 @@ function formatKRW(n) {
   return `${new Intl.NumberFormat("ko-KR").format(Math.trunc(v))}원`;
 }
 
+/** 표시용 천 단위 콤마(0·미입력은 빈 칸) */
+function formatInputDisplay(n) {
+  const v = Number(n);
+  if (!Number.isFinite(v) || v <= 0) return "";
+  return new Intl.NumberFormat("ko-KR").format(Math.trunc(v));
+}
+
 function storageKey(monthKey) {
   return `${STORAGE_PREFIX}.${monthKey}`;
 }
@@ -83,7 +90,7 @@ function emptyState() {
 }
 
 const els = {
-  month: /** @type {HTMLInputElement} */ ($("plan-month")),
+  month: /** @type {HTMLInputElement} */ ($("plan-date")),
   real: /** @type {HTMLInputElement} */ ($("income-real")),
   scheduled: /** @type {HTMLInputElement} */ ($("income-scheduled")),
   other: /** @type {HTMLInputElement} */ ($("income-other")),
@@ -132,17 +139,17 @@ function readInputsIntoState() {
 }
 
 function writeInputsFromState() {
-  els.real.value = state.real ? String(state.real) : "";
-  els.scheduled.value = state.scheduled ? String(state.scheduled) : "";
-  els.other.value = state.other ? String(state.other) : "";
-  els.hope.value = state.hope ? String(state.hope) : "";
-  els.living.value = state.living ? String(state.living) : "";
-  els.activity.value = state.activity ? String(state.activity) : "";
-  els.essential.value = state.essential ? String(state.essential) : "";
+  els.real.value = formatInputDisplay(state.real);
+  els.scheduled.value = formatInputDisplay(state.scheduled);
+  els.other.value = formatInputDisplay(state.other);
+  els.hope.value = formatInputDisplay(state.hope);
+  els.living.value = formatInputDisplay(state.living);
+  els.activity.value = formatInputDisplay(state.activity);
+  els.essential.value = formatInputDisplay(state.essential);
 }
 
 function getMonthKey() {
-  return els.month.value || currentMonthKey();
+  return String(els.month.value || "").slice(0, 7) || currentMonthKey();
 }
 
 function totalIncome() {
@@ -256,6 +263,18 @@ function render() {
 
 function persist() {
   saveState(getMonthKey(), state);
+  try {
+    const demo = window.MoneyCalendarDemo;
+    if (demo && demo.isActive && demo.isActive()) {
+      const mk = getMonthKey();
+      if (mk === currentMonthKey()) {
+        const hasReal = totalIncome() > 0 || totalAllocated() > 0;
+        if (hasReal) demo.purge();
+      }
+    }
+  } catch {
+    /* ignore */
+  }
 }
 
 function loadMonth(monthKey) {
@@ -391,9 +410,13 @@ function init() {
     }
   }
 
-  els.month.value = currentMonthKey();
-  lastMonthKey = els.month.value;
-  loadMonth(els.month.value);
+  // 한 달 달력(date) 기반: 오늘 날짜 기본값, 월 키는 YYYY-MM로 파생
+  const d = new Date();
+  const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  els.month.value = today;
+  els.month.max = today;
+  lastMonthKey = getMonthKey();
+  loadMonth(lastMonthKey);
 
   [
     els.real,
@@ -406,7 +429,7 @@ function init() {
   ].forEach((el) => el.addEventListener("input", onInput));
 
   els.month.addEventListener("change", () => {
-    const nextKey = els.month.value || currentMonthKey();
+    const nextKey = getMonthKey();
     readInputsIntoState();
     saveState(lastMonthKey, state);
     loadMonth(nextKey);

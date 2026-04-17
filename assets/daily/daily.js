@@ -29,6 +29,13 @@
     return el;
   }
 
+  function $maybe(id) {
+    return document.getElementById(id);
+  }
+
+  /** @type {'expense'|'income'} */
+  var quickMode = "expense";
+
   function digitsOnly(s) {
     return String(s || "").replace(/[^\d]/g, "");
   }
@@ -110,10 +117,21 @@
   }
 
   /** @typedef {{ id:string, type:'expense'|'income', category:string, memo:string, amount:number }} Tx */
-  /** @typedef {{ date:string, startBalance:number, txs:Tx[], dayRating?:string, dayNote?:string }} DayState */
+  /** @typedef {{ text:string, at:string }} NoteEntry */
+  /** @typedef {{ date:string, startBalance:number, txs:Tx[], dayRating?:string, dayNote?:string, notes?: NoteEntry[] }} DayState */
 
   /** @type {DayState} */
-  var state = { date: today(), startBalance: 0, txs: [], dayRating: "", dayNote: "" };
+  var state = { date: today(), startBalance: 0, txs: [], dayRating: "", dayNote: "", notes: [] };
+
+  /** @type {string} */
+  var nospendSelectedDate = "";
+  /** @type {boolean} */
+  var nospendArmed = false;
+
+  function isFutureDate(dateStr) {
+    var t = today();
+    return String(dateStr || "") > t;
+  }
 
   function loadAll() {
     try {
@@ -139,7 +157,7 @@
   function loadDay(date) {
     var all = loadAll();
     var d = all[date];
-    if (!d) return { date: date, startBalance: 0, txs: [], dayRating: "", dayNote: "" };
+    if (!d) return { date: date, startBalance: 0, txs: [], dayRating: "", dayNote: "", notes: [] };
     return {
       date: date,
       startBalance: Math.max(0, Math.trunc(Number(d.startBalance) || 0)),
@@ -156,6 +174,15 @@
         : [],
       dayRating: normalizeRating(d.dayRating),
       dayNote: String(d.dayNote || "").slice(0, 120),
+      notes: Array.isArray(d.notes)
+        ? d.notes
+            .map(function (x) {
+              return { text: String(x.text || "").slice(0, 120), at: String(x.at || "") };
+            })
+            .filter(function (x) {
+              return x.text && x.at;
+            })
+        : [],
     };
   }
 
@@ -163,6 +190,17 @@
     var all = loadAll();
     all[state.date] = state;
     saveAll(all);
+
+    // 데모 데이터 분리: 현재 월에 첫 기록이 생기면 데모를 즉시 제거
+    try {
+      var demo = window.MoneyCalendarDemo;
+      if (demo && demo.isActive && demo.isActive()) {
+        if (monthKeyFromDate(state.date) === monthKeyFromDate(today())) {
+          var hasReal = (state.txs && state.txs.length > 0) || (state.notes && state.notes.length > 0) || Boolean(state.dayNote);
+          if (hasReal) demo.purge();
+        }
+      }
+    } catch (e) {}
   }
 
   function sumDayExpenses(dayState) {
@@ -278,15 +316,32 @@
   }
 
   function updateQuickBudgetUI() {
+    var amtEl = /** @type {HTMLInputElement | null} */ ($maybe("quick-amount"));
+    var lineEl = $maybe("quick-budget-line");
+    var fillEl = $maybe("quick-pct-fill");
+    var pctLabelEl = $maybe("quick-pct-label");
+    if (!amtEl || !lineEl || !fillEl || !pctLabelEl) return;
+
     var mk = monthKeyFromDate(state.date);
     var ctx = getMonthlyBudgetCap(mk);
     var budget = ctx.cap;
-    var draft = parseWon(/** @type {HTMLInputElement} */ ($("quick-amount")).value);
+    var draft = parseWon(amtEl.value);
     var spentOther = sumMonthExpenses(mk, state.date);
     var todaySpent = sumDayExpenses(state);
-    var line = $("quick-budget-line");
-    var fill = $("quick-pct-fill");
-    var pctLabel = $("quick-pct-label");
+    var line = lineEl;
+    var fill = fillEl;
+    var pctLabel = pctLabelEl;
+
+    if (quickMode === "income") {
+      line.textContent =
+        "수입은 저장 즉시 아래 「현재 잔액」에 반영됩니다. 월 예산 대비 비중·그래프는 「지출」 탭에서 확인할 수 있습니다.";
+      fill.style.width = "0%";
+      pctLabel.textContent =
+        draft > 0
+          ? "입력 중 " + formatKRW(draft) + " · 「기록에 추가」를 누르면 수입으로 저장됩니다."
+          : "수입 금액을 입력한 뒤 기록에 추가하세요.";
+      return;
+    }
 
     if (budget <= 0) {
       line.textContent =
@@ -345,6 +400,69 @@
     });
   }
 
+  function formatKoDateTime(iso) {
+    try {
+      var d = new Date(iso);
+      if (!Number.isFinite(d.getTime())) return "";
+      return new Intl.DateTimeFormat("ko-KR", {
+        year: "numeric",
+        month: "numeric",
+        day: "numeric",
+        weekday: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      }).format(d);
+    } catch (e) {
+      return "";
+    }
+  }
+
+  function renderDiaryNotes() {
+    if (getDailyFeatureMode() !== 6) return;
+    var list = $maybe("day-note-list");
+    if (!list) return;
+    list.textContent = "";
+
+    var all = loadAll();
+    /** @type {{ text:string, at:string }[]} */
+    var rows = [];
+    Object.keys(all).forEach(function (k) {
+      var st = all[k];
+      if (!st) return;
+      if (Array.isArray(st.notes)) {
+        st.notes.forEach(function (n) {
+          if (!n || !n.text || !n.at) return;
+          rows.push({ text: String(n.text).slice(0, 120), at: String(n.at) });
+        });
+      }
+      // legacy: dayNote 단문도 한 줄 평으로 노출
+      if (st.dayNote && typeof st.dayNote === "string") {
+        var legacy = String(st.dayNote).trim();
+        if (legacy) rows.push({ text: legacy.slice(0, 120), at: k + "T21:00:00" });
+      }
+    });
+    rows.sort(function (a, b) {
+      return String(b.at).localeCompare(String(a.at));
+    });
+
+    if (!rows.length) {
+      var empty = document.createElement("li");
+      empty.className = "diary-item diary-item--empty";
+      empty.textContent = "아직 한 줄 평이 없습니다. 오늘의 문장 1개부터 시작해 보세요.";
+      list.appendChild(empty);
+      return;
+    }
+
+    for (var i = 0; i < rows.length; i++) {
+      var it = document.createElement("li");
+      it.className = "diary-item";
+      var text = rows[i].text;
+      var meta = formatKoDateTime(rows[i].at) || rows[i].at;
+      it.textContent = text + " - " + meta;
+      list.appendChild(it);
+    }
+  }
+
   function renderMoneyCalendar() {
     var host = $("money-calendar");
     var modeFeat = getDailyFeatureMode();
@@ -389,6 +507,8 @@
       var cell = document.createElement("div");
       cell.className = "money-cal__cell";
       if (ds === state.date) cell.classList.add("is-today");
+      if (modeFeat === 8 && nospendSelectedDate === ds) cell.classList.add("is-selected");
+      if (modeFeat === 8 && isFutureDate(ds)) cell.classList.add("is-future");
 
       var num = document.createElement("span");
       num.className = "money-cal__num";
@@ -420,20 +540,49 @@
         cell.classList.add("has-nospend");
       }
 
+      if (modeFeat === 8 && nospendSelectedDate === ds && nospendArmed && !isFutureDate(ds)) {
+        var actions = document.createElement("div");
+        actions.className = "nospend-cell-actions";
+        actions.innerHTML =
+          '<button type="button" class="nospend-cell-actions__btn" data-ns-action="edit" aria-label="수정">✎</button>' +
+          '<button type="button" class="nospend-cell-actions__btn nospend-cell-actions__btn--danger" data-ns-action="del" aria-label="삭제">🗑</button>';
+        actions.addEventListener("click", function (e) {
+          var t = /** @type {HTMLElement} */ (e.target);
+          var b = t && t.closest ? t.closest("button[data-ns-action]") : null;
+          if (!b) return;
+          e.preventDefault();
+          e.stopPropagation();
+          var act = b.getAttribute("data-ns-action");
+          if (act === "edit") applyNoSpendEdit();
+          else if (act === "del") applyNoSpendDelete();
+        });
+        cell.appendChild(actions);
+      }
+
       if (modeFeat === 8) {
-        if (hasRecord && exp === 0) {
-          cell.title = "무지출 기록 — 클릭하여 해제";
-        } else if (hasRecord && exp > 0) {
-          cell.title = "지출이 있는 날 — 클릭하면 무지출 처리 안내";
+        if (isFutureDate(ds)) {
+          cell.title = "미래 날짜에는 무지출 기록을 작성할 수 없습니다.";
+        } else if (nospendSelectedDate === ds && nospendArmed) {
+          cell.title = "선택됨 — 오른쪽 아래 버튼으로 수정/삭제";
+        } else if (nospendSelectedDate === ds) {
+          cell.title = "선택됨 — 한 번 더 클릭하면 수정/삭제 버튼 표시";
         } else {
-          cell.title = "기록 없음 — 클릭하여 무지출 스티커 부착";
+          cell.title = "한 번 클릭: 날짜 선택 / 두 번째 클릭: 수정·삭제 버튼 표시";
         }
       }
 
       cell.addEventListener("click", function (dstr) {
         return function () {
           if (getDailyFeatureMode() === 8) {
-            handleNoSpendCalendarClick(dstr);
+            state = loadDay(dstr);
+            if (nospendSelectedDate !== dstr) {
+              nospendSelectedDate = dstr;
+              nospendArmed = false;
+            } else {
+              // 같은 날짜 2회 클릭 시에만 작업 버튼 노출 (토글)
+              nospendArmed = !nospendArmed;
+            }
+            render();
             return;
           }
           state = loadDay(dstr);
@@ -448,41 +597,139 @@
     host.appendChild(grid);
   }
 
+  function applyNoSpendEdit() {
+    if (getDailyFeatureMode() !== 8) return;
+    if (!nospendSelectedDate || isFutureDate(nospendSelectedDate)) return;
+
+    var all = loadAll();
+    var st = all[nospendSelectedDate];
+    var hasRecord = Boolean(st);
+    var exp = st ? sumDayExpenses(st) : 0;
+
+    if (hasRecord && exp === 0) {
+      if (!confirm("해당 날짜의 무지출 스티커를 해제할까요?")) return;
+      var map0 = loadAll();
+      delete map0[nospendSelectedDate];
+      saveAll(map0);
+      state = loadDay(nospendSelectedDate);
+      nospendArmed = false;
+      render();
+      return;
+    }
+
+    if (hasRecord && exp > 0) {
+      if (!confirm("지출 내역이 존재합니다. 무지출로 변경하시겠습니까? (지출만 제거)")) return;
+      var map1 = loadAll();
+      var d = map1[nospendSelectedDate];
+      if (!d || !Array.isArray(d.txs)) return;
+      d.txs = d.txs.filter(function (t) {
+        return t.type === "income";
+      });
+      map1[nospendSelectedDate] = d;
+      saveAll(map1);
+      state = loadDay(nospendSelectedDate);
+      nospendArmed = false;
+      render();
+      return;
+    }
+
+    // 기록 없음 → 무지출 스티커 부착(빈 기록 저장)
+    if (!confirm("선택한 날짜에 무지출 스티커를 붙일까요?")) return;
+    state = loadDay(nospendSelectedDate);
+    persist();
+    nospendArmed = false;
+    render();
+  }
+
+  function applyNoSpendDelete() {
+    if (getDailyFeatureMode() !== 8) return;
+    if (!nospendSelectedDate || isFutureDate(nospendSelectedDate)) return;
+    if (!confirm("선택한 날짜의 기록을 삭제할까요?")) return;
+    var map = loadAll();
+    delete map[nospendSelectedDate];
+    saveAll(map);
+    state = loadDay(nospendSelectedDate);
+    nospendArmed = false;
+    render();
+  }
+
   function render() {
-    $("daily-date").value = state.date;
-    $("start-balance").value = state.startBalance ? formatWon(state.startBalance) : "";
+    var modeFeat = getDailyFeatureMode();
+    var dateEl = /** @type {HTMLInputElement | null} */ ($maybe("daily-date"));
+    if (dateEl) {
+      dateEl.value = state.date;
+      dateEl.max = today();
+    }
+
+    var sbEl = /** @type {HTMLInputElement | null} */ ($maybe("start-balance"));
+    if (sbEl) sbEl.value = state.startBalance ? formatWon(state.startBalance) : "";
 
     var balances = computeBalances();
     var now = balances.length ? balances[balances.length - 1] : state.startBalance;
-    $("now-balance").textContent = formatKRW(now);
+    var nbEl = $maybe("now-balance");
+    if (nbEl) nbEl.textContent = formatKRW(now);
 
-    var hint = $("balance-hint");
-    if (state.txs.length === 0) hint.textContent = "아직 기록이 없습니다. 오늘의 첫 항목을 추가해 보세요.";
-    else hint.textContent = "총 " + state.txs.length + "건 기록됨";
+    var hint = $maybe("balance-hint");
+    if (hint) {
+      if (state.txs.length === 0) hint.textContent = "아직 기록이 없습니다. 오늘의 첫 항목을 추가해 보세요.";
+      else hint.textContent = "총 " + state.txs.length + "건 기록됨";
+    }
 
-    /** @type {HTMLInputElement} */ ($("day-note")).value = state.dayNote || "";
+    var dn = /** @type {HTMLInputElement | null} */ ($maybe("day-note"));
+    if (dn) dn.value = state.dayNote || "";
+    if (modeFeat === 6) {
+      var btn = /** @type {HTMLButtonElement | null} */ ($maybe("day-note-add"));
+      var future = isFutureDate(state.date);
+      if (dn) dn.disabled = future;
+      if (btn) btn.disabled = future;
+      if (btn && future) btn.title = "미래 날짜에는 기록할 수 없습니다.";
+    }
     renderRatingButtons();
     renderMoneyCalendar();
     updateQuickBudgetUI();
+    // no-op (8번은 셀 내부 버튼으로 처리)
 
-    var body = $("tx-body");
-    body.innerHTML = "";
+    var body = $maybe("tx-body");
+    if (body) body.innerHTML = "";
+
+    renderDiaryNotes();
+
+    if (!body) return;
 
     state.txs.forEach(function (t, idx) {
       var tr = document.createElement("tr");
       var bal = balances[idx];
+      var typeCell = "";
+      if (modeFeat === 5) {
+        typeCell =
+          "<div class=\"tx-type-tabs\" role=\"group\" aria-label=\"수입 또는 지출\">" +
+          "<button type=\"button\" class=\"tx-type-tab" +
+          (t.type === "expense" ? " is-active" : "") +
+          "\" data-action=\"set-type\" data-type=\"expense\" data-id=\"" +
+          t.id +
+          "\">지출</button>" +
+          "<button type=\"button\" class=\"tx-type-tab" +
+          (t.type === "income" ? " is-active" : "") +
+          "\" data-action=\"set-type\" data-type=\"income\" data-id=\"" +
+          t.id +
+          "\">수입</button>" +
+          "</div>";
+      } else {
+        typeCell =
+          "<select class=\"tx-type\" data-k=\"type\" data-id=\"" +
+          t.id +
+          "\">" +
+          "<option value=\"expense\"" +
+          (t.type === "expense" ? " selected" : "") +
+          ">지출</option>" +
+          "<option value=\"income\"" +
+          (t.type === "income" ? " selected" : "") +
+          ">수입</option>" +
+          "</select>";
+      }
       tr.innerHTML =
         "<td>" +
-        "  <select class=\"tx-type\" data-k=\"type\" data-id=\"" +
-        t.id +
-        "\">" +
-        "    <option value=\"expense\"" +
-        (t.type === "expense" ? " selected" : "") +
-        ">지출</option>" +
-        "    <option value=\"income\"" +
-        (t.type === "income" ? " selected" : "") +
-        ">수입</option>" +
-        "  </select>" +
+        typeCell +
         "</td>" +
         "<td><input class=\"tx-cat\" data-k=\"category\" data-id=\"" +
         t.id +
@@ -536,6 +783,20 @@
   function handleTableInput(e) {
     var t = e.target;
     if (!t || !t.getAttribute) return;
+    var act = t.getAttribute("data-action");
+    if (act === "set-type") {
+      var id2 = t.getAttribute("data-id");
+      var typ = t.getAttribute("data-type");
+      if (!id2 || (typ !== "expense" && typ !== "income")) return;
+      var tx2 = state.txs.find(function (x) {
+        return x.id === id2;
+      });
+      if (!tx2) return;
+      tx2.type = typ === "income" ? "income" : "expense";
+      persist();
+      render();
+      return;
+    }
     var del = t.getAttribute("data-del");
     if (del) {
       deleteTx(del);
@@ -569,7 +830,8 @@
   }
 
   function wireStartBalance() {
-    var el = /** @type {HTMLInputElement} */ ($("start-balance"));
+    var el = /** @type {HTMLInputElement | null} */ ($maybe("start-balance"));
+    if (!el) return;
     var apply = function () {
       var n = parseWon(el.value);
       state.startBalance = n;
@@ -583,7 +845,8 @@
   }
 
   function wireDate() {
-    var el = /** @type {HTMLInputElement} */ ($("daily-date"));
+    var el = /** @type {HTMLInputElement | null} */ ($maybe("daily-date"));
+    if (!el) return;
     el.addEventListener("change", function () {
       var next = el.value || today();
       state = loadDay(next);
@@ -592,13 +855,43 @@
     });
   }
 
-  function quickAddExpense() {
+  function setQuickMode(mode) {
+    quickMode = mode === "income" ? "income" : "expense";
+    var exp = $maybe("quick-mode-expense");
+    var inc = $maybe("quick-mode-income");
+    var addBtn = $maybe("quick-add");
+    if (exp && inc) {
+      var isExp = quickMode === "expense";
+      exp.classList.toggle("is-active", isExp);
+      inc.classList.toggle("is-active", !isExp);
+      exp.setAttribute("aria-selected", isExp ? "true" : "false");
+      inc.setAttribute("aria-selected", !isExp ? "true" : "false");
+    }
+    if (addBtn)
+      addBtn.textContent = quickMode === "expense" ? "지출로 기록에 추가" : "수입으로 기록에 추가";
+    updateQuickBudgetUI();
+  }
+
+  function wireQuickAmountFormat() {
+    var el = /** @type {HTMLInputElement | null} */ ($maybe("quick-amount"));
+    if (!el) return;
+    var apply = function () {
+      var n = parseWon(el.value);
+      var next = n === 0 && digitsOnly(el.value) === "" ? "" : formatWon(n);
+      if (el.value !== next) el.value = next;
+      updateQuickBudgetUI();
+    };
+    el.addEventListener("input", apply);
+    el.addEventListener("blur", apply);
+  }
+
+  function quickAddTransaction() {
     var amt = parseWon(/** @type {HTMLInputElement} */ ($("quick-amount")).value);
     var cat = String(/** @type {HTMLInputElement} */ ($("quick-cat")).value || "").trim().slice(0, 40);
     if (amt <= 0) return;
     state.txs.push({
       id: createId(),
-      type: "expense",
+      type: quickMode === "income" ? "income" : "expense",
       category: cat || "기타",
       memo: "퀵 입력",
       amount: amt,
@@ -764,10 +1057,12 @@
         hideSectionByHeadId("quick-head");
         hideSectionByHeadId("cal-head");
         hideSectionByHeadId("daily-head");
+        hideSectionByHeadId("tx-title");
       } else if (mode === 8) {
         hideSectionByHeadId("quick-head");
         hideSectionByHeadId("eval-head");
         hideSectionByHeadId("daily-head");
+        hideSectionByHeadId("tx-title");
       } else {
         // 5,7
         hideSectionByHeadId("eval-head");
@@ -779,6 +1074,9 @@
     /* 8번: 빈 오늘을 자동 저장하면 해제한 무지출 스티커가 새로고침 시 복구됨 */
     if (getDailyFeatureMode() !== 8) {
       persist();
+    } else {
+      nospendSelectedDate = state.date;
+      nospendArmed = false;
     }
     render();
     wireStartBalance();
@@ -788,23 +1086,66 @@
     $("tx-body").addEventListener("input", handleTableInput);
     $("tx-body").addEventListener("change", handleTableInput);
 
-    $("quick-add").addEventListener("click", quickAddExpense);
-    $("quick-amount").addEventListener("input", updateQuickBudgetUI);
-    $("quick-amount").addEventListener("keydown", function (e) {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        quickAddExpense();
-      }
-    });
+    var qAdd = $maybe("quick-add");
+    if (qAdd) qAdd.addEventListener("click", quickAddTransaction);
+    wireQuickAmountFormat();
+    var qAmt = $maybe("quick-amount");
+    if (qAmt) {
+      qAmt.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          quickAddTransaction();
+        }
+      });
+    }
 
-    $("day-note").addEventListener("input", function () {
-      state.dayNote = String(/** @type {HTMLInputElement} */ ($("day-note")).value || "").slice(0, 120);
-      persist();
-    });
-    $("day-note").addEventListener("blur", function () {
-      state.dayNote = String(/** @type {HTMLInputElement} */ ($("day-note")).value || "").slice(0, 120);
-      persist();
-    });
+    var qExp = $maybe("quick-mode-expense");
+    var qInc = $maybe("quick-mode-income");
+    if (qExp && qInc) {
+      qExp.addEventListener("click", function () {
+        setQuickMode("expense");
+      });
+      qInc.addEventListener("click", function () {
+        setQuickMode("income");
+      });
+      setQuickMode("expense");
+    }
+
+    var noteEl = $maybe("day-note");
+    var noteBtn = $maybe("day-note-add");
+    if (getDailyFeatureMode() === 6) {
+      if (noteBtn && noteEl) {
+        noteBtn.addEventListener("click", function () {
+          if (isFutureDate(state.date)) return;
+          var text = String(/** @type {HTMLInputElement} */ (noteEl).value || "").trim().slice(0, 120);
+          if (!text) return;
+          var now = new Date();
+          var hh = String(now.getHours()).padStart(2, "0");
+          var mm = String(now.getMinutes()).padStart(2, "0");
+          var at = state.date + "T" + hh + ":" + mm + ":00";
+          if (!state.notes) state.notes = [];
+          state.notes.unshift({ text: text, at: at });
+          /** @type {HTMLInputElement} */ (noteEl).value = "";
+          persist();
+          render();
+        });
+        noteEl.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            noteBtn.click();
+          }
+        });
+      }
+    } else if (noteEl) {
+      noteEl.addEventListener("input", function () {
+        state.dayNote = String(/** @type {HTMLInputElement} */ (noteEl).value || "").slice(0, 120);
+        persist();
+      });
+      noteEl.addEventListener("blur", function () {
+        state.dayNote = String(/** @type {HTMLInputElement} */ (noteEl).value || "").slice(0, 120);
+        persist();
+      });
+    }
 
     document.querySelectorAll(".daily-rate-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {

@@ -37,10 +37,39 @@
     return out;
   }
 
+  /** @type {string} */
+  var selectedMonth = "";
+
+  function monthNow() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  }
+
+  function shiftMonth(mk, delta) {
+    var p = String(mk || "").split("-");
+    var y = parseInt(p[0], 10);
+    var m = parseInt(p[1], 10) - 1;
+    if (!Number.isFinite(y) || !Number.isFinite(m)) return monthNow();
+    var d = new Date(y, m + delta, 1);
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  }
+
+  function clampToTodayMonth(mk) {
+    var now = monthNow();
+    return String(mk || "") > now ? now : String(mk || "");
+  }
+
   function draw() {
     var map = loadMap();
     var keys = monthKeysLast12();
-    var vals = keys.map(function (k) {
+    if (!selectedMonth) selectedMonth = monthNow();
+    selectedMonth = clampToTodayMonth(selectedMonth);
+    var centerIdx = keys.indexOf(selectedMonth);
+    if (centerIdx < 0) centerIdx = keys.length - 1;
+    var startIdx = Math.max(0, centerIdx - 11);
+    var windowKeys = keys.slice(startIdx, centerIdx + 1);
+
+    var vals = windowKeys.map(function (k) {
       return sumMonth(map, k);
     });
     var c = /** @type {HTMLCanvasElement} */ (document.getElementById("tl-canvas"));
@@ -61,22 +90,25 @@
     ctx.strokeStyle = col.trim() || "#22c55e";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    keys.forEach(function (_, i) {
-      var x = pad + ((w - 2 * pad) * i) / (keys.length - 1 || 1);
+    windowKeys.forEach(function (_, i) {
+      var x = pad + ((w - 2 * pad) * i) / (windowKeys.length - 1 || 1);
       var y = h - pad - ((h - 2 * pad) * vals[i]) / maxV;
       if (i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     });
     ctx.stroke();
     ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--color-text-muted") || "#64748b";
-    keys.forEach(function (k, i) {
+    windowKeys.forEach(function (k, i) {
       if (i % 2 !== 0) return;
-      var x = pad + ((w - 2 * pad) * i) / (keys.length - 1 || 1);
+      var x = pad + ((w - 2 * pad) * i) / (windowKeys.length - 1 || 1);
       ctx.font = "11px sans-serif";
       ctx.fillText(k.slice(2), x - 14, h - 12);
     });
     document.getElementById("tl-legend").textContent =
       "최댓값 " + maxV.toLocaleString() + "원 기준 스케일 · 단위: 월 합계 지출";
+
+    var label = document.getElementById("tl-month");
+    if (label) label.textContent = selectedMonth + " 기준 (최근 12개월)";
   }
 
   function exportXlsx() {
@@ -91,6 +123,21 @@
   }
 
   function init() {
+    selectedMonth = monthNow();
+    var prev = document.getElementById("tl-prev");
+    var next = document.getElementById("tl-next");
+    if (prev) {
+      prev.addEventListener("click", function () {
+        selectedMonth = shiftMonth(selectedMonth, -1);
+        draw();
+      });
+    }
+    if (next) {
+      next.addEventListener("click", function () {
+        selectedMonth = clampToTodayMonth(shiftMonth(selectedMonth, +1));
+        draw();
+      });
+    }
     draw();
     requestAnimationFrame(draw);
     window.addEventListener("resize", draw);

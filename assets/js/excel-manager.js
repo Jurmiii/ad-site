@@ -436,6 +436,105 @@
     var wb = XLSX.utils.book_new();
     var mk = masterMonthNow();
 
+    function setCols(ws, widths) {
+      ws["!cols"] = (widths || []).map(function (wch) {
+        return { wch: wch };
+      });
+    }
+
+    function styleHeaderRow(ws, colCount) {
+      // SheetJS community에서도 일부 뷰어에서 스타일이 보이도록 's'를 넣어 둔다(지원 환경 한정)
+      for (var c = 0; c < colCount; c++) {
+        var addr = colLetter(c) + "1";
+        if (!ws[addr]) continue;
+        ws[addr].s = {
+          fill: { patternType: "solid", fgColor: { rgb: "0B1F3A" } },
+          font: { color: { rgb: "FFFFFF" }, bold: true },
+          alignment: { horizontal: "center", vertical: "center" },
+          border: {
+            top: { style: "thin", color: { rgb: "CBD5E1" } },
+            bottom: { style: "thin", color: { rgb: "CBD5E1" } },
+            left: { style: "thin", color: { rgb: "CBD5E1" } },
+            right: { style: "thin", color: { rgb: "CBD5E1" } },
+          },
+        };
+      }
+    }
+
+    function numFmt(ws, colLetter0, startRow, endRow) {
+      for (var r = startRow; r <= endRow; r++) {
+        var a = colLetter0 + String(r);
+        if (!ws[a]) continue;
+        ws[a].z = "#,##0";
+      }
+    }
+
+    // ---- 템플릿(제출용) 시트 3종: 종합 보고서 / 예산 설계 / 일일 기록 ----
+    var bs = masterLoadJson("moneyCalendar.budgetSetup.v1." + mk, null);
+    var ti = bs
+      ? Math.max(0, Math.trunc(Number(bs.real) || 0)) +
+        Math.max(0, Math.trunc(Number(bs.scheduled) || 0)) +
+        Math.max(0, Math.trunc(Number(bs.other) || 0)) +
+        Math.max(0, Math.trunc(Number(bs.hope) || 0))
+      : 0;
+    var alloc = bs
+      ? Math.max(0, Math.trunc(Number(bs.living) || 0)) +
+        Math.max(0, Math.trunc(Number(bs.activity) || 0)) +
+        Math.max(0, Math.trunc(Number(bs.essential) || 0))
+      : 0;
+
+    var dailyMap0 = masterLoadJson("moneyCalendar.dailyLedger.v1", {});
+    var dailyRows = [];
+    Object.keys(dailyMap0).forEach(function (date) {
+      if (date.slice(0, 7) !== mk) return;
+      var day = dailyMap0[date];
+      if (!day || !Array.isArray(day.txs)) return;
+      day.txs.forEach(function (t) {
+        dailyRows.push([date, t.type, t.category, t.memo, Math.max(0, Math.trunc(Number(t.amount) || 0))]);
+      });
+    });
+
+    var dailyAoa = [["날짜", "구분", "카테고리", "메모", "금액"]];
+    for (var dr = 0; dr < dailyRows.length; dr++) dailyAoa.push(dailyRows[dr]);
+    var wsDaily = XLSX.utils.aoa_to_sheet(dailyAoa);
+    setCols(wsDaily, [12, 10, 16, 28, 14]);
+    styleHeaderRow(wsDaily, 5);
+    if (dailyAoa.length >= 2) numFmt(wsDaily, "E", 2, dailyAoa.length);
+    XLSX.utils.book_append_sheet(wb, wsDaily, "일일_기록");
+
+    var budgetAoa = [
+      ["항목", "값(원)", "비고"],
+      ["기준월", mk, ""],
+      ["총 수입", ti, ""],
+      ["배분 합계", alloc, ""],
+      ["잔여(저축/여유)", { f: "B3-B4" }, "총수입-배분합"],
+      ["생활비", bs ? Math.max(0, Math.trunc(Number(bs.living) || 0)) : 0, ""],
+      ["활동비", bs ? Math.max(0, Math.trunc(Number(bs.activity) || 0)) : 0, ""],
+      ["필수비용", bs ? Math.max(0, Math.trunc(Number(bs.essential) || 0)) : 0, ""],
+    ];
+    var wsBudget = XLSX.utils.aoa_to_sheet(budgetAoa);
+    setCols(wsBudget, [18, 16, 28]);
+    styleHeaderRow(wsBudget, 3);
+    numFmt(wsBudget, "B", 3, 9);
+    XLSX.utils.book_append_sheet(wb, wsBudget, "예산_설계");
+
+    // 종합 보고서: 일일 기록의 지출/수입 합계, 잔여 자동 계산(SUMIF)
+    var wsReport = XLSX.utils.aoa_to_sheet([
+      ["종합 보고서", "", ""],
+      ["기준월", mk, ""],
+      ["총 수입(예산 설계)", { f: "예산_설계!B3" }, ""],
+      ["총 지출(일일 기록)", { f: 'SUMIF(일일_기록!B:B,"expense",일일_기록!E:E)' }, ""],
+      ["총 수입(일일 기록)", { f: 'SUMIF(일일_기록!B:B,"income",일일_기록!E:E)' }, ""],
+      ["순지출(지출-수입)", { f: "B4-B5" }, ""],
+      ["예산 잔여(예산 기준)", { f: "예산_설계!B5" }, ""],
+    ]);
+    setCols(wsReport, [20, 18, 18]);
+    // 헤더(1행)는 타이틀이므로 1행 스타일 대신 1행 병합 느낌만
+    wsReport["A1"].s = { font: { bold: true } };
+    styleHeaderRow(wsReport, 3); // 1행도 헤더처럼 보이게
+    numFmt(wsReport, "B", 3, 7);
+    XLSX.utils.book_append_sheet(wb, wsReport, "종합_보고서");
+
     var inc = masterLoadJson("moneyCalendar.incomeDesign.v1", null);
     masterAppendRows(wb, "01_계층형수입설계", inc && typeof inc === "object" ? [inc] : []);
 
@@ -665,7 +764,7 @@
       : [];
     masterAppendRows(wb, "15_공개형공유", pr);
 
-    XLSX.writeFile(wb, makeFilename("Master15_All"));
+    XLSX.writeFile(wb, makeFilename("재정관리템플릿"));
   }
 
   function truncateCell(s, max) {
