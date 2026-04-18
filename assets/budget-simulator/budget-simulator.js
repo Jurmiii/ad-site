@@ -17,7 +17,16 @@ const GUIDE = {
   essential: 0.2,
 };
 
-/** @typedef {{ monthKey: string, total: number, living: number, activity: number, essential: number, confirmed: boolean, confirmedAt: string | null }} SimState */
+/** UI·엑셀·피드백 공통 (키 living/activity/essential 유지) */
+const SIM_LABELS = {
+  living: "필수 지출 (Needs)",
+  activity: "선택적 지출 (Wants)",
+  essential: "저축 및 투자 (Savings)",
+};
+
+const SIM_CHART_LABELS = ["필수(Needs)", "선택(Wants)", "저축(Savings)"];
+
+/** @typedef {{ monthKey: string, income: number, fixed: number, total: number, living: number, activity: number, essential: number, confirmed: boolean, confirmedAt: string | null }} SimState */
 
 function $(id) {
   const el = document.getElementById(id);
@@ -66,14 +75,17 @@ function roundInt(n) {
   return Math.trunc(Number.isFinite(n) ? n : 0);
 }
 
-/** 2번 비전 예산: 수입−고정−비전 합이 양수이고 시뮬 총액이 비어 있으면 시드 */
+/** 비전 예산: 수입−고정−비전 합이 양수이고 시뮬 풀이 비어 있으면 시드 */
 function trySeedFromVisionRemainder() {
   if (state.confirmed) return false;
-  if (state.total > 0) return false;
+  if (state.total > 0 || state.income > 0) return false;
   if (typeof window.MoneyCalendarVisionBudget === "undefined") return false;
   var snap = window.MoneyCalendarVisionBudget.read();
   if (!snap || snap.disposable <= 0) return false;
   var t = snap.disposable;
+  var fix = Math.max(0, roundInt(state.fixed));
+  state.income = t + fix;
+  state.fixed = fix;
   state.total = t;
   state.living = roundInt(t * GUIDE.living);
   state.activity = roundInt(t * GUIDE.activity);
@@ -86,6 +98,8 @@ function trySeedFromVisionRemainder() {
 function emptyState(monthKey) {
   return {
     monthKey,
+    income: 0,
+    fixed: 0,
     total: 0,
     living: 0,
     activity: 0,
@@ -101,9 +115,23 @@ function loadState(monthKey) {
     const raw = localStorage.getItem(storageKey(monthKey));
     if (!raw) return emptyState(monthKey);
     const o = JSON.parse(raw);
+    const hasIncomeFixed = Object.prototype.hasOwnProperty.call(o, "income") || Object.prototype.hasOwnProperty.call(o, "fixed");
+    let income = Math.max(0, roundInt(o.income));
+    let fixed = Math.max(0, roundInt(o.fixed));
+    let total = Math.max(0, roundInt(o.total));
+    if (!hasIncomeFixed && (total > 0 || roundInt(o.living) > 0 || roundInt(o.activity) > 0 || roundInt(o.essential) > 0)) {
+      income = total;
+      fixed = 0;
+    }
+    if (hasIncomeFixed && income === 0 && fixed === 0 && total > 0) {
+      income = total;
+    }
+    const pool = Math.max(0, income - fixed);
     return {
       monthKey,
-      total: Math.max(0, roundInt(o.total)),
+      income,
+      fixed,
+      total: pool,
       living: Math.max(0, roundInt(o.living)),
       activity: Math.max(0, roundInt(o.activity)),
       essential: Math.max(0, roundInt(o.essential)),
@@ -204,13 +232,25 @@ function normalizeToTotal(s) {
   }
 }
 
+/** 수입·고정 지출 변경 시 풀(= 분배 상한) 동기화 */
+function syncPoolFromIncomeFixed() {
+  const inc = Math.max(0, roundInt(state.income));
+  const fix = Math.max(0, roundInt(state.fixed));
+  state.income = inc;
+  state.fixed = fix;
+  state.total = Math.max(0, inc - fix);
+  normalizeToTotal(state);
+}
+
 let monthKey = currentMonthKey();
 /** @type {SimState} */
 let state = emptyState(monthKey);
 
 const els = {
   month: /** @type {HTMLInputElement} */ ($("plan-date")),
-  total: /** @type {HTMLInputElement} */ ($("total-budget")),
+  income: /** @type {HTMLInputElement} */ ($("sim-income")),
+  fixed: /** @type {HTMLInputElement} */ ($("sim-fixed")),
+  poolDisplay: $("sim-pool-display"),
   loadBudgetSetup: /** @type {HTMLButtonElement} */ ($("btn-load-budget-setup")),
   apply532: /** @type {HTMLButtonElement} */ ($("btn-apply-532")),
   lockPill: $("lock-pill"),
@@ -256,7 +296,8 @@ let chart = null;
 
 function setEditable(isEditable) {
   const disabled = !isEditable;
-  els.total.disabled = disabled;
+  els.income.disabled = disabled;
+  els.fixed.disabled = disabled;
   els.loadBudgetSetup.disabled = disabled;
   els.apply532.disabled = disabled;
   for (const k of ["living", "activity", "essential"]) {
@@ -290,9 +331,9 @@ function updateRangesMax() {
 function renderDiffTable() {
   const total = state.total;
   const rows = [
-    { key: "living", label: "생활비", current: state.living, guide: GUIDE.living },
-    { key: "activity", label: "활동비", current: state.activity, guide: GUIDE.activity },
-    { key: "essential", label: "필수비용", current: state.essential, guide: GUIDE.essential },
+    { key: "living", label: SIM_LABELS.living, current: state.living, guide: GUIDE.living },
+    { key: "activity", label: SIM_LABELS.activity, current: state.activity, guide: GUIDE.activity },
+    { key: "essential", label: SIM_LABELS.essential, current: state.essential, guide: GUIDE.essential },
   ];
 
   els.diffBody.innerHTML = "";
@@ -313,7 +354,8 @@ function renderDiffTable() {
 function renderGuideText() {
   const total = state.total;
   if (total <= 0) {
-    els.guideText.textContent = "총 예산을 입력하면 권장 비율과의 차이를 분석해 드립니다.";
+    els.guideText.textContent =
+      "수입과 고정 지출을 입력하면 분배 가능 금액이 정해지고, 50/30/20 권장 비율(필수·선택·저축)과의 차이를 분석해 드립니다.";
     els.deltaPill.textContent = "권장 대비 분석";
     els.deltaPill.className = "pill pill-muted";
     return;
@@ -339,7 +381,7 @@ function renderGuideText() {
     els.deltaPill.textContent = "권장 비율 근접";
     els.deltaPill.className = "pill pill-ok";
     els.guideText.textContent =
-      "현재 분배는 50/30/20 권장 비율과 큰 차이가 없습니다. 다음 단계로는 항목별 세부 지출을 점검해 보세요.";
+      "현재 분배는 50/30/20 권장 비율(필수·선택·저축)과 큰 차이가 없습니다. 다음 단계로는 항목별 세부 지출을 점검해 보세요.";
     return;
   }
 
@@ -350,7 +392,7 @@ function renderGuideText() {
     if (v < -5) down.push(k);
   }
 
-  const label = (k) => (k === "living" ? "생활비" : k === "activity" ? "활동비" : "필수비용");
+  const label = (k) => SIM_LABELS[k] || k;
   const msg = [];
   if (up.length) msg.push(`${up.map(label).join(", ")} 비중이 권장보다 높습니다.`);
   if (down.length) msg.push(`${down.map(label).join(", ")} 비중이 권장보다 낮습니다.`);
@@ -376,7 +418,9 @@ function renderSummary() {
 }
 
 function hydrateInputs() {
-  els.total.value = state.total ? formatWon(state.total) : "";
+  els.income.value = state.income ? formatWon(state.income) : "";
+  els.fixed.value = state.fixed ? formatWon(state.fixed) : "";
+  els.poolDisplay.textContent = formatWonAlways(state.total);
   for (const k of ["living", "activity", "essential"]) {
     els.amt[k].value = state[k] ? formatWon(state[k]) : "";
     els.rng[k].value = String(state[k] || 0);
@@ -387,7 +431,7 @@ function hydrateInputs() {
 function renderChart() {
   if (typeof Chart === "undefined") return;
   const data = [state.living, state.activity, state.essential];
-  const labels = ["생활비", "활동비", "필수비용"];
+  const labels = [...SIM_CHART_LABELS];
   const colors = ["#22c55e", "#3b82f6", "#f59e0b"];
 
   const ctx = /** @type {HTMLCanvasElement} */ ($("donut")).getContext("2d");
@@ -430,6 +474,7 @@ function renderChart() {
     return;
   }
 
+  chart.data.labels = labels;
   chart.data.datasets[0].data = data;
   chart.update();
 }
@@ -462,10 +507,12 @@ function loadFromBudgetSetup() {
     const activity = Math.max(0, roundInt(o.activity));
     const essential = Math.max(0, roundInt(o.essential));
     const total = living + activity + essential;
-    state.total = total;
     state.living = living;
     state.activity = activity;
     state.essential = essential;
+    state.total = total;
+    state.income = total + state.fixed;
+    normalizeToTotal(state);
     state.confirmed = false;
     state.confirmedAt = null;
     persist();
@@ -478,7 +525,7 @@ function loadFromBudgetSetup() {
 function apply532() {
   const total = Math.max(0, roundInt(state.total));
   if (total <= 0) {
-    alert("총 예산을 먼저 입력해 주세요.");
+    alert("수입과 고정 지출을 입력해 분배 가능 금액을 먼저 정해 주세요.");
     return;
   }
   const living = Math.floor(total * GUIDE.living);
@@ -493,7 +540,7 @@ function apply532() {
 
 function confirmSim() {
   if (state.total <= 0) {
-    alert("총 예산이 0원입니다. 값을 입력한 뒤 확정해 주세요.");
+    alert("분배 가능 금액이 0원입니다. 수입·고정 지출을 입력한 뒤 확정해 주세요.");
     return;
   }
   if (!window.confirm("현재 시뮬레이션 결과를 확정하고 입력을 잠글까요?")) return;
@@ -520,10 +567,12 @@ function exportExcel() {
   const total = state.total;
   const rows = [
     { 항목: "기준월", 값: state.monthKey },
-    { 항목: "총 예산", 값: total },
-    { 항목: "생활비", 값: state.living, 비중: pctText(state.living, total), 권장: "50%", 차이: `${(pct(state.living, total) - 50).toFixed(1)}%` },
-    { 항목: "활동비", 값: state.activity, 비중: pctText(state.activity, total), 권장: "30%", 차이: `${(pct(state.activity, total) - 30).toFixed(1)}%` },
-    { 항목: "필수비용", 값: state.essential, 비중: pctText(state.essential, total), 권장: "20%", 차이: `${(pct(state.essential, total) - 20).toFixed(1)}%` },
+    { 항목: "전체 수입(가용)", 값: state.income },
+    { 항목: "고정 지출(필수 생활비)", 값: state.fixed },
+    { 항목: "분배 가능 금액(슬라이더 기준)", 값: total },
+    { 항목: SIM_LABELS.living, 값: state.living, 비중: pctText(state.living, total), 권장: "50%", 차이: `${(pct(state.living, total) - 50).toFixed(1)}%` },
+    { 항목: SIM_LABELS.activity, 값: state.activity, 비중: pctText(state.activity, total), 권장: "30%", 차이: `${(pct(state.activity, total) - 30).toFixed(1)}%` },
+    { 항목: SIM_LABELS.essential, 값: state.essential, 비중: pctText(state.essential, total), 권장: "20%", 차이: `${(pct(state.essential, total) - 20).toFixed(1)}%` },
     { 항목: "합계", 값: sumCats(state) },
     { 항목: "남는 금액", 값: leftAmount(state) },
     { 항목: "확정 여부", 값: state.confirmed ? "확정" : "미확정" },
@@ -535,8 +584,18 @@ function exportExcel() {
   XLSX.utils.book_append_sheet(wb, ws, "시뮬레이션");
 
   const detail = [
-    { 구분: "권장 비율", 생활비: "50%", 활동비: "30%", 필수비용: "20%" },
-    { 구분: "현재 비율", 생활비: pctText(state.living, total), 활동비: pctText(state.activity, total), 필수비용: pctText(state.essential, total) },
+    {
+      구분: "권장 비율",
+      [SIM_LABELS.living]: "50%",
+      [SIM_LABELS.activity]: "30%",
+      [SIM_LABELS.essential]: "20%",
+    },
+    {
+      구분: "현재 비율",
+      [SIM_LABELS.living]: pctText(state.living, total),
+      [SIM_LABELS.activity]: pctText(state.activity, total),
+      [SIM_LABELS.essential]: pctText(state.essential, total),
+    },
   ];
   const ws2 = XLSX.utils.json_to_sheet(detail);
   XLSX.utils.book_append_sheet(wb, ws2, "비율");
@@ -568,7 +627,7 @@ function bindCategory(key) {
 }
 
 function init() {
-  // Excel Manager (template download + import)
+  // Excel Manager (import / export)
   if (typeof ExcelManager !== "undefined") {
     try {
       ExcelManager.mount("excel-control-root", "BudgetSimulator", {
@@ -580,30 +639,52 @@ function init() {
               ? row.monthKey
               : currentMonthKey();
 
+          function numField(r, key) {
+            if (!r || r[key] === undefined || r[key] === null || r[key] === "") return 0;
+            const n = Number(r[key]);
+            return Number.isFinite(n) ? Math.trunc(n) : 0;
+          }
+
+          let income = Math.max(0, numField(row, "income"));
+          let fixed = Math.max(0, numField(row, "fixed"));
+          let total = Math.max(0, numField(row, "total"));
+          if (income === 0 && fixed === 0 && total > 0) {
+            income = total;
+          }
+          const pool = Math.max(0, income - fixed);
+
           const incoming = {
             monthKey: mk,
-            total: Math.max(0, Math.trunc(Number(row.total) || 0)),
-            living: Math.max(0, Math.trunc(Number(row.living) || 0)),
-            activity: Math.max(0, Math.trunc(Number(row.activity) || 0)),
-            essential: Math.max(0, Math.trunc(Number(row.essential) || 0)),
+            income: Math.max(0, income),
+            fixed: Math.max(0, fixed),
+            total: pool,
+            living: Math.max(0, numField(row, "living")),
+            activity: Math.max(0, numField(row, "activity")),
+            essential: Math.max(0, numField(row, "essential")),
             confirmed: Boolean(row.confirmed),
             confirmedAt: typeof row.confirmedAt === "string" ? row.confirmedAt : null,
           };
+          normalizeToTotal(incoming);
 
           if (mode === "overwrite") {
-            state = { ...state, ...incoming };
+            state = { ...incoming };
           } else {
-            if ((Number(state.total) || 0) === 0 && incoming.total > 0) state.total = incoming.total;
+            if ((Number(state.total) || 0) === 0 && incoming.total > 0) {
+              state.income = incoming.income;
+              state.fixed = incoming.fixed;
+              state.total = incoming.total;
+            }
             if ((Number(state.living) || 0) === 0 && incoming.living > 0) state.living = incoming.living;
             if ((Number(state.activity) || 0) === 0 && incoming.activity > 0) state.activity = incoming.activity;
             if ((Number(state.essential) || 0) === 0 && incoming.essential > 0) state.essential = incoming.essential;
             state.confirmed = Boolean(state.confirmed || incoming.confirmed);
             state.confirmedAt = state.confirmedAt || incoming.confirmedAt || null;
             state.monthKey = mk;
+            normalizeToTotal(state);
           }
 
           monthKey = mk;
-          els.month.value = mk;
+          els.month.value = mk.length === 7 ? `${mk}-01` : mk;
           persist();
           renderAll();
         },
@@ -635,10 +716,17 @@ function init() {
     renderAll();
   });
 
-  applyMoneyField(els.total, (n) => {
+  applyMoneyField(els.income, (n) => {
     if (state.confirmed) return;
-    state.total = n;
-    normalizeToTotal(state);
+    state.income = n;
+    syncPoolFromIncomeFixed();
+    persist();
+    renderAll();
+  });
+  applyMoneyField(els.fixed, (n) => {
+    if (state.confirmed) return;
+    state.fixed = n;
+    syncPoolFromIncomeFixed();
     persist();
     renderAll();
   });

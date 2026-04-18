@@ -6,7 +6,7 @@
     <title>2. 비전 기반 예산 할당 · Money Calendar</title>
     <meta
       name="description"
-      content="고정 지출을 먼저 확보한 뒤, 남은 재원을 비전 목표에 할당하고 최종 잔여 가용 예산을 확인합니다."
+      content="먼저 월 가용 수입을 확인한 뒤 고정 지출을 반영하고, 남은 재원을 비전 목표에 할당하며 최종 잔여 가용 예산을 확인합니다."
     />
     <link
       rel="stylesheet"
@@ -71,26 +71,59 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">2 · 비전 기반 예산 할당</p>
             <h1 class="mc-page-intro__title">2. 비전 기반 예산 할당</h1>
+            <p class="mc-page-intro__kicker">2 · 비전 기반 예산 할당</p>
             <p class="mc-page-intro__lead text-body">
-              필수 고정 지출을 먼저 확보한 뒤, 남은 재원을 비전·목표에 순서대로 할당합니다. 최종 잔여는 일상
-              가용으로 이어집니다.
+              먼저 <strong>월 가용 수입</strong>을 확인하고, 이어서 <strong>고정 지출</strong>을 반영한 뒤 남은 재원을
+              비전·목표에 순서대로 할당합니다. 최종 잔여는 일상 가용으로 이어집니다.
             </p>
           </header>
 
           <div id="excel-control-root" class="mc-excel-slot"></div>
 
-      <section class="card mt-24" aria-labelledby="fixed-title">
-        <h2 id="fixed-title">고정 지출(필수 생활비)</h2>
-        <p class="text-sm mt-10">
-          월 수입에서 <strong>가장 먼저</strong> 빼 두어야 할 금액입니다. 주거·통신·보험·대출 상환 등 반복되는
-          필수 비용을 입력하세요.
+      <section class="card vb-stack vb-stack--first" aria-labelledby="income-title">
+        <h2 id="income-title">전체 수입(가용)</h2>
+        <p class="text-sm mt-8">
+          이번 달 예산을 짜는 기준 수입입니다. 계층형 수입 설계에서 합산한 금액을 불러올 수 있습니다.
         </p>
-        <div class="income-row mt-16">
-          <label class="field-grow">
+        <div class="vb-income-stack mt-12">
+          <div class="income-row">
+            <label class="field-grow">
+              <span class="field-label">월 가용 수입</span>
+              <div id="total-income-wrap" class="money-wrap">
+                <input
+                  id="total-income"
+                  class="money-input"
+                  type="tel"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  placeholder="0"
+                  aria-describedby="income-help vb-over-slot-income"
+                />
+                <span class="won" aria-hidden="true">원</span>
+              </div>
+            </label>
+            <button id="btn-sync-income" class="btn-secondary" type="button">
+              수입 설계 합계 불러오기
+            </button>
+          </div>
+          <div id="vb-over-slot-income" class="vb-validation-slot" aria-live="polite"></div>
+        </div>
+        <p id="income-help" class="text-sm mt-8">
+          고정 지출과 비전 할당 합이 수입을 넘으면 경고가 표시되며, 저장이 제한됩니다.
+        </p>
+      </section>
+
+      <section class="card vb-stack" aria-labelledby="fixed-title">
+        <h2 id="fixed-title">고정 지출(필수 생활비)</h2>
+        <p class="text-sm mt-8">
+          수입을 확인한 뒤, 월 수입에서 <strong>가장 먼저</strong> 빼 두어야 할 금액입니다. 주거·통신·보험·대출 상환 등
+          반복되는 필수 비용을 입력하세요.
+        </p>
+        <div class="vb-field-stack vb-field-stack--fixed mt-12">
+          <label class="vb-money-col">
             <span class="field-label">이번 달 고정 지출 합계</span>
-            <div class="money-wrap">
+            <div id="fixed-expense-wrap" class="money-wrap">
               <input
                 id="fixed-expense"
                 class="money-input"
@@ -98,55 +131,48 @@
                 inputmode="numeric"
                 autocomplete="off"
                 placeholder="0"
-                aria-describedby="fixed-help"
+                aria-describedby="fixed-help vb-over-slot-fixed"
               />
               <span class="won" aria-hidden="true">원</span>
             </div>
           </label>
+          <div id="vb-over-slot-fixed" class="vb-validation-slot" aria-live="polite"></div>
         </div>
-        <p id="fixed-help" class="text-sm mt-10">
+        <p id="fixed-help" class="text-sm mt-8">
           이 금액은 비전 할당보다 항상 먼저 차감됩니다.
         </p>
       </section>
 
-      <section class="card mt-24" aria-labelledby="income-title">
-        <h2 id="income-title">전체 수입(가용)</h2>
-        <p class="text-sm mt-10">
-          이번 달 예산을 짜는 기준 수입입니다. 계층형 수입 설계에서 합산한 금액을 불러올 수 있습니다.
+      <section class="card vb-stack vb-live-banner" aria-labelledby="vb-live-title">
+        <h2 id="vb-live-title" class="vb-live-banner__title">실시간 가용 예산</h2>
+        <p class="text-sm mt-8">
+          수입에서 <strong>고정 지출을 먼저 뺀 금액</strong>이 이번 달 비전 할당의 상한입니다. 합계가 수입을 넘지 않도록
+          조정하세요.
         </p>
-        <div class="income-row mt-16">
-          <label class="field-grow">
-            <span class="field-label">월 가용 수입</span>
-            <div class="money-wrap">
-              <input
-                id="total-income"
-                class="money-input"
-                type="tel"
-                inputmode="numeric"
-                autocomplete="off"
-                placeholder="0"
-                aria-describedby="income-help"
-              />
-              <span class="won" aria-hidden="true">원</span>
-            </div>
-          </label>
-          <button id="btn-sync-income" class="btn-secondary" type="button">
-            수입 설계 합계 불러오기
-          </button>
+        <div class="vb-live-grid mt-12">
+          <div class="vb-live-cell">
+            <div class="vb-live-k">가용 비전 예산 (수입 − 고정 지출)</div>
+            <div id="vb-vision-ceiling" class="vb-live-v" aria-live="polite">0원</div>
+          </div>
+          <div class="vb-live-cell">
+            <div class="vb-live-k">이번 달 비전 할당 합계</div>
+            <div id="vb-vision-total" class="vb-live-v" aria-live="polite">0원</div>
+          </div>
+          <div class="vb-live-cell">
+            <div class="vb-live-k">잔여 (가용 비전 − 할당 합)</div>
+            <div id="vb-vision-remainder" class="vb-live-v" aria-live="polite">0원</div>
+          </div>
         </div>
-        <p id="income-help" class="text-sm mt-10">
-          고정 지출과 비전 할당 합이 수입을 넘으면 경고가 표시됩니다.
-        </p>
       </section>
 
-      <section class="card mt-24" aria-labelledby="vision-form-title">
+      <section class="card vb-stack" aria-labelledby="vision-form-title">
         <h2 id="vision-form-title">비전 설정</h2>
-        <p class="text-sm mt-10">
+        <p class="text-sm mt-8">
           단기·장기 목표와 <strong>최종 목표 금액</strong>, <strong>이번 달 비전 할당액</strong>(고정 지출
           차감 후 남은 재원에서 순서대로 배분)을 입력하세요. 진행률은 현재까지 모은 금액을 넣으면 계산됩니다.
         </p>
 
-        <form id="vision-add-form" class="vision-form mt-20">
+        <form id="vision-add-form" class="vision-form mt-14">
           <div class="form-grid">
             <label class="field">
               <span class="field-label">구분</span>
@@ -195,7 +221,7 @@
             </label>
             <label class="field">
               <span class="field-label">이번 달 비전 할당</span>
-              <div class="money-wrap">
+              <div id="vf-monthly-wrap" class="money-wrap">
                 <input
                   id="vf-monthly"
                   class="money-input"
@@ -203,41 +229,41 @@
                   inputmode="numeric"
                   placeholder="0"
                   required
+                  aria-describedby="vb-over-slot-monthly"
                 />
                 <span class="won" aria-hidden="true">원</span>
               </div>
             </label>
           </div>
-          <div class="mt-20">
-            <button class="btn" type="submit">비전 추가</button>
+          <div id="vb-over-slot-monthly" class="vb-validation-slot vb-validation-slot--form mt-10" aria-live="polite"></div>
+          <div class="mt-14">
+            <button id="btn-vision-add" class="btn" type="submit">비전 추가</button>
           </div>
         </form>
       </section>
 
-      <section class="mt-24" aria-labelledby="priority-title">
+      <section class="vb-stack" aria-labelledby="priority-title">
         <div class="card">
           <h2 id="priority-title">우선순위 연동 예산 배분</h2>
-          <p class="text-sm mt-10">
+          <p class="text-sm mt-8">
             먼저 고정 지출이 차감된 뒤, 아래 비전 목록의 순서대로 남은 재원에서 할당됩니다. 번호가 작을수록 비전
             간 우선순위가 높습니다.
           </p>
 
-          <div id="waterfall" class="waterfall mt-20" role="region" aria-live="polite"></div>
+          <div id="waterfall" class="waterfall mt-14" role="region" aria-live="polite"></div>
 
-          <div id="over-alert" class="alert alert--warn mt-16 is-hidden" role="alert">
-            고정 지출과 비전 할당 합이 월 가용 수입을 초과했습니다. 금액을 조정해 주세요.
-          </div>
+          <div id="over-alert" class="vb-over-banner mt-12 is-hidden" role="alert" aria-live="assertive"></div>
 
-          <div id="vision-list" class="vision-list mt-24"></div>
+          <div id="vision-list" class="vision-list mt-14"></div>
         </div>
       </section>
 
-      <section class="card mt-24" aria-labelledby="export-title">
+      <section class="card vb-stack" aria-labelledby="export-title">
         <h2 id="export-title">보내기 안내</h2>
-        <p class="text-sm mt-10">비전 목록과 할당·잔여 요약은 상단 통합 엑셀 컨트롤의 「현재 화면 엑셀 저장」으로 받을 수 있습니다.</p>
+        <p class="text-sm mt-8">비전 목록과 할당·잔여 요약은 상단 통합 엑셀 컨트롤의 「현재 화면 엑셀 저장」으로 받을 수 있습니다.</p>
       </section>
 
-      <footer class="page-foot mt-24 mb-20">
+      <footer class="page-foot mt-16 mb-20">
         <p class="text-sm text-center">
           Money Calendar · 비전 기반 예산 — 정보 제공 목적이며 투자·세무 자문이 아닙니다.
         </p>

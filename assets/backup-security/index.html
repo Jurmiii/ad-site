@@ -64,8 +64,8 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">14 · 데이터 암호화 및 백업</p>
             <h1 class="mc-page-intro__title">14. 데이터 암호화 및 백업</h1>
+            <p class="mc-page-intro__kicker">14 · 데이터 암호화 및 백업</p>
             <p class="mc-page-intro__lead text-body">
               비밀번호로 AES-GCM 암호화한 보안 백업 파일(.zip)로 저장할 수 있습니다. 복원 시 기존 키를 덮어쓰므로 주의하세요.
             </p>
@@ -74,23 +74,102 @@
             </p>
           </header>
           <div id="excel-control-root" class="mc-excel-slot"></div>
-          <section class="card mt-24">
-            <h2 class="bk-h2 mt-24">암호화 백업</h2>
-            <label class="field mt-16">
-              <span class="field-label">백업 비밀번호</span>
-              <input id="bk-pass" type="password" autocomplete="new-password" placeholder="8자 이상 권장" />
-            </label>
-            <button id="btn-enc" class="btn mt-16" type="button">보안 백업 파일(.zip) 저장</button>
-            <h2 class="bk-h2 mt-24">복원</h2>
-            <p class="text-sm mt-10">
-              보안 백업 파일(.zip)을 업로드하면 암호 확인 후 즉시 데이터가 복원됩니다.
-            </p>
-            <input id="bk-file" type="file" accept=".zip,application/zip" class="mt-16" />
-            <label class="field mt-16">
-              <span class="field-label">복원 비밀번호 (.zip)</span>
-              <input id="bk-pass-in" type="password" autocomplete="new-password" />
-            </label>
-            <button id="btn-restore" class="btn-secondary mt-16" type="button">선택 파일에서 복원</button>
+          <section class="card mt-24 bk-card">
+            <div class="bk-split" role="group" aria-label="암호화 백업 및 복원">
+              <div class="bk-panel bk-panel--backup">
+                <h2 class="bk-h2">암호화 백업</h2>
+                <div class="field mt-12">
+                  <span class="field-label">백업 비밀번호</span>
+                  <div class="bk-action-line" role="group" aria-label="백업 비밀번호 및 실행">
+                    <div class="bk-pass-wrap bk-pass-wrap--compact">
+                      <input
+                        id="bk-pass"
+                        class="bk-pass-input"
+                        type="password"
+                        autocomplete="new-password"
+                        placeholder="8자 이상 권장"
+                      />
+                      <button
+                        type="button"
+                        class="bk-pass-toggle"
+                        id="bk-pass-toggle"
+                        aria-label="비밀번호 표시"
+                        aria-pressed="false"
+                      >
+                        <svg
+                          class="bk-pass-toggle__icon"
+                          viewBox="0 0 24 24"
+                          width="22"
+                          height="22"
+                          aria-hidden="true"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      </button>
+                    </div>
+                    <button id="btn-enc" class="btn bk-action-btn" type="button">백업하기</button>
+                  </div>
+                </div>
+              </div>
+              <div class="bk-panel bk-panel--restore">
+                <h2 class="bk-h2">복원</h2>
+                <p class="text-sm mt-12 bk-panel__lead">
+                  보안 백업 파일(.zip)을 업로드하면 암호 확인 후 즉시 데이터가 복원됩니다.
+                </p>
+                <div class="bk-file-row mt-12">
+                  <input
+                    id="bk-file"
+                    class="visually-hidden"
+                    type="file"
+                    accept=".zip,application/zip"
+                    tabindex="-1"
+                    aria-label="복원할 보안 백업 zip 파일"
+                  />
+                  <button type="button" id="bk-file-trigger" class="btn-secondary bk-file-btn">
+                    파일 선택
+                  </button>
+                  <span id="bk-file-name" class="bk-file-name" aria-live="polite">선택된 파일 없음</span>
+                </div>
+                <div class="field mt-12">
+                  <span class="field-label">복원 비밀번호 (.zip)</span>
+                  <div class="bk-action-line" role="group" aria-label="복원 비밀번호 및 실행">
+                    <div class="bk-pass-wrap bk-pass-wrap--compact">
+                      <input id="bk-pass-in" class="bk-pass-input" type="password" autocomplete="new-password" />
+                      <button
+                        type="button"
+                        class="bk-pass-toggle"
+                        id="bk-pass-in-toggle"
+                        aria-label="비밀번호 표시"
+                        aria-pressed="false"
+                      >
+                        <svg
+                          class="bk-pass-toggle__icon"
+                          viewBox="0 0 24 24"
+                          width="22"
+                          height="22"
+                          aria-hidden="true"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                      </button>
+                    </div>
+                    <button id="btn-restore" class="btn-secondary bk-action-btn" type="button">복원하기</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
         </main>
       </div>

@@ -1,5 +1,5 @@
 /**
- * Money Calendar 기능 15 — 종합 재정 성취 리포트 및 자산 현황판
+ * Money Calendar 기능 15 — 재정 건전성 정밀 진단
  */
 (function () {
   "use strict";
@@ -49,7 +49,7 @@
   }
 
   function loadBudgetCap(mk) {
-    // 배분 예산(생활+활동+필수) 우선 → 시뮬레이터 총예산 → 2번 잔여 가용(수입−고정−비전)
+    // 배분 예산(필수+선택+저축) 우선 → 시뮬레이터 총예산 → 2번 잔여 가용(수입−고정−비전)
     var o = safeJson(BUDGET_PREFIX + "." + mk, null);
     if (o) {
       var a = toInt0(o.living) + toInt0(o.activity) + toInt0(o.essential);

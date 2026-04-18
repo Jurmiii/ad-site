@@ -559,17 +559,27 @@ html[data-theme="dark"] .mc-security-tip {
 }
 
 .mc-app__canvas .container {
-  padding-top: 6px;
+  padding-top: 10px;
 }
 
 .mc-app #main {
   display: block;
 }
 
-/* 페이지 도입부 (기능별): 가이드 → 검은 제목 → 리드 — 항상 본문 최상단 고정 */
+/* 페이지 도입부: 기능 제목(h1) 최우선 → 키커(맥락) → 리드 — 엑셀 슬롯은 그대로 아래 */
 .mc-page-intro {
-  margin-top: 4px;
-  margin-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.mc-page-intro__title {
+  margin: 0 0 8px;
+  font-size: clamp(1.28rem, 3.4vw, 1.62rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.22;
+  color: var(--color-text-primary);
+  max-width: 42ch;
 }
 
 .mc-page-intro__kicker {
@@ -580,25 +590,19 @@ html[data-theme="dark"] .mc-security-tip {
   word-break: keep-all;
   text-transform: none;
   color: var(--color-text-secondary);
-  margin-bottom: 0;
+  margin: 0 0 10px;
   max-width: 68ch;
 }
 
-.mc-page-intro__title {
-  margin: 10px 0 0;
-  font-size: clamp(1.28rem, 3.4vw, 1.62rem);
-  font-weight: 900;
-  letter-spacing: -0.035em;
-  line-height: 1.22;
-  color: var(--color-text-primary);
-  max-width: 42ch;
-}
-
 .mc-page-intro .mc-page-intro__lead {
-  margin-top: 10px;
+  margin-top: 0;
   max-width: 62ch;
   line-height: 1.65;
   word-break: keep-all;
+}
+
+.mc-page-intro__kicker + .mc-page-intro__lead {
+  margin-top: 4px;
 }
 
 /* 엑셀 컨트롤 슬롯은 excel-manager.css 에서 스타일 */

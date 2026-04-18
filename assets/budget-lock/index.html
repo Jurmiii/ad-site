@@ -62,7 +62,7 @@
         </div>
         <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">예산 수립과 같은 엑셀 양식으로 데이터를 주고받습니다.</p>
+          <p class="text-sm">웹에서 확정한 예산안을 엑셀로 저장·백업하고, 필요 시 같은 파일로 다시 불러올 수 있습니다.</p>
         </div>
       </div>
     </div>
@@ -71,8 +71,8 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">3 · 예산안 확정 및 락(Lock)</p>
             <h1 class="mc-page-intro__title">3. 예산안 확정 및 락(Lock)</h1>
+            <p class="mc-page-intro__kicker">3 · 예산안 확정 및 락(Lock)</p>
             <p class="mc-page-intro__lead text-body">
               수립한 예산안을 확정하면 읽기 전용으로 보호합니다. 부득이한 수정은 락 해제 후 가능하며, 변경 내역은
               타임라인에 기록됩니다.
@@ -127,13 +127,13 @@
           </fieldset>
           <fieldset class="fieldset" id="fieldset-budget">
             <legend>예산 배분</legend>
-            <label>생활비
+            <label>필수 지출 (Needs)
               <input id="f-living" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
-            <label>활동비
+            <label>선택적 지출 (Wants)
               <input id="f-activity" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
-            <label>필수비용
+            <label>저축 및 투자 (Savings)
               <input id="f-essential" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
           </fieldset>

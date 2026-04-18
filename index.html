@@ -38,7 +38,33 @@
     <header class="site-header">
       <div class="container site-header__inner">
         <a class="brand" href="./" aria-current="page">
-          <span class="brand__mark" aria-hidden="true"></span>
+          <span class="brand__mark" aria-hidden="true">
+            <svg class="brand__logo" viewBox="0 0 64 64" role="img" aria-label="Money Calendar">
+              <defs>
+                <linearGradient id="mcGrad" x1="10" y1="10" x2="54" y2="54" gradientUnits="userSpaceOnUse">
+                  <stop offset="0" stop-color="#22c55e" />
+                  <stop offset="1" stop-color="#0f766e" />
+                </linearGradient>
+              </defs>
+              <rect x="8" y="8" width="48" height="48" rx="18" fill="url(#mcGrad)" />
+              <path
+                d="M20 43V22c0-2.5 3.4-3.3 4.7-1.2l7.3 11.4c.5.8 1.7.8 2.2 0l7.1-11.3c1.3-2.1 4.7-1.2 4.7 1.3V43"
+                fill="none"
+                stroke="#ffffff"
+                stroke-width="4.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18.5 19.2c4.4-4.2 10.2-6.6 16.6-6.6s12.2 2.4 16.6 6.6"
+                fill="none"
+                stroke="rgba(255,255,255,.55)"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <circle cx="46" cy="18.7" r="2.4" fill="rgba(255,255,255,.9)" />
+            </svg>
+          </span>
           <span class="brand__text">
             <span class="brand__name">Money Calendar</span>
             <span class="brand__tag">머니 캘린더</span>
@@ -64,11 +90,11 @@
       </div>
     </header>
 
-    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="가계부 시리즈 메뉴" hidden>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="서비스 메뉴" hidden>
       <div class="drawer__backdrop" data-drawer-close></div>
       <div class="drawer__panel" role="document">
         <div class="drawer__top">
-          <p class="drawer__title">가계부 시리즈</p>
+          <p class="drawer__title">메뉴</p>
           <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
 
@@ -88,7 +114,6 @@
             <p class="cover__lead">정갈하게 설계하고, 부드럽게 기록하는 가계부 머니 캘린더</p>
             <div class="cover__cta">
               <a class="btn btn--lg" href="./income-design/index.html">시작하기</a>
-              <a class="btn btn--lg btn--ghost" href="./demo-tour.html">데모 모드 시작하기</a>
             </div>
 
             <div class="cover__progress" aria-live="polite">
@@ -171,26 +196,6 @@
                 13번 화면에서는 1~15 데이터를 한 파일로 통합 추출할 수 있습니다.
               </p>
             </div>
-            <div>
-              <p class="text-sm" style="font-weight: 800; letter-spacing: 0.02em">4) Data &amp; Security</p>
-              <div class="text-body mt-10" style="display: grid; gap: 12px">
-                <p>
-                  <span style="font-weight: 750">보안 원칙.</span>
-                  귀하의 재정 데이터는 서버로 전송되지 않습니다. 오직 사용자님의 브라우저(내 기기)에만 안전하게
-                  자동 저장됩니다.
-                </p>
-                <p>
-                  <span style="font-weight: 750">데이터 연속성.</span>
-                  로그인 없이도 새로고침이나 브라우저 재시작 시 기록이 유지됩니다. 다른 기기에서 이용하시려면 엑셀
-                  파일로 백업 후 업로드하세요.
-                </p>
-                <p class="text-sm" style="color: var(--color-text-muted); line-height: 1.6">
-                  <span style="font-weight: 750">유의사항(Disclaimer).</span>
-                  *브라우저의 방문 기록이나 캐시를 모두 삭제할 경우 저장된 데이터가 초기화될 수 있으므로, 주기적인
-                  엑셀 백업(13번 기능)을 강력히 권장합니다.
-                </p>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -209,44 +214,17 @@
           본 서비스는 투자·세무·법률 자문을 제공하지 않습니다. 중요한 결정은 전문가 상담과 공식
           자료를 병행하세요.
         </p>
-        <nav class="site-footer__links" aria-label="공공 금융 플랫폼 바로가기">
-          <a
-            class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
-            href="https://www.payinfo.or.kr/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="site-footer__link-title">어카운트인포</span>
-            <span class="site-footer__link-desc">내 계좌 한눈에 · 전 금융권 계좌·자동이체 통합</span>
+        <div class="site-footer__links">
+          <a class="btn btn--pill btn--ghost site-footer__link" href="https://www.fss.or.kr/" target="_blank" rel="noopener noreferrer">
+            <span aria-hidden="true">↗</span> 금융감독원
           </a>
-          <a
-            class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
-            href="https://sleepmoney.kinfa.or.kr/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="site-footer__link-title">서민금융진흥원</span>
-            <span class="site-footer__link-desc">휴면예금 찾기 · 잊고 있던 내 돈 찾기</span>
+          <a class="btn btn--pill btn--ghost site-footer__link" href="https://www.bok.or.kr/" target="_blank" rel="noopener noreferrer">
+            <span aria-hidden="true">↗</span> 한국은행
           </a>
-          <a
-            class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
-            href="https://fine.fss.or.kr/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="site-footer__link-title">금융감독원 파인</span>
-            <span class="site-footer__link-desc">금융정보 조회 · 민원 안내</span>
+          <a class="btn btn--pill btn--ghost site-footer__link" href="https://www.data.go.kr/" target="_blank" rel="noopener noreferrer">
+            <span aria-hidden="true">↗</span> 공공데이터포털
           </a>
-          <a
-            class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
-            href="https://www.hometax.go.kr/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span class="site-footer__link-title">홈택스</span>
-            <span class="site-footer__link-desc">연말정산 · 소득 증빙 관리</span>
-          </a>
-        </nav>
+        </div>
       </div>
     </footer>
 

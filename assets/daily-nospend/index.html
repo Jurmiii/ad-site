@@ -69,8 +69,8 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">8 · 무지출 챌린지 스티커</p>
             <h1 class="mc-page-intro__title">8. 무지출 챌린지 스티커</h1>
+            <p class="mc-page-intro__kicker">8 · 무지출 챌린지 스티커</p>
             <p class="mc-page-intro__lead text-body">
               달력에서 날짜를 누르면 무지출 스티커를 붙이거나 해제할 수 있습니다. 지출 합계가 0원인 날에도 스티커가
               표시됩니다.
@@ -140,7 +140,12 @@
           <section class="card mt-24 daily-card" aria-labelledby="cal-head">
             <div class="flex-between">
               <h2 id="cal-head">머니 캘린더</h2>
-              <p id="cal-month-label" class="text-sm"></p>
+              <button
+                type="button"
+                id="cal-month-label"
+                class="text-sm cal-month-picker-trig"
+                aria-label="연도·월 선택 열기"
+              ></button>
             </div>
             <p class="text-sm mt-10" style="color: var(--color-text-muted)">
               클릭 시 : 날짜 선택 / 더블 클릭 시 : 수정, 삭제
@@ -153,19 +158,22 @@
           </section>
 
           <section class="card mt-24 daily-card" aria-labelledby="daily-head">
-            <div class="flex-between">
-              <h2 id="daily-head">오늘의 시작</h2>
-              <input id="daily-date" type="date" class="daily-date" />
-            </div>
-            <div class="daily-start mt-16">
-              <label class="field">
-                <span class="field-label">시작 잔액</span>
-                <div class="money-wrap">
-                  <input id="start-balance" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
-                  <span class="won" aria-hidden="true">원</span>
-                </div>
-              </label>
-              <div class="daily-summary">
+            <h2 id="daily-head" class="daily-start-section__title">오늘의 시작</h2>
+            <div class="daily-start-section">
+              <div class="daily-start-row">
+                <label class="field daily-start-field">
+                  <span class="field-label">시작 잔액</span>
+                  <div class="money-wrap">
+                    <input id="start-balance" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
+                    <span class="won" aria-hidden="true">원</span>
+                  </div>
+                </label>
+                <label class="field daily-start-field daily-start-field--date">
+                  <span class="field-label">기준 날짜</span>
+                  <input id="daily-date" type="date" class="daily-date daily-date--section" />
+                </label>
+              </div>
+              <div class="daily-summary daily-start-summary">
                 <p class="text-sm">현재 잔액</p>
                 <p id="now-balance" class="daily-balance">0원</p>
                 <p id="balance-hint" class="text-sm mt-10"></p>

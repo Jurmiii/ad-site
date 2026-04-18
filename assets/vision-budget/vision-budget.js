@@ -52,6 +52,16 @@ function formatWonAlways(n) {
   return `${new Intl.NumberFormat("ko-KR").format(Math.trunc(v))}원`;
 }
 
+/** 음수 포함(실시간 잔액 표시용) */
+function formatWonAny(n) {
+  const v = Number(n);
+  if (!Number.isFinite(v)) return "0원";
+  const t = Math.trunc(v);
+  if (t === 0) return "0원";
+  const abs = new Intl.NumberFormat("ko-KR").format(Math.abs(t));
+  return `${t < 0 ? "−" : ""}${abs}원`;
+}
+
 function createId() {
   return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
 }
@@ -64,9 +74,47 @@ function sumMonthly() {
   return visions.reduce((s, v) => s + v.monthlyAllocation, 0);
 }
 
+/** 고정 지출 + 비전 할당 합이 월 수입을 넘는지 */
+function isBudgetOver() {
+  return fixedExpense + sumMonthly() > totalIncome;
+}
+
+/** 초과 금액(0 이상) */
+function budgetOverAmount() {
+  return Math.max(0, fixedExpense + sumMonthly() - totalIncome);
+}
+
+/** 수입 − 고정 지출 (비전 할당 상한) */
+function visionCeiling() {
+  return totalIncome - fixedExpense;
+}
+
 function remainderAfterVision() {
   return totalIncome - fixedExpense - sumMonthly();
 }
+
+function parseDraftMonthly() {
+  try {
+    const el = document.getElementById("vf-monthly");
+    return el ? parseWon(/** @type {HTMLInputElement} */ (el).value) : 0;
+  } catch {
+    return 0;
+  }
+}
+
+/** 비전 추가 시(초안 할당 포함) 수입 초과 여부 */
+function wouldExceedWithDraft() {
+  return fixedExpense + sumMonthly() + parseDraftMonthly() > totalIncome;
+}
+
+function formatOverSubline() {
+  const amt = budgetOverAmount();
+  if (amt <= 0) return "";
+  return `수입 대비 −${new Intl.NumberFormat("ko-KR").format(amt)}원 초과`;
+}
+
+const VB_WARN_MAIN =
+  "경고: 고정 지출과 비전 할당의 합계가 수입을 초과했습니다. 예산을 재조정해 주세요.";
 
 function load() {
   try {
@@ -94,6 +142,7 @@ function load() {
 }
 
 function save() {
+  if (isBudgetOver()) return;
   localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify({
@@ -131,7 +180,11 @@ function syncFromIncomeDesign() {
     totalIncome = sum;
     const el = /** @type {HTMLInputElement} */ ($("total-income"));
     el.value = sum ? formatWon(sum) : "";
-    save();
+    if (!isBudgetOver()) {
+      save();
+    } else {
+      alert("불러온 수입 합계로는 여전히 고정 지출과 비전 할당 합이 초과됩니다. 금액을 조정해 주세요.");
+    }
     render();
   } catch {
     alert("불러오기에 실패했습니다.");
@@ -166,7 +219,7 @@ function renderWaterfall() {
   const negFix = running < 0;
   rowAfterFix.innerHTML = `
     <div class="wf-label">잔여 가용 예산 <span class="wf-meta">고정 지출 반영 후 · 비전 배분 전</span></div>
-    <div class="wf-amt ${negFix ? "wf-amt--neg" : "wf-amt--remain"}">${formatWonAlways(running)}</div>
+    <div class="wf-amt ${negFix ? "wf-amt--neg" : "wf-amt--remain"}">${formatWonAny(running)}</div>
   `;
   box.appendChild(rowAfterFix);
 
@@ -191,7 +244,7 @@ function renderWaterfall() {
     const neg = running < 0;
     rowR.innerHTML = `
       <div class="wf-label">잔여 가용 예산 <span class="wf-meta">비전 ${idx + 1} 반영 후</span></div>
-      <div class="wf-amt ${neg ? "wf-amt--neg" : "wf-amt--remain"}">${formatWonAlways(running)}</div>
+      <div class="wf-amt ${neg ? "wf-amt--neg" : "wf-amt--remain"}">${formatWonAny(running)}</div>
     `;
     box.appendChild(rowR);
   });
@@ -212,11 +265,11 @@ function renderWaterfall() {
   const over = rem < 0;
   total.innerHTML = `
     <div class="wf-label">최종 잔여 가용 예산 <span class="wf-meta">고정 + 비전 할당 반영 후</span></div>
-    <div class="wf-amt ${over ? "wf-amt--neg" : "wf-amt--remain"}">${formatWonAlways(rem)}</div>
+    <div class="wf-amt ${over ? "wf-amt--neg" : "wf-amt--remain"}">${formatWonAny(rem)}</div>
   `;
   box.appendChild(total);
 
-  $("over-alert").classList.toggle("is-hidden", !over);
+  box.classList.toggle("waterfall--budget-over", isBudgetOver());
 }
 
 function escapeHtml(s) {
@@ -383,9 +436,87 @@ function deleteVision(id) {
   render();
 }
 
+function updateValidationUI() {
+  const over = isBudgetOver();
+  const sub = formatOverSubline();
+  const htmlWarn = over
+    ? `<p class="vb-over-msg">${VB_WARN_MAIN}</p><p class="vb-over-msg vb-over-msg--amt">${sub}</p>`
+    : "";
+
+  const fixedSlot = document.getElementById("vb-over-slot-fixed");
+  const incomeSlot = document.getElementById("vb-over-slot-income");
+  const monthlySlot = document.getElementById("vb-over-slot-monthly");
+  if (fixedSlot) fixedSlot.innerHTML = over ? htmlWarn : "";
+  if (incomeSlot) incomeSlot.innerHTML = over ? htmlWarn : "";
+  if (monthlySlot) {
+    if (over) {
+      monthlySlot.innerHTML = htmlWarn;
+    } else if (wouldExceedWithDraft()) {
+      monthlySlot.innerHTML =
+        '<p class="vb-over-msg vb-over-msg--draft">입력 중인 비전 할당을 반영하면 수입을 초과합니다. 금액을 줄이거나 수입을 늘려 주세요.</p>';
+    } else {
+      monthlySlot.innerHTML = "";
+    }
+  }
+
+  const banner = document.getElementById("over-alert");
+  if (banner) {
+    banner.classList.toggle("is-hidden", !over);
+    if (over) {
+      banner.innerHTML = `<p class="vb-over-msg">${VB_WARN_MAIN}</p><p class="vb-over-msg vb-over-msg--amt">${sub}</p>`;
+    } else {
+      banner.innerHTML = "";
+    }
+  }
+
+  ["total-income-wrap", "fixed-expense-wrap", "vf-monthly-wrap"].forEach((id) => {
+    const w = document.getElementById(id);
+    if (!w) return;
+    w.classList.toggle("money-wrap--over", over);
+    if (id === "vf-monthly-wrap") {
+      w.classList.toggle("money-wrap--draft-warn", !over && wouldExceedWithDraft());
+    }
+  });
+
+  const ceilingEl = document.getElementById("vb-vision-ceiling");
+  const totalEl = document.getElementById("vb-vision-total");
+  const remEl = document.getElementById("vb-vision-remainder");
+  const ce = visionCeiling();
+  const sm = sumMonthly();
+  const rem = remainderAfterVision();
+  if (ceilingEl) {
+    ceilingEl.textContent = formatWonAny(ce);
+    ceilingEl.classList.toggle("vb-live-v--negative", ce < 0);
+  }
+  if (totalEl) {
+    totalEl.textContent = formatWonAlways(sm);
+    totalEl.classList.toggle("vb-live-v--negative", over);
+  }
+  if (remEl) {
+    remEl.textContent = formatWonAny(rem);
+    remEl.classList.toggle("vb-live-v--negative", rem < 0);
+  }
+
+  const addBtn = document.getElementById("btn-vision-add");
+  if (addBtn) {
+    addBtn.disabled = wouldExceedWithDraft();
+  }
+
+  const ti = document.getElementById("total-income");
+  const fe = document.getElementById("fixed-expense");
+  const vm = document.getElementById("vf-monthly");
+  if (ti) ti.classList.toggle("vb-input--over", over);
+  if (fe) fe.classList.toggle("vb-input--over", over);
+  if (vm) {
+    vm.classList.toggle("vb-input--over", over);
+    vm.classList.toggle("vb-input--draft-warn", !over && wouldExceedWithDraft());
+  }
+}
+
 function render() {
   renderWaterfall();
   renderVisionList();
+  updateValidationUI();
 }
 
 function onVisionListClick(e) {
@@ -478,6 +609,10 @@ function exportExcel() {
 function initForm() {
   $("vision-add-form").addEventListener("submit", (e) => {
     e.preventDefault();
+    if (wouldExceedWithDraft()) {
+      alert("고정 지출과 비전 할당의 합계가 수입을 초과합니다. 금액을 조정해 주세요.");
+      return;
+    }
     const title = $("vf-title").value.trim();
     if (!title) {
       alert("목표 이름을 입력해 주세요.");
@@ -532,11 +667,13 @@ function init() {
   // 비전 설정 폼(숫자 입력) — 전역 숫자 포맷(천 단위 콤마) 적용
   wireMoneyField(/** @type {HTMLInputElement} */ ($("vf-target")), () => {});
   wireMoneyField(/** @type {HTMLInputElement} */ ($("vf-progress")), () => {});
-  wireMoneyField(/** @type {HTMLInputElement} */ ($("vf-monthly")), () => {});
+  wireMoneyField(/** @type {HTMLInputElement} */ ($("vf-monthly")), () => {
+    render();
+  });
 
   $("btn-sync-income").addEventListener("click", syncFromIncomeDesign);
   $("vision-list").addEventListener("click", onVisionListClick);
-  // Excel Manager (template download + import)
+  // Excel Manager (import / export)
   if (typeof ExcelManager !== "undefined") {
     try {
       ExcelManager.mount("excel-control-root", "VisionBudget", {
@@ -561,6 +698,12 @@ function init() {
                 .filter((v) => v.title)
             : [];
 
+          const snapshot = {
+            totalIncome,
+            fixedExpense,
+            visions: visions.map((v) => ({ ...v })),
+          };
+
           if (mode === "overwrite") {
             totalIncome = incomingTotal;
             fixedExpense = incomingFixed;
@@ -571,6 +714,19 @@ function init() {
             if (fixedExpense === 0 && incomingFixed > 0) fixedExpense = incomingFixed;
             visions = visions.concat(incomingVisions);
             normalizeOrders();
+          }
+
+          if (isBudgetOver()) {
+            totalIncome = snapshot.totalIncome;
+            fixedExpense = snapshot.fixedExpense;
+            visions = snapshot.visions;
+            normalizeOrders();
+            alert("불러온 데이터가 수입을 초과합니다. 적용하지 않았습니다.");
+            ti.value = totalIncome ? formatWon(totalIncome) : "";
+            const fe = /** @type {HTMLInputElement} */ ($("fixed-expense"));
+            if (fe) fe.value = fixedExpense ? formatWon(fixedExpense) : "";
+            render();
+            return;
           }
 
           save();

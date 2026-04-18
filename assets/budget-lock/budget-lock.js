@@ -21,9 +21,9 @@ const FIELD_LABELS = {
   scheduled: "예정소득",
   other: "기타소득",
   hope: "희망소득",
-  living: "생활비",
-  activity: "활동비",
-  essential: "필수비용",
+  living: "필수 지출 (Needs)",
+  activity: "선택적 지출 (Wants)",
+  essential: "저축 및 투자 (Savings)",
 };
 
 function $(id) {
@@ -419,9 +419,9 @@ function exportSnapshotExcel(snap, labelMonth, lockedAt) {
     { 구분: "예정소득", 값: snap.scheduled },
     { 구분: "기타소득", 값: snap.other },
     { 구분: "희망소득", 값: snap.hope },
-    { 구분: "생활비", 값: snap.living },
-    { 구분: "활동비", 값: snap.activity },
-    { 구분: "필수비용", 값: snap.essential },
+    { 구분: "필수 지출 (Needs)", 값: snap.living },
+    { 구분: "선택적 지출 (Wants)", 값: snap.activity },
+    { 구분: "저축 및 투자 (Savings)", 값: snap.essential },
     {
       구분: "총소득",
       값: snap.real + snap.scheduled + snap.other + snap.hope,
@@ -594,7 +594,7 @@ function exportCurrentBudgetSetupExcel() {
 }
 
 function init() {
-  // Excel Manager (template download + import → localStorage 기반 동기화)
+  // Excel Manager (import / export → localStorage 기반 동기화)
   if (typeof ExcelManager !== "undefined") {
     try {
       ExcelManager.mount("excel-control-root", "BudgetSetup", {

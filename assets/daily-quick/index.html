@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>5. 반응형 퀵-인풋(Quick-Input) · Money Calendar</title>
+    <title>5. 데일리 퀵 인풋 · 표형 기록 · Money Calendar</title>
     <meta name="description" content="지출을 즉시 기록하고 이번 달 예산 대비 체감 비중을 확인합니다." />
     <link
       rel="stylesheet"
@@ -28,7 +28,7 @@
           <span class="mc-brand__mark" aria-hidden="true">M</span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">5. 반응형 퀵-인풋(Quick-Input)</span>
+            <span class="mc-brand__page">5. 데일리 퀵 인풋 · 표형 기록</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
@@ -69,8 +69,8 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">5 · 반응형 퀵-인풋(Quick-Input)</p>
-            <h1 class="mc-page-intro__title">5. 반응형 퀵-인풋(Quick-Input)</h1>
+            <h1 class="mc-page-intro__title">5. 데일리 퀵 인풋 · 표형 기록</h1>
+            <p class="mc-page-intro__kicker">5 · 표형 퀵 입력</p>
             <p class="mc-page-intro__lead text-body">지출을 가장 빠르게 기록하고, 이번 달 예산 대비 체감 비중을 확인합니다.</p>
           </header>
 
@@ -87,17 +87,7 @@
             <p class="text-sm mt-10">
               지출·수입을 즉시 기록합니다. 금액 아래에 오늘 기준 <strong>현재 잔액</strong>이 실시간으로 갱신됩니다.
             </p>
-            <div class="daily-quick__mode" role="tablist" aria-label="지출 또는 수입">
-              <button
-                type="button"
-                class="daily-quick__mode-btn is-active"
-                id="quick-mode-expense"
-                role="tab"
-                aria-selected="true"
-                data-quick-mode="expense"
-              >
-                지출
-              </button>
+            <div class="daily-quick__mode" role="tablist" aria-label="수입 또는 지출">
               <button
                 type="button"
                 class="daily-quick__mode-btn"
@@ -107,6 +97,16 @@
                 data-quick-mode="income"
               >
                 수입
+              </button>
+              <button
+                type="button"
+                class="daily-quick__mode-btn is-active"
+                id="quick-mode-expense"
+                role="tab"
+                aria-selected="true"
+                data-quick-mode="expense"
+              >
+                지출
               </button>
             </div>
             <div class="daily-quick__grid mt-16">

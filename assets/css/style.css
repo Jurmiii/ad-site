@@ -407,16 +407,8 @@ html.is-drawer-open body {
   margin: 0 auto;
 }
 
-.cover__kicker {
-  font-size: 0.6875rem;
-  font-weight: 850;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--color-primary) 80%, var(--color-text-primary));
-}
-
 .cover__title {
-  margin-top: 14px;
+  margin: 0 0 14px;
   font-size: clamp(1.55rem, 4.2vw, 2.35rem);
   font-weight: 900;
   letter-spacing: -0.04em;
@@ -425,10 +417,11 @@ html.is-drawer-open body {
 }
 
 .cover__lead {
-  margin-top: 12px;
+  margin-top: 0;
   font-size: 1rem;
   line-height: 1.6;
   color: var(--color-text-secondary);
+  font-weight: 650;
 }
 
 .cover__cta {

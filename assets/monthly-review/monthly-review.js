@@ -87,9 +87,9 @@
     var b = loadBudget(mk);
     var s = spendByBucket(mk);
     var rows = [
-      { k: "생활비", b: b.living, x: s.living },
-      { k: "활동비", b: b.activity, x: s.activity },
-      { k: "필수비용", b: b.essential, x: s.essential },
+      { k: "필수 지출 (Needs)", b: b.living, x: s.living },
+      { k: "선택적 지출 (Wants)", b: b.activity, x: s.activity },
+      { k: "저축 및 투자 (Savings)", b: b.essential, x: s.essential },
     ];
     var tw = $("mr-table-wrap");
     tw.innerHTML =
@@ -161,9 +161,9 @@
     var b = loadBudget(mk);
     var s = spendByBucket(mk);
     var rows = [
-      { month: mk, line: "생활비", budget: b.living, spent: s.living },
-      { month: mk, line: "활동비", budget: b.activity, spent: s.activity },
-      { month: mk, line: "필수비용", budget: b.essential, spent: s.essential },
+      { month: mk, line: "필수 지출 (Needs)", budget: b.living, spent: s.living },
+      { month: mk, line: "선택적 지출 (Wants)", budget: b.activity, spent: s.activity },
+      { month: mk, line: "저축 및 투자 (Savings)", budget: b.essential, spent: s.essential },
     ];
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), "MonthlyReview");

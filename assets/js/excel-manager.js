@@ -1,7 +1,6 @@
 /* global XLSX */
 /**
  * Money Calendar - Excel Manager (common)
- * - 표준 템플릿 다운로드
  * - Drag & Drop 업로드 + 엄격 검증
  * - 덮어쓰기/이어쓰기(스마트 병합) 모달
  * - 성공 메시지(체크 애니메이션)
@@ -144,6 +143,8 @@
           rowMode: "single",
           columns: [
             { key: "monthKey", label: "monthKey", type: "month", required: true },
+            { key: "income", label: "income", type: "int", required: false, optional: true },
+            { key: "fixed", label: "fixed", type: "int", required: false, optional: true },
             { key: "total", label: "total", type: "int", required: true },
             { key: "living", label: "living", type: "int", required: true },
             { key: "activity", label: "activity", type: "int", required: true },
@@ -153,6 +154,8 @@
           ],
           sampleRow: {
             monthKey: "2026-04",
+            income: 2500000,
+            fixed: 550000,
             total: 1950000,
             living: 975000,
             activity: 585000,
@@ -405,7 +408,7 @@
       msgs.push({
         type: "warn",
         tag: "비율",
-        text: "활동비 배분이 생활비의 45%를 넘습니다. 유흥·구독 항목을 점검해 보세요.",
+        text: "선택적 지출(Wants) 배분이 필수 지출(Needs)의 45%를 넘습니다. 유흥·구독 항목을 점검해 보세요.",
       });
     }
     if (cap > 0 && spent < cap * 0.7) {
@@ -508,9 +511,9 @@
       ["총 수입", ti, ""],
       ["배분 합계", alloc, ""],
       ["잔여(저축/여유)", { f: "B3-B4" }, "총수입-배분합"],
-      ["생활비", bs ? Math.max(0, Math.trunc(Number(bs.living) || 0)) : 0, ""],
-      ["활동비", bs ? Math.max(0, Math.trunc(Number(bs.activity) || 0)) : 0, ""],
-      ["필수비용", bs ? Math.max(0, Math.trunc(Number(bs.essential) || 0)) : 0, ""],
+      ["필수 지출 (Needs)", bs ? Math.max(0, Math.trunc(Number(bs.living) || 0)) : 0, ""],
+      ["선택적 지출 (Wants)", bs ? Math.max(0, Math.trunc(Number(bs.activity) || 0)) : 0, ""],
+      ["저축 및 투자 (Savings)", bs ? Math.max(0, Math.trunc(Number(bs.essential) || 0)) : 0, ""],
     ];
     var wsBudget = XLSX.utils.aoa_to_sheet(budgetAoa);
     setCols(wsBudget, [18, 16, 28]);
@@ -674,7 +677,7 @@
     mrRows.push({
       section: "항목별비교",
       monthKey: mk,
-      label: "생활비",
+      label: "필수 지출 (Needs)",
       budget: Math.max(0, Math.trunc(Number(bud.living) || 0)),
       spendApprox: spb.living,
       diff: Math.max(0, Math.trunc(Number(bud.living) || 0)) - spb.living,
@@ -682,7 +685,7 @@
     mrRows.push({
       section: "항목별비교",
       monthKey: mk,
-      label: "활동비",
+      label: "선택적 지출 (Wants)",
       budget: Math.max(0, Math.trunc(Number(bud.activity) || 0)),
       spendApprox: spb.activity,
       diff: Math.max(0, Math.trunc(Number(bud.activity) || 0)) - spb.activity,
@@ -690,7 +693,7 @@
     mrRows.push({
       section: "항목별비교",
       monthKey: mk,
-      label: "필수비용",
+      label: "저축 및 투자 (Savings)",
       budget: Math.max(0, Math.trunc(Number(bud.essential) || 0)),
       spendApprox: spb.essential,
       diff: Math.max(0, Math.trunc(Number(bud.essential) || 0)) - spb.essential,
@@ -775,7 +778,7 @@
 
   function validateAndParseAoa(aoa, sheetSchema) {
     if (!aoa || !aoa.length) {
-      throw new Error("엑셀 시트가 비어 있습니다. 표준 템플릿으로 다시 저장해 주세요.");
+      throw new Error("엑셀 시트가 비어 있습니다. 웹에서 저장한 파일이거나 유효한 데이터 행이 있는지 확인해 주세요.");
     }
 
     var expected = sheetSchema.columns.map(function (c) {
@@ -910,6 +913,15 @@
     head.appendChild(headLabel);
     head.appendChild(headSub);
 
+    var slogan = document.createElement("p");
+    slogan.className = "mc-excel-slogan";
+    slogan.textContent = "기록은 웹으로 간편하게, 보관은 문서로 든든하게! 똑똑한 재정 습관의 시작.";
+
+    var note = document.createElement("p");
+    note.className = "mc-excel-note";
+    note.textContent =
+      "※ 본 문서는 혹시 모를 데이터 유실에 대비한 안전한 보관용입니다. 편집은 머니 캘린더 웹을 통해 진행하는 것이 가장 편리하고 정확합니다.";
+
     var zones = document.createElement("div");
     zones.className = "excel-control-box__zones";
 
@@ -920,7 +932,7 @@
     zinTitle.textContent = "가져오기 · Import";
     var zinLead = document.createElement("p");
     zinLead.className = "excel-zone__lead text-sm";
-    zinLead.textContent = "표준 양식을 받거나 파일을 선택해 검증 후 화면에 반영합니다.";
+    zinLead.textContent = "이전에 저장한 엑셀 파일을 선택해 검증 후 화면에 반영합니다.";
     zoneIn.appendChild(zinTitle);
     zoneIn.appendChild(zinLead);
 
@@ -938,11 +950,6 @@
     var actionsIn = document.createElement("div");
     actionsIn.className = "excel-control-box__actions excel-control-box__actions--import";
 
-    var btnTpl = document.createElement("button");
-    btnTpl.type = "button";
-    btnTpl.className = "excel-control-box__btn excel-control-box__btn--ghost";
-    btnTpl.textContent = "표준 양식 다운로드";
-
     var btnUpload = document.createElement("button");
     btnUpload.type = "button";
     btnUpload.className = "excel-control-box__btn excel-control-box__btn--ghost";
@@ -953,10 +960,24 @@
     file.accept = ".xlsx";
     file.hidden = true;
 
-    actionsIn.appendChild(btnTpl);
     actionsIn.appendChild(btnUpload);
     actionsIn.appendChild(file);
-    zoneIn.appendChild(actionsIn);
+
+    var importRow = document.createElement("div");
+    importRow.className = "excel-control-box__import-row";
+
+    var dz = document.createElement("div");
+    dz.className = "dropzone excel-control-box__dropzone excel-dropzone--inline";
+    dz.tabIndex = 0;
+    dz.setAttribute("role", "button");
+    dz.setAttribute("aria-label", "엑셀 파일을 여기에 끌어다 놓거나 클릭하여 불러오기");
+    dz.innerHTML =
+      '<div class="excel-dropzone-inline__main">파일을 이곳에 끌어다 놓으세요</div>' +
+      '<div class="excel-dropzone-inline__sub">.xlsx · 「파일에서 불러오기」와 동일하게 검증 후 적용</div>';
+
+    importRow.appendChild(actionsIn);
+    importRow.appendChild(dz);
+    zoneIn.appendChild(importRow);
 
     var actionsOut = document.createElement("div");
     actionsOut.className = "excel-control-box__actions excel-control-box__actions--export";
@@ -998,30 +1019,10 @@
       masterRow.appendChild(btnMaster);
     }
 
-    var advanced = document.createElement("details");
-    advanced.className = "excel-control-box__advanced";
-
-    var sum = document.createElement("summary");
-    sum.className = "excel-control-box__summary";
-    sum.textContent = "드래그 앤 드롭으로 불러오기 (고급)";
-
-    var dz = document.createElement("div");
-    dz.className = "dropzone excel-control-box__dropzone";
-    dz.tabIndex = 0;
-    dz.setAttribute("role", "button");
-    dz.setAttribute("aria-label", "엑셀 파일을 여기에 놓아 업로드");
-    dz.innerHTML =
-      "<div><strong>.xlsx</strong> 파일을 이 영역으로 드래그하세요.</div>" +
-      "<div class=\"dropzone__sub\">「파일에서 불러오기」와 동일하게 검증 후 적용됩니다.</div>";
-
-    advanced.appendChild(sum);
-    advanced.appendChild(dz);
-    zoneIn.appendChild(advanced);
-
     var hint = document.createElement("p");
     hint.className = "excel-control-box__hint text-sm";
     hint.textContent =
-      "표준 양식으로 주고받으면 다른 기능 페이지와도 숫자가 자연스럽게 이어집니다.";
+      "웹에서 입력한 값을 엑셀로 내려받아 보관하거나, 반대로 파일을 불러와 동기화할 수 있습니다.";
 
     var status = document.createElement("div");
     status.className = "excel-status excel-control-box__status is-hidden";
@@ -1048,6 +1049,8 @@
       "</div>";
 
     root.appendChild(head);
+    root.appendChild(slogan);
+    root.appendChild(note);
     root.appendChild(zones);
     if (masterRow) root.appendChild(masterRow);
     root.appendChild(hint);
@@ -1093,33 +1096,6 @@
       modal._parsed = null;
     }
 
-    function doTemplateDownload() {
-      try {
-        ensureXlsx();
-        var sheets = opts.schema.sheets.map(function (s) {
-          var header = s.columns.map(function (c) {
-            return c.label;
-          });
-          var row0 = [];
-          if (s.sampleRow) {
-            s.columns.forEach(function (c) {
-              row0.push(s.sampleRow[c.key] == null ? "" : s.sampleRow[c.key]);
-            });
-          } else {
-            row0 = s.columns.map(function () {
-              return "";
-            });
-          }
-          var aoa = [header, row0];
-          return { name: s.name, aoa: aoa };
-        });
-        var wb = jsonToWb(sheets);
-        XLSX.writeFile(wb, makeFilename(opts.schema.key + "_Template"));
-      } catch (e) {
-        setStatus("err", "템플릿 다운로드 실패", String(e && e.message ? e.message : e));
-      }
-    }
-
     function handleFile(f) {
       if (!f) return;
       if (!/\.xlsx$/i.test(f.name)) {
@@ -1142,7 +1118,6 @@
       reader.readAsArrayBuffer(f);
     }
 
-    btnTpl.addEventListener("click", doTemplateDownload);
     btnUpload.addEventListener("click", function () {
       file.click();
     });

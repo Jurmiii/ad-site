@@ -69,8 +69,8 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">7 · 1원 단위 체감 지수</p>
             <h1 class="mc-page-intro__title">7. 1원 단위 체감 지수</h1>
+            <p class="mc-page-intro__kicker">7 · 1원 단위 체감 지수</p>
             <p class="mc-page-intro__lead text-body">입력한 지출이 이번 달 예산에서 어느 정도 비중인지 막대로 보여 줍니다.</p>
           </header>
 
@@ -144,19 +144,22 @@
           </section>
 
           <section class="card mt-24 daily-card" aria-labelledby="daily-head">
-            <div class="flex-between">
-              <h2 id="daily-head">오늘의 시작</h2>
-              <input id="daily-date" type="date" class="daily-date" />
-            </div>
-            <div class="daily-start mt-16">
-              <label class="field">
-                <span class="field-label">시작 잔액</span>
-                <div class="money-wrap">
-                  <input id="start-balance" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
-                  <span class="won" aria-hidden="true">원</span>
-                </div>
-              </label>
-              <div class="daily-summary">
+            <h2 id="daily-head" class="daily-start-section__title">오늘의 시작</h2>
+            <div class="daily-start-section">
+              <div class="daily-start-row">
+                <label class="field daily-start-field">
+                  <span class="field-label">시작 잔액</span>
+                  <div class="money-wrap">
+                    <input id="start-balance" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
+                    <span class="won" aria-hidden="true">원</span>
+                  </div>
+                </label>
+                <label class="field daily-start-field daily-start-field--date">
+                  <span class="field-label">기준 날짜</span>
+                  <input id="daily-date" type="date" class="daily-date daily-date--section" />
+                </label>
+              </div>
+              <div class="daily-summary daily-start-summary">
                 <p class="text-sm">현재 잔액</p>
                 <p id="now-balance" class="daily-balance">0원</p>
                 <p id="balance-hint" class="text-sm mt-10"></p>

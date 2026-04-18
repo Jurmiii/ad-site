@@ -60,7 +60,12 @@
       msgs.push({
         type: "warn",
         tag: "비율",
-        text: "활동비 배분(" + activity.toLocaleString() + "원)이 생활비(" + living.toLocaleString() + "원)의 45%를 넘습니다. 유흥·구독 항목을 점검해 보세요.",
+        text:
+          "선택적 지출(Wants) 배분(" +
+          activity.toLocaleString() +
+          "원)이 필수 지출(Needs)(" +
+          living.toLocaleString() +
+          "원)의 45%를 넘습니다. 유흥·구독 항목을 점검해 보세요.",
       });
     }
     if (cap > 0 && spent < cap * 0.7) {

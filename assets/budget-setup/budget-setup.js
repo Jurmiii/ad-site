@@ -215,7 +215,7 @@ function render() {
     setWidths(els.miniLeft, leftW);
   }
 
-  // 예산 막대 (생활/활동/필수/잔여) — 총소득 기준
+  // 예산 막대 (필수·선택·저축/잔여) — 총소득 기준
   if (ti <= 0) {
     setWidths(els.bLiving, 0);
     setWidths(els.bActivity, 0);
@@ -323,9 +323,9 @@ function exportExcel() {
     { 구분: "기타소득", 값: state.other },
     { 구분: "희망소득", 값: state.hope },
     { 구분: "총소득", 값: ti },
-    { 구분: "생활비", 값: state.living },
-    { 구분: "활동비", 값: state.activity },
-    { 구분: "필수비용", 값: state.essential },
+    { 구분: "필수 지출 (Needs)", 값: state.living },
+    { 구분: "선택적 지출 (Wants)", 값: state.activity },
+    { 구분: "저축 및 투자 (Savings)", 값: state.essential },
     { 구분: "배분합", 값: ta },
     { 구분: "잔여소득", 값: rem },
     { 구분: "확정여부", 값: state.locked ? "확정" : "미확정" },
@@ -341,9 +341,9 @@ function exportExcel() {
     { 섹션: "소득", 항목: "예정소득", 금액: state.scheduled },
     { 섹션: "소득", 항목: "기타소득", 금액: state.other },
     { 섹션: "소득", 항목: "희망소득", 금액: state.hope },
-    { 섹션: "예산", 항목: "생활비", 금액: state.living },
-    { 섹션: "예산", 항목: "활동비", 금액: state.activity },
-    { 섹션: "예산", 항목: "필수비용", 금액: state.essential },
+    { 섹션: "예산", 항목: "필수 지출 (Needs)", 금액: state.living },
+    { 섹션: "예산", 항목: "선택적 지출 (Wants)", 금액: state.activity },
+    { 섹션: "예산", 항목: "저축 및 투자 (Savings)", 금액: state.essential },
   ];
   const ws2 = XLSX.utils.json_to_sheet(detail);
   XLSX.utils.book_append_sheet(wb, ws2, "상세");
@@ -363,7 +363,7 @@ function onInput() {
 }
 
 function init() {
-  // Excel Manager (template download + import with merge modal)
+  // Excel Manager (import / export with merge modal)
   if (typeof ExcelManager !== "undefined") {
     try {
       ExcelManager.mount("excel-control-root", "BudgetSetup", {

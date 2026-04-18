@@ -64,8 +64,8 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">9 · 주간 단위 실천 리포트</p>
             <h1 class="mc-page-intro__title">9. 주간 단위 실천 리포트</h1>
+            <p class="mc-page-intro__kicker">9 · 주간 단위 실천 리포트</p>
             <p class="mc-page-intro__lead text-body">
               데일리(5~8번)에 기록된 지출을 주차별로 합산하고, 이번 달 배분·시뮬 예산 대비 달성률을 보여 준 뒤 차주 행동을
               제안합니다.
@@ -74,10 +74,13 @@
           <div id="excel-control-root" class="mc-excel-slot"></div>
           <section class="card mt-24" aria-labelledby="wk-head">
             <h2 id="wk-head">이번 달 주차별 지출</h2>
-            <p class="text-sm mt-10">기준 날짜를 고르면, 해당 날짜가 포함된 ‘주간(Weekly)’ 데이터가 정확히 로드됩니다.</p>
+            <p class="text-sm mt-10">
+              조회할 월을 선택하면, 해당 달을 7일 단위(1–7일, 8–14일 …) 주차로 묶어 합산합니다. 항목을 누르면 일별
+              내역이 펼쳐집니다.
+            </p>
             <label class="field mt-16">
-              <span class="field-label">기준 날짜</span>
-              <input id="wk-date" type="date" />
+              <span class="field-label">조회 월</span>
+              <input id="wk-month" type="month" />
             </label>
             <div id="wk-bars" class="wk-bars mt-20" role="img" aria-label="선택 주간 요약"></div>
             <div id="wk-rate" class="wk-summary mt-16"></div>

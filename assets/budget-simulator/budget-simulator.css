@@ -85,11 +85,59 @@
   align-items: end;
 }
 
+.base-grid--income-fixed {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.sim-pool-line {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.sim-pool-display {
+  font-weight: 800;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
 .base-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   justify-content: flex-end;
+}
+
+.base-actions--full {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.base-532-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px 14px;
+  width: 100%;
+}
+
+.base-532-row .btn-secondary {
+  flex-shrink: 0;
+}
+
+.base-532-hint {
+  flex: 1 1 220px;
+  margin: 0;
+  min-width: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.base-532-hint strong {
+  color: var(--color-text-primary);
+  font-weight: 750;
 }
 
 .grid-main {
@@ -159,7 +207,33 @@
   gap: 12px;
   justify-content: space-between;
   align-items: flex-start;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+
+.sim-head > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: min(52%, 320px);
+}
+
+.sim-head h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.sim-item__sub {
+  margin: 0;
+  line-height: 1.35;
+}
+
+@media (max-width: 640px) {
+  .sim-head {
+    flex-wrap: wrap;
+  }
+  .sim-head > div:first-child {
+    max-width: 100%;
+  }
 }
 
 .sim-value {
@@ -300,6 +374,10 @@
 
 @media (max-width: 768px) {
   .base-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .base-grid--income-fixed {
     grid-template-columns: 1fr;
   }
 

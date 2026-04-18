@@ -3,6 +3,102 @@
   font-weight: 800;
 }
 
+.bk-card .bk-h2 {
+  margin: 0;
+}
+
+.bk-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 22px;
+  align-items: start;
+}
+
+.bk-panel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.bk-panel__lead {
+  margin: 0;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 900px) {
+  .bk-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 한 줄: 비밀번호(축소) + 눈 아이콘 + 실행 버튼 */
+.bk-action-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 10px;
+  width: 100%;
+}
+
+.bk-pass-wrap--compact {
+  flex: 1 1 220px;
+  max-width: min(100%, 380px);
+  min-width: 0;
+  width: auto;
+}
+
+.bk-action-btn {
+  flex: 0 0 auto;
+  min-height: 48px;
+  padding-left: 18px;
+  padding-right: 18px;
+  align-self: stretch;
+}
+
+.bk-file-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 12px;
+  width: 100%;
+}
+
+.bk-file-btn {
+  flex: 0 0 auto;
+  min-height: 48px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.bk-file-name {
+  flex: 1 1 140px;
+  min-width: 0;
+  padding: 6px 2px;
+  font-size: 0.875rem;
+  font-weight: 650;
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  .bk-action-line {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bk-pass-wrap--compact {
+    max-width: none;
+  }
+
+  .bk-action-btn {
+    width: 100%;
+  }
+}
+
 .mc-modal {
   position: fixed;
   inset: 0;
@@ -58,4 +154,67 @@
 .mc-modal__btn--primary {
   border-color: color-mix(in srgb, var(--color-primary) 42%, var(--border-default));
   background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
+}
+
+/* 비밀번호: 머니 캘린더 공통 입력 높이·테두리와 정렬 */
+.bk-pass-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+}
+
+.bk-pass-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  min-height: 48px;
+  font-size: 1rem;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+html[data-theme="dark"] .bk-pass-input {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.32);
+  color-scheme: dark;
+}
+
+.bk-pass-toggle {
+  flex: 0 0 auto;
+  width: 48px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+html[data-theme="dark"] .bk-pass-toggle {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.32);
+}
+
+.bk-pass-toggle:hover {
+  color: var(--color-text-primary);
+  border-color: color-mix(in srgb, var(--color-primary) 35%, var(--border-default));
+}
+
+.bk-pass-toggle[aria-pressed="true"] {
+  color: var(--color-primary);
+  border-color: color-mix(in srgb, var(--color-primary) 40%, var(--border-default));
+}
+
+.bk-pass-toggle__icon {
+  display: block;
+  pointer-events: none;
 }

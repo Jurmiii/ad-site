@@ -255,7 +255,7 @@ function init() {
   load();
   hydrateInputs();
 
-  // Excel Manager (template download + import)
+  // Excel Manager (import / export)
   if (typeof ExcelManager !== "undefined") {
     try {
       ExcelManager.mount("excel-control-root", "IncomeDesign", {

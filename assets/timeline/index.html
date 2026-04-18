@@ -64,20 +64,41 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <p class="mc-page-intro__kicker">11 · 과거 데이터 타임라인</p>
             <h1 class="mc-page-intro__title">11. 과거 데이터 타임라인</h1>
+            <p class="mc-page-intro__kicker">11 · 과거 데이터 타임라인</p>
             <p class="mc-page-intro__lead text-body">
-              최근 12개월에 대해 데일리에 기록된 지출 합계를 월 단위로 집계하여 선 그래프로 보여 줍니다.
+              조회한 달에 대해 데일리에 기록된 지출·수입을 일별로 집계하여 한 달 흐름을 선 그래프로 보여 줍니다.
             </p>
           </header>
           <div id="excel-control-root" class="mc-excel-slot"></div>
           <section class="card mt-24">
-            <div class="tl-controls" aria-label="월 선택">
-              <button id="tl-prev" class="btn-secondary" type="button" aria-label="이전 월">← Prev</button>
-              <p id="tl-month" class="text-sm" style="font-weight: 900; text-align: center; margin: 0"></p>
-              <button id="tl-next" class="btn-secondary" type="button" aria-label="다음 월">Next →</button>
+            <div class="tl-controls tl-controls--simple" aria-label="월 선택">
+              <button id="tl-prev" type="button" aria-label="이전 달">&lt;</button>
+              <div class="money-cal__month-picker-wrap tl-month-wrap">
+                <button
+                  type="button"
+                  id="tl-month"
+                  class="tl-month-label tl-month-btn"
+                  aria-expanded="false"
+                  aria-haspopup="dialog"
+                ></button>
+                <div id="tl-month-dropdown" class="money-cal__month-dropdown is-hidden" role="dialog" aria-label="연도·월 선택">
+                  <div class="money-cal__month-pick-row">
+                    <label class="money-cal__pick-field">
+                      <span class="money-cal__pick-k">연도</span>
+                      <select id="tl-pick-year" class="money-cal__pick-select" aria-label="연도"></select>
+                    </label>
+                    <label class="money-cal__pick-field">
+                      <span class="money-cal__pick-k">월</span>
+                      <select id="tl-pick-month" class="money-cal__pick-select" aria-label="월"></select>
+                    </label>
+                  </div>
+                  <button type="button" id="tl-month-apply" class="btn btn-secondary money-cal__month-apply">이동</button>
+                </div>
+              </div>
+              <button id="tl-next" type="button" aria-label="다음 달">&gt;</button>
             </div>
-            <canvas id="tl-canvas" width="900" height="320" aria-label="월별 지출 추이"></canvas>
+            <canvas id="tl-canvas" width="900" height="340" aria-label="월간 일별 지출·수입 추이"></canvas>
             <p id="tl-legend" class="text-sm mt-16"></p>
           </section>
         </main>

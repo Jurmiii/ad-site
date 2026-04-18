@@ -4,6 +4,18 @@
   padding-bottom: 24px;
 }
 
+.page-vision #excel-control-root {
+  margin-bottom: 4px;
+}
+
+.page-vision .vb-stack {
+  margin-top: 10px;
+}
+
+.page-vision .vb-stack--first {
+  margin-top: 12px;
+}
+
 .page-head {
   display: flex;
   justify-content: space-between;
@@ -36,6 +48,17 @@
 
 .field-grow {
   flex: 1 1 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 고정 지출 단독 행: flex-grow로 생기던 가로 빈 공간 제거 */
+.page-vision .vb-field-stack--fixed .vb-money-col {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  width: fit-content;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -324,6 +347,148 @@ html[data-theme="dark"] .alert--warn {
 
 .is-hidden {
   display: none !important;
+}
+
+/* —— 실시간 가용 예산 배너 —— */
+.vb-live-banner__title {
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.vb-live-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.vb-live-cell {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface-2);
+}
+
+.vb-live-k {
+  font-size: 0.75rem;
+  font-weight: 750;
+  color: var(--color-text-secondary);
+  line-height: 1.35;
+}
+
+.vb-live-v {
+  margin-top: 8px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.vb-live-v--negative {
+  color: var(--color-expense);
+}
+
+.vb-field-stack,
+.vb-income-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.vb-validation-slot {
+  position: relative;
+  min-height: 3.5rem;
+  box-sizing: border-box;
+}
+
+.vb-validation-slot--form {
+  min-height: 2.75rem;
+}
+
+.vb-over-msg {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  line-height: 1.45;
+  color: var(--color-expense);
+}
+
+.vb-over-msg--amt {
+  margin-top: 6px;
+  font-weight: 900;
+}
+
+.vb-over-msg--draft {
+  color: var(--color-expense);
+  font-weight: 750;
+}
+
+html[data-theme="dark"] .vb-over-msg,
+html[data-theme="dark"] .vb-over-msg--draft {
+  color: #f87171;
+}
+
+.vb-over-banner {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  background: color-mix(in srgb, var(--color-expense) 12%, var(--color-surface));
+}
+
+html[data-theme="dark"] .vb-over-banner {
+  border-color: rgba(248, 113, 113, 0.45);
+  background: color-mix(in srgb, #f87171 14%, var(--color-surface));
+}
+
+.money-wrap--over .money-input,
+.money-wrap--over .won {
+  color: var(--color-expense);
+  font-weight: 900;
+}
+
+.money-wrap--draft-warn .money-input,
+.money-wrap--draft-warn .won {
+  color: var(--color-expense);
+  font-weight: 800;
+}
+
+html[data-theme="dark"] .money-wrap--over .money-input,
+html[data-theme="dark"] .money-wrap--over .won,
+html[data-theme="dark"] .money-wrap--draft-warn .money-input,
+html[data-theme="dark"] .money-wrap--draft-warn .won {
+  color: #f87171;
+}
+
+.vb-input--over,
+.vb-input--draft-warn {
+  color: var(--color-expense) !important;
+  font-weight: 900 !important;
+}
+
+html[data-theme="dark"] .vb-input--over,
+html[data-theme="dark"] .vb-input--draft-warn {
+  color: #f87171 !important;
+}
+
+.waterfall--budget-over .wf-row--total .wf-amt {
+  color: var(--color-expense);
+  font-weight: 900;
+}
+
+html[data-theme="dark"] .waterfall--budget-over .wf-row--total .wf-amt {
+  color: #f87171;
+}
+
+#btn-vision-add:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 720px) {
+  .vb-live-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .export-head {

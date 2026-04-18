@@ -1,7 +1,7 @@
 /* global XLSX, ExcelManager */
 /**
  * Money Calendar 기능 5~8 (기획서 명칭)
- * 5. 반응형 퀵-인풋(Quick-Input)
+ * 5. 데일리 퀵 인풋 · 표형 기록
  * 6. 데일리 소비 한 줄 평
  * 7. 1원 단위 체감 지수
  * 8. 무지출 챌린지 스티커
@@ -117,7 +117,7 @@
   }
 
   /** @typedef {{ id:string, type:'expense'|'income', category:string, memo:string, amount:number }} Tx */
-  /** @typedef {{ text:string, at:string }} NoteEntry */
+  /** @typedef {{ id?: string, text:string, at:string }} NoteEntry */
   /** @typedef {{ date:string, startBalance:number, txs:Tx[], dayRating?:string, dayNote?:string, notes?: NoteEntry[] }} DayState */
 
   /** @type {DayState} */
@@ -127,10 +127,77 @@
   var nospendSelectedDate = "";
   /** @type {boolean} */
   var nospendArmed = false;
+  /** 8번: 달력에 표시할 월(YYYY-MM) — 월 이동 버튼용 */
+  var calendarViewMk = "";
+  /** @type {{ date: string, kind: "note"|"legacy", id?: string } | null} */
+  var editingDiary = null;
 
   function isFutureDate(dateStr) {
     var t = today();
     return String(dateStr || "") > t;
+  }
+
+  function monthNowKey() {
+    var d = new Date();
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  }
+
+  function minViewMonthKey() {
+    var d = new Date();
+    d.setFullYear(d.getFullYear() - 3);
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  }
+
+  function monthAddKey(mk, delta) {
+    var p = String(mk || "").split("-");
+    var y = parseInt(p[0], 10);
+    var m = parseInt(p[1], 10) - 1;
+    if (!Number.isFinite(y) || !Number.isFinite(m)) return monthNowKey();
+    var d = new Date(y, m + delta, 1);
+    return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+  }
+
+  function clampMonthKey(mk) {
+    var lo = minViewMonthKey();
+    var hi = monthNowKey();
+    var s = String(mk || "");
+    if (s < lo) return lo;
+    if (s > hi) return hi;
+    return s;
+  }
+
+  function minDateThreeYearsIso() {
+    var d = new Date();
+    d.setFullYear(d.getFullYear() - 3);
+    return (
+      d.getFullYear() +
+      "-" +
+      String(d.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(d.getDate()).padStart(2, "0")
+    );
+  }
+
+  function normalizeNoteIds() {
+    var all = loadAll();
+    var changed = false;
+    Object.keys(all).forEach(function (date) {
+      var st = all[date];
+      if (!st || !Array.isArray(st.notes)) return;
+      st.notes.forEach(function (n) {
+        if (n && !n.id) {
+          n.id = createId();
+          changed = true;
+        }
+      });
+    });
+    if (changed) saveAll(all);
+  }
+
+  function shiftCalendarMonth(delta) {
+    var cur = calendarViewMk || monthKeyFromDate(state.date);
+    calendarViewMk = clampMonthKey(monthAddKey(cur, delta));
+    render();
   }
 
   function loadAll() {
@@ -177,7 +244,11 @@
       notes: Array.isArray(d.notes)
         ? d.notes
             .map(function (x) {
-              return { text: String(x.text || "").slice(0, 120), at: String(x.at || "") };
+              return {
+                id: String(x.id || ""),
+                text: String(x.text || "").slice(0, 120),
+                at: String(x.at || ""),
+              };
             })
             .filter(function (x) {
               return x.text && x.at;
@@ -356,7 +427,7 @@
         ? "시뮬레이터 총예산"
         : ctx.mode === "vision"
           ? "2번 잔여 가용(수입−고정−비전)"
-          : "배분 예산(생활+활동+필수)";
+          : "배분 예산(필수+선택+저축)";
 
     var projected = spentOther + todaySpent + draft;
     var left = budget - projected;
@@ -417,6 +488,40 @@
     }
   }
 
+  function deleteDiaryRow(dateStr, kind, noteId) {
+    if (!confirm("해당 기록을 삭제하시겠습니까?")) return;
+    var all = loadAll();
+    var st = all[dateStr];
+    if (!st) return;
+    if (kind === "legacy") {
+      st.dayNote = "";
+    } else {
+      if (!noteId) return;
+      st.notes = (Array.isArray(st.notes) ? st.notes : []).filter(function (n) {
+        return n && n.id !== noteId;
+      });
+    }
+    saveAll(all);
+    editingDiary = null;
+    var nb = $maybe("day-note-add");
+    if (nb) nb.textContent = "입력";
+    if (state.date === dateStr) state = loadDay(dateStr);
+    render();
+  }
+
+  function startEditDiaryRow(dateStr, kind, noteId, text) {
+    if (isFutureDate(dateStr)) return;
+    editingDiary = { date: dateStr, kind: kind, id: noteId };
+    state = loadDay(dateStr);
+    var noteEl = $maybe("day-note");
+    if (noteEl) /** @type {HTMLInputElement} */ (noteEl).value = text;
+    var dateEl = $maybe("daily-date");
+    if (dateEl) /** @type {HTMLInputElement} */ (dateEl).value = dateStr;
+    var btn = $maybe("day-note-add");
+    if (btn) btn.textContent = "수정 저장";
+    render();
+  }
+
   function renderDiaryNotes() {
     if (getDailyFeatureMode() !== 6) return;
     var list = $maybe("day-note-list");
@@ -424,7 +529,7 @@
     list.textContent = "";
 
     var all = loadAll();
-    /** @type {{ text:string, at:string }[]} */
+    /** @type {{ text:string, at:string, date:string, kind:string, id?:string }[]} */
     var rows = [];
     Object.keys(all).forEach(function (k) {
       var st = all[k];
@@ -432,13 +537,30 @@
       if (Array.isArray(st.notes)) {
         st.notes.forEach(function (n) {
           if (!n || !n.text || !n.at) return;
-          rows.push({ text: String(n.text).slice(0, 120), at: String(n.at) });
+          rows.push({
+            text: String(n.text).slice(0, 120),
+            at: String(n.at),
+            date: k,
+            kind: "note",
+            id: String(n.id || ""),
+          });
         });
       }
-      // legacy: dayNote 단문도 한 줄 평으로 노출
       if (st.dayNote && typeof st.dayNote === "string") {
         var legacy = String(st.dayNote).trim();
-        if (legacy) rows.push({ text: legacy.slice(0, 120), at: k + "T21:00:00" });
+        if (legacy) {
+          var hasNoteDuplicate = Array.isArray(st.notes) && st.notes.some(function (n) {
+            return n && String(n.text).trim() === legacy;
+          });
+          if (!hasNoteDuplicate) {
+            rows.push({
+              text: legacy.slice(0, 120),
+              at: k + "T21:00:00",
+              date: k,
+              kind: "legacy",
+            });
+          }
+        }
       }
     });
     rows.sort(function (a, b) {
@@ -454,11 +576,54 @@
     }
 
     for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
       var it = document.createElement("li");
-      it.className = "diary-item";
-      var text = rows[i].text;
-      var meta = formatKoDateTime(rows[i].at) || rows[i].at;
-      it.textContent = text + " - " + meta;
+      it.className = "diary-item diary-item--row";
+      var main = document.createElement("div");
+      main.className = "diary-item__body";
+      var text = r.text;
+      var meta = formatKoDateTime(r.at) || r.at;
+      var line = document.createElement("span");
+      line.className = "diary-item__text";
+      line.textContent = text;
+      var sep = document.createElement("span");
+      sep.className = "diary-item__sep";
+      sep.textContent = " — ";
+      var time = document.createElement("span");
+      time.className = "diary-item__meta";
+      time.textContent = meta;
+      main.appendChild(line);
+      main.appendChild(sep);
+      main.appendChild(time);
+      it.appendChild(main);
+
+      var actions = document.createElement("div");
+      actions.className = "diary-item__actions";
+      var editBtn = document.createElement("button");
+      editBtn.type = "button";
+      editBtn.className = "diary-item__icon-btn";
+      editBtn.setAttribute("aria-label", "수정");
+      editBtn.setAttribute("title", "수정");
+      editBtn.textContent = "✎";
+      editBtn.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        startEditDiaryRow(r.date, r.kind === "legacy" ? "legacy" : "note", r.id || "", text);
+      });
+
+      var delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "diary-item__icon-btn diary-item__icon-btn--danger";
+      delBtn.setAttribute("aria-label", "삭제");
+      delBtn.setAttribute("title", "삭제");
+      delBtn.textContent = "\uD83D\uDDD1";
+      delBtn.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        deleteDiaryRow(r.date, r.kind === "legacy" ? "legacy" : "note", r.id || "");
+      });
+
+      actions.appendChild(editBtn);
+      actions.appendChild(delBtn);
+      it.appendChild(actions);
       list.appendChild(it);
     }
   }
@@ -466,10 +631,14 @@
   function renderMoneyCalendar() {
     var host = $("money-calendar");
     var modeFeat = getDailyFeatureMode();
-    var mk = monthKeyFromDate(state.date);
+    var mk =
+      modeFeat === 8
+        ? clampMonthKey(calendarViewMk || monthKeyFromDate(state.date))
+        : monthKeyFromDate(state.date);
+    if (modeFeat === 8) calendarViewMk = mk;
     var parts = mk.split("-");
-    $("cal-month-label").textContent =
-      parts[0] + "년 " + String(parseInt(parts[1], 10)) + "월";
+    var monthTitleStr = parts[0] + "년 " + String(parseInt(parts[1], 10)) + "월";
+    $("cal-month-label").textContent = monthTitleStr;
     var y = parseInt(parts[0], 10);
     var m = parseInt(parts[1], 10) - 1;
     var first = new Date(y, m, 1);
@@ -477,6 +646,135 @@
     var startWeekday = first.getDay();
 
     host.textContent = "";
+    if (modeFeat === 8) {
+      var nav = document.createElement("div");
+      nav.className = "money-cal__month-nav";
+      var loMk = minViewMonthKey();
+      var hiMk = monthNowKey();
+      var prev = document.createElement("button");
+      prev.type = "button";
+      prev.className = "money-cal__month-btn";
+      prev.setAttribute("aria-label", "이전 달");
+      prev.textContent = "<";
+      prev.disabled = mk <= loMk;
+      prev.addEventListener("click", function () {
+        shiftCalendarMonth(-1);
+      });
+      var titleWrap = document.createElement("div");
+      titleWrap.className = "money-cal__month-picker-wrap";
+      var title = document.createElement("button");
+      title.type = "button";
+      title.id = "money-cal-month-btn";
+      title.className = "money-cal__month-nav-title";
+      title.setAttribute("aria-expanded", "false");
+      title.setAttribute("aria-haspopup", "dialog");
+      title.textContent = monthTitleStr;
+      var dropdown = document.createElement("div");
+      dropdown.className = "money-cal__month-dropdown is-hidden";
+      dropdown.setAttribute("role", "dialog");
+      dropdown.setAttribute("aria-label", "연도·월 선택");
+      var pickRow = document.createElement("div");
+      pickRow.className = "money-cal__month-pick-row";
+      var yrLab = document.createElement("label");
+      yrLab.className = "money-cal__pick-field";
+      yrLab.innerHTML = '<span class="money-cal__pick-k">연도</span>';
+      var yrSel = document.createElement("select");
+      yrSel.className = "money-cal__pick-select";
+      var loY = parseInt(loMk.split("-")[0], 10);
+      var hiY = parseInt(hiMk.split("-")[0], 10);
+      for (var yy = loY; yy <= hiY; yy++) {
+        var yOpt = document.createElement("option");
+        yOpt.value = String(yy);
+        yOpt.textContent = yy + "년";
+        if (yy === y) yOpt.selected = true;
+        yrSel.appendChild(yOpt);
+      }
+      var moLab = document.createElement("label");
+      moLab.className = "money-cal__pick-field";
+      moLab.innerHTML = '<span class="money-cal__pick-k">월</span>';
+      var moSel = document.createElement("select");
+      moSel.className = "money-cal__pick-select";
+      for (var mm = 1; mm <= 12; mm++) {
+        var mOpt = document.createElement("option");
+        mOpt.value = String(mm);
+        mOpt.textContent = mm + "월";
+        if (mm === m + 1) mOpt.selected = true;
+        moSel.appendChild(mOpt);
+      }
+      yrLab.appendChild(yrSel);
+      moLab.appendChild(moSel);
+      pickRow.appendChild(yrLab);
+      pickRow.appendChild(moLab);
+      var applyBtn = document.createElement("button");
+      applyBtn.type = "button";
+      applyBtn.className = "btn btn-secondary money-cal__month-apply";
+      applyBtn.textContent = "이동";
+      function closeMonthDropdown() {
+        dropdown.classList.add("is-hidden");
+        title.setAttribute("aria-expanded", "false");
+      }
+      function applyMonthPick() {
+        var ny = parseInt(yrSel.value, 10);
+        var nm = parseInt(moSel.value, 10);
+        var nextMk = ny + "-" + String(nm).padStart(2, "0");
+        nextMk = clampMonthKey(nextMk);
+        calendarViewMk = nextMk;
+        if (state.date.slice(0, 7) !== nextMk) {
+          state.date = nextMk + "-01";
+        }
+        closeMonthDropdown();
+        render();
+      }
+      applyBtn.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        applyMonthPick();
+      });
+      title.addEventListener("click", function (ev) {
+        ev.stopPropagation();
+        if (!dropdown.classList.contains("is-hidden")) {
+          closeMonthDropdown();
+          return;
+        }
+        yrSel.value = String(y);
+        moSel.value = String(m + 1);
+        dropdown.classList.remove("is-hidden");
+        title.setAttribute("aria-expanded", "true");
+        setTimeout(function () {
+          function onDoc(ev2) {
+            var el = /** @type {Node} */ (ev2.target);
+            if (dropdown.contains(el) || title.contains(el)) return;
+            closeMonthDropdown();
+            document.removeEventListener("mousedown", onDoc, true);
+          }
+          document.addEventListener("mousedown", onDoc, true);
+        }, 0);
+      });
+      dropdown.appendChild(pickRow);
+      dropdown.appendChild(applyBtn);
+      titleWrap.appendChild(title);
+      titleWrap.appendChild(dropdown);
+      var next = document.createElement("button");
+      next.type = "button";
+      next.className = "money-cal__month-btn";
+      next.setAttribute("aria-label", "다음 달");
+      next.textContent = ">";
+      next.disabled = mk >= hiMk;
+      next.addEventListener("click", function () {
+        shiftCalendarMonth(1);
+      });
+      nav.appendChild(prev);
+      nav.appendChild(titleWrap);
+      nav.appendChild(next);
+      host.appendChild(nav);
+      var hdrPick = document.getElementById("cal-month-label");
+      if (hdrPick && hdrPick.tagName === "BUTTON") {
+        hdrPick.onclick = function (ev) {
+          ev.preventDefault();
+          title.click();
+        };
+      }
+    }
+
     var head = document.createElement("div");
     head.className = "money-cal__dow";
     "일월화수목금토".split("").forEach(function (d) {
@@ -531,7 +829,15 @@
       if (hasRecord && exp === 0) {
         var sticker = document.createElement("span");
         sticker.className = "money-cal__sticker";
-        sticker.textContent = "무지출";
+        sticker.setAttribute("role", "img");
+        sticker.setAttribute("aria-label", "무지출");
+        sticker.innerHTML =
+          '<span class="money-cal__sticker-inner" aria-hidden="true">' +
+          '<svg class="money-cal__sticker-check" viewBox="0 0 24 24" width="15" height="15" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+          '<path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>' +
+          "</svg>" +
+          '<span class="money-cal__sticker-zero">ZERO</span>' +
+          "</span>";
         sticker.title =
           modeFeat === 8
             ? "무지출 기록 — 클릭하면 해제할 수 있습니다"
@@ -575,11 +881,11 @@
         return function () {
           if (getDailyFeatureMode() === 8) {
             state = loadDay(dstr);
+            calendarViewMk = clampMonthKey(monthKeyFromDate(dstr));
             if (nospendSelectedDate !== dstr) {
               nospendSelectedDate = dstr;
               nospendArmed = false;
             } else {
-              // 같은 날짜 2회 클릭 시에만 작업 버튼 노출 (토글)
               nospendArmed = !nospendArmed;
             }
             render();
@@ -659,6 +965,11 @@
     if (dateEl) {
       dateEl.value = state.date;
       dateEl.max = today();
+      if (modeFeat === 8) {
+        dateEl.min = minDateThreeYearsIso();
+      } else {
+        dateEl.removeAttribute("min");
+      }
     }
 
     var sbEl = /** @type {HTMLInputElement | null} */ ($maybe("start-balance"));
@@ -676,13 +987,23 @@
     }
 
     var dn = /** @type {HTMLInputElement | null} */ ($maybe("day-note"));
-    if (dn) dn.value = state.dayNote || "";
+    if (dn) {
+      if (modeFeat === 6 && editingDiary) {
+        /* 편집 중: 입력창 값 유지 */
+      } else {
+        dn.value = state.dayNote || "";
+      }
+    }
     if (modeFeat === 6) {
       var btn = /** @type {HTMLButtonElement | null} */ ($maybe("day-note-add"));
       var future = isFutureDate(state.date);
       if (dn) dn.disabled = future;
-      if (btn) btn.disabled = future;
-      if (btn && future) btn.title = "미래 날짜에는 기록할 수 없습니다.";
+      if (btn) {
+        btn.disabled = future;
+        btn.textContent = editingDiary ? "수정 저장" : "입력";
+        if (future) btn.title = "미래 날짜에는 기록할 수 없습니다.";
+        else btn.removeAttribute("title");
+      }
     }
     renderRatingButtons();
     renderMoneyCalendar();
@@ -850,6 +1171,9 @@
     el.addEventListener("change", function () {
       var next = el.value || today();
       state = loadDay(next);
+      if (getDailyFeatureMode() === 8) {
+        calendarViewMk = clampMonthKey(monthKeyFromDate(next));
+      }
       persist();
       render();
     });
@@ -1050,7 +1374,7 @@
       }
 
       // 기본: 모두 숨기고 필요한 것만 살린다.
-      // 5/7: 퀵-인풋(체감 지수 포함) + 거래표(기록)
+      // 5/7: 데일리 퀵 인풋(체감 지수 포함) + 거래표(기록)
       // 6: 소비 한 줄 평
       // 8: 무지출 챌린지 스티커(머니 캘린더)
       if (mode === 6) {
@@ -1075,6 +1399,7 @@
     if (getDailyFeatureMode() !== 8) {
       persist();
     } else {
+      calendarViewMk = clampMonthKey(monthKeyFromDate(state.date));
       nospendSelectedDate = state.date;
       nospendArmed = false;
     }
@@ -1114,17 +1439,55 @@
     var noteEl = $maybe("day-note");
     var noteBtn = $maybe("day-note-add");
     if (getDailyFeatureMode() === 6) {
+      normalizeNoteIds();
       if (noteBtn && noteEl) {
         noteBtn.addEventListener("click", function () {
           if (isFutureDate(state.date)) return;
           var text = String(/** @type {HTMLInputElement} */ (noteEl).value || "").trim().slice(0, 120);
           if (!text) return;
+
+          if (editingDiary) {
+            var ed = editingDiary;
+            var all = loadAll();
+            var st0 = all[ed.date];
+            if (!st0) {
+              st0 = loadDay(ed.date);
+              all[ed.date] = st0;
+            }
+            if (ed.kind === "legacy") {
+              st0.dayNote = text;
+            } else {
+              var arr = Array.isArray(st0.notes) ? st0.notes : [];
+              var found = arr.find(function (n) {
+                return n && n.id === ed.id;
+              });
+              if (found) {
+                found.text = text;
+                var now = new Date();
+                found.at =
+                  ed.date +
+                  "T" +
+                  String(now.getHours()).padStart(2, "0") +
+                  ":" +
+                  String(now.getMinutes()).padStart(2, "0") +
+                  ":00";
+              }
+            }
+            saveAll(all);
+            editingDiary = null;
+            /** @type {HTMLInputElement} */ (noteEl).value = "";
+            noteBtn.textContent = "입력";
+            state = loadDay(state.date);
+            render();
+            return;
+          }
+
           var now = new Date();
           var hh = String(now.getHours()).padStart(2, "0");
           var mm = String(now.getMinutes()).padStart(2, "0");
           var at = state.date + "T" + hh + ":" + mm + ":00";
           if (!state.notes) state.notes = [];
-          state.notes.unshift({ text: text, at: at });
+          state.notes.unshift({ id: createId(), text: text, at: at });
           /** @type {HTMLInputElement} */ (noteEl).value = "";
           persist();
           render();

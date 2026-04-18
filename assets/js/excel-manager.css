@@ -47,8 +47,35 @@
   margin-top: 4px;
 }
 
-.excel-zone .excel-control-box__advanced {
+.excel-control-box__import-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
   margin-top: 4px;
+  min-width: 0;
+}
+
+.excel-control-box__import-row .excel-control-box__actions--import {
+  flex: 0 0 auto;
+  margin-top: 0;
+}
+
+.excel-control-box__import-row .excel-control-box__btn {
+  flex: 0 1 auto;
+  min-width: 148px;
+  max-width: 220px;
+  width: 100%;
+}
+
+@media (max-width: 520px) {
+  .excel-control-box__import-row {
+    flex-direction: column;
+  }
+
+  .excel-control-box__import-row .excel-control-box__btn {
+    max-width: none;
+  }
 }
 
 .excel-control-box__master {
@@ -83,6 +110,39 @@
   box-shadow: var(--focus-ring);
 }
 
+/* Excel Control Center: 제목(헤드) 바로 아래 슬로건 + 보관 안내 */
+.mc-excel-slogan {
+  margin: 10px 0 8px;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 550;
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  color: var(--color-text-muted);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+html[data-theme="dark"] .mc-excel-slogan {
+  color: color-mix(in srgb, var(--color-text-primary) 58%, #94a3b8);
+}
+
+.mc-excel-note {
+  margin: 0 0 16px;
+  padding: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  color: var(--color-text-muted);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+html[data-theme="dark"] .mc-excel-note {
+  color: color-mix(in srgb, var(--color-text-primary) 52%, #94a3b8);
+}
+
 .excel-control-box {
   width: 100%;
   margin-bottom: 20px;
@@ -103,7 +163,7 @@ html[data-theme="dark"] .excel-control-box {
   align-items: baseline;
   justify-content: space-between;
   gap: 8px 12px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
   padding-bottom: 10px;
   border-bottom: 1px dashed color-mix(in srgb, var(--border-default) 85%, transparent);
 }
@@ -175,45 +235,10 @@ html[data-theme="dark"] .excel-control-box {
   cursor: not-allowed;
 }
 
-.excel-control-box__advanced {
-  margin-top: 12px;
-}
-
-.excel-control-box__summary {
-  min-height: 44px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-weight: 750;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  list-style: none;
-  display: flex;
-  align-items: center;
-}
-
-.excel-control-box__summary::-webkit-details-marker {
-  display: none;
-}
-
-.excel-control-box__summary::after {
-  content: "";
-  width: 8px;
-  height: 8px;
-  margin-left: auto;
-  border-right: 2px solid var(--color-text-muted);
-  border-bottom: 2px solid var(--color-text-muted);
-  transform: rotate(45deg);
-  transition: transform 0.2s ease;
-}
-
-.excel-control-box__advanced[open] .excel-control-box__summary::after {
-  transform: rotate(225deg);
-}
-
 .excel-control-box__dropzone {
-  margin-top: 10px;
-  width: 100%;
+  margin-top: 0;
+  min-width: 0;
+  flex: 1 1 200px;
 }
 
 .excel-control-box__hint {
@@ -236,6 +261,42 @@ html[data-theme="dark"] .excel-control-box {
   text-align: center;
   line-height: 1.5;
   transition: background 0.2s ease, border-color 0.2s ease, transform 0.12s ease;
+}
+
+.excel-dropzone--inline.dropzone {
+  padding: 10px 12px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 48px;
+  cursor: pointer;
+  border: 1px dashed color-mix(in srgb, var(--border-strong) 90%, var(--color-primary) 10%);
+  background: color-mix(in srgb, var(--color-surface-2) 82%, var(--color-surface));
+}
+
+html[data-theme="dark"] .excel-dropzone--inline.dropzone {
+  background: color-mix(in srgb, var(--color-surface) 78%, #0c1220);
+  border-color: color-mix(in srgb, var(--border-default) 75%, #475569);
+}
+
+.excel-dropzone-inline__main {
+  font-size: 0.8125rem;
+  font-weight: 750;
+  color: var(--color-text-primary);
+  word-break: keep-all;
+}
+
+.excel-dropzone-inline__sub {
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--color-text-muted);
+}
+
+.excel-dropzone--inline.dropzone.is-dragover {
+  transform: none;
 }
 
 .dropzone strong {

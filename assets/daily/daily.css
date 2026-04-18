@@ -12,28 +12,70 @@
   max-width: 100%;
 }
 
-/* 7번 등: 헤더 옆 달력 사이즈 통일 */
-.flex-between .daily-date {
-  min-height: 44px;
+/* 7·8번 「오늘의 시작」: 타이틀 → 시작잔액 → 날짜 → 현재 잔액(밀도 있게 세로 스택) */
+.daily-start-section__title {
+  margin: 0 0 10px;
+  padding: 0;
+  line-height: 1.3;
+  word-break: keep-all;
 }
 
-/* 7번 '오늘의 시작' 헤더: 텍스트 깨짐/겹침 방지 */
-#daily-head {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.daily-start-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.daily-start-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.daily-start-row .daily-start-field,
+.daily-start-row .daily-start-field--date {
   min-width: 0;
+  width: 100%;
+}
+
+.daily-start-row .money-wrap {
+  width: 100%;
+}
+
+.daily-start-row .daily-date {
+  width: 100%;
+  max-width: none;
+}
+
+@media (max-width: 520px) {
+  .daily-start-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.daily-start-field {
+  margin: 0;
+}
+
+.daily-date--section {
+  width: 100%;
+  max-width: none;
+  min-height: 48px;
+  padding: 10px 12px;
+  font-size: 0.9375rem;
+}
+
+.flex-between .daily-date {
+  min-height: 48px;
 }
 
 .flex-between {
   gap: 12px;
-}
-
-.daily-start {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
-  gap: 16px;
-  align-items: start;
 }
 
 .daily-summary {
@@ -41,6 +83,11 @@
   border: 1px solid var(--border-default);
   background: var(--color-surface-2);
   padding: 14px 14px;
+}
+
+.daily-start-summary {
+  padding: 12px 14px;
+  margin-top: 2px;
 }
 
 .daily-balance {
@@ -88,12 +135,28 @@
 .tx-cat,
 .tx-memo,
 .tx-amt {
+  box-sizing: border-box;
   width: 100%;
-  border-radius: 12px;
+  min-height: 48px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border-default);
-  padding: 10px 10px;
+  padding: 10px 12px;
   background: var(--color-surface);
   color: var(--color-text-primary);
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+html[data-theme="dark"] .tx-type,
+html[data-theme="dark"] .tx-cat,
+html[data-theme="dark"] .tx-memo,
+html[data-theme="dark"] .tx-amt {
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.32);
+}
+
+.tx-amt {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
 }
 
 .tx-type {
@@ -338,6 +401,200 @@
   line-height: 1.55;
 }
 
+.diary-item--row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.diary-item__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 4px;
+  word-break: break-word;
+}
+
+.diary-item__text {
+  font-weight: 750;
+  color: var(--color-text-primary);
+}
+
+.diary-item__sep {
+  color: var(--color-text-muted);
+  font-weight: 650;
+}
+
+.diary-item__meta {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.diary-item__actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.diary-item__icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--color-text-primary);
+}
+
+.diary-item__icon-btn:hover {
+  border-color: var(--border-strong);
+}
+
+.diary-item__icon-btn--danger {
+  color: var(--color-expense);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+/* 8번 무지출: 월 슬라이드 */
+.money-cal__month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.money-cal__month-btn {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  font-size: 1.15rem;
+  font-weight: 900;
+  cursor: pointer;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.money-cal__month-btn:hover:not(:disabled) {
+  border-color: var(--border-strong);
+}
+
+.money-cal__month-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.money-cal__month-picker-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.money-cal__month-nav-title {
+  font: inherit;
+  font-weight: 800;
+  font-size: 0.9375rem;
+  color: var(--color-text-primary);
+  min-width: 8rem;
+  text-align: center;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  line-height: 1.2;
+}
+
+.money-cal__month-nav-title:hover {
+  border-color: var(--border-default);
+  background: color-mix(in srgb, var(--color-surface) 88%, var(--color-primary));
+}
+
+.money-cal__month-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  min-width: 240px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.14);
+}
+
+.money-cal__month-dropdown.is-hidden {
+  display: none;
+}
+
+.money-cal__month-pick-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.money-cal__pick-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1 1 100px;
+  min-width: 0;
+}
+
+.money-cal__pick-k {
+  font-size: 0.75rem;
+  font-weight: 750;
+  color: var(--color-text-secondary);
+}
+
+.money-cal__pick-select {
+  min-height: 40px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-weight: 650;
+}
+
+.money-cal__month-apply {
+  width: 100%;
+  justify-content: center;
+}
+
+.cal-month-picker-trig {
+  font: inherit;
+  margin: 0;
+  padding: 2px 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-weight: 750;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-align: right;
+}
+
+.cal-month-picker-trig:hover {
+  color: var(--color-text-primary);
+}
+
 .diary-item--empty {
   color: var(--color-text-muted);
   font-weight: 650;
@@ -505,21 +762,59 @@
   color: var(--color-text-muted);
 }
 
+/* 다이어리 꾸미기 감성 무지출 스티커 */
 .money-cal__sticker {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-size: 0.625rem;
-  font-weight: 900;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  background: color-mix(in srgb, var(--color-primary) 22%, transparent);
-  color: var(--color-text-primary);
-  border: 1px solid color-mix(in srgb, var(--color-primary) 35%, var(--border-default));
+  margin-top: 2px;
+  padding: 5px 7px 6px;
+  border-radius: 12px;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--color-primary) 20%, var(--color-surface)),
+    color-mix(in srgb, var(--color-primary) 6%, var(--color-surface))
+  );
+  border: 1px dashed color-mix(in srgb, var(--color-primary) 42%, var(--border-default));
+  box-shadow:
+    0 2px 10px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 color-mix(in srgb, #fff 22%, transparent);
   transform-origin: center;
   will-change: transform, opacity;
+}
+
+html[data-theme="dark"] .money-cal__sticker {
+  box-shadow:
+    0 3px 14px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 color-mix(in srgb, #fff 8%, transparent);
+}
+
+.money-cal__sticker-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 38px;
+  min-height: 38px;
+  border-radius: 50%;
+  padding: 4px;
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 28%, var(--border-default));
+}
+
+.money-cal__sticker-check {
+  display: block;
+  color: var(--color-primary);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.12));
+}
+
+.money-cal__sticker-zero {
+  font-size: 0.52rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  color: var(--color-text-primary);
 }
 
 .money-cal__cell.has-nospend .money-cal__sticker {
@@ -548,10 +843,6 @@
 }
 
 @media (max-width: 860px) {
-  .daily-start {
-    grid-template-columns: 1fr;
-  }
-
   .money-cal__cell {
     min-height: 64px;
     padding: 6px 6px 4px;

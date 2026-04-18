@@ -222,7 +222,33 @@
     XLSX.writeFile(wb, ExcelManager.makeFilename("BackupReadme"));
   }
 
+  function wirePassToggle(inputId, btnId) {
+    var inp = document.getElementById(inputId);
+    var btn = document.getElementById(btnId);
+    if (!inp || !btn) return;
+    btn.addEventListener("click", function () {
+      var show = inp.type === "password";
+      inp.type = show ? "text" : "password";
+      btn.setAttribute("aria-pressed", show ? "true" : "false");
+      btn.setAttribute("aria-label", show ? "비밀번호 숨기기" : "비밀번호 표시");
+    });
+  }
+
   function init() {
+    wirePassToggle("bk-pass", "bk-pass-toggle");
+    wirePassToggle("bk-pass-in", "bk-pass-in-toggle");
+    var fileIn = document.getElementById("bk-file");
+    var fileTrig = document.getElementById("bk-file-trigger");
+    var fileName = document.getElementById("bk-file-name");
+    if (fileIn && fileTrig && fileName) {
+      fileTrig.addEventListener("click", function () {
+        fileIn.click();
+      });
+      fileIn.addEventListener("change", function () {
+        var f = fileIn.files && fileIn.files[0];
+        fileName.textContent = f && f.name ? f.name : "선택된 파일 없음";
+      });
+    }
     document.getElementById("btn-enc").addEventListener("click", function () {
       btnEnc().catch(function (e) {
         alert(String(e && e.message ? e.message : e));
