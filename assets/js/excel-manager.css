@@ -7,6 +7,10 @@
   align-items: stretch;
 }
 
+.excel-control-box__zones--single {
+  grid-template-columns: 1fr;
+}
+
 @media (max-width: 720px) {
   .excel-control-box__zones {
     grid-template-columns: 1fr;

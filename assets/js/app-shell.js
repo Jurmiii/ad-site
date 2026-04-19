@@ -89,6 +89,7 @@
   var DEMO_ACTIVE_KEY = "moneyCalendar.demoActive.v1";
   var DEMO_KEYS_KEY = "moneyCalendar.demoKeys.v1";
   var DEMO_TUTORIAL_DONE_KEY = "moneyCalendar.demoTutorialDone.v1";
+  var DRAWER_FAV_TIP_KEY = "moneyCalendar.drawerFavTipDismissed.v1";
 
   function showNotice(message) {
     try {
@@ -461,26 +462,33 @@
     var nav = document.getElementById("mc-fav-bar");
     if (!nav) return;
     nav.textContent = "";
+    nav.classList.add("mc-fav-bar--grid");
     var favs = getFavorites();
     var list = window.MONEY_CALENDAR_NAV || [];
-    for (var i = 0; i < favs.length; i++) {
-      var fid = favs[i];
-      var item = null;
-      for (var j = 0; j < list.length; j++) {
-        if (list[j].id === fid) {
-          item = list[j];
-          break;
+    for (var slot = 0; slot < MAX_FAVORITES; slot++) {
+      var cell = document.createElement("div");
+      cell.className = "mc-fav-bar__cell";
+      if (slot < favs.length) {
+        var fid = favs[slot];
+        var item = null;
+        for (var j = 0; j < list.length; j++) {
+          if (list[j].id === fid) {
+            item = list[j];
+            break;
+          }
+        }
+        if (item) {
+          var a = document.createElement("a");
+          a.className = "mc-fav-bar__link";
+          a.href = navHref(item);
+          var label = item.title || "";
+          if (label.length > 11) label = label.slice(0, 11) + "…";
+          a.textContent = label;
+          a.title = item.title;
+          cell.appendChild(a);
         }
       }
-      if (!item) continue;
-      var a = document.createElement("a");
-      a.className = "mc-fav-bar__link";
-      a.href = navHref(item);
-      var label = item.title || "";
-      if (label.length > 20) label = label.slice(0, 20) + "…";
-      a.textContent = label;
-      a.title = item.title;
-      nav.appendChild(a);
+      nav.appendChild(cell);
     }
   }
 
@@ -645,6 +653,47 @@
     section("관리", 13, 15);
   }
 
+  function tryShowDrawerFavTip() {
+    try {
+      if (String(localStorage.getItem(DRAWER_FAV_TIP_KEY) || "") === "1") return;
+      var drawer = document.getElementById("drawer");
+      if (!drawer) return;
+      var panel = drawer.querySelector(".drawer__panel");
+      if (!panel || panel.querySelector("[data-mc-drawer-fav-tip=\"1\"]")) return;
+
+      var tip = document.createElement("div");
+      tip.className = "mc-drawer-fav-tip";
+      tip.setAttribute("data-mc-drawer-fav-tip", "1");
+      tip.setAttribute("role", "status");
+
+      var closeBtn = document.createElement("button");
+      closeBtn.type = "button";
+      closeBtn.className = "mc-drawer-fav-tip__close";
+      closeBtn.setAttribute("aria-label", "말풍선 닫기");
+      closeBtn.innerHTML =
+        '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+
+      var p = document.createElement("p");
+      p.className = "mc-drawer-fav-tip__text";
+      p.textContent = "데일리 기능들을 즐겨찾기에 추가해 보세요! 더 빠르게 기록하고 관리할 수 있습니다.";
+
+      closeBtn.addEventListener("click", function () {
+        try {
+          localStorage.setItem(DRAWER_FAV_TIP_KEY, "1");
+        } catch (e) {}
+        try {
+          tip.remove();
+        } catch (e2) {}
+      });
+
+      tip.appendChild(p);
+      tip.appendChild(closeBtn);
+      var topEl = panel.querySelector(".drawer__top");
+      if (topEl) topEl.insertAdjacentElement("afterend", tip);
+      else panel.insertBefore(tip, panel.firstChild);
+    } catch (e) {}
+  }
+
   function wireDrawer() {
     var drawer = document.getElementById("drawer");
     var openBtn = document.getElementById("drawer-open");
@@ -665,6 +714,7 @@
       document.documentElement.classList.add("is-drawer-open");
       document.body.classList.add("is-drawer-open");
       setExpanded(true);
+      tryShowDrawerFavTip();
       var focusTarget = drawer.querySelector(".drawer__close");
       if (focusTarget) focusTarget.focus();
     }
@@ -702,7 +752,7 @@
     if (!id || id < 1 || id > 15) return;
     if (document.querySelector('[data-mc-security-tip="1"]')) return;
 
-    var exportHref = joinBase("export-center/index.html");
+    var exportHref = joinBase("backup-security/index.html");
 
     var el = document.createElement("aside");
     el.className = "mc-security-tip";
@@ -715,7 +765,7 @@
       "공용 환경에서 이용하신 경우, 반드시 " +
       '<a class="mc-security-tip__link" href="' +
       exportHref +
-      '">13. 전 기능 엑셀 익스포트</a>를 통해 기록을 소장하신 후 ' +
+      '">13. 내보내기 · 복원</a>을 통해 기록을 소장하신 후 ' +
       "브라우저의 '쿠키 및 사이트 데이터 삭제'를 진행하여 개인 재정 정보를 보호해 주세요." +
       "</p>";
 
@@ -736,7 +786,7 @@
     var id = inferFeatureId();
     if (!id || id < 1 || id > 15) return;
 
-    var exportHref = joinBase("export-center/index.html");
+    var exportHref = joinBase("backup-security/index.html");
     var el = document.createElement("aside");
     el.className = "mc-security-tip";
     el.setAttribute("data-mc-demo-guide", "1");
@@ -748,11 +798,83 @@
       "지금 보시는 데이터는 예시입니다. 상단의 엑셀 다운로드 버튼을 눌러 정교한 재정 템플릿을 확인해 보세요! " +
       '<a class="mc-security-tip__link" href="' +
       exportHref +
-      '">13. 전 기능 엑셀 익스포트</a>' +
+      '">13. 내보내기 · 복원</a>' +
       "</p>";
 
     var intro = document.querySelector("main .mc-page-intro");
     if (intro) intro.insertAdjacentElement("afterend", el);
+  }
+
+  function injectScrollTopButton() {
+    if (document.getElementById("mc-scroll-top")) return;
+    var body = document.body;
+    if (!body) return;
+
+    var isTour = body.classList.contains("page-demo-tour");
+    var isMcApp = body.classList.contains("mc-app");
+
+    if (!isTour && !isMcApp) return;
+
+    if (isMcApp) {
+      var fid = inferFeatureId();
+      if (fid === 12 || fid === 13) return;
+    }
+
+    var btn = document.createElement("button");
+    btn.id = "mc-scroll-top";
+    btn.type = "button";
+    btn.className = "mc-scroll-top";
+    btn.setAttribute("aria-label", "맨 위로");
+    btn.setAttribute("data-mc-scroll-top", "1");
+    if (isTour) btn.setAttribute("data-mc-scroll-top-tour", "1");
+    btn.innerHTML =
+      '<svg class="mc-scroll-top__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<path d="M12 19V5M5 12l7-7 7 7"/>' +
+      "</svg>" +
+      '<span class="mc-scroll-top__label">TOP</span>';
+    document.body.appendChild(btn);
+
+    function countMainSections() {
+      var main = document.getElementById("main");
+      if (!main) return 0;
+      var ch = main.children;
+      var n = 0;
+      var i;
+      for (i = 0; i < ch.length; i++) {
+        if (ch[i].tagName === "SECTION") n += 1;
+      }
+      return n;
+    }
+
+    function shouldShow() {
+      var docEl = document.documentElement;
+      var vh = window.innerHeight || docEl.clientHeight || 0;
+      if (vh <= 0) return false;
+      var range = docEl.scrollHeight - vh;
+      if (range <= 32) return false;
+      if (isTour) return true;
+      return countMainSections() > 2;
+    }
+
+    function sync() {
+      btn.hidden = !shouldShow();
+    }
+
+    btn.addEventListener("click", function () {
+      try {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (e) {
+        window.scrollTo(0, 0);
+      }
+    });
+
+    sync();
+    window.addEventListener("resize", sync);
+    window.addEventListener("load", sync);
+    try {
+      window.visualViewport &&
+        window.visualViewport.addEventListener("resize", sync);
+    } catch (e) {}
   }
 
   function injectFeatureGuide() {
@@ -770,8 +892,10 @@
       10: "계획과 실제 집행 내역을 대조하여 재정 운영의 오차를 확인합니다.",
       11: "시간의 흐름에 따라 변화하는 나의 소비 성향을 그래프로 추적합니다.",
       12: "데이터 속에 숨겨진 지출 패턴을 찾아 똑똑한 조언을 제공합니다.",
-      13: "머니 캘린더의 모든 데이터를 시트별로 정리된 단 하나의 파일로 소장합니다.",
-      14: "매우 중요한 개인 재정 정보를 안전하게 보호하고 파일로 백업합니다.",
+      13:
+        "엑셀로 전체 데이터를 내보내고, 암호화 백업 파일로 안전하게 보관·복원합니다.",
+      14:
+        "2번 비전 할당이 쌓여 만드는 미래 자산의 흐름을 곡선으로 보고, 오늘의 1원이 갖는 가치를 확인합니다.",
       15:
         "수입·지출·예산을 한 화면에 모아 성취 메시지와 종합 차트로 나의 재정 상태를 한눈에 살핍니다.",
     };
@@ -824,6 +948,7 @@
     maybeShowDemoTutorialPrompt();
     maybeMarkTutorialDone();
     injectFavoriteBar();
+    injectScrollTopButton();
     buildDrawerList(inferFeatureId());
     wireDrawer();
     window.addEventListener("storage", function (e) {

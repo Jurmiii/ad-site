@@ -896,8 +896,10 @@
   }
 
   function renderTools(container, opts) {
-    // opts: { schema, applyData(mode, parsed), onExportCurrent?: () => void }
+    // opts: { schema, applyData(mode, parsed), onExportCurrent?: () => void, hideCurrentScreenExport?: boolean }
     container.textContent = "";
+
+    var hideExport = !!opts.hideCurrentScreenExport;
 
     var root = document.createElement("div");
     root.className = "excel-control-box excel-control-center";
@@ -924,6 +926,9 @@
 
     var zones = document.createElement("div");
     zones.className = "excel-control-box__zones";
+    if (hideExport) {
+      zones.classList.add("excel-control-box__zones--single");
+    }
 
     var zoneIn = document.createElement("div");
     zoneIn.className = "excel-zone excel-zone--import";
@@ -935,17 +940,6 @@
     zinLead.textContent = "이전에 저장한 엑셀 파일을 선택해 검증 후 화면에 반영합니다.";
     zoneIn.appendChild(zinTitle);
     zoneIn.appendChild(zinLead);
-
-    var zoneOut = document.createElement("div");
-    zoneOut.className = "excel-zone excel-zone--export";
-    var zoutTitle = document.createElement("div");
-    zoutTitle.className = "excel-zone__title";
-    zoutTitle.textContent = "보내기 · Export";
-    var zoutLead = document.createElement("p");
-    zoutLead.className = "excel-zone__lead text-sm";
-    zoutLead.textContent = "지금 화면의 값을 엑셀로 저장해 백업하거나 다른 도구로 옮깁니다.";
-    zoneOut.appendChild(zoutTitle);
-    zoneOut.appendChild(zoutLead);
 
     var actionsIn = document.createElement("div");
     actionsIn.className = "excel-control-box__actions excel-control-box__actions--import";
@@ -979,26 +973,44 @@
     importRow.appendChild(dz);
     zoneIn.appendChild(importRow);
 
-    var actionsOut = document.createElement("div");
-    actionsOut.className = "excel-control-box__actions excel-control-box__actions--export";
+    var actionsOut = null;
+    var btnSave = null;
+    var zoneOut = null;
+    if (!hideExport) {
+      zoneOut = document.createElement("div");
+      zoneOut.className = "excel-zone excel-zone--export";
+      var zoutTitle = document.createElement("div");
+      zoutTitle.className = "excel-zone__title";
+      zoutTitle.textContent = "보내기 · Export";
+      var zoutLead = document.createElement("p");
+      zoutLead.className = "excel-zone__lead text-sm";
+      zoutLead.textContent = "지금 화면의 값을 엑셀로 저장해 백업하거나 다른 도구로 옮깁니다.";
+      zoneOut.appendChild(zoutTitle);
+      zoneOut.appendChild(zoutLead);
 
-    var btnSave = document.createElement("button");
-    btnSave.type = "button";
-    btnSave.className = "excel-control-box__btn excel-control-box__btn--primary";
-    btnSave.textContent = "현재 화면 엑셀 저장";
+      actionsOut = document.createElement("div");
+      actionsOut.className = "excel-control-box__actions excel-control-box__actions--export";
 
-    var hasExport = typeof opts.onExportCurrent === "function";
-    if (!hasExport) {
-      btnSave.disabled = true;
-      btnSave.setAttribute("aria-disabled", "true");
-      btnSave.title = "이 기능의 엑셀 보내기는 아직 연결되지 않았습니다.";
+      btnSave = document.createElement("button");
+      btnSave.type = "button";
+      btnSave.className = "excel-control-box__btn excel-control-box__btn--primary";
+      btnSave.textContent = "현재 화면 엑셀 저장";
+
+      var hasExport = typeof opts.onExportCurrent === "function";
+      if (!hasExport) {
+        btnSave.disabled = true;
+        btnSave.setAttribute("aria-disabled", "true");
+        btnSave.title = "이 기능의 엑셀 보내기는 아직 연결되지 않았습니다.";
+      }
+
+      actionsOut.appendChild(btnSave);
+      zoneOut.appendChild(actionsOut);
     }
 
-    actionsOut.appendChild(btnSave);
-    zoneOut.appendChild(actionsOut);
-
     zones.appendChild(zoneIn);
-    zones.appendChild(zoneOut);
+    if (!hideExport) {
+      zones.appendChild(zoneOut);
+    }
 
     var featureId = 0;
     try {
@@ -1021,8 +1033,9 @@
 
     var hint = document.createElement("p");
     hint.className = "excel-control-box__hint text-sm";
-    hint.textContent =
-      "웹에서 입력한 값을 엑셀로 내려받아 보관하거나, 반대로 파일을 불러와 동기화할 수 있습니다.";
+    hint.textContent = hideExport
+      ? "엑셀 파일은 위에서 불러와 검증 후 동기화할 수 있습니다. 전체 데이터는 「1~15 전 기능 통합 엑셀 추출」로 한 워크북에 담을 수 있습니다."
+      : "웹에서 입력한 값을 엑셀로 내려받아 보관하거나, 반대로 파일을 불러와 동기화할 수 있습니다.";
 
     var status = document.createElement("div");
     status.className = "excel-status excel-control-box__status is-hidden";
@@ -1121,15 +1134,18 @@
     btnUpload.addEventListener("click", function () {
       file.click();
     });
-    btnSave.addEventListener("click", function () {
-      if (!hasExport) return;
-      try {
-        opts.onExportCurrent();
-        setStatus("ok", "저장 파일을 만들었습니다.", "다운로드 폴더에서 엑셀 파일을 확인해 주세요.");
-      } catch (e) {
-        setStatus("err", "저장 실패", String(e && e.message ? e.message : e));
-      }
-    });
+    if (btnSave) {
+      var hasExport = typeof opts.onExportCurrent === "function";
+      btnSave.addEventListener("click", function () {
+        if (!hasExport) return;
+        try {
+          opts.onExportCurrent();
+          setStatus("ok", "저장 파일을 만들었습니다.", "다운로드 폴더에서 엑셀 파일을 확인해 주세요.");
+        } catch (e) {
+          setStatus("err", "저장 실패", String(e && e.message ? e.message : e));
+        }
+      });
+    }
     if (btnMaster) {
       btnMaster.addEventListener("click", function () {
         try {
@@ -1209,16 +1225,25 @@
     if (!schema) throw new Error("알 수 없는 스키마: " + schemaName);
     var applyData;
     var onExportCurrent = null;
+    var hideCurrentScreenExport = false;
     if (typeof third === "function") {
       applyData = third;
     } else if (third && typeof third === "object") {
       applyData = typeof third.applyData === "function" ? third.applyData : function () {};
       onExportCurrent =
         typeof third.onExportCurrent === "function" ? third.onExportCurrent : null;
+      if (third.hideCurrentScreenExport === true) {
+        hideCurrentScreenExport = true;
+      }
     } else {
       applyData = function () {};
     }
-    renderTools(el, { schema: schema, applyData: applyData, onExportCurrent: onExportCurrent });
+    renderTools(el, {
+      schema: schema,
+      applyData: applyData,
+      onExportCurrent: onExportCurrent,
+      hideCurrentScreenExport: hideCurrentScreenExport,
+    });
   }
 
   window.ExcelManager = {

@@ -1,8 +1,24 @@
 /* Money Calendar — Home (App-like cover) */
 
+/* 홈만: 종이 패턴 없음 — 순수 화이트(라이트) / 테마 단색(다크) */
+html:has(body.page-home) {
+  background-color: #ffffff;
+}
+
+html[data-theme="dark"]:has(body.page-home) {
+  background-color: var(--color-bg);
+}
+
 .page-home {
   scroll-behavior: smooth;
-  background: var(--color-bg);
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+html[data-theme="dark"] .page-home {
+  background-color: var(--color-bg);
 }
 
 .skip-link {
@@ -56,23 +72,42 @@
   justify-content: center;
   gap: 8px;
   min-width: 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+
+.page-home .mc-fav-bar.mc-fav-bar--grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  align-items: stretch;
+  min-height: 34px;
+}
+
+.page-home .mc-fav-bar__cell {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .page-home .mc-fav-bar__link {
-  font-size: 0.7rem;
+  font-size: clamp(0.55rem, 1.05vw, 0.65rem);
   font-weight: 750;
-  line-height: 1.2;
+  line-height: 1.15;
   color: var(--color-text-secondary);
   text-decoration: none;
-  padding: 6px 10px;
+  padding: 5px 6px;
   border-radius: 999px;
   border: 1px solid var(--border-default);
   background: color-mix(in srgb, var(--color-surface) 88%, transparent);
-  max-width: 11rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .page-home .mc-fav-bar__link:hover {

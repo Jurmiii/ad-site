@@ -13,6 +13,12 @@
   overflow-wrap: anywhere;
 }
 
+/* 하단 꼬리말: 일반 기능 페이지 .page-foot 과 동일한 여백·구분선 */
+.page-demo-tour .dt-page-foot {
+  border-top: 1px solid var(--border-default);
+  padding-top: 16px;
+}
+
 .page-demo-tour .dt-hero__lead {
   word-break: keep-all;
   overflow-wrap: normal;
@@ -172,6 +178,84 @@ html[data-theme="dark"] .dt-feature {
   .dt-feature__guide {
     margin-bottom: 1.35rem;
   }
+}
+
+/* 13번: 저장 철학 — 키워드 요약 */
+.dt-feature__reasons {
+  margin: 0 auto 1.35rem;
+  padding: 0;
+  max-width: min(100%, 38rem);
+  width: 100%;
+  list-style: none;
+  box-sizing: border-box;
+  color: var(--color-text-secondary);
+  font-weight: 650;
+  line-height: 1.82;
+}
+
+.dt-feature__reasons li + li {
+  margin-top: 1.15rem;
+}
+
+.dt-feature__reasons .dt-feature__kw {
+  display: inline;
+  margin-right: 0.35em;
+  font-weight: 750;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+.dt-feature__reasons .dt-feature__topic::after {
+  content: ": ";
+  font-weight: 650;
+  color: var(--color-text-muted);
+}
+
+.dt-feature__reasons .dt-feature__topic {
+  font-weight: 720;
+  color: var(--color-text-primary);
+}
+
+.dt-feature__reasons .dt-feature__kw::after {
+  content: "]";
+  font-weight: 750;
+  color: var(--color-text-muted);
+}
+
+.dt-feature__reasons .dt-feature__kw::before {
+  content: "[";
+  font-weight: 750;
+  color: var(--color-text-muted);
+}
+
+.dt-export-philosophy {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dt-export-philosophy__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.dt-export-philosophy__tag {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+html[data-theme="dark"] .dt-mock--export-philosophy {
+  border-color: color-mix(in srgb, var(--border-default) 90%, transparent);
 }
 
 /* 목업 래퍼: 가운데 + 약 22% 확대(폰트·패딩) */

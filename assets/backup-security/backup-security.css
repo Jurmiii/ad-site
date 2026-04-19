@@ -1,17 +1,93 @@
+/* 13번: 상·하 카드 섹션 (다른 기능 페이지와 동일한 card + h2 위계) */
+.page-bk .bk-section h2 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.page-bk .bk-secure-section-hint {
+  margin: 16px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--border-default) 88%, transparent);
+  max-width: 62ch;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-size: 0.8125rem;
+}
+
+.page-bk .bk-section-foot {
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.page-bk #excel-control-root {
+  margin-top: 10px;
+}
+
+.page-bk .bk-export-lead {
+  max-width: 68ch;
+  line-height: 1.6;
+}
+
+/* 백업: 비밀번호·눈·버튼 한 줄 — 열 안에서 입력폭 넉넉히 */
+.page-bk .bk-section--secure .bk-panel--backup .bk-action-line {
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.page-bk .bk-section--secure .bk-pass-input {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.page-bk .bk-panel--backup .bk-pass-wrap--compact {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: none;
+  width: auto;
+}
+
+/* 복원: 파일 선택 → 파일명 → 비밀번호·눈 → 복원 (가로, 추후 수치 조정용 그리드) */
+.bk-restore-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(10rem, 1.35fr) auto;
+  gap: 8px 10px;
+  align-items: center;
+  margin-top: 12px;
+  width: 100%;
+  min-width: 0;
+}
+
+.bk-pass-wrap--restore-inline {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+}
+
+.page-bk .bk-pass-wrap--restore-inline .bk-pass-input {
+  min-width: 0;
+}
+
 .bk-h2 {
   font-size: 1.05rem;
   font-weight: 800;
 }
 
-.bk-card .bk-h2 {
+.bk-card .bk-h2,
+.page-bk .bk-section .bk-h2 {
   margin: 0;
 }
 
 .bk-split {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px 22px;
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px 12px;
+  align-items: stretch;
 }
 
 .bk-panel {
@@ -27,9 +103,57 @@
   color: var(--color-text-secondary);
 }
 
+.bk-pass-hint {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.bk-pass-hint--below-title {
+  margin: 8px 0 0;
+  max-width: 52ch;
+}
+
+.bk-restore-err {
+  margin: 8px 0 0;
+  min-height: 0;
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.45;
+  color: var(--color-expense);
+}
+
+.bk-restore-err:empty {
+  display: none;
+}
+
 @media (max-width: 900px) {
   .bk-split {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .bk-restore-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .bk-restore-toolbar .bk-file-name {
+    flex: 1 1 140px;
+    min-width: 0;
+  }
+
+  .bk-restore-toolbar .bk-pass-wrap--restore-inline {
+    flex: 1 1 min(100%, 280px);
+    min-width: 12ch;
+  }
+
+  .bk-restore-toolbar #btn-restore {
+    flex: 0 0 auto;
   }
 }
 
@@ -94,7 +218,20 @@
     max-width: none;
   }
 
+  .page-bk .bk-panel--backup .bk-pass-wrap--compact {
+    max-width: none;
+  }
+
   .bk-action-btn {
+    width: 100%;
+  }
+
+  .bk-restore-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .bk-restore-toolbar #btn-restore {
     width: 100%;
   }
 }

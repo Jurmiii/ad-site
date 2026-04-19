@@ -53,12 +53,31 @@
   gap: 6px;
 }
 
-/* 고정 지출 단독 행: flex-grow로 생기던 가로 빈 공간 제거 */
-.page-vision .vb-field-stack--fixed .vb-money-col {
-  flex: 0 0 auto;
-  align-self: flex-start;
-  width: fit-content;
+/* 전체 수입·고정 지출: 동일 입력 너비(894.69px) 및 수직 정렬 */
+.page-vision #total-income-wrap.money-wrap,
+.page-vision #fixed-expense-wrap.money-wrap {
+  width: 100%;
   max-width: 100%;
+  min-width: 0;
+  align-items: stretch;
+}
+
+.page-vision #total-income-wrap .money-input,
+.page-vision #fixed-expense-wrap .money-input {
+  width: 894.69px;
+  max-width: 100%;
+  flex: 0 1 auto;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* 고정 지출 블록: 상단과 동일 열 정렬, 주변 간격 유지 */
+.page-vision .vb-field-stack--fixed .vb-money-col {
+  flex: 1 1 auto;
+  align-self: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 6px;

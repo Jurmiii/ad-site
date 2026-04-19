@@ -1,5 +1,5 @@
 /**
- * Money Calendar 기능 14 — 데이터 암호화 및 백업
+ * Money Calendar 기능 13 — 내보내기 · 복원 (엑셀 통합 + 암호화 백업)
  */
 (function () {
   "use strict";
@@ -171,7 +171,18 @@
     showDownloadGuideModal();
   }
 
+  function clearRestoreErr() {
+    var el = document.getElementById("bk-restore-err");
+    if (el) el.textContent = "";
+  }
+
+  function setRestoreErr(msg) {
+    var el = document.getElementById("bk-restore-err");
+    if (el) el.textContent = msg || "";
+  }
+
   async function restoreFromFile(file) {
+    clearRestoreErr();
     var text = "";
     if (String(file.name || "").toLowerCase().endsWith(".zip")) {
       text = await unzipToText(file);
@@ -197,7 +208,13 @@
       false,
       ["decrypt"]
     );
-    var plainBuf = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ct);
+    var plainBuf;
+    try {
+      plainBuf = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ct);
+    } catch (e) {
+      setRestoreErr("비밀번호가 일치하지 않습니다. 다시 확인해 주세요.");
+      return;
+    }
     var json = new TextDecoder().decode(plainBuf);
     var o2 = JSON.parse(json);
     if (!confirm("복호화된 데이터로 localStorage를 덮어씁니다. 계속할까요?")) return;
@@ -206,20 +223,6 @@
     });
     alert("암호화 백업 복원이 완료되었습니다.");
     location.reload();
-  }
-
-  function exportReadme() {
-    var wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(
-      wb,
-      XLSX.utils.aoa_to_sheet([
-        ["항목", "값"],
-        ["백업 JSON", "평문 JSON 버튼 사용"],
-        ["암호화", "AES-GCM + PBKDF2"],
-      ]),
-      "BackupReadme"
-    );
-    XLSX.writeFile(wb, ExcelManager.makeFilename("BackupReadme"));
   }
 
   function wirePassToggle(inputId, btnId) {
@@ -237,6 +240,8 @@
   function init() {
     wirePassToggle("bk-pass", "bk-pass-toggle");
     wirePassToggle("bk-pass-in", "bk-pass-in-toggle");
+    var passIn = document.getElementById("bk-pass-in");
+    if (passIn) passIn.addEventListener("input", clearRestoreErr);
     var fileIn = document.getElementById("bk-file");
     var fileTrig = document.getElementById("bk-file-trigger");
     var fileName = document.getElementById("bk-file-name");
@@ -245,6 +250,7 @@
         fileIn.click();
       });
       fileIn.addEventListener("change", function () {
+        clearRestoreErr();
         var f = fileIn.files && fileIn.files[0];
         fileName.textContent = f && f.name ? f.name : "선택된 파일 없음";
       });
@@ -255,6 +261,7 @@
       });
     });
     document.getElementById("btn-restore").addEventListener("click", function () {
+      clearRestoreErr();
       var f = document.getElementById("bk-file").files && document.getElementById("bk-file").files[0];
       if (!f) {
         alert("파일을 선택해 주세요.");
@@ -267,7 +274,7 @@
     if (typeof ExcelManager !== "undefined") {
       ExcelManager.mount("excel-control-root", "ShellTooling", {
         applyData: function () {},
-        onExportCurrent: exportReadme,
+        hideCurrentScreenExport: true,
       });
     }
   }

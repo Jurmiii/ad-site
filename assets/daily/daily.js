@@ -1,7 +1,7 @@
 /* global XLSX, ExcelManager */
 /**
  * Money Calendar 기능 5~8 (기획서 명칭)
- * 5. 데일리 퀵 인풋 · 표형 기록
+ * 5. 데일리 퀵 인풋
  * 6. 데일리 소비 한 줄 평
  * 7. 1원 단위 체감 지수
  * 8. 무지출 챌린지 스티커
@@ -638,7 +638,8 @@
     if (modeFeat === 8) calendarViewMk = mk;
     var parts = mk.split("-");
     var monthTitleStr = parts[0] + "년 " + String(parseInt(parts[1], 10)) + "월";
-    $("cal-month-label").textContent = monthTitleStr;
+    var calMonthHdr = $maybe("cal-month-label");
+    if (calMonthHdr) calMonthHdr.textContent = monthTitleStr;
     var y = parseInt(parts[0], 10);
     var m = parseInt(parts[1], 10) - 1;
     var first = new Date(y, m, 1);

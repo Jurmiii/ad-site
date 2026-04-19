@@ -91,8 +91,8 @@
         </div>
         <p class="text-sm mt-10">
           먼저 <strong>월 가용 수입</strong>과 <strong>고정 지출</strong>을 입력하면, 그 차액이 필수 지출(Needs)·선택적
-          지출(Wants)·저축 및 투자(Savings)에 나누어 쓸 <strong>분배 가능 금액</strong>의 상한입니다. 예산 수립 화면의
-          배분값을 불러와 기준으로 삼을 수 있습니다.
+          지출(Wants)·저축 및 투자(Savings)에 나누어 쓸 <strong>분배 가능 금액</strong>의 상한입니다.<br />
+          예산 수립 화면의 배분값을 불러와 기준으로 삼을 수 있습니다.
         </p>
 
         <div class="base-grid base-grid--income-fixed mt-16">
@@ -119,10 +119,11 @@
           <div class="base-532-row">
             <button id="btn-load-budget-setup" class="btn-secondary" type="button">예산 수립 값 불러오기</button>
             <button id="btn-apply-532" class="btn-secondary" type="button">50/30/20 적용</button>
-            <p class="base-532-hint">
-              <strong>권장 비율:</strong> 50% 필수 지출(Needs) — 생존·필수(주거·공과금·필수 식재료·교통·보험·통신 등).
-              30% 선택적 지출(Wants) — 삶의 질(외식·쇼핑·취미·여행·구독 등). 20% 저축 및 투자(Savings) — 미래 자산(예적금·투자·비상금·대출 원금 상환 등).
-            </p>
+            <div class="base-532-guide" role="note" aria-label="50 30 20 권장 비율 안내">
+              <p class="base-532-guide__line">50% - 필수 지출 (Needs): 생존을 위해 반드시 필요한 고정 비용</p>
+              <p class="base-532-guide__line">30% - 선택적 지출 (Wants): 삶의 질을 높이기 위한 유연한 비용</p>
+              <p class="base-532-guide__line">20% - 저축 및 투자 (Savings): 미래를 위한 자산 형성 비용</p>
+            </div>
           </div>
         </div>
       </section>

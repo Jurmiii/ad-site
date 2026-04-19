@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>14. 데이터 암호화 및 백업 · Money Calendar</title>
+    <title>13. 내보내기 · 복원 · Money Calendar</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="./backup-security.css" />
   </head>
-  <body class="mc-app" data-mc-feature-id="14">
+  <body class="mc-app page-bk" data-mc-feature-id="13">
     <script>
       window.__MC_ASSETS_BASE = "..";
     </script>
@@ -25,7 +25,7 @@
           <span class="mc-brand__mark" aria-hidden="true">M</span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">14. 데이터 암호화 및 백업</span>
+            <span class="mc-brand__page">13. 내보내기 · 복원</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
@@ -51,12 +51,12 @@
       <div class="drawer__backdrop" data-drawer-close></div>
       <div class="drawer__panel" role="document">
         <div class="drawer__top">
-          <p class="drawer__title">머니 캘린더</p>
+          <p class="drawer__title">가계부 시리즈</p>
           <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
         <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">암호화 백업은 Web Crypto(AES-GCM)를 사용합니다. https 환경을 권장합니다.</p>
+          <p class="text-sm">엑셀 통합 추출과 암호화 백업은 이 기기에서 처리됩니다. https 환경을 권장합니다.</p>
         </div>
       </div>
     </div>
@@ -64,20 +64,30 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">14. 데이터 암호화 및 백업</h1>
-            <p class="mc-page-intro__kicker">14 · 데이터 암호화 및 백업</p>
+            <h1 class="mc-page-intro__title">13. 내보내기 · 복원</h1>
+            <p class="mc-page-intro__kicker">13 · 내보내기 · 복원</p>
             <p class="mc-page-intro__lead text-body">
-              비밀번호로 AES-GCM 암호화한 보안 백업 파일(.zip)로 저장할 수 있습니다. 복원 시 기존 키를 덮어쓰므로 주의하세요.
+              통합 엑셀로 1~15 기능에 연결된 데이터를 한 파일에 담아 소장하고, 필요 시 AES-GCM 암호화 zip으로
+              백업·복원할 수 있습니다. 복원 시 기존 localStorage 키를 덮어쓰므로 주의하세요.
             </p>
             <p class="text-sm" style="margin-top: 10px; color: var(--color-text-muted)">
               귀하의 재정 데이터는 서버에 저장되지 않으며 오직 엑셀과 브라우저에만 존재합니다.
             </p>
           </header>
-          <div id="excel-control-root" class="mc-excel-slot"></div>
-          <section class="card mt-24 bk-card">
-            <div class="bk-split" role="group" aria-label="암호화 백업 및 복원">
+
+          <section class="card bk-section bk-section--export mt-24" aria-labelledby="bk-export-title">
+            <h2 id="bk-export-title">데이터 통합 내보내기</h2>
+            <p class="text-sm mt-8 bk-export-lead">
+              통합 워크북에는 기능별 시트와 요약이 포함됩니다. 아래에서 엑셀을 불러와 검증 후 동기화하거나,
+              <strong>「1~15 전 기능 통합 엑셀 추출」</strong>로 1~15번 데이터를 한 번에 내려받을 수 있습니다.
+            </p>
+            <div id="excel-control-root" class="mc-excel-slot"></div>
+          </section>
+
+          <section class="card bk-section bk-section--secure mt-16" aria-label="백업 및 복원">
+            <div class="bk-split" role="group" aria-label="백업과 복원">
               <div class="bk-panel bk-panel--backup">
-                <h2 class="bk-h2">암호화 백업</h2>
+                <h3 class="bk-h2">암호화 백업</h3>
                 <div class="field mt-12">
                   <span class="field-label">백업 비밀번호</span>
                   <div class="bk-action-line" role="group" aria-label="백업 비밀번호 및 실행">
@@ -118,11 +128,11 @@
                 </div>
               </div>
               <div class="bk-panel bk-panel--restore">
-                <h2 class="bk-h2">복원</h2>
-                <p class="text-sm mt-12 bk-panel__lead">
-                  보안 백업 파일(.zip)을 업로드하면 암호 확인 후 즉시 데이터가 복원됩니다.
+                <h3 class="bk-h2">복원</h3>
+                <p class="text-sm mt-10 bk-panel__lead">
+                  보안 백업 파일을 선택한 뒤 비밀번호를 입력하고 복원합니다.
                 </p>
-                <div class="bk-file-row mt-12">
+                <div class="bk-restore-toolbar" role="group" aria-label="복원: 파일·비밀번호·실행">
                   <input
                     id="bk-file"
                     class="visually-hidden"
@@ -135,41 +145,47 @@
                     파일 선택
                   </button>
                   <span id="bk-file-name" class="bk-file-name" aria-live="polite">선택된 파일 없음</span>
-                </div>
-                <div class="field mt-12">
-                  <span class="field-label">복원 비밀번호 (.zip)</span>
-                  <div class="bk-action-line" role="group" aria-label="복원 비밀번호 및 실행">
-                    <div class="bk-pass-wrap bk-pass-wrap--compact">
-                      <input id="bk-pass-in" class="bk-pass-input" type="password" autocomplete="new-password" />
-                      <button
-                        type="button"
-                        class="bk-pass-toggle"
-                        id="bk-pass-in-toggle"
-                        aria-label="비밀번호 표시"
-                        aria-pressed="false"
+                  <div class="bk-pass-wrap bk-pass-wrap--restore-inline">
+                    <input
+                      id="bk-pass-in"
+                      class="bk-pass-input"
+                      type="password"
+                      autocomplete="new-password"
+                      aria-label="복원 비밀번호"
+                      placeholder="복원 비밀번호"
+                    />
+                    <button
+                      type="button"
+                      class="bk-pass-toggle"
+                      id="bk-pass-in-toggle"
+                      aria-label="비밀번호 표시"
+                      aria-pressed="false"
+                    >
+                      <svg
+                        class="bk-pass-toggle__icon"
+                        viewBox="0 0 24 24"
+                        width="22"
+                        height="22"
+                        aria-hidden="true"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
                       >
-                        <svg
-                          class="bk-pass-toggle__icon"
-                          viewBox="0 0 24 24"
-                          width="22"
-                          height="22"
-                          aria-hidden="true"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        >
-                          <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
-                          <circle cx="12" cy="12" r="3" />
-                        </svg>
-                      </button>
-                    </div>
-                    <button id="btn-restore" class="btn-secondary bk-action-btn" type="button">복원하기</button>
+                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                        <circle cx="12" cy="12" r="3" />
+                      </svg>
+                    </button>
                   </div>
+                  <button id="btn-restore" class="btn-secondary bk-action-btn" type="button">복원하기</button>
                 </div>
+                <p id="bk-restore-err" class="bk-restore-err" role="alert" aria-live="polite"></p>
               </div>
             </div>
+            <p class="text-sm bk-secure-section-hint">
+              ※ 비밀번호 분실 시 복원이 어려울 수 있으니 본인만 알 수 있는 곳에 기록하거나 기억해 주세요.
+            </p>
           </section>
         </main>
       </div>

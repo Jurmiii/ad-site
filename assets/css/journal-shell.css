@@ -21,11 +21,77 @@
   z-index: 1000;
 }
 
+/* 맨 위로(기능·사용 가이드 데모): 우측 하단 고정, 사이드 광고 Safe Zone */
+.mc-scroll-top {
+  position: fixed;
+  right: max(36px, calc(env(safe-area-inset-right, 0px) + 24px));
+  bottom: max(40px, calc(env(safe-area-inset-bottom, 0px) + 28px));
+  z-index: 85;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 50px;
+  min-height: 50px;
+  padding: 8px 6px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--border-default) 82%, transparent);
+  background: color-mix(in srgb, var(--color-surface) 76%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  box-shadow: 0 10px 32px rgba(15, 23, 42, 0.14);
+  transition: opacity 0.22s ease, transform 0.18s ease, border-color 0.18s ease;
+  font: inherit;
+}
+
+.mc-scroll-top:hover {
+  border-color: color-mix(in srgb, var(--color-primary) 35%, var(--border-default));
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+}
+
+.mc-scroll-top:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-primary) 55%, transparent);
+  outline-offset: 3px;
+}
+
+.mc-scroll-top__icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.mc-scroll-top__label {
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  opacity: 0.92;
+}
+
+html[data-theme="dark"] .mc-scroll-top {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.42);
+}
+
 .mc-app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--mc-paper-bg);
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+}
+
+/* 종이 질감: 본문·카드보다 반드시 뒤(z-index: -1), 클릭 통과 */
+.mc-app::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  min-height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background-color: var(--mc-paper-bg);
   background-image: var(--mc-paper-texture);
 }
 
@@ -57,7 +123,7 @@
   min-height: 56px;
 }
 
-/* 헤더 즐겨찾기(최대 3) — 로고 영역 미변경 */
+/* 헤더 즐겨찾기(최대 5) — 한 줄·5칸 고정, 가로 스크롤 없음 */
 .mc-fav-bar {
   flex: 1;
   display: flex;
@@ -65,28 +131,93 @@
   justify-content: center;
   gap: 8px;
   min-width: 0;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+}
+
+.mc-fav-bar.mc-fav-bar--grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  align-items: stretch;
+  min-height: 34px;
+}
+
+.mc-fav-bar__cell {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mc-fav-bar__link {
-  font-size: 0.7rem;
+  font-size: clamp(0.55rem, 1.05vw, 0.65rem);
   font-weight: 750;
-  line-height: 1.2;
+  line-height: 1.15;
   color: var(--color-text-secondary);
   text-decoration: none;
-  padding: 6px 10px;
+  padding: 5px 6px;
   border-radius: 999px;
   border: 1px solid var(--border-default);
   background: color-mix(in srgb, var(--color-surface) 88%, transparent);
-  max-width: 11rem;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .mc-fav-bar__link:hover {
   border-color: var(--border-strong);
   color: var(--color-text-primary);
+}
+
+/* 사이드바 최초 오픈 시 즐겨찾기 안내 */
+.mc-drawer-fav-tip {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 10px 10px 12px;
+  margin: 0 0 10px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 38%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface));
+}
+
+.mc-drawer-fav-tip__text {
+  flex: 1;
+  margin: 0;
+  padding-top: 1px;
+  font-size: 0.82rem;
+  font-weight: 680;
+  line-height: 1.45;
+  color: var(--color-text-primary);
+  min-width: 0;
+}
+
+.mc-drawer-fav-tip__close {
+  flex: 0 0 auto;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.mc-drawer-fav-tip__close:hover {
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
 }
 
 .mc-brand {

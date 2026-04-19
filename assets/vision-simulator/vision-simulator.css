@@ -1,0 +1,121 @@
+.page-vs .vs-h2 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.page-vs .vs-h2--quiet {
+  font-size: 1rem;
+  font-weight: 750;
+  color: var(--color-text-secondary);
+}
+
+.page-vs .vs-top-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 16px;
+  margin-top: 14px;
+}
+
+@media (max-width: 900px) {
+  .page-vs .vs-top-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.page-vs .vs-rate-input {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 0 12px;
+  font-weight: 650;
+}
+
+.page-vs .vs-hint {
+  margin-top: 10px;
+  color: var(--color-text-muted);
+  line-height: 1.55;
+}
+
+.page-vs .vs-vision-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 22%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
+}
+
+.page-vs .vs-vision-row__label {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.page-vs .vs-vision-row__value {
+  margin: 4px 0 0;
+  font-size: 1.35rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+
+.page-vs .btn--sm {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  min-height: 40px;
+}
+
+.page-vs .vs-dday {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  border: 1px solid var(--border-default);
+}
+
+.page-vs .vs-dday__title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+}
+
+.page-vs .vs-dday__main {
+  margin: 10px 0 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.55;
+}
+
+.page-vs .vs-dday__sub {
+  margin: 8px 0 0;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.page-vs .vs-chart-wrap {
+  position: relative;
+  width: 100%;
+  min-height: 280px;
+  max-height: 420px;
+}
+
+.page-vs .vs-chart-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.page-vs .vs-motivation {
+  border-style: dashed;
+}
