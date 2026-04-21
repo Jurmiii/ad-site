@@ -1,5 +1,5 @@
 /**
- * 14. 비전 달성 시뮬레이터 — 2번 비전 할당을 월 저축으로 가정한 성장 곡선
+ * 14. 비전 달성 시뮬레이터 — 비전 월 할당 성장 곡선과 완성도(99%↔100%) 상징 비교
  */
 (function () {
   "use strict";
@@ -109,6 +109,46 @@
     var ctx = /** @type {HTMLCanvasElement} */ ($("vs-line")).getContext("2d");
     if (!ctx) return;
 
+    var endSplitPlugin = {
+      id: "mcVsEndSplit",
+      afterDatasetsDraw: function (chartInstance) {
+        var ds = chartInstance.getDatasetMeta(0);
+        if (!ds.data.length) return;
+        var last = ds.data[ds.data.length - 1];
+        var x = last.x;
+        var y = last.y;
+        var c = chartInstance.ctx;
+        var prim = colors.primary;
+        var mut = colors.muted;
+        c.save();
+        c.strokeStyle = prim;
+        c.lineWidth = 2;
+        c.lineCap = "round";
+        c.beginPath();
+        c.moveTo(x - 2, y);
+        c.lineTo(x + 18, y - 14);
+        c.moveTo(x - 2, y);
+        c.lineTo(x + 18, y + 14);
+        c.stroke();
+        c.fillStyle = prim;
+        c.globalAlpha = 0.95;
+        c.beginPath();
+        c.arc(x + 22, y - 14, 4.2, 0, Math.PI * 2);
+        c.fill();
+        c.globalAlpha = 0.45;
+        c.beginPath();
+        c.arc(x + 22, y + 14, 4.2, 0, Math.PI * 2);
+        c.fill();
+        c.globalAlpha = 1;
+        c.fillStyle = mut;
+        c.font = "600 10px system-ui, sans-serif";
+        c.textAlign = "left";
+        c.fillText("100%", x + 30, y - 10);
+        c.fillText("99%", x + 30, y + 18);
+        c.restore();
+      },
+    };
+
     destroyChart();
     chart = new Chart(ctx, {
       type: "line",
@@ -116,7 +156,7 @@
         labels: labels,
         datasets: [
           {
-            label: "예상 자산",
+            label: "예상 잔액",
             data: data,
             borderColor: colors.primary,
             backgroundColor: colors.primary + "2a",
@@ -158,12 +198,13 @@
           tooltip: {
             callbacks: {
               label: function (ctx) {
-                return "예상: " + formatWonAlways(Number(ctx.raw));
+                return "예상 잔액: " + formatWonAlways(Number(ctx.raw));
               },
             },
           },
         },
       },
+      plugins: [endSplitPlugin],
     });
   }
 
@@ -196,7 +237,7 @@
     dSub.textContent = "";
 
     if (M <= 0) {
-      dMain.textContent = "월 비전 저축이 0원입니다. 2번에서 비전에 월 할당을 먼저 넣어 주세요.";
+      dMain.textContent = "월 비전 적립이 0원입니다. 2번에서 비전에 월 할당을 먼저 넣어 주세요.";
     } else if (state.targetAmount <= 0) {
       dMain.textContent = "목표 자산액을 입력하면 달성에 걸리는 기간을 단순 추정합니다.";
     } else if (gap <= 0) {
@@ -208,7 +249,7 @@
       var y = d.getFullYear();
       var mo = d.getMonth() + 1;
       dMain.textContent =
-        "현재 저축 속도(월 " +
+        "현재 비전 적립 속도(월 " +
         formatWonAlways(M) +
         ")로 약 " +
         monthsNeeded +
@@ -221,13 +262,31 @@
     buildChart(state, M);
 
     var rm = monthlyRate(state.annualReturnPct);
-    var oneWon10y = Math.pow(1 + rm, 120);
-    $("vs-motivate").textContent =
-      "오늘 아낀 1원의 10년 뒤 가치는 약 " +
-      formatWonAlways(Math.round(oneWon10y)) +
-      "입니다(연 " +
-      state.annualReturnPct +
-      "% 복리 가정). 비전 할당으로 매달 이어지는 저축이 이 곡선을 밀어 올립니다.";
+    var fvEnd = Math.round(fvBalance(state.currentBalance, M, rm, 120));
+    var incEl = document.getElementById("vs-split-incomplete");
+    var compEl = document.getElementById("vs-split-complete");
+    if (incEl && compEl) {
+      if (fvEnd <= 0) {
+        incEl.textContent = "—";
+        compEl.textContent = "—";
+      } else {
+        /* 상징 비교: 동일 시점 잔액의 99% vs 100% (비율 비유, 원화 1단위 차등 아님) */
+        var almost = Math.round(fvEnd * 0.99);
+        incEl.textContent = formatWonAlways(Math.max(0, almost));
+        compEl.textContent = formatWonAlways(fvEnd);
+      }
+    }
+
+    var mot = $("vs-motivate");
+    if (M <= 0 && state.currentBalance <= 0) {
+      mot.textContent =
+        "비전 월 할당과 누적을 채우면, 곡선 끝에서 거의 달성과 완성이 갈리는 비유 수치가 함께 살아납니다. 2번에서 가치 있는 배정을 먼저 두어 주세요.";
+    } else {
+      mot.textContent =
+        "이 수치는 연 " +
+        state.annualReturnPct +
+        "% 복리 가정 하 10년(120개월) 시점의 예상 잔액입니다. 같은 잔액이라도 99%와 100%의 마음가짐 차이를 비율로 상징해 보여 줍니다.";
+    }
 
     /** @type {HTMLInputElement} */ ($("vs-rate")).value = String(state.annualReturnPct);
   }
@@ -246,7 +305,7 @@
     var rows = [
       {
         note:
-          "비전 달성 시뮬레이터 스냅샷. 2번 비전 월 할당 합계: " +
+          "비전 달성 시뮬레이터(완성도 99%↔100% 상징 비교). 2번 비전 월 할당 합계: " +
           M +
           "원. 목표: " +
           s.targetAmount +

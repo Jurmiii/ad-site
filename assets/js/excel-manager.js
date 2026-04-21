@@ -244,7 +244,7 @@
             startBalance: 150000,
             endBalance: 120000,
             dayRating: "normal",
-            dayNote: "커피 줄였음",
+            dayNote: "비전 배정 조정",
           },
         },
         {

@@ -64,8 +64,8 @@
 
 .page-vision #total-income-wrap .money-input,
 .page-vision #fixed-expense-wrap .money-input {
-  width: 894.69px;
-  max-width: 100%;
+  width: 100%;
+  max-width: min(894.69px, 100%);
   flex: 0 1 auto;
   min-width: 0;
   box-sizing: border-box;

@@ -1,4 +1,9 @@
 /* 13번: 상·하 카드 섹션 (다른 기능 페이지와 동일한 card + h2 위계) */
+.page-bk {
+  overflow-x: clip;
+  max-width: 100%;
+}
+
 .page-bk .bk-section h2 {
   font-size: 1.05rem;
   font-weight: 800;
@@ -53,12 +58,13 @@
 /* 복원: 파일 선택 → 파일명 → 비밀번호·눈 → 복원 (가로, 추후 수치 조정용 그리드) */
 .bk-restore-toolbar {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) minmax(10rem, 1.35fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.35fr) auto;
   gap: 8px 10px;
   align-items: center;
   margin-top: 12px;
   width: 100%;
   min-width: 0;
+  box-sizing: border-box;
 }
 
 .bk-pass-wrap--restore-inline {
@@ -88,6 +94,8 @@
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px 12px;
   align-items: stretch;
+  width: 100%;
+  min-width: 0;
 }
 
 .bk-panel {

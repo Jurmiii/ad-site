@@ -810,11 +810,42 @@ html[data-theme="dark"] .money-cal__sticker {
 }
 
 .money-cal__sticker-zero {
-  font-size: 0.52rem;
+  font-size: 0.55rem;
   font-weight: 900;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.06em;
   line-height: 1;
   color: var(--color-text-primary);
+}
+
+/* 돌발(예산 외) 지출 행 — 시각적 대비 */
+.daily-table tbody tr.daily-tx-row--surprise td {
+  background: color-mix(in srgb, var(--color-expense) 7%, var(--color-surface));
+  box-shadow: inset 4px 0 0 0 color-mix(in srgb, var(--color-expense) 72%, var(--border-default));
+}
+
+.daily-surprise-wrap {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px dashed color-mix(in srgb, var(--color-expense) 35%, var(--border-default));
+  background: color-mix(in srgb, var(--color-expense) 4%, var(--color-surface));
+}
+
+.daily-surprise-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+.daily-surprise-check input {
+  margin-top: 3px;
+  flex: 0 0 auto;
+  accent-color: var(--color-expense);
 }
 
 .money-cal__cell.has-nospend .money-cal__sticker {

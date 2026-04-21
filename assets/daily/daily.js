@@ -116,7 +116,7 @@
     return p.toFixed(2);
   }
 
-  /** @typedef {{ id:string, type:'expense'|'income', category:string, memo:string, amount:number }} Tx */
+  /** @typedef {{ id:string, type:'expense'|'income', category:string, memo:string, amount:number, surprise?: boolean }} Tx */
   /** @typedef {{ id?: string, text:string, at:string }} NoteEntry */
   /** @typedef {{ date:string, startBalance:number, txs:Tx[], dayRating?:string, dayNote?:string, notes?: NoteEntry[] }} DayState */
 
@@ -315,7 +315,7 @@
     var exp = st ? sumDayExpenses(st) : 0;
 
     if (hasRecord && exp === 0) {
-      if (!confirm("해당 날짜의 무지출 기록을 삭제하시겠습니까?")) {
+      if (!confirm("해당 날짜의 예산 준수(Budget Integrity) 스티커 기록을 삭제하시겠습니까?")) {
         state = loadDay(dstr);
         render();
         return;
@@ -329,7 +329,7 @@
     }
 
     if (hasRecord && exp > 0) {
-      if (!confirm("지출 내역이 존재합니다. 무지출로 변경하시겠습니까?")) {
+      if (!confirm("지출 내역이 있습니다. 예산 안에서 지출이 없었던 날로 표시하려면 지출만 제거합니다. 진행할까요?")) {
         state = loadDay(dstr);
         render();
         return;
@@ -831,18 +831,18 @@
         var sticker = document.createElement("span");
         sticker.className = "money-cal__sticker";
         sticker.setAttribute("role", "img");
-        sticker.setAttribute("aria-label", "무지출");
+        sticker.setAttribute("aria-label", "예산 준수 — Budget Integrity");
         sticker.innerHTML =
           '<span class="money-cal__sticker-inner" aria-hidden="true">' +
           '<svg class="money-cal__sticker-check" viewBox="0 0 24 24" width="15" height="15" fill="none" xmlns="http://www.w3.org/2000/svg">' +
           '<path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>' +
           "</svg>" +
-          '<span class="money-cal__sticker-zero">ZERO</span>' +
+          '<span class="money-cal__sticker-zero">BI</span>' +
           "</span>";
         sticker.title =
           modeFeat === 8
-            ? "무지출 기록 — 클릭하면 해제할 수 있습니다"
-            : "이 날 지출 합계 0원";
+            ? "예산 준수 스티커 — 클릭하면 해제할 수 있습니다"
+            : "이 날 돌발 지출 없음 · 지출 합계 0원";
         cell.appendChild(sticker);
         cell.classList.add("has-nospend");
       }
@@ -868,7 +868,7 @@
 
       if (modeFeat === 8) {
         if (isFutureDate(ds)) {
-          cell.title = "미래 날짜에는 무지출 기록을 작성할 수 없습니다.";
+          cell.title = "미래 날짜에는 예산 준수 스티커를 작성할 수 없습니다.";
         } else if (nospendSelectedDate === ds && nospendArmed) {
           cell.title = "선택됨 — 오른쪽 아래 버튼으로 수정/삭제";
         } else if (nospendSelectedDate === ds) {
@@ -914,7 +914,7 @@
     var exp = st ? sumDayExpenses(st) : 0;
 
     if (hasRecord && exp === 0) {
-      if (!confirm("해당 날짜의 무지출 스티커를 해제할까요?")) return;
+      if (!confirm("해당 날짜의 예산 준수 스티커를 해제할까요?")) return;
       var map0 = loadAll();
       delete map0[nospendSelectedDate];
       saveAll(map0);
@@ -925,7 +925,7 @@
     }
 
     if (hasRecord && exp > 0) {
-      if (!confirm("지출 내역이 존재합니다. 무지출로 변경하시겠습니까? (지출만 제거)")) return;
+      if (!confirm("지출 내역이 있습니다. 예산 안의 무지출 날로 바꾸려면 지출만 제거합니다. 진행할까요?")) return;
       var map1 = loadAll();
       var d = map1[nospendSelectedDate];
       if (!d || !Array.isArray(d.txs)) return;
@@ -940,8 +940,8 @@
       return;
     }
 
-    // 기록 없음 → 무지출 스티커 부착(빈 기록 저장)
-    if (!confirm("선택한 날짜에 무지출 스티커를 붙일까요?")) return;
+    // 기록 없음 → 예산 준수 스티커 부착(빈 기록 저장)
+    if (!confirm("선택한 날짜에 예산 준수(Budget Integrity) 스티커를 붙일까요? (돌발 지출 없이 계획 안에 머문 날)")) return;
     state = loadDay(nospendSelectedDate);
     persist();
     nospendArmed = false;
@@ -1009,6 +1009,7 @@
     renderRatingButtons();
     renderMoneyCalendar();
     updateQuickBudgetUI();
+    updateQuickSurpriseVisibility();
     // no-op (8번은 셀 내부 버튼으로 처리)
 
     var body = $maybe("tx-body");
@@ -1020,6 +1021,7 @@
 
     state.txs.forEach(function (t, idx) {
       var tr = document.createElement("tr");
+      if (t.surprise && t.type === "expense") tr.classList.add("daily-tx-row--surprise");
       var bal = balances[idx];
       var typeCell = "";
       if (modeFeat === 5) {
@@ -1115,6 +1117,7 @@
       });
       if (!tx2) return;
       tx2.type = typ === "income" ? "income" : "expense";
+      if (tx2.type === "income") delete tx2.surprise;
       persist();
       render();
       return;
@@ -1141,6 +1144,7 @@
       if (t.value !== next) t.value = next;
     } else if (k === "type") {
       tx.type = t.value === "income" ? "income" : "expense";
+      if (tx.type === "income") delete tx.surprise;
     } else if (k === "category") {
       tx.category = String(t.value || "").slice(0, 40);
     } else if (k === "memo") {
@@ -1195,6 +1199,15 @@
     if (addBtn)
       addBtn.textContent = quickMode === "expense" ? "지출로 기록에 추가" : "수입으로 기록에 추가";
     updateQuickBudgetUI();
+    updateQuickSurpriseVisibility();
+  }
+
+  function updateQuickSurpriseVisibility() {
+    var w = $maybe("quick-surprise-wrap");
+    if (!w) return;
+    var show = quickMode === "expense";
+    w.hidden = !show;
+    w.setAttribute("aria-hidden", show ? "false" : "true");
   }
 
   function wireQuickAmountFormat() {
@@ -1214,15 +1227,21 @@
     var amt = parseWon(/** @type {HTMLInputElement} */ ($("quick-amount")).value);
     var cat = String(/** @type {HTMLInputElement} */ ($("quick-cat")).value || "").trim().slice(0, 40);
     if (amt <= 0) return;
-    state.txs.push({
+    var surEl = /** @type {HTMLInputElement | null} */ ($maybe("quick-surprise"));
+    var isSurprise = !!(surEl && surEl.checked && quickMode === "expense");
+    /** @type {Tx} */
+    var row = {
       id: createId(),
       type: quickMode === "income" ? "income" : "expense",
       category: cat || "기타",
-      memo: "퀵 입력",
+      memo: isSurprise ? "퀵 입력 · 돌발(예산 외)" : "퀵 입력",
       amount: amt,
-    });
+    };
+    if (isSurprise) row.surprise = true;
+    state.txs.push(row);
     /** @type {HTMLInputElement} */ ($("quick-amount")).value = "";
     /** @type {HTMLInputElement} */ ($("quick-cat")).value = "";
+    if (surEl) surEl.checked = false;
     persist();
     render();
   }
@@ -1246,7 +1265,7 @@
     ];
 
     var txRows = state.txs.map(function (t, i) {
-      return {
+      var row = {
         date: state.date,
         type: t.type,
         category: t.category,
@@ -1254,6 +1273,8 @@
         memo: t.memo,
         endBalance: balances[i] == null ? "" : balances[i],
       };
+      if (t.surprise) row.surprise = true;
+      return row;
     });
 
     var wb = XLSX.utils.book_new();
@@ -1294,6 +1315,7 @@
                     category: String(r.category || "").slice(0, 40),
                     memo: String(r.memo || "").slice(0, 80),
                     amount: Math.max(0, Math.trunc(Number(r.amount) || 0)),
+                    surprise: !!(r.surprise === true || r.surprise === "true" || r.surprise === 1),
                     _endBalance: Number(r.endBalance),
                   };
                 })
@@ -1347,7 +1369,9 @@
   }
 
   function stripTmp(t) {
-    return { id: t.id, type: t.type, category: t.category, memo: t.memo, amount: t.amount };
+    var o = { id: t.id, type: t.type, category: t.category, memo: t.memo, amount: t.amount };
+    if (t.surprise) o.surprise = true;
+    return o;
   }
 
   function init() {
@@ -1384,10 +1408,8 @@
         hideSectionByHeadId("daily-head");
         hideSectionByHeadId("tx-title");
       } else if (mode === 8) {
-        hideSectionByHeadId("quick-head");
         hideSectionByHeadId("eval-head");
         hideSectionByHeadId("daily-head");
-        hideSectionByHeadId("tx-title");
       } else {
         // 5,7
         hideSectionByHeadId("eval-head");

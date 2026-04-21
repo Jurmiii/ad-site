@@ -233,7 +233,7 @@ function render() {
   els.remainder.classList.remove("is-negative", "is-positive");
   if (rem < 0) {
     els.remainder.classList.add("is-negative");
-    els.remainderHint.textContent = "배분 합이 총 소득을 초과했습니다. 1원 단위까지 다시 맞춰 주세요.";
+    els.remainderHint.textContent = "배분 합이 총 소득을 초과했습니다. 합계가 총 소득과 맞도록 다시 맞춰 주세요.";
   } else if (rem === 0 && ti > 0) {
     els.remainder.classList.add("is-positive");
     els.remainderHint.textContent = "소득이 예산에 정확히 맞춰졌습니다.";

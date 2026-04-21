@@ -543,7 +543,7 @@ function onVisionListClick(e) {
       return;
     }
     if (targetAmount <= 0) {
-      alert("최종 목표 금액은 1원 이상이어야 합니다.");
+      alert("최종 목표 금액은 0보다 큰 금액이어야 합니다.");
       return;
     }
     const item = visions.find((x) => x.id === id);
@@ -622,7 +622,7 @@ function initForm() {
     const currentProgress = parseWon($("vf-progress").value);
     const monthlyAllocation = parseWon($("vf-monthly").value);
     if (targetAmount <= 0) {
-      alert("최종 목표 금액은 1원 이상이어야 합니다.");
+      alert("최종 목표 금액은 0보다 큰 금액이어야 합니다.");
       return;
     }
     if (monthlyAllocation < 0) {

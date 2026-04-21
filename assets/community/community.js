@@ -74,6 +74,7 @@
 
   function sumMonth(map, mk) {
     var totalExpense = 0;
+    var surpriseExpense = 0;
     var cat = {};
     Object.keys(map).forEach(function (date) {
       if (String(date).slice(0, 7) !== mk) return;
@@ -84,11 +85,12 @@
         if (t.type !== "expense") return;
         var amt = toInt0(t.amount);
         totalExpense += amt;
+        if (t.surprise) surpriseExpense += amt;
         var c = String(t.category || "기타").trim() || "기타";
         cat[c] = (cat[c] || 0) + amt;
       });
     });
-    return { totalExpense: totalExpense, cat: cat };
+    return { totalExpense: totalExpense, surpriseExpense: surpriseExpense, cat: cat };
   }
 
   function setText(id, v) {
@@ -293,6 +295,9 @@
     var daily = loadDailyMap();
     var s = sumMonth(daily, mk);
     var expense = s.totalExpense;
+    var surpriseExp = s.surpriseExpense || 0;
+    var defenseRate =
+      expense > 0 ? Math.max(0, Math.min(100, (1 - surpriseExp / expense) * 100)) : expense === 0 ? 100 : 0;
 
     setText("kpi-income", fmtKRW(income));
     setText("kpi-expense", fmtKRW(expense));
@@ -302,16 +307,42 @@
     if (budget > 0) {
       var savedPct = pct(Math.abs(saved), budget);
       setText("kpi-saved", saved >= 0 ? "+" + fmtKRW(saved) : "-" + fmtKRW(Math.abs(saved)));
+      var surShare = expense > 0 ? pct(surpriseExp, expense) : 0;
+      var integrityHint =
+        " 돌발 지출 방어율 " +
+        defenseRate.toFixed(1) +
+        "% (예산 외 표시 지출 " +
+        fmtKRW(surpriseExp) +
+        " · 전체 지출 대비 " +
+        surShare.toFixed(1) +
+        "%).";
       if (saved >= 0) {
-        setText("finale-message", "이번 달 당신은 예산보다 " + savedPct.toFixed(1) + "% 더 절약하셨습니다!");
+        setText(
+          "finale-message",
+          "이번 달 예산의 견고함: 여유 " +
+            savedPct.toFixed(1) +
+            "%." +
+            integrityHint +
+            " 가치 있는 배정을 지키셨습니다."
+        );
       } else {
-        setText("finale-message", "이번 달은 예산 대비 " + savedPct.toFixed(1) + "% 초과했어요. 다음 달은 더 가볍게!");
+        setText(
+          "finale-message",
+          "이번 달은 예산 대비 " +
+            savedPct.toFixed(1) +
+            "% 초과했습니다." +
+            integrityHint +
+            " 다음 달은 예산 안에서 돌발을 줄여 보세요."
+        );
       }
-      setText("compare-hint", "예산 기준: " + fmtKRW(budget));
+      setText("compare-hint", "예산 기준 " + fmtKRW(budget) + " · 예산의 견고함과 돌발 지출 방어율은 퀵 입력의 「돌발」 표시를 반영합니다.");
     } else {
       setText("kpi-saved", "—");
-      setText("finale-message", "데이터가 쌓일수록 리포트가 선명해집니다. 2~4번에서 이번 달 예산을 먼저 잡아 보세요.");
-      setText("compare-hint", "예산이 설정되면 절약률이 계산됩니다.");
+      setText(
+        "finale-message",
+        "데이터가 쌓일수록 리포트가 선명해집니다. 2~4번에서 이번 달 예산을 잡으면 예산의 견고함·돌발 지출 방어율을 함께 볼 수 있습니다."
+      );
+      setText("compare-hint", "예산이 설정되면 예산 대비 여유와 돌발 지출 방어율이 계산됩니다.");
     }
 
     // compare bars: scale to max(income, expense)

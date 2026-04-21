@@ -6,7 +6,7 @@
     <title>14. 비전 달성 시뮬레이터 · Money Calendar</title>
     <meta
       name="description"
-      content="2번 비전 할당 금액을 월 저축 속도로 보고, 복리 가정 하에 미래 자산 곡선과 목표 달성 시점을 시각화합니다."
+      content="월 할당 비전을 바탕으로 자산 성장 곡선을 시뮬레이션하고 목표 달성 가능성을 시각적으로 확인합니다."
     />
     <link
       rel="stylesheet"
@@ -62,7 +62,7 @@
         </div>
         <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">비전 할당은 2번 화면에서, 이곳에서는 그 흐름이 만드는 미래 곡선을 봅니다.</p>
+          <p class="text-sm">2번에서 비전을 붙인 뒤, 이곳에서 성장 곡선과 완성도 비유를 함께 확인하세요.</p>
         </div>
       </div>
     </div>
@@ -74,15 +74,14 @@
             <h1 class="mc-page-intro__title">14. 비전 달성 시뮬레이터</h1>
             <p class="mc-page-intro__kicker">14 · 비전 달성 시뮬레이터</p>
             <p class="mc-page-intro__lead text-body">
-              2번에서 확정한 <strong>비전 월 할당</strong>을 매달 저축으로 가정하고, 연 복리 수익률을 더해 자산이 자라는
-              궤적을 곡선으로 보여 줍니다. 목표 금액과 오늘의 속도로 달성 시점을 단순 추정합니다.
+              설정한 월 할당 비전을 바탕으로 자산 성장 곡선을 시뮬레이션하여 목표 달성 가능성을 시각적으로 확인합니다.
             </p>
           </header>
 
           <div id="excel-control-root" class="mc-excel-slot"></div>
 
           <section class="card vs-top mt-24" aria-labelledby="vs-top-title">
-            <h2 id="vs-top-title" class="vs-h2">목표와 저축 속도</h2>
+            <h2 id="vs-top-title" class="vs-h2">목표와 비전 적립 속도</h2>
             <div class="vs-top-grid">
               <label class="field-grow">
                 <span class="field-label">목표 자산액</span>
@@ -100,7 +99,7 @@
                 </div>
               </label>
               <label class="field-grow">
-                <span class="field-label">현재 모은 금액 (선택)</span>
+                <span class="field-label">현재 비전을 채운 누적 (선택)</span>
                 <div class="money-wrap">
                   <input
                     id="vs-balance"
@@ -132,7 +131,7 @@
 
             <div class="vs-vision-row mt-16" role="status" aria-live="polite">
               <div>
-                <p class="vs-vision-row__label">월 비전 저축 (2번 비전 할당 합계)</p>
+                <p class="vs-vision-row__label">월 비전 적립 (2번 비전 할당 합계)</p>
                 <p class="vs-vision-row__value" id="vs-monthly-display">—</p>
               </div>
               <a class="btn btn--ghost btn--sm" href="../vision-budget/index.html">2번에서 비전 수정</a>
@@ -146,17 +145,66 @@
           </section>
 
           <section class="card mt-24 vs-chart-card" aria-labelledby="vs-chart-title">
-            <h2 id="vs-chart-title" class="vs-h2">자산 증식 예측 (성장 곡선)</h2>
+            <h2 id="vs-chart-title" class="vs-h2">비전이 자라는 성장 곡선</h2>
             <p class="text-sm mt-8">
-              가로는 경과 월, 세로는 복리·월 적립을 반영한 예상 잔액입니다. 실제 수익은 시장과 상품에 따라 달라집니다.
+              가로는 경과 월, 세로는 복리·월 적립을 반영한 예상 잔액입니다. 곡선 끝에서는 아래 분기 도식처럼
+              <strong>완성도 99%와 100%의 비유</strong>를 나란히 두어, 작은 한 조각이 비전의 닫힘과 열림을 가르는 상징을 보여 줍니다. 실제 수익은 시장과 상품에 따라 달라집니다.
             </p>
             <div class="vs-chart-wrap mt-16">
-              <canvas id="vs-line" width="640" height="320" aria-label="자산 증식 예측 꺾은선 그래프"></canvas>
+              <canvas id="vs-line" width="640" height="320" aria-label="비전 적립 기준 예상 잔액 꺾은선 그래프"></canvas>
+            </div>
+
+            <div class="vs-end-impact mt-20" aria-labelledby="vs-end-title">
+              <h3 id="vs-end-title" class="vs-end-impact__title">곡선 끝, 완성도의 분기점</h3>
+              <p class="text-sm vs-end-impact__lead">
+                10년(120개월) 시점 예상 잔액을 기준으로, <strong>같은 곡선 위에서도 ‘거의 달성(비유 99%)’</strong>과
+                <strong>‘비전에 닿는 완성(100%)’</strong>을 나란히 둡니다. 금액은 동일 시점 잔액의 비율 비교이며, 메시지는
+                <strong>마지막 한 조각의 마음가짐이 비전의 닫힘과 열림을 가르는 비유</strong>와 같습니다.
+              </p>
+              <div class="vs-end-impact__fork" role="img" aria-label="완성도 99%와 100%의 상징적 비교">
+                <svg class="vs-end-impact__svg" viewBox="0 0 420 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path
+                    d="M24 112 C 80 40, 160 24, 220 56 L 260 72"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    class="vs-end-impact__curve"
+                  />
+                  <path d="M260 72 L 300 48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  <path d="M260 72 L 300 96" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                  <circle cx="304" cy="46" r="5" class="vs-end-impact__dot vs-end-impact__dot--high" />
+                  <circle cx="304" cy="98" r="5" class="vs-end-impact__dot vs-end-impact__dot--low" />
+                </svg>
+                <div class="vs-end-impact__cols">
+                  <div class="vs-end-impact__col vs-end-impact__col--low">
+                    <p class="vs-end-impact__tag">미완 · 99%</p>
+                    <p class="vs-end-impact__amt" id="vs-split-incomplete">—</p>
+                    <p class="vs-end-impact__hint">거의 달성(비유)</p>
+                  </div>
+                  <div class="vs-end-impact__gap" aria-hidden="true">
+                    <span class="vs-end-impact__gap-num">한 조각</span>
+                    <span class="vs-end-impact__gap-arrow">↔</span>
+                  </div>
+                  <div class="vs-end-impact__col vs-end-impact__col--high">
+                    <p class="vs-end-impact__tag">완성 · 100%</p>
+                    <p class="vs-end-impact__amt" id="vs-split-complete">—</p>
+                    <p class="vs-end-impact__hint">비전에 닿는 완성</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
 
           <section class="card mt-24 vs-motivation" aria-labelledby="vs-mot-title">
-            <h2 id="vs-mot-title" class="vs-h2 vs-h2--quiet">오늘의 1원이 말해 주는 것</h2>
+            <h2 id="vs-mot-title" class="vs-h2 vs-h2--quiet">핵심 메시지</h2>
+            <blockquote class="vs-motivation__quote">
+              <p>작은 지출·선택 한 조각(1)이 모여 비전의 완성도를 결정한다는 메시지를, 곡선과 비율로 상징적으로 봅니다.</p>
+            </blockquote>
+            <p class="text-sm mt-12 vs-motivation__logic">
+              여기서 (1)은 실제 금액 입력이 아니라 마음가짐과 기록의 ‘한 조각’을 뜻하는 상징입니다. 완성에 가까움과 닿음의
+              차이는 숫자로 비유할 뿐, 일상에서는 규율보다 스스로 세운 약속을 지키는 태도로 완성됩니다.
+            </p>
             <p class="text-body mt-12" id="vs-motivate"></p>
           </section>
 

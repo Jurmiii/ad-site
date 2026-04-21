@@ -151,6 +151,12 @@
                 <p id="quick-pct-label" class="text-sm daily-pct-label"></p>
               </div>
             </div>
+            <div class="daily-surprise-wrap mt-16" id="quick-surprise-wrap">
+              <label class="daily-surprise-check" for="quick-surprise">
+                <input type="checkbox" id="quick-surprise" />
+                <span>이 지출은 <strong>예산·계획에 없던 돌발 지출</strong>입니다</span>
+              </label>
+            </div>
             <button id="quick-add" class="btn btn--block mt-16" type="button">기록에 추가</button>
           </section>
 
@@ -173,7 +179,9 @@
               <h2 id="cal-head">머니 캘린더</h2>
               <p id="cal-month-label" class="text-sm"></p>
             </div>
-            <p class="text-sm mt-10">날짜별 지출 합계를 보여 줍니다. 지출이 0원이면 무지출 스티커가 붙습니다.</p>
+            <p class="text-sm mt-10">
+              날짜별 지출 합계를 보여 줍니다. 돌발 지출 없이 합계가 0원이면 예산 준수(BI) 스티커가 붙습니다.
+            </p>
             <div id="money-calendar" class="money-calendar mt-16" aria-label="월간 지출 요약"></div>
           </section>
 

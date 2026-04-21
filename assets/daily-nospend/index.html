@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>8. 무지출 챌린지 스티커 · Money Calendar</title>
-    <meta name="description" content="지출이 0원인 날에 무지출 스티커가 자동으로 표시됩니다." />
+    <title>8. 예산 준수 캘린더 (무지출 스티커) · Money Calendar</title>
+    <meta
+      name="description"
+      content="수립한 예산안(Plan) 밖의 돌발 지출(Surprise)이 없었던 날을 예산 준수(Budget Integrity) 스티커로 남깁니다."
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
@@ -28,7 +31,7 @@
           <span class="mc-brand__mark" aria-hidden="true">M</span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">8. 무지출 챌린지 스티커</span>
+            <span class="mc-brand__page">8. 예산 준수 캘린더</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
@@ -60,7 +63,7 @@
         </div>
         <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">무지출은 ‘안 쓴 날’을 기분 좋게 확인하는 습관입니다.</p>
+          <p class="text-sm">스티커는 ‘돈을 안 쓴 인색함’이 아니라, 설계한 예산 안에 머문 날의 증표입니다.</p>
         </div>
       </div>
     </div>
@@ -69,19 +72,19 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">8. 무지출 챌린지 스티커</h1>
-            <p class="mc-page-intro__kicker">8 · 무지출 챌린지 스티커</p>
-            <p class="mc-page-intro__lead text-body">
-              달력에서 날짜를 누르면 무지출 스티커를 붙이거나 해제할 수 있습니다. 지출 합계가 0원인 날에도 스티커가
-              표시됩니다.
-            </p>
+            <h1 class="mc-page-intro__title">8. 예산 준수 캘린더</h1>
+            <p class="mc-page-intro__kicker">8 · 예산 준수 캘린더</p>
           </header>
 
           <div id="excel-control-root" class="mc-excel-slot"></div>
 
           <section class="card mt-24 daily-card daily-quick" aria-labelledby="quick-head">
             <h2 id="quick-head" class="daily-quick__title">퀵 입력 · 지출</h2>
-            <p class="text-sm mt-10">금액을 입력하면 이번 달 배분 예산 대비 남은 여유와 비중이 바로 계산됩니다.</p>
+            <p class="text-sm mt-10">
+              금액을 입력하면 이번 달 배분 예산 대비 남은 여유와 비중이 바로 계산됩니다. 오늘,
+              <strong>당신이 설계한 완벽한 예산 안에서 머무르셨나요?</strong> 돌발 지출이었다면 아래에 체크해 균형 이탈을
+              남깁니다.
+            </p>
             <div class="daily-quick__grid mt-16">
               <label class="field">
                 <span class="field-label">금액</span>
@@ -120,6 +123,12 @@
                 <p id="quick-pct-label" class="text-sm daily-pct-label"></p>
               </div>
             </div>
+            <div class="daily-surprise-wrap mt-16" id="quick-surprise-wrap">
+              <label class="daily-surprise-check" for="quick-surprise">
+                <input type="checkbox" id="quick-surprise" />
+                <span>이 지출은 <strong>예산·계획에 없던 돌발 지출</strong>입니다 (세운 틀 밖으로 벗어난 지출로 기록)</span>
+              </label>
+            </div>
             <button id="quick-add" class="btn btn--block mt-16" type="button">지출로 기록에 추가</button>
           </section>
 
@@ -145,8 +154,7 @@
               클릭 시 : 날짜 선택 / 더블 클릭 시 : 수정, 삭제
             </p>
             <p class="text-sm mt-10">
-              날짜별 지출 합계를 보여 줍니다. 셀을 눌러 스티커를 토글하면 해당 날짜의 저장 데이터가 함께
-              갱신됩니다.
+              날짜별 지출 합계를 보여 줍니다. <strong>세운 예산안이라는 큰 틀을 하루 종일 지켜 낸 날</strong>은 예산 준수 스티커(BI)로 표시됩니다. 셀을 눌러 스티커를 토글하면 해당 날짜의 저장 데이터가 함께 갱신됩니다.
             </p>
             <div id="money-calendar" class="money-calendar mt-16" aria-label="월간 지출 요약"></div>
           </section>

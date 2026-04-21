@@ -119,3 +119,154 @@
 .page-vs .vs-motivation {
   border-style: dashed;
 }
+
+.page-vs .vs-motivation__logic {
+  max-width: 100%;
+  width: 100%;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+  word-break: keep-all;
+}
+
+.page-vs .vs-end-impact__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+}
+
+.page-vs .vs-end-impact__lead {
+  margin: 10px 0 0;
+  max-width: 100%;
+  width: 100%;
+  line-height: 1.72;
+  color: var(--color-text-secondary);
+  word-break: keep-all;
+}
+
+.page-vs .vs-end-impact__fork {
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px dashed color-mix(in srgb, var(--color-primary) 35%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
+}
+
+.page-vs .vs-end-impact__svg {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin: 0 auto 12px;
+  color: color-mix(in srgb, var(--color-primary) 65%, var(--color-text-muted));
+}
+
+.page-vs .vs-end-impact__curve {
+  opacity: 0.9;
+}
+
+.page-vs .vs-end-impact__dot--high {
+  fill: color-mix(in srgb, var(--color-primary) 85%, #fff);
+}
+
+.page-vs .vs-end-impact__dot--low {
+  fill: color-mix(in srgb, var(--color-text-muted) 55%, var(--color-surface));
+}
+
+.page-vs .vs-end-impact__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 10px 12px;
+  align-items: stretch;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+@media (max-width: 520px) {
+  .page-vs .vs-end-impact__cols {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .page-vs .vs-end-impact__gap {
+    padding: 8px 0;
+  }
+}
+
+.page-vs .vs-end-impact__col {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border-default);
+  background: var(--color-surface);
+}
+
+.page-vs .vs-end-impact__col--high {
+  border-color: color-mix(in srgb, var(--color-primary) 40%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+}
+
+.page-vs .vs-end-impact__tag {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.page-vs .vs-end-impact__amt {
+  margin: 8px 0 0;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  word-break: keep-all;
+}
+
+.page-vs .vs-end-impact__hint {
+  margin: 6px 0 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.page-vs .vs-end-impact__gap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-width: 4.25rem;
+}
+
+.page-vs .vs-end-impact__gap-num {
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: var(--color-primary);
+  letter-spacing: 0.04em;
+}
+
+.page-vs .vs-end-impact__gap-arrow {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  line-height: 1;
+}
+
+.page-vs .vs-motivation__quote {
+  margin: 0;
+  max-width: 100%;
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 16px;
+  border-left: 4px solid color-mix(in srgb, var(--color-primary) 55%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
+}
+
+.page-vs .vs-motivation__quote p {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 680;
+  line-height: 1.75;
+  color: var(--color-text-primary);
+}

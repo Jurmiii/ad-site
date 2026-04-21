@@ -13,7 +13,7 @@
     { id: 5, path: "daily-quick/index.html", title: "데일리 퀵 인풋", kicker: "5 · 데일리 퀵 인풋" },
     { id: 6, path: "daily-note/index.html", title: "데일리 소비 한 줄 평", kicker: "" },
     { id: 7, path: "daily-sense/index.html", title: "1원 단위 체감 지수", kicker: "" },
-    { id: 8, path: "daily-nospend/index.html", title: "무지출 챌린지 스티커", kicker: "" },
+    { id: 8, path: "daily-nospend/index.html", title: "예산 준수 캘린더 (무지출 스티커)", kicker: "" },
     { id: 9, path: "weekly-report/index.html", title: "주간 단위 실천 리포트", kicker: "9 · 달성률·차주 제언" },
     { id: 10, path: "monthly-review/index.html", title: "월간 예산 복기 시스템", kicker: "10 · 집행률 비교" },
     { id: 11, path: "timeline/index.html", title: "과거 데이터 타임라인", kicker: "11 · 시계열" },
