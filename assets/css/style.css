@@ -118,7 +118,7 @@ html[data-theme="dark"] .page-home {
   border-radius: 14px;
   overflow: hidden;
   flex: 0 0 auto;
-  background: linear-gradient(145deg, #0ea5e9, #10b981);
+  background: transparent;
   box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
 }
 
@@ -658,10 +658,25 @@ html.is-drawer-open body {
 }
 
 .site-footer__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+.site-footer__useful {
+  width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 20px;
-  align-items: end;
+  gap: 10px;
+  justify-items: center;
+}
+
+.site-footer__headline {
+  font-size: 1.0625rem; /* ~17px */
+  font-weight: 850;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
 }
 
 .site-footer__brand {
@@ -681,18 +696,18 @@ html.is-drawer-open body {
 
 .site-footer__legal {
   max-width: 52ch;
-  justify-self: end;
   line-height: 1.55;
   color: var(--color-text-muted);
 }
 
 .site-footer__links {
-  grid-column: 1 / -1;
-  margin-top: 14px;
+  width: 100%;
+  margin-top: 0;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   align-items: stretch;
+  justify-items: stretch;
 }
 
 .site-footer__link.btn.btn--pill {
@@ -707,9 +722,9 @@ html.is-drawer-open body {
 
 .site-footer__link--finance {
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  text-align: left;
+  text-align: center;
   line-height: 1.28;
 }
 
@@ -745,11 +760,7 @@ html.is-drawer-open body {
   }
 
   .site-footer__inner {
-    grid-template-columns: 1fr;
-  }
-
-  .site-footer__legal {
-    justify-self: start;
+    align-items: center;
   }
 
   .site-footer__links {

@@ -6,30 +6,22 @@
   "use strict";
 
   function injectBrandMark() {
-    // 캘린더 심볼: 겹치는 선(교차 스트로크)을 만들지 않는 미니멀 기하 형태.
-    // 배경 그라데이션은 CSS(컨테이너)에서 통일하고, SVG는 단색(white)만 사용한다.
-    var svg =
-      '<svg viewBox="0 0 44 44" role="img" aria-label="Money Calendar" xmlns="http://www.w3.org/2000/svg">' +
-      '  <rect x="10.5" y="12" width="23" height="22" rx="6.5" fill="none" stroke="#fff" stroke-width="2.6"/>' +
-      '  <path d="M10.5 18.8H33.5" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>' +
-      '  <rect x="14" y="10" width="4.4" height="6.4" rx="2.2" fill="#fff" opacity=".95"/>' +
-      '  <rect x="25.6" y="10" width="4.4" height="6.4" rx="2.2" fill="#fff" opacity=".95"/>' +
-      '  <g fill="#fff" opacity=".92">' +
-      '    <rect x="15.2" y="22.4" width="3.6" height="3.6" rx="1.2"/>' +
-      '    <rect x="20.2" y="22.4" width="3.6" height="3.6" rx="1.2"/>' +
-      '    <rect x="25.2" y="22.4" width="3.6" height="3.6" rx="1.2"/>' +
-      '    <rect x="15.2" y="27.4" width="3.6" height="3.6" rx="1.2"/>' +
-      '    <rect x="20.2" y="27.4" width="3.6" height="3.6" rx="1.2"/>' +
-      '    <rect x="25.2" y="27.4" width="3.6" height="3.6" rx="1.2"/>' +
-      "  </g>" +
-      "</svg>";
+    // 로고는 프로젝트에 포함된 단일 파일(mc-logo.svg)을 사용한다.
+    // 각 HTML에서 window.__MC_ASSETS_BASE 를 "." 또는 ".." 로 설정하므로,
+    // 여기서는 그 값을 이용해 상대 경로를 안전하게 생성한다.
+    var base = (window && window.__MC_ASSETS_BASE) || ".";
+    var src = String(base).replace(/\/$/, "") + "/images/icon/mc-logo.svg";
+    var imgHtml =
+      '<img src="' +
+      src +
+      '" width="44" height="44" alt="" role="presentation" loading="eager" decoding="async" />';
 
     var marks = document.querySelectorAll(".mc-brand__mark, .brand__mark");
     for (var i = 0; i < marks.length; i++) {
       var el = marks[i];
       if (el && el.getAttribute && el.getAttribute("data-mc-logo") === "1") continue;
       if (el) {
-        el.innerHTML = svg;
+        el.innerHTML = imgHtml;
         el.setAttribute("data-mc-logo", "1");
       }
     }

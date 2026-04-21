@@ -165,6 +165,26 @@ video {
   height: auto;
 }
 
+/* Logo hardening: ensure mc-logo.svg is always visible */
+.brand__mark,
+.mc-brand__mark {
+  position: relative;
+  z-index: 999;
+  overflow: visible;
+}
+
+.brand__mark img,
+.mc-brand__mark img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 44px;
+  min-height: 44px;
+  visibility: visible !important;
+  opacity: 1 !important;
+  object-fit: contain;
+}
+
 .mc-app canvas,
 .tl-chart-wrap canvas {
   max-width: 100%;

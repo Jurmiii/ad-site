@@ -50,7 +50,17 @@
     <header class="site-header">
       <div class="container site-header__inner">
         <a class="brand" href="./" aria-current="page">
-          <span class="brand__mark" aria-hidden="true"></span>
+          <span class="brand__mark" aria-hidden="true">
+            <img
+              src="./images/icon/mc-logo.svg"
+              width="44"
+              height="44"
+              alt=""
+              role="presentation"
+              loading="eager"
+              decoding="async"
+            />
+          </span>
           <span class="brand__text">
             <span class="brand__name">Money Calendar</span>
             <span class="brand__tag">머니 캘린더</span>
@@ -212,16 +222,9 @@
 
     <footer class="site-footer">
       <div class="container site-footer__inner">
-        <div class="site-footer__primary">
-          <p class="site-footer__brand">Money Calendar</p>
-          <p class="text-sm">정적 웹 기반 · 정보 제공 목적의 재정 도구 모음</p>
-          <p class="site-footer__motto" lang="ko">1원의 가치를 생각합니다.</p>
-        </div>
-        <p class="text-sm site-footer__legal">
-          본 서비스는 투자·세무·법률 자문을 제공하지 않습니다. 중요한 결정은 전문가 상담과 공식
-          자료를 병행하세요.
-        </p>
-        <nav class="site-footer__links" aria-label="공공 금융 플랫폼 바로가기">
+        <section class="site-footer__useful" aria-label="유용한 사이트">
+          <h3 class="site-footer__headline">유용한 사이트</h3>
+          <nav class="site-footer__links" aria-label="공공 금융 플랫폼 바로가기">
           <a
             class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
             href="https://www.payinfo.or.kr/"
@@ -258,8 +261,21 @@
             <span class="site-footer__link-title">홈택스</span>
             <span class="site-footer__link-desc">연말정산 · 소득 증빙 관리</span>
           </a>
-        </nav>
-        <p class="text-sm text-center mt-20 mb-0 site-footer__copyright">© 2026 Money Calendar. All rights reserved.</p>
+          </nav>
+        </section>
+
+        <div class="site-footer__primary">
+          <p class="site-footer__brand">Money Calendar</p>
+          <p class="text-sm">정적 웹 기반 · 정보 제공 목적의 재정 도구 모음</p>
+          <p class="site-footer__motto" lang="ko">1원의 가치를 생각합니다.</p>
+        </div>
+        <p class="text-sm site-footer__legal">
+          본 서비스는 투자·세무·법률 자문을 제공하지 않습니다. 중요한 결정은 전문가 상담과 공식 자료를 병행하세요.
+        </p>
+
+        <p class="text-sm text-center mt-20 mb-0 site-footer__copyright">
+          © 2026 Money Calendar. All rights reserved. | <a class="site-footer__policy" href="../privacy-policy.html">개인정보 처리방침</a>
+        </p>
       </div>
     </footer>
 
