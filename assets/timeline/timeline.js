@@ -96,14 +96,19 @@
       incomes.push(sumDayIncome(dayObj));
     }
 
-    var maxV = Math.max(1, Math.max.apply(null, expenses.concat(incomes)));
+    var combined = expenses.concat(incomes);
+    var maxData = 0;
+    for (var mi = 0; mi < combined.length; mi++) {
+      if (combined[mi] > maxData) maxData = combined[mi];
+    }
+    var scaleMax = maxData > 0 ? maxData : 1;
 
     var c = /** @type {HTMLCanvasElement} */ (document.getElementById("tl-canvas"));
     var ctx = c.getContext("2d");
     if (!ctx) return;
     var wrap = c.parentElement;
     var cw = wrap ? wrap.clientWidth : 900;
-    var w = (c.width = Math.min(900, Math.max(280, cw - 32)));
+    var w = (c.width = Math.min(1440, Math.max(280, cw - 32)));
     var h = (c.height = 340);
     ctx.clearRect(0, 0, w, h);
 
@@ -134,9 +139,11 @@
     ctx.fillStyle = muted;
     ctx.font = "10px sans-serif";
     for (var g = 0; g <= 4; g++) {
-      var gv = (maxV * g) / 4;
+      var gv = (scaleMax * g) / 4;
       var gy = h - padB - (innerH * g) / 4;
-      ctx.fillText(Math.round(gv).toLocaleString("ko-KR"), 4, gy + 4);
+      var tickLabel =
+        maxData > 0 ? Math.round(gv).toLocaleString("ko-KR") : g === 0 ? "0" : "";
+      if (tickLabel) ctx.fillText(tickLabel, 4, gy + 4);
     }
 
     function xAt(i) {
@@ -145,7 +152,7 @@
     }
 
     function yAt(v) {
-      return h - padB - (innerH * v) / maxV;
+      return h - padB - (innerH * v) / scaleMax;
     }
 
     function drawSeries(vals, color) {
@@ -190,7 +197,7 @@
         "<span style=\"color:" +
         colInc +
         ";font-weight:800\">● 수입</span> 일별 합계 · Y최댓값 " +
-        maxV.toLocaleString() +
+        (maxData > 0 ? maxData.toLocaleString("ko-KR") : "0") +
         "원";
     }
 

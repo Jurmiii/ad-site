@@ -23,7 +23,10 @@
   --radius-xl: 20px;
   --radius-2xl: 24px;
   --radius-3xl: 28px;
-  --container-max-width: 1200px;
+  --container-max-width: 1440px;
+  /* 헤더(홈·기능 공통): PC 기준 69px — html 배율(100% / 85% / 75%)에 맞춰 rem으로 비례 축소 */
+  --mc-header-height: 4.3125rem;
+  --mc-header-inner-gap: 0.75rem;
   --shadow-card: 0 14px 46px rgba(15, 23, 42, 0.07);
   --focus-ring: 0 0 0 3px rgba(34, 197, 94, 0.22);
   /* 종이 가계부 셸 */
@@ -89,7 +92,24 @@ html[data-theme="dark"] {
 }
 
 html {
-  background-color: var(--mc-paper-bg);
+  background-color: #ffffff;
+  overflow-x: hidden;
+  max-width: 100%;
+  font-size: 100%;
+  /* 고정 헤더·sticky 앵커 시 본문이 가리지 않도록 */
+  scroll-padding-top: var(--mc-header-height);
+}
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 85%;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 75%;
+  }
 }
 
 html,
@@ -111,6 +131,33 @@ body {
   color: var(--color-text-primary);
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body.mc-app {
+  background: transparent;
+}
+
+main section,
+.mc-app section,
+section.card {
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+.mc-app canvas,
+.tl-chart-wrap canvas {
+  max-width: 100%;
+  display: block;
 }
 
 /* 텍스트 입력: 한글 IME 우선 (브라우저가 지원하는 범위에서) */
@@ -176,6 +223,37 @@ a {
   max-width: var(--container-max-width);
   margin: 0 auto;
   padding: 24px;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* App header — 홈·기능 페이지 공통: inner 높이 69px(기준 16px root), 수직 중앙 정렬 */
+/* 별칭 .common-header__inner — 동일 규격 재사용 시 사용 */
+.site-header__inner,
+.mc-global-header__inner,
+.common-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mc-header-inner-gap);
+  height: var(--mc-header-height);
+  min-height: var(--mc-header-height);
+  max-height: var(--mc-header-height);
+  padding-top: 0;
+  padding-bottom: 0;
+  box-sizing: border-box;
+}
+
+/* 헤더 행은 .container를 쓰되 세로 패딩 없음(전체 바 높이 = --mc-header-height) */
+.site-header > .container.site-header__inner,
+.mc-global-header > .container.mc-global-header__inner {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.page-foot {
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -447,6 +525,12 @@ html[data-theme="dark"] select:focus {
 @media (max-width: 768px) {
   .container {
     padding: 16px;
+  }
+
+  .site-header > .container.site-header__inner,
+  .mc-global-header > .container.mc-global-header__inner {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   h1 {

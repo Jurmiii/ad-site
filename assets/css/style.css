@@ -55,16 +55,6 @@ html[data-theme="dark"] .page-home {
   border-bottom: 1px solid var(--border-default);
 }
 
-.site-header__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  min-height: 56px;
-}
-
 .page-home .mc-fav-bar {
   flex: 1;
   display: flex;
@@ -409,7 +399,7 @@ html.is-drawer-open body {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
 }
 
 .cover {
@@ -633,7 +623,7 @@ html.is-drawer-open body {
 }
 
 .bottom-nav-space {
-  height: 92px;
+  height: 0;
 }
 
 .reveal {

@@ -488,6 +488,27 @@ html[data-theme="dark"] .excel-modal__primary:hover {
   background: var(--color-primary-hover);
 }
 
+@media (max-width: 1024px) {
+  .excel-control-box__dropzone.excel-dropzone--inline.dropzone {
+    display: none !important;
+  }
+
+  .excel-control-box__import-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .excel-control-box__import-row .excel-control-box__actions--import {
+    width: 100%;
+  }
+
+  .excel-control-box__import-row .excel-control-box__btn {
+    max-width: none;
+    width: 100%;
+  }
+}
+
 @media (max-width: 640px) {
   .excel-control-box__actions {
     flex-direction: column;

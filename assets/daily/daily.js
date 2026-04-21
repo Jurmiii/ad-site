@@ -118,10 +118,10 @@
 
   /** @typedef {{ id:string, type:'expense'|'income', category:string, memo:string, amount:number, surprise?: boolean }} Tx */
   /** @typedef {{ id?: string, text:string, at:string }} NoteEntry */
-  /** @typedef {{ date:string, startBalance:number, txs:Tx[], dayRating?:string, dayNote?:string, notes?: NoteEntry[] }} DayState */
+  /** @typedef {{ date:string, startBalance:number, txs:Tx[], dayRating?:string, dayNote?:string, notes?: NoteEntry[], budgetSticker?: boolean }} DayState */
 
   /** @type {DayState} */
-  var state = { date: today(), startBalance: 0, txs: [], dayRating: "", dayNote: "", notes: [] };
+  var state = { date: today(), startBalance: 0, txs: [], dayRating: "", dayNote: "", notes: [], budgetSticker: false };
 
   /** @type {string} */
   var nospendSelectedDate = "";
@@ -224,19 +224,21 @@
   function loadDay(date) {
     var all = loadAll();
     var d = all[date];
-    if (!d) return { date: date, startBalance: 0, txs: [], dayRating: "", dayNote: "", notes: [] };
+    if (!d) return { date: date, startBalance: 0, txs: [], dayRating: "", dayNote: "", notes: [], budgetSticker: false };
     return {
       date: date,
       startBalance: Math.max(0, Math.trunc(Number(d.startBalance) || 0)),
       txs: Array.isArray(d.txs)
         ? d.txs.map(function (t) {
-            return {
+            var tx = {
               id: String(t.id || ""),
               type: t.type === "income" ? "income" : "expense",
               category: String(t.category || "").slice(0, 40),
               memo: String(t.memo || "").slice(0, 80),
               amount: Math.max(0, Math.trunc(Number(t.amount) || 0)),
             };
+            if (t.type === "expense" && t.surprise) tx.surprise = true;
+            return tx;
           })
         : [],
       dayRating: normalizeRating(d.dayRating),
@@ -254,6 +256,7 @@
               return x.text && x.at;
             })
         : [],
+      budgetSticker: Boolean(d.budgetSticker),
     };
   }
 
@@ -284,6 +287,27 @@
     return s;
   }
 
+  /** localStorage 원본 DayState — 돌발 지출(surprise) 판별용 */
+  function hasSurpriseExpenseRaw(st) {
+    if (!st || !Array.isArray(st.txs)) return false;
+    for (var i = 0; i < st.txs.length; i++) {
+      var t = st.txs[i];
+      if (t && t.type === "expense" && t.surprise) return true;
+    }
+    return false;
+  }
+
+  /** 스티커만 제거한 뒤 저장할 데이터가 없으면 true(키 삭제 후보) */
+  function isDayKeyEmptyWithoutSticker(d) {
+    if (!d) return true;
+    if (Math.trunc(Number(d.startBalance) || 0) !== 0) return false;
+    if (String(d.dayNote || "").trim()) return false;
+    if (normalizeRating(d.dayRating)) return false;
+    if (Array.isArray(d.notes) && d.notes.length > 0) return false;
+    if (Array.isArray(d.txs) && d.txs.length > 0) return false;
+    return true;
+  }
+
   /** 5~8번 daily 페이지 — body / __MC_DAILY_MODE */
   function getDailyFeatureMode() {
     var mode = 0;
@@ -300,61 +324,6 @@
       }
     }
     return mode;
-  }
-
-  /**
-   * 8. 무지출 챌린지: 달력 날짜 클릭 = 스티커 토글 + localStorage 동기화
-   * - 스티커 있음(지출 합 0): 확인 후 해당 일자 키 삭제
-   * - 지출 있음: 무지출로 바꿀지 확인 후 지출 분만 제거
-   * - 기록 없음: 빈 일자 저장 → 스티커 부착
-   */
-  function handleNoSpendCalendarClick(dstr) {
-    var all = loadAll();
-    var st = all[dstr];
-    var hasRecord = Boolean(st);
-    var exp = st ? sumDayExpenses(st) : 0;
-
-    if (hasRecord && exp === 0) {
-      if (!confirm("해당 날짜의 예산 준수(Budget Integrity) 스티커 기록을 삭제하시겠습니까?")) {
-        state = loadDay(dstr);
-        render();
-        return;
-      }
-      var map = loadAll();
-      delete map[dstr];
-      saveAll(map);
-      state = loadDay(dstr);
-      render();
-      return;
-    }
-
-    if (hasRecord && exp > 0) {
-      if (!confirm("지출 내역이 있습니다. 예산 안에서 지출이 없었던 날로 표시하려면 지출만 제거합니다. 진행할까요?")) {
-        state = loadDay(dstr);
-        render();
-        return;
-      }
-      var map2 = loadAll();
-      var d = map2[dstr];
-      if (!d || !Array.isArray(d.txs)) {
-        state = loadDay(dstr);
-        render();
-        return;
-      }
-      d.txs = d.txs.filter(function (t) {
-        return t.type === "income";
-      });
-      map2[dstr] = d;
-      saveAll(map2);
-      state = loadDay(dstr);
-      persist();
-      render();
-      return;
-    }
-
-    state = loadDay(dstr);
-    persist();
-    render();
   }
 
   /** 합계: 해당 월의 모든 일자 지출 합. excludeDate 가 있으면 그날은 제외(미리보기용). */
@@ -827,7 +796,9 @@
         amtEl.textContent = formatKRW(exp);
       }
       cell.appendChild(amtEl);
-      if (hasRecord && exp === 0) {
+      var showNospendSticker =
+        modeFeat === 8 ? Boolean(st && st.budgetSticker) : hasRecord && exp === 0;
+      if (showNospendSticker) {
         var sticker = document.createElement("span");
         sticker.className = "money-cal__sticker";
         sticker.setAttribute("role", "img");
@@ -841,7 +812,7 @@
           "</span>";
         sticker.title =
           modeFeat === 8
-            ? "예산 준수 스티커 — 클릭하면 해제할 수 있습니다"
+            ? "예산 준수 스티커 — 클릭 후 수정·삭제로 해제"
             : "이 날 돌발 지출 없음 · 지출 합계 0원";
         cell.appendChild(sticker);
         cell.classList.add("has-nospend");
@@ -869,26 +840,61 @@
       if (modeFeat === 8) {
         if (isFutureDate(ds)) {
           cell.title = "미래 날짜에는 예산 준수 스티커를 작성할 수 없습니다.";
-        } else if (nospendSelectedDate === ds && nospendArmed) {
-          cell.title = "선택됨 — 오른쪽 아래 버튼으로 수정/삭제";
-        } else if (nospendSelectedDate === ds) {
-          cell.title = "선택됨 — 한 번 더 클릭하면 수정/삭제 버튼 표시";
+        } else if (st && st.budgetSticker) {
+          if (nospendSelectedDate === ds && nospendArmed) {
+            cell.title = "선택됨 — 오른쪽 아래 버튼으로 수정/삭제";
+          } else if (nospendSelectedDate === ds) {
+            cell.title = "선택됨 — 한 번 더 클릭하면 수정/삭제 버튼 표시";
+          } else {
+            cell.title = "클릭: 날짜 선택 후 수정·삭제";
+          }
         } else {
-          cell.title = "한 번 클릭: 날짜 선택 / 두 번째 클릭: 수정·삭제 버튼 표시";
+          cell.title = "클릭: 스티커 부착(확인) · 돌발 지출이 있으면 안내";
         }
       }
 
       cell.addEventListener("click", function (dstr) {
         return function () {
           if (getDailyFeatureMode() === 8) {
+            if (isFutureDate(dstr)) return;
+            var allMap = loadAll();
+            var raw = allMap[dstr];
             state = loadDay(dstr);
             calendarViewMk = clampMonthKey(monthKeyFromDate(dstr));
-            if (nospendSelectedDate !== dstr) {
+
+            if (hasSurpriseExpenseRaw(raw)) {
+              alert("오늘은 돌발 지출이 있어 스티커를 붙일 수 없습니다.");
               nospendSelectedDate = dstr;
               nospendArmed = false;
-            } else {
-              nospendArmed = !nospendArmed;
+              render();
+              return;
             }
+
+            if (raw && raw.budgetSticker) {
+              if (nospendSelectedDate !== dstr) {
+                nospendSelectedDate = dstr;
+                nospendArmed = false;
+              } else {
+                nospendArmed = !nospendArmed;
+              }
+              render();
+              return;
+            }
+
+            if (!confirm("오늘의 예산 준수 스티커를 붙이시겠습니까?")) {
+              nospendSelectedDate = dstr;
+              nospendArmed = false;
+              render();
+              return;
+            }
+
+            var d2 = raw || { date: dstr, startBalance: 0, txs: [], dayRating: "", dayNote: "", notes: [] };
+            d2.budgetSticker = true;
+            allMap[dstr] = d2;
+            saveAll(allMap);
+            state = loadDay(dstr);
+            nospendSelectedDate = dstr;
+            nospendArmed = false;
             render();
             return;
           }
@@ -913,11 +919,29 @@
     var hasRecord = Boolean(st);
     var exp = st ? sumDayExpenses(st) : 0;
 
-    if (hasRecord && exp === 0) {
+    if (hasRecord && exp === 0 && st.budgetSticker) {
       if (!confirm("해당 날짜의 예산 준수 스티커를 해제할까요?")) return;
       var map0 = loadAll();
-      delete map0[nospendSelectedDate];
+      var d = map0[nospendSelectedDate];
+      if (!d) return;
+      delete d.budgetSticker;
+      if (isDayKeyEmptyWithoutSticker(d)) {
+        delete map0[nospendSelectedDate];
+      } else {
+        map0[nospendSelectedDate] = d;
+      }
       saveAll(map0);
+      state = loadDay(nospendSelectedDate);
+      nospendArmed = false;
+      render();
+      return;
+    }
+
+    if (hasRecord && exp === 0) {
+      if (!confirm("해당 날짜의 예산 준수 스티커를 해제할까요?")) return;
+      var map0b = loadAll();
+      delete map0b[nospendSelectedDate];
+      saveAll(map0b);
       state = loadDay(nospendSelectedDate);
       nospendArmed = false;
       render();
@@ -940,10 +964,20 @@
       return;
     }
 
-    // 기록 없음 → 예산 준수 스티커 부착(빈 기록 저장)
-    if (!confirm("선택한 날짜에 예산 준수(Budget Integrity) 스티커를 붙일까요? (돌발 지출 없이 계획 안에 머문 날)")) return;
+    if (!confirm("오늘의 예산 준수 스티커를 붙이시겠습니까?")) return;
+    var map2 = loadAll();
+    var d2 = map2[nospendSelectedDate] || {
+      date: nospendSelectedDate,
+      startBalance: 0,
+      txs: [],
+      dayRating: "",
+      dayNote: "",
+      notes: [],
+    };
+    d2.budgetSticker = true;
+    map2[nospendSelectedDate] = d2;
+    saveAll(map2);
     state = loadDay(nospendSelectedDate);
-    persist();
     nospendArmed = false;
     render();
   }
@@ -1341,6 +1375,8 @@
               txs: incomingTxs.map(stripTmp),
               dayRating: importedRating,
               dayNote: importedNote,
+              notes: [],
+              budgetSticker: false,
             };
           } else {
             var currentDate = state.date;

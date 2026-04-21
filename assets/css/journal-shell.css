@@ -155,16 +155,6 @@ html[data-theme="dark"] .mc-scroll-top {
   box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text-primary) 4%, transparent);
 }
 
-.mc-global-header__inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
-  min-height: 3.5rem;
-}
-
 /* 헤더 즐겨찾기(최대 5) — 한 줄·5칸 고정, 가로 스크롤 없음 */
 .mc-fav-bar {
   flex: 1;
@@ -214,6 +204,104 @@ html[data-theme="dark"] .mc-scroll-top {
 .mc-fav-bar__link:hover {
   border-color: var(--border-strong);
   color: var(--color-text-primary);
+}
+
+/* Navigation(즐겨찾기): 태블릿·모바일에서 드롭다운 */
+.mc-fav-dropdown {
+  display: none;
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.mc-fav-dropdown > summary {
+  list-style: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  user-select: none;
+}
+
+.mc-fav-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+
+.mc-fav-dropdown[open] > summary {
+  border-color: var(--border-strong);
+  color: var(--color-text-primary);
+}
+
+.mc-fav-dropdown__panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: min(280px, calc(100vw - 48px));
+  max-height: min(60vh, 320px);
+  overflow: auto;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--color-surface) 96%, transparent);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 18px 50px rgba(15, 23, 42, 0.14);
+}
+
+.mc-fav-dropdown__link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 750;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.mc-fav-dropdown__link:hover {
+  background: var(--color-surface-2);
+  color: var(--color-text-primary);
+}
+
+.mc-fav-dropdown__empty {
+  padding: 10px 12px;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 1024px) {
+  .mc-global-header__inner .mc-fav-bar,
+  .site-header__inner .mc-fav-bar {
+    display: none !important;
+  }
+
+  .mc-fav-dropdown {
+    display: block;
+  }
+}
+
+.page-home .mc-fav-dropdown {
+  display: none;
+}
+
+.page-home .mc-fav-bar {
+  display: grid !important;
+}
+
+@media (max-width: 1024px) {
+  .page-home .mc-fav-bar {
+    display: none !important;
+  }
+
+  .page-home .mc-fav-dropdown {
+    display: block;
+  }
 }
 
 /* 사이드바 최초 오픈 시 즐겨찾기 안내 */
@@ -741,6 +829,12 @@ html[data-theme="dark"] .mc-security-tip {
   box-sizing: border-box;
 }
 
+/* 헤더 inner: common.css와 동일 69px(rem) — 본 규칙보다 구체적으로 세로 패딩 제거 */
+.mc-app .mc-global-header > .container.mc-global-header__inner {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .mc-app__canvas .container {
   padding-top: 0.625rem;
 }
@@ -859,6 +953,15 @@ html[data-theme="dark"] .mc-security-tip {
 
 .mc-page-intro__kicker + .mc-page-intro__lead {
   margin-top: 2px;
+}
+
+@media (min-width: 900px) {
+  .mc-intro-single-line.mc-page-intro__kicker,
+  .mc-intro-single-line.mc-page-intro__lead {
+    white-space: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+  }
 }
 
 /* 엑셀 컨트롤 슬롯은 excel-manager.css 에서 스타일 */

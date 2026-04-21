@@ -1,6 +1,9 @@
 /**
  * Money Calendar — 기능 1~15 내비게이션 (기획서 명칭·번호와 동일)
- * 경로는 assets/ 기준 상대 경로
+ * 경로는 assets/ 기준 상대 경로.
+ *
+ * 폴더명은 기능 슬러그(예: daily-nospend = 8번 무지출)이며, id·title·path는 아래 배열이 단일 소스다.
+ * 단일 HTML 파일명(예: 08_*.html) 대신 디렉터리+index.html 패턴을 유지한다.
  */
 (function (w) {
   "use strict";

@@ -36,10 +36,13 @@
   line-height: 1.6;
 }
 
-/* 백업: 비밀번호·눈·버튼 한 줄 — 열 안에서 입력폭 넉넉히 */
+/* 백업: 암호화 영역 — 오토레이아웃 랩 */
 .page-bk .bk-section--secure .bk-panel--backup .bk-action-line {
-  flex-wrap: nowrap;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  gap: 10px;
+  width: 100%;
 }
 
 .page-bk .bk-section--secure .bk-pass-input {
@@ -77,6 +80,20 @@
 
 .page-bk .bk-pass-wrap--restore-inline .bk-pass-input {
   min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .page-bk .bk-pass-wrap--restore-inline {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .page-bk .bk-pass-wrap--restore-inline .bk-pass-input {
+    max-width: 16rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 
 .bk-h2 {

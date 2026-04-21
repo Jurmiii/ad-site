@@ -490,22 +490,63 @@
       }
       nav.appendChild(cell);
     }
+
+    var dd = document.getElementById("mc-fav-dropdown");
+    if (!dd) return;
+    dd.textContent = "";
+    var summary = document.createElement("summary");
+    summary.textContent = "즐겨찾기";
+    var panel = document.createElement("div");
+    panel.className = "mc-fav-dropdown__panel";
+    if (!favs.length) {
+      var empty = document.createElement("p");
+      empty.className = "mc-fav-dropdown__empty";
+      empty.textContent = "메뉴(☰)에서 ☆로 즐겨찾기를 추가하세요.";
+      panel.appendChild(empty);
+    } else {
+      for (var fi = 0; fi < favs.length; fi++) {
+        var favId = favs[fi];
+        var favItem = null;
+        for (var k = 0; k < list.length; k++) {
+          if (list[k].id === favId) {
+            favItem = list[k];
+            break;
+          }
+        }
+        if (favItem) {
+          var link = document.createElement("a");
+          link.className = "mc-fav-dropdown__link";
+          link.href = navHref(favItem);
+          link.textContent = favItem.title;
+          panel.appendChild(link);
+        }
+      }
+    }
+    dd.appendChild(summary);
+    dd.appendChild(panel);
   }
 
   function injectFavoriteBar() {
-    if (document.getElementById("mc-fav-bar")) {
-      renderFavoriteBar();
-      return;
-    }
     var headerInner = document.querySelector(".site-header__inner, .mc-global-header__inner");
     if (!headerInner) return;
     var brand = headerInner.querySelector(".brand, .mc-brand");
     if (!brand) return;
-    var nav = document.createElement("nav");
-    nav.id = "mc-fav-bar";
-    nav.className = "mc-fav-bar";
-    nav.setAttribute("aria-label", "즐겨찾기 바로가기");
-    brand.insertAdjacentElement("afterend", nav);
+
+    if (!document.getElementById("mc-fav-bar")) {
+      var nav = document.createElement("nav");
+      nav.id = "mc-fav-bar";
+      nav.className = "mc-fav-bar";
+      nav.setAttribute("aria-label", "즐겨찾기 바로가기");
+      brand.insertAdjacentElement("afterend", nav);
+    }
+    if (!document.getElementById("mc-fav-dropdown")) {
+      var details = document.createElement("details");
+      details.id = "mc-fav-dropdown";
+      details.className = "mc-fav-dropdown";
+      details.setAttribute("aria-label", "즐겨찾기 바로가기");
+      var navEl = document.getElementById("mc-fav-bar");
+      if (navEl) navEl.insertAdjacentElement("afterend", details);
+    }
     renderFavoriteBar();
   }
 
@@ -906,6 +947,9 @@
       if (!el || (el.getAttribute && el.getAttribute("data-mc-guide") === "1")) continue;
       el.textContent = guideById[id];
       el.setAttribute("data-mc-guide", "1");
+      if (id === 1 || id === 4 || id === 8 || id === 10 || id === 14) {
+        el.classList.add("mc-intro-single-line");
+      }
     }
   }
 

@@ -330,9 +330,20 @@
 
 .chart-wrap {
   width: 100%;
+  max-width: min(560px, 100%);
+  margin-left: auto;
+  margin-right: auto;
   display: grid;
   place-items: center;
   padding: 10px 0;
+  min-width: 0;
+  box-sizing: border-box;
+  height: clamp(260px, min(52vw, 520px), 520px);
+  position: relative;
+}
+
+.page-sim .chart-wrap canvas#donut {
+  max-width: 100% !important;
 }
 
 .table-wrap {
