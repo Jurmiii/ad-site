@@ -793,7 +793,7 @@
     if (!id || id < 1 || id > 15) return;
     if (document.querySelector('[data-mc-security-tip="1"]')) return;
 
-    var exportHref = joinBase("backup-security/index.html");
+    var exportHref = joinBase("backup-security/13_export_restore.html");
 
     var el = document.createElement("aside");
     el.className = "mc-security-tip";
@@ -827,7 +827,7 @@
     var id = inferFeatureId();
     if (!id || id < 1 || id > 15) return;
 
-    var exportHref = joinBase("backup-security/index.html");
+    var exportHref = joinBase("backup-security/13_export_restore.html");
     var el = document.createElement("aside");
     el.className = "mc-security-tip";
     el.setAttribute("data-mc-demo-guide", "1");

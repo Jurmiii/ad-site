@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+
     <title>1. 계층형 수입 설계 엔진 · Money Calendar</title>
     <meta
       name="description"
@@ -243,8 +247,119 @@
         </div>
       </section>
 
+      <section class="card mt-24" aria-labelledby="seo-overview-title">
+        <h2 id="seo-overview-title">계층형 수입 설계란 무엇인가</h2>
+        <p class="text-body mt-10">
+          <strong>계층형 수입 설계</strong>는 “이번 달 내가 쓸 수 있는 돈이 정확히 얼마인가?”라는 질문을 더 정교한 문장으로
+          바꾸는 방법입니다. 단순히 수입 합계를 적는 대신, 수입의 성격을 네 겹(실제·예정·기타·희망)으로 나누어
+          <em>확정 자산</em>과 <em>잠재 자산</em>을 분리합니다. 이렇게 구분하면 예산을 짤 때 ‘과감해지는 돈’과 ‘조심해야 하는 돈’을
+          섞지 않게 되고, 주간·월간 리포트에서도 숫자의 의미가 선명해집니다.
+        </p>
+        <p class="text-body mt-10">
+          이 페이지는 Money Calendar의 1번 기능으로, 이후 흐름인
+          <a href="../vision-budget/02_vision_allocation.html"><strong>2번 비전 기반 예산 할당</strong></a>,
+          <a href="../budget-simulator/04_budget_simulator.html"><strong>4번 예산 분배 시뮬레이터</strong></a>,
+          <a href="../weekly-report/09_weekly_practice_report.html"><strong>9번 주간 단위 실천 리포트</strong></a>로
+          자연스럽게 연결됩니다. 즉, 1번에서 수입을 ‘구조화’하면 다음 기능들은 그 구조를 바탕으로 더 정확하게 작동합니다.
+        </p>
+      </section>
+
+      <section class="card mt-24" aria-labelledby="seo-how-title">
+        <h2 id="seo-how-title">수입을 4계층으로 나누는 기준</h2>
+        <p class="text-body mt-10">
+          핵심은 “내 통장에 들어오는 모든 돈”을 한 덩어리로 보지 않는 것입니다. 같은 100만 원이라도 이미 확정된 100만 원과,
+          조건이 붙은 100만 원, 아직 목표인 100만 원은 예산에서 역할이 다릅니다. 아래 기준은 숫자를 더 현실적으로 만드는
+          최소 규칙입니다.
+        </p>
+        <ul class="text-body mt-16 mc-prose-list">
+          <li><strong>실제소득</strong>: 이미 확보된 가용 자산. 확인 가능한 입금, 현금화가 끝난 수익처럼 바로 쓸 수 있는 돈.</li>
+          <li><strong>예정소득</strong>: 확실도가 높은 입금 예정. 일정이 정해졌고 실패 가능성이 낮은 돈(급여, 확정된 정산 등).</li>
+          <li><strong>기타소득</strong>: 변동 가능성이 큰 부수입·비정기 수입. 들어오지만 매달 동일하다고 가정하기 어려운 돈.</li>
+          <li><strong>희망소득</strong>: 목표·계획에 가까운 미래 소득. 아직 확정은 아니지만, 행동 계획으로 접근할 수 있는 돈.</li>
+        </ul>
+        <article class="mt-16" aria-labelledby="seo-how-h3-1">
+          <h3 id="seo-how-h3-1">왜 ‘확정 자산’과 ‘잠재 자산’을 분리해야 하나요</h3>
+          <p class="text-body mt-10">
+            예산은 “내가 할 수 있는 약속”입니다. 확정 자산(실제+예정)을 기반으로 약속을 세우면 지켜질 확률이 높아지고,
+            잠재 자산(기타+희망)은 <strong>추가 여유</strong> 혹은 <strong>비전 가속</strong>의 재료로 쓰는 편이 안전합니다. 반대로
+            잠재 자산을 확정 자산처럼 써버리면, 예상이 어긋나는 순간 고정 지출이 흔들리고 스트레스가 커집니다.
+          </p>
+        </article>
+      </section>
+
+      <section class="card mt-24" aria-labelledby="seo-table-title">
+        <h2 id="seo-table-title">4계층 입력 예시 표(가이드)</h2>
+        <p class="text-body mt-10">
+          아래 표는 “어느 항목에 넣어야 할지 애매한 수입”을 빠르게 분류하기 위한 안내입니다. 실제 입력은 위 입력 폼에서
+          진행하고, 표는 판단 기준을 정리한 참고 자료로만 사용하세요.
+        </p>
+        <div class="table-wrap mt-16">
+          <table class="data-table" aria-label="계층형 수입 분류 예시 표">
+            <thead>
+              <tr>
+                <th scope="col">사례</th>
+                <th scope="col">추천 계층</th>
+                <th scope="col">이유(한 줄)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>이미 입금된 급여</td>
+                <td><strong>실제소득</strong></td>
+                <td>확인 가능한 가용 자산이므로 예산의 기반이 됩니다.</td>
+              </tr>
+              <tr>
+                <td>이번 달 말 확정 지급(정산/보너스)</td>
+                <td><strong>예정소득</strong></td>
+                <td>실현 가능성이 높지만 아직 입금 전이므로 분리합니다.</td>
+              </tr>
+              <tr>
+                <td>중고 판매/단발성 외주</td>
+                <td><strong>기타소득</strong></td>
+                <td>매달 반복된다고 가정하기 어려운 변동 수입입니다.</td>
+              </tr>
+              <tr>
+                <td>다음 분기부터 시작하려는 부업 계획</td>
+                <td><strong>희망소득</strong></td>
+                <td>목표에 가까우므로 ‘계획’을 숫자로 관리하는 구간입니다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card mt-24" aria-labelledby="seo-flow-title">
+        <h2 id="seo-flow-title">Money Calendar 흐름에서 1번 기능을 활용하는 방법</h2>
+        <p class="text-body mt-10">
+          검색 엔진에서 “수입 관리”, “예산 설계”, “가계부”를 찾는 많은 사용자는 ‘기록을 시작해도 곧 흐지부지된다’는 경험을
+          갖고 있습니다. 1번 기능의 목적은 기록을 멈추게 하는 원인 중 하나인 “기준 수입이 흔들리는 문제”를 먼저 정리하는
+          것입니다. 아래 순서대로 사용하면, 각 화면이 서로의 전제가 되어 헛돌지 않습니다.
+        </p>
+        <ol class="text-body mt-16 mc-prose-steps">
+          <li>
+            <strong>1번 수입 설계</strong>에서 실제·예정·기타·희망을 입력하고, 총소득과 비중을 확인합니다.
+          </li>
+          <li>
+            <strong>2번 비전 할당</strong>에서 고정 지출을 먼저 반영한 뒤 비전 목표에 월 할당을 배분합니다.
+            (<a href="../vision-budget/02_vision_allocation.html">2번 페이지로 이동</a>)
+          </li>
+          <li>
+            <strong>4번 분배 시뮬레이터</strong>에서 필수/선택/저축 비율을 조정해 예산의 균형을 맞춥니다.
+            (<a href="../budget-simulator/04_budget_simulator.html">4번 페이지로 이동</a>)
+          </li>
+          <li>
+            <strong>5~8번 데일리 기록</strong>으로 지출을 쌓고, <strong>8번 예산 준수 캘린더</strong>에서 스티커를 통해 습관을
+            확인합니다. (<a href="../daily-nospend/08_no_spending_calendar.html">8번 페이지로 이동</a>)
+          </li>
+          <li>
+            <strong>9번 주간 리포트</strong>에서 주차별 합산과 달성률을 보고 다음 주 행동을 정합니다.
+            (<a href="../weekly-report/09_weekly_practice_report.html">9번 페이지로 이동</a>)
+          </li>
+        </ol>
+      </section>
+
       <footer class="page-foot mt-24 mb-20">
-        <p class="text-sm text-center">Money Calendar · 가상 재정 시스템 투어 — 사용 가이드 전용 비공개 페이지입니다.</p>
+        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
       </footer>
         </main>
       </div>

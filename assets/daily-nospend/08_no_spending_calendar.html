@@ -3,8 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>7. 1원 단위 체감 지수 · Money Calendar</title>
-    <meta name="description" content="오늘 지출이 이번 달 예산에서 차지하는 체감 비중을 확인합니다." />
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+
+    <title>8. 예산 준수 캘린더 (무지출 스티커) · Money Calendar</title>
+    <meta
+      name="description"
+      content="수립한 예산안(Plan) 밖의 돌발 지출(Surprise)이 없었던 날을 예산 준수(Budget Integrity) 스티커로 남깁니다."
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
@@ -15,10 +22,10 @@
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="../daily/daily.css" />
   </head>
-  <body class="mc-app page-daily" data-mc-feature-id="7">
+  <body class="mc-app page-daily" data-mc-feature-id="8">
     <script>
       window.__MC_ASSETS_BASE = "..";
-      window.__MC_DAILY_MODE = 7;
+      window.__MC_DAILY_MODE = 8;
     </script>
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
@@ -28,7 +35,7 @@
           <span class="mc-brand__mark" aria-hidden="true">M</span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">7. 1원 단위 체감 지수</span>
+            <span class="mc-brand__page">8. 예산 준수 캘린더</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
@@ -60,7 +67,7 @@
         </div>
         <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">숫자를 ‘감각’으로 바꾸는 화면입니다.</p>
+          <p class="text-sm">스티커는 ‘돈을 안 쓴 인색함’이 아니라, 설계한 예산 안에 머문 날의 증표입니다.</p>
         </div>
       </div>
     </div>
@@ -69,16 +76,19 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">7. 1원 단위 체감 지수</h1>
-            <p class="mc-page-intro__kicker">7 · 1원 단위 체감 지수</p>
-            <p class="mc-page-intro__lead text-body">입력한 지출이 이번 달 예산에서 어느 정도 비중인지 막대로 보여 줍니다.</p>
+            <h1 class="mc-page-intro__title">8. 예산 준수 캘린더</h1>
+            <p class="mc-page-intro__kicker mc-intro-single-line">8 · 예산 준수 캘린더</p>
           </header>
 
           <div id="excel-control-root" class="mc-excel-slot"></div>
 
           <section class="card mt-24 daily-card daily-quick" aria-labelledby="quick-head">
             <h2 id="quick-head" class="daily-quick__title">퀵 입력 · 지출</h2>
-            <p class="text-sm mt-10">금액을 입력하면 이번 달 배분 예산 대비 남은 여유와 비중이 바로 계산됩니다.</p>
+            <p class="text-sm mt-10">
+              금액을 입력하면 이번 달 배분 예산 대비 남은 여유와 비중이 바로 계산됩니다. 오늘,
+              <strong>당신이 설계한 완벽한 예산 안에서 머무르셨나요?</strong> 돌발 지출이었다면 아래에 체크해 균형 이탈을
+              남깁니다.
+            </p>
             <div class="daily-quick__grid mt-16">
               <label class="field">
                 <span class="field-label">금액</span>
@@ -120,7 +130,7 @@
             <div class="daily-surprise-wrap mt-16" id="quick-surprise-wrap">
               <label class="daily-surprise-check" for="quick-surprise">
                 <input type="checkbox" id="quick-surprise" />
-                <span>이 지출은 <strong>예산·계획에 없던 돌발 지출</strong>입니다</span>
+                <span>이 지출은 <strong>예산·계획에 없던 돌발 지출</strong>입니다 (세운 틀 밖으로 벗어난 지출로 기록)</span>
               </label>
             </div>
             <button id="quick-add" class="btn btn--block mt-16" type="button">지출로 기록에 추가</button>
@@ -143,10 +153,12 @@
           <section class="card mt-24 daily-card" aria-labelledby="cal-head">
             <div class="flex-between">
               <h2 id="cal-head">머니 캘린더</h2>
-              <p id="cal-month-label" class="text-sm"></p>
             </div>
+            <p class="text-sm mt-10" style="color: var(--color-text-muted)">
+              클릭 시 : 날짜 선택 / 더블 클릭 시 : 수정, 삭제
+            </p>
             <p class="text-sm mt-10">
-              날짜별 지출 합계를 보여 줍니다. 돌발 지출 없이 합계가 0원이면 예산 준수(BI) 스티커가 붙습니다.
+              날짜별 지출 합계를 보여 줍니다. <strong>세운 예산안이라는 큰 틀을 하루 종일 지켜 낸 날</strong>은 예산 준수 스티커(BI)로 표시됩니다. 셀을 눌러 스티커를 토글하면 해당 날짜의 저장 데이터가 함께 갱신됩니다.
             </p>
             <div id="money-calendar" class="money-calendar mt-16" aria-label="월간 지출 요약"></div>
           </section>
@@ -204,8 +216,116 @@
             </div>
           </section>
 
+          <section class="card mt-24" aria-labelledby="seo-title">
+            <h2 id="seo-title">예산 준수 캘린더(무지출 스티커)가 만드는 재정적 가치</h2>
+            <p class="text-body mt-10">
+              예산 준수 캘린더는 ‘돈을 안 쓰는 달력’이 아니라, <strong>내가 세운 예산의 경계 안에서 하루를 살아낸 기록</strong>입니다.
+              예산 관리의 핵심은 매일 “완벽한 선택”이 아니라, 흔들리는 날에도 다시 기준으로 돌아오게 만드는 <strong>복귀 장치</strong>를 갖추는 것입니다.
+            </p>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-key-title">
+            <h2 id="seo-key-title">핵심 개념: 예산 준수(BI)와 돌발 지출(Surprise)</h2>
+            <p class="text-body mt-10">
+              중요한 기준은 “0원 지출”이 아니라, <strong>예산·계획 밖 지출</strong>이 있었는지입니다. BI 스티커는 ‘지켜낸 하루’의 증거로,
+              돌발 지출은 ‘조건 변화’ 신호로 분리되어 다음 달 설계로 이어집니다.
+            </p>
+            <ul class="text-body mt-12 mc-prose-list">
+              <li><strong>예산 준수(BI)</strong>: 계획한 틀 안에서 하루를 마감했다는 신호입니다.</li>
+              <li><strong>돌발 지출(Surprise)</strong>: 사건성 지출을 분리해 다음 달 설계로 연결합니다.</li>
+              <li><strong>습관의 증거</strong>: 스티커가 쌓이면 지속성이 올라갑니다.</li>
+            </ul>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-guide-title">
+            <h2 id="seo-guide-title">단계별 가이드: BI 스티커를 ‘행동 규칙’으로 쓰는 방법</h2>
+            <p class="text-body mt-10">
+              스티커는 장식이 아니라 규칙입니다. “돌발 지출을 줄이고 예산 복귀를 빠르게 한다”로 설계하는 편이 현실적입니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="예산 준수 캘린더 단계별 사용 가이드 표">
+                <thead>
+                  <tr>
+                    <th scope="col">단계</th>
+                    <th scope="col">할 일</th>
+                    <th scope="col">연결되는 기능</th>
+                    <th scope="col">기대 효과</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>1</strong></td>
+                    <td>월 예산의 기준(비율/상한)을 먼저 세웁니다.</td>
+                    <td>
+                      <a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a>,
+                      <a href="../budget-lock/03_budget_lock.html"><strong>3번</strong></a>
+                    </td>
+                    <td>비교 가능한 기준이 생겨 “흔들림”을 데이터로 볼 수 있습니다.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>2</strong></td>
+                    <td>지출은 즉시 기록하고, 돌발 지출이면 체크로 분리합니다.</td>
+                    <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a></td>
+                    <td>예산 이탈의 원인이 숨지 않고 빠르게 드러납니다.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>3</strong></td>
+                    <td>하루를 마감하며 BI 스티커를 토글해 ‘지켜낸 날’을 남깁니다.</td>
+                    <td><strong>8번(현재 화면)</strong></td>
+                    <td>지속 가능한 습관의 증거가 누적됩니다.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>4</strong></td>
+                    <td>주간 단위로 패턴을 묶어 ‘다음 주 규칙 1개’를 만듭니다.</td>
+                    <td><a href="../weekly-report/09_weekly_practice_report.html"><strong>9번</strong></a></td>
+                    <td>자책 대신 “규칙”으로 개선이 진행됩니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-meaning-title">
+            <h2 id="seo-meaning-title">돌발 지출이 있을 때와 없을 때의 의미</h2>
+            <p class="text-body mt-10">
+              같은 지출이라도 ‘계획 안’과 ‘계획 밖’은 다음 달 전략이 달라야 합니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="돌발 지출 유무에 따른 해석 비교 표">
+                <thead>
+                  <tr>
+                    <th scope="col">구분</th>
+                    <th scope="col">해석</th>
+                    <th scope="col">다음 달 조정</th>
+                    <th scope="col">연결되는 기록</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>돌발 지출 없음</strong></td>
+                    <td>예산 경계 안에서 하루를 마감했습니다(BI 스티커의 의미).</td>
+                    <td>현재 비율을 유지하거나, 목표(저축/비전)를 소폭 상향할 수 있습니다.</td>
+                    <td><a href="../monthly-review/10_monthly_budget_review.html"><strong>10번</strong></a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>돌발 지출 있음</strong></td>
+                    <td>사건/환경 요인이 계획을 흔들었습니다. 실패가 아니라 ‘조건 변화’ 신호입니다.</td>
+                    <td>버퍼(예외 예산) 마련, 고정비 구조 점검, 보험/예비비 설계로 대응합니다.</td>
+                    <td><a href="../daily-note/06_daily_note_review.html"><strong>6번</strong></a></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="text-body mt-16 mc-prose-list">
+              <li><strong>기록은 10초</strong>: 지출 직후 금액·카테고리만 먼저 입력합니다.</li>
+              <li><strong>돌발은 숨기지 않기</strong>: 체크로 분리해 다음 달 설계의 재료로 남깁니다.</li>
+              <li><strong>스티커는 하루 1회</strong>: 밤에 한 번만 토글해도 충분합니다.</li>
+              <li><strong>규칙은 1개</strong>: 다음 주 규칙을 1개만 정해 반복합니다.</li>
+            </ul>
+          </section>
+
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">Money Calendar · 가상 재정 시스템 투어 — 사용 가이드 전용 비공개 페이지입니다.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
           </footer>
         </main>
       </div>

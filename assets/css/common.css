@@ -125,6 +125,17 @@ figure {
   padding: 0;
 }
 
+/* List reset: 브라우저 기본 불릿/여백 제거 */
+ul,
+ol {
+  list-style: none;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
 body {
   font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
   line-height: 1.5;
@@ -158,6 +169,83 @@ video {
 .tl-chart-wrap canvas {
   max-width: 100%;
   display: block;
+}
+
+/* 본문용 리스트(SEO/가이드 텍스트): 들여쓰기 + 가독성 간격, 가로 스크롤 방지 */
+.mc-prose-list {
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.55rem;
+  max-width: 100%;
+}
+
+.mc-prose-list > li {
+  position: relative;
+  padding-left: 0.9rem;
+  min-width: 0;
+}
+
+.mc-prose-list > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-text-muted) 55%, transparent);
+}
+
+.mc-prose-steps {
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.65rem;
+  max-width: 100%;
+}
+
+.mc-prose-steps > li {
+  min-width: 0;
+  padding-left: 0.9rem;
+  position: relative;
+}
+
+.mc-prose-steps > li::before {
+  counter-increment: mcStep;
+  content: counter(mcStep) ".";
+  position: absolute;
+  left: -1.1rem;
+  top: 0;
+  width: 1.1rem;
+  text-align: right;
+  font-weight: 800;
+  color: var(--color-text-muted);
+}
+
+.mc-prose-steps {
+  counter-reset: mcStep;
+}
+
+/* Borderless Grid: 선 없이 여백/위계로 구분하는 텍스트 블록 */
+.mc-borderless-stack {
+  display: grid;
+  gap: 14px;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.mc-borderless-item {
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  box-shadow: none;
+  border: none;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.mc-borderless-item .text-body,
+.mc-borderless-item p {
+  line-height: 1.7;
 }
 
 /* 텍스트 입력: 한글 IME 우선 (브라우저가 지원하는 범위에서) */

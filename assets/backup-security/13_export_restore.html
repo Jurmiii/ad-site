@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+
     <title>13. 내보내기 · 복원 · Money Calendar</title>
     <link
       rel="stylesheet"
@@ -180,8 +184,127 @@
               ※ 비밀번호 분실 시 복원이 어려울 수 있으니 본인만 알 수 있는 곳에 기록하거나 기억해 주세요.
             </p>
           </section>
+
+          <section class="card mt-24" aria-labelledby="seo-title">
+            <h2 id="seo-title">내보내기·복원으로 “재무 설계의 지속성”을 지키는 방법</h2>
+            <p class="text-body mt-10">
+              재무 설계는 한 번의 입력으로 완성되지 않습니다. 예산 배분(1~4번), 데일리 기록(5~8번), 월간 복기(10~11번)는
+              반복될수록 정확해지는데, 이 반복을 가능하게 하는 전제가 <strong>데이터의 보존</strong>입니다. 브라우저 기반 기록은
+              기기 변경, 브라우저 초기화, 저장 공간 정책 등으로 손실 위험이 존재할 수 있습니다. 13번 기능은 내보내기와 복원을 통해
+              이 위험을 낮추고, “기록이 사라질까 봐 불안해서 꾸준히 못 하는 문제”를 해결합니다.
+            </p>
+            <p class="text-body mt-10">
+              특히 <strong>암호화 백업</strong>은 단순 파일 복사가 아니라, 민감한 재무 기록을 보호하면서도 사용자가 필요한 순간에
+              스스로 복원할 수 있도록 설계된 안전장치입니다. 계획은 신뢰가 있어야 지속됩니다. 백업이 있으면 사용자는 “실험해 보고
+              되돌릴 수 있다”는 심리적 여유를 얻고, 그 결과 더 적극적으로 예산을 조정하고 비전을 다듬을 수 있습니다.
+            </p>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-table-title">
+            <h2 id="seo-table-title">내보내기 vs 암호화 백업: 목적과 사용 상황 비교</h2>
+            <p class="text-body mt-10">
+              13번 화면에는 통합 엑셀 내보내기와 암호화 백업/복원이 함께 있습니다. 둘은 비슷해 보이지만 목적이 다릅니다.
+              아래 표를 기준으로 상황에 맞는 방식을 선택하면, 기록 관리가 훨씬 단순해집니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="통합 내보내기와 암호화 백업 비교 표">
+                <thead>
+                  <tr>
+                    <th scope="col">항목</th>
+                    <th scope="col">통합 내보내기(엑셀)</th>
+                    <th scope="col">암호화 백업(zip)</th>
+                    <th scope="col">추천 사용 시점</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>목적</strong></td>
+                    <td>검증·분석·공유를 위한 표 형태 추출</td>
+                    <td>기기/브라우저 변경 대비 복원용 보관</td>
+                    <td>월말 점검 / 자료 정리 / 장기 보관</td>
+                  </tr>
+                  <tr>
+                    <td><strong>보안</strong></td>
+                    <td>파일 자체의 보호는 사용자가 관리</td>
+                    <td>비밀번호로 보호되는 암호화 저장</td>
+                    <td>개인 PC 외 이동 저장매체 보관 시</td>
+                  </tr>
+                  <tr>
+                    <td><strong>복구 능력</strong></td>
+                    <td>원본 데이터로 자동 복원되는 형태가 아님</td>
+                    <td>데이터 상태를 되돌리는 데 목적이 있음</td>
+                    <td>초기화/삭제 대비, 실험 후 롤백</td>
+                  </tr>
+                  <tr>
+                    <td><strong>연결 기능</strong></td>
+                    <td>10·11번의 복기/타임라인 분석에 도움</td>
+                    <td>1~15번 전체 기록의 지속성 확보</td>
+                    <td>프로젝트를 ‘계속’ 운영하려는 모든 경우</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-guide-title">
+            <h2 id="seo-guide-title">안전한 백업 루틴: 비밀번호·보관·복원 체크리스트</h2>
+            <p class="text-body mt-10">
+              보안 백업은 “파일만 만들면 끝”이 아니라, 비밀번호와 보관 방식이 함께 설계되어야 합니다.
+              아래 표는 실무 관점에서 추천하는 체크리스트입니다. 핵심은 어렵게 만들기보다, 반복 가능한 습관으로 만드는 것입니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="암호화 백업과 복원 체크리스트 표">
+                <thead>
+                  <tr>
+                    <th scope="col">구분</th>
+                    <th scope="col">확인 항목</th>
+                    <th scope="col">권장 기준</th>
+                    <th scope="col">실수 예방</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>비밀번호</strong></td>
+                    <td>길이·복잡도·재사용 여부</td>
+                    <td>8자 이상, 추측 어려운 조합</td>
+                    <td>재사용 금지, 본인만 아는 규칙 사용</td>
+                  </tr>
+                  <tr>
+                    <td><strong>보관</strong></td>
+                    <td>파일 위치와 중복 보관</td>
+                    <td>서로 다른 저장소 2곳 이상</td>
+                    <td>한 곳만 보관하면 분실 위험 증가</td>
+                  </tr>
+                  <tr>
+                    <td><strong>주기</strong></td>
+                    <td>백업 생성 빈도</td>
+                    <td>월 1회 + 큰 변경 직후</td>
+                    <td>월말 복기(10번) 직후가 최적</td>
+                  </tr>
+                  <tr>
+                    <td><strong>복원 테스트</strong></td>
+                    <td>복원이 실제로 되는지 확인</td>
+                    <td>초기 1회, 이후 분기 1회</td>
+                    <td>비밀번호 오입력/파일 손상 조기 발견</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="text-body mt-16 mc-prose-list">
+              <li><strong>비전 보호</strong>: 비전 예산(2번)과 저축 계획은 ‘지속성’이 핵심이므로 백업 루틴이 곧 전략입니다.</li>
+              <li><strong>실험의 안전망</strong>: 예산 시뮬(4번)을 공격적으로 바꿔도 복원 가능하면 학습 속도가 올라갑니다.</li>
+              <li><strong>장기 기록</strong>: 타임라인(11번)의 분석 품질은 누적 데이터에 비례합니다.</li>
+            </ul>
+            <p class="text-body mt-10">
+              한편 보안 관점에서 가장 중요한 원칙은 “모든 것을 외부에 맡기지 않는다”입니다. 내보내기와 백업은 사용자가 직접
+              보관하고 통제할 수 있는 형태로 제공되기 때문에, 서비스 장애나 계정 문제와 무관하게 기록을 유지할 수 있습니다.
+              이 통제감은 재무 설계의 품질에도 영향을 줍니다. 사용자는 데이터를 잃을 걱정이 줄어들수록 더 솔직하게 기록하고,
+              더 과감하게 조정하며, 더 빠르게 학습합니다. 결국 13번 기능은 보안 도구이면서 동시에
+              <strong>지속 가능한 가계부 운영 인프라</strong>입니다.
+            </p>
+          </section>
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">Money Calendar · 가상 재정 시스템 투어 — 사용 가이드 전용 비공개 페이지입니다.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
           </footer>
         </main>
       </div>

@@ -3,11 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>8. 예산 준수 캘린더 (무지출 스티커) · Money Calendar</title>
-    <meta
-      name="description"
-      content="수립한 예산안(Plan) 밖의 돌발 지출(Surprise)이 없었던 날을 예산 준수(Budget Integrity) 스티커로 남깁니다."
-    />
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+
+    <title>7. 1원 단위 체감 지수 · Money Calendar</title>
+    <meta name="description" content="오늘 지출이 이번 달 예산에서 차지하는 체감 비중을 확인합니다." />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
@@ -18,10 +19,10 @@
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="../daily/daily.css" />
   </head>
-  <body class="mc-app page-daily" data-mc-feature-id="8">
+  <body class="mc-app page-daily" data-mc-feature-id="7">
     <script>
       window.__MC_ASSETS_BASE = "..";
-      window.__MC_DAILY_MODE = 8;
+      window.__MC_DAILY_MODE = 7;
     </script>
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
@@ -31,7 +32,7 @@
           <span class="mc-brand__mark" aria-hidden="true">M</span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">8. 예산 준수 캘린더</span>
+            <span class="mc-brand__page">7. 1원 단위 체감 지수</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
@@ -63,7 +64,7 @@
         </div>
         <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">스티커는 ‘돈을 안 쓴 인색함’이 아니라, 설계한 예산 안에 머문 날의 증표입니다.</p>
+          <p class="text-sm">숫자를 ‘감각’으로 바꾸는 화면입니다.</p>
         </div>
       </div>
     </div>
@@ -72,19 +73,16 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">8. 예산 준수 캘린더</h1>
-            <p class="mc-page-intro__kicker mc-intro-single-line">8 · 예산 준수 캘린더</p>
+            <h1 class="mc-page-intro__title">7. 1원 단위 체감 지수</h1>
+            <p class="mc-page-intro__kicker">7 · 1원 단위 체감 지수</p>
+            <p class="mc-page-intro__lead text-body">입력한 지출이 이번 달 예산에서 어느 정도 비중인지 막대로 보여 줍니다.</p>
           </header>
 
           <div id="excel-control-root" class="mc-excel-slot"></div>
 
           <section class="card mt-24 daily-card daily-quick" aria-labelledby="quick-head">
             <h2 id="quick-head" class="daily-quick__title">퀵 입력 · 지출</h2>
-            <p class="text-sm mt-10">
-              금액을 입력하면 이번 달 배분 예산 대비 남은 여유와 비중이 바로 계산됩니다. 오늘,
-              <strong>당신이 설계한 완벽한 예산 안에서 머무르셨나요?</strong> 돌발 지출이었다면 아래에 체크해 균형 이탈을
-              남깁니다.
-            </p>
+            <p class="text-sm mt-10">금액을 입력하면 이번 달 배분 예산 대비 남은 여유와 비중이 바로 계산됩니다.</p>
             <div class="daily-quick__grid mt-16">
               <label class="field">
                 <span class="field-label">금액</span>
@@ -126,7 +124,7 @@
             <div class="daily-surprise-wrap mt-16" id="quick-surprise-wrap">
               <label class="daily-surprise-check" for="quick-surprise">
                 <input type="checkbox" id="quick-surprise" />
-                <span>이 지출은 <strong>예산·계획에 없던 돌발 지출</strong>입니다 (세운 틀 밖으로 벗어난 지출로 기록)</span>
+                <span>이 지출은 <strong>예산·계획에 없던 돌발 지출</strong>입니다</span>
               </label>
             </div>
             <button id="quick-add" class="btn btn--block mt-16" type="button">지출로 기록에 추가</button>
@@ -149,12 +147,10 @@
           <section class="card mt-24 daily-card" aria-labelledby="cal-head">
             <div class="flex-between">
               <h2 id="cal-head">머니 캘린더</h2>
+              <p id="cal-month-label" class="text-sm"></p>
             </div>
-            <p class="text-sm mt-10" style="color: var(--color-text-muted)">
-              클릭 시 : 날짜 선택 / 더블 클릭 시 : 수정, 삭제
-            </p>
             <p class="text-sm mt-10">
-              날짜별 지출 합계를 보여 줍니다. <strong>세운 예산안이라는 큰 틀을 하루 종일 지켜 낸 날</strong>은 예산 준수 스티커(BI)로 표시됩니다. 셀을 눌러 스티커를 토글하면 해당 날짜의 저장 데이터가 함께 갱신됩니다.
+              날짜별 지출 합계를 보여 줍니다. 돌발 지출 없이 합계가 0원이면 예산 준수(BI) 스티커가 붙습니다.
             </p>
             <div id="money-calendar" class="money-calendar mt-16" aria-label="월간 지출 요약"></div>
           </section>
@@ -212,8 +208,85 @@
             </div>
           </section>
 
+          <section class="card mt-24" aria-labelledby="seo-title">
+            <h2 id="seo-title">1원 단위 체감 지수로 만드는 소비 감각(인지 편향 교정)</h2>
+            <p class="text-body mt-10">
+              1원 단위 체감 지수는 지출을 “금액”이 아니라 “비중”으로 보게 만드는 화면입니다. 지출의 영향이 <strong>늦게</strong> 도착하면
+              소비 직후에는 기분이 앞서고, 월말에는 잔액이 갑자기 줄어든 것처럼 느껴집니다. 이 기능은 그 시간차를 줄여,
+              <strong>숫자를 감각으로 번역</strong>해 지출을 조정 가능한 대상으로 만드는 것이 목표입니다.
+            </p>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-key-title">
+            <h2 id="seo-key-title">체감 비중이 필요한 이유: 즉시 피드백과 돌발 지출 분리</h2>
+            <p class="text-body mt-10">
+              사람은 큰 숫자보다 “비율”을 더 빠르게 이해합니다. 막대는 작은 누수가 예산을 잠식하는 과정을 시각화해,
+              ‘나중에 후회할 지출’을 ‘지금 조정할 지출’로 바꿉니다.
+            </p>
+            <ul class="text-body mt-12 mc-prose-list">
+              <li><strong>체감 비중</strong>: 금액보다 빠르게 위험 신호를 전달해 과소비를 조기에 차단합니다.</li>
+              <li><strong>즉시 피드백</strong>: 결제 직후 확인 가능한 신호가 있어야 행동이 바뀝니다.</li>
+              <li><strong>돌발 지출 분리</strong>: 예산 통제 실패와 사건성 지출을 분리해 자책과 왜곡을 줄입니다.</li>
+            </ul>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-step-title">
+            <h2 id="seo-step-title">1원 단위 철학: 작은 반복 지출을 ‘보이게’ 만들기</h2>
+            <p class="text-body mt-10">
+              “1원 단위”는 실제로 1원을 따지라는 뜻이 아니라, <strong>습관을 구성하는 최소 조각</strong>을 놓치지 않는 태도를 의미합니다.
+              작은 반복 지출은 눈에 잘 안 보이지만, 비중으로 보면 누수가 “자리”를 차지하는 것이 보입니다.
+            </p>
+            <ol class="text-body mt-12 mc-prose-steps">
+              <li>지출을 입력하면 막대에서 <strong>이번 달 비중</strong>을 먼저 확인합니다.</li>
+              <li>비중이 예상보다 크면, 같은 날 “대체 행동”을 1개 정해 기록합니다.</li>
+              <li>돌발 지출이면 체크해 남기고, 다음 달엔 버퍼(여유 예산)를 구조로 반영합니다.</li>
+              <li>주간 단위로 반복 항목을 찾아 ‘한 가지 규칙’을 세웁니다.</li>
+            </ol>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-mech-title">
+            <h2 id="seo-mech-title">체감 지수가 소비를 조정하는 과정</h2>
+            <p class="text-body mt-10">
+              같은 소비라도 “피드백이 있는지”에 따라 다음 행동이 달라집니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="1원 단위 체감 지수 행동 변화 표">
+                <thead>
+                  <tr>
+                    <th scope="col">상황</th>
+                    <th scope="col">피드백이 없을 때</th>
+                    <th scope="col">체감 지수가 있을 때</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>소액 결제</td>
+                    <td>누적을 과소평가</td>
+                    <td>비중이 바로 보이므로 조정 타이밍이 앞당겨집니다.</td>
+                  </tr>
+                  <tr>
+                    <td>카테고리 예산 초과</td>
+                    <td>월말에 뒤늦게 후회</td>
+                    <td>막대가 경고 신호가 되어 같은 주 안에 조정이 가능합니다.</td>
+                  </tr>
+                  <tr>
+                    <td>돌발 지출</td>
+                    <td>계획 붕괴로 인식</td>
+                    <td>예외를 분리해 기록하면 다음 달 설계(버퍼/보험)로 이어집니다.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-body mt-16">
+              추천 흐름은 <a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a>으로 빠르게 기록을 남기고,
+              <a href="../daily-note/06_daily_note_review.html"><strong>6번</strong></a>으로 원인과 행동을 문장으로 정리한 뒤,
+              7번에서 체감 비중으로 조정하는 방식입니다. 마지막으로
+              <a href="../weekly-report/09_weekly_practice_report.html"><strong>9번</strong></a>에서 반복 패턴을 규칙으로 만들면 안정성이 올라갑니다.
+            </p>
+          </section>
+
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">Money Calendar · 가상 재정 시스템 투어 — 사용 가이드 전용 비공개 페이지입니다.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
           </footer>
         </main>
       </div>

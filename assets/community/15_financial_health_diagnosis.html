@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+
+    <title>15. 재정 건전성 정밀 진단 · Money Calendar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <script src="../js/theme.js"></script>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/journal-shell.css" />
+    
+    <link rel="stylesheet" href="./community.css" />
+  </head>
+  <body class="mc-app" data-mc-feature-id="15">
+    <script>
+      window.__MC_ASSETS_BASE = "..";
+    </script>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <header class="mc-global-header" role="banner">
+      <div class="container mc-global-header__inner">
+        <a class="mc-brand" href="../index.html">
+          <span class="mc-brand__mark" aria-hidden="true">M</span>
+          <span class="mc-brand__titles">
+            <span class="mc-brand__series">Money Calendar</span>
+            <span class="mc-brand__page">15. 재정 건전성 정밀 진단</span>
+          </span>
+        </a>
+        <div class="mc-global-header__tools">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb" aria-hidden="true"></span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="mc-hamburger hamburger"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-controls="drawer"
+            aria-expanded="false"
+            id="drawer-open"
+          >
+            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">머니 캘린더</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+        </div>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
+        <div class="drawer__meta">
+          <p class="text-sm">게시물은 이 기기의 localStorage에만 저장됩니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mc-app__canvas">
+      <div class="container">
+        <main id="main">
+          <header class="mc-page-intro">
+            <h1 class="mc-page-intro__title">15. 재정 건전성 정밀 진단</h1>
+            <p class="mc-page-intro__kicker">15 · 정밀 진단</p>
+            <p class="mc-page-intro__lead text-body">
+              KPI 카드와 성취 메시지, 막대·도넛 차트로 이번 달 재정 건전성을 데이터 기준으로 점검해 보세요.
+            </p>
+          </header>
+
+          <section class="card mt-24 finale-hero" aria-labelledby="finale-title">
+            <div class="finale-hero__head">
+              <h2 id="finale-title" class="finale-hero__title">이번 달 성취</h2>
+              <p class="text-sm finale-hero__sub" id="finale-month-label"></p>
+            </div>
+            <p class="finale-hero__msg" id="finale-message">—</p>
+            <div class="finale-hero__grid mt-16" aria-label="요약 지표">
+              <div class="finale-kpi">
+                <p class="text-sm">총 수입</p>
+                <p class="finale-kpi__value" id="kpi-income">—</p>
+              </div>
+              <div class="finale-kpi">
+                <p class="text-sm">총 지출</p>
+                <p class="finale-kpi__value" id="kpi-expense">—</p>
+              </div>
+              <div class="finale-kpi">
+                <p class="text-sm">예산</p>
+                <p class="finale-kpi__value" id="kpi-budget">—</p>
+              </div>
+              <div class="finale-kpi">
+                <p class="text-sm">예산 대비</p>
+                <p class="finale-kpi__value" id="kpi-saved">—</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="card mt-24 composite-chart-card" aria-labelledby="composite-title">
+            <div class="flex-between">
+              <h2 id="composite-title">건전성 지표 차트</h2>
+              <p class="text-sm composite-chart-card__hint" id="composite-hint"></p>
+            </div>
+            <p class="text-sm mt-10 composite-chart-card__lead">
+              수입·예산(상한)·지출을 같은 눈금으로 나란히 비교하는 요약 뷰입니다.
+            </p>
+            <div class="composite-chart-wrap mt-16">
+              <canvas
+                id="composite-chart"
+                width="640"
+                height="168"
+                aria-label="수입, 예산, 지출 비교 막대 그래프"
+              ></canvas>
+            </div>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="compare-title">
+            <div class="flex-between">
+              <h2 id="compare-title">총 수입 vs 총 지출</h2>
+              <p class="text-sm" id="compare-hint"></p>
+            </div>
+            <div class="compare-bars mt-16" role="img" aria-label="총 수입과 총 지출 비교 막대">
+              <div class="compare-row">
+                <span class="compare-label">수입</span>
+                <span class="compare-track"><span id="bar-income" class="compare-fill compare-fill--income" style="width: 0%"></span></span>
+                <span class="compare-value" id="val-income">—</span>
+              </div>
+              <div class="compare-row">
+                <span class="compare-label">지출</span>
+                <span class="compare-track"><span id="bar-expense" class="compare-fill compare-fill--expense" style="width: 0%"></span></span>
+                <span class="compare-value" id="val-expense">—</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="donut-title">
+            <div class="flex-between">
+              <h2 id="donut-title">지출 카테고리 비중</h2>
+              <p class="text-sm" id="donut-hint"></p>
+            </div>
+            <div class="donut-wrap mt-16">
+              <canvas id="donut" width="320" height="320" aria-label="지출 카테고리 도넛 차트"></canvas>
+              <div class="donut-legend" id="donut-legend" aria-label="카테고리 목록"></div>
+            </div>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-title">
+            <h2 id="seo-title">재정 건전성 정밀 진단으로 “현실 기반의 개선”을 시작하기</h2>
+            <p class="text-body mt-10">
+              재정 건전성 정밀 진단은 지출을 줄이라는 한마디로 끝나지 않습니다. 이번 달의 수입·예산(상한)·지출을 같은 눈금으로
+              비교하고, 지출의 비중을 카테고리로 분해해 <strong>어디에서 구조가 흔들렸는지</strong>를 확인하도록 돕습니다.
+              사람은 숫자만 보면 방어적으로 변하기 쉽지만, 지표를 카드와 차트로 해석하면 “나를 평가”하는 대신
+              “시스템을 개선”하는 관점으로 전환할 수 있습니다. 이 전환이 만들어지면, 다음 달의 예산은 더 현실적이고,
+              비전 달성 계획은 더 지속 가능해집니다.
+            </p>
+            <p class="text-body mt-10">
+              특히 15번 기능은 마지막 페이지로서, 1~14번에서 쌓인 기록을 한 번에 요약합니다. 결과가 좋다면 성취 메시지가
+              지속성을 강화하고, 결과가 아쉽다면 경고가 아니라 “수정 가능한 레버”를 보여 주어 다음 행동을 단순하게 만듭니다.
+              결국 정밀 진단은 “이번 달의 점수”가 아니라, <strong>다음 달에 바꿀 1~2개의 규칙</strong>을 찾기 위한 도구입니다.
+            </p>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-kpi-title">
+            <h2 id="seo-kpi-title">핵심 지표(KPI) 해석: 무엇을 보면 건전성이 좋아지나</h2>
+            <p class="text-body mt-10">
+              KPI는 많이 만들수록 좋은 것이 아니라, 행동으로 이어질 수 있어야 합니다. 아래 표는 이 페이지에서 다루는 대표 지표를
+              어떤 의미로 읽어야 하는지 정리합니다. 모든 셀은 같은 기준으로 가운데 정렬되어, 빠르게 비교할 수 있습니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="재정 건전성 KPI 해석 표">
+                <thead>
+                  <tr>
+                    <th scope="col">지표</th>
+                    <th scope="col">정의</th>
+                    <th scope="col">좋은 신호</th>
+                    <th scope="col">주의 신호</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>총 수입</strong></td>
+                    <td>해당 월에 들어온 모든 수입 합계</td>
+                    <td>변동이 작고 예측 가능</td>
+                    <td>과대 추정으로 예산이 과도해짐</td>
+                  </tr>
+                  <tr>
+                    <td><strong>예산</strong></td>
+                    <td>지출 상한(계획선)</td>
+                    <td>생활 구조에 맞는 현실적 상한</td>
+                    <td>너무 낮아 월중 붕괴(포기) 발생</td>
+                  </tr>
+                  <tr>
+                    <td><strong>총 지출</strong></td>
+                    <td>데일리 기록 기반 실제 지출 합계</td>
+                    <td>예산 내에서 관리됨</td>
+                    <td>예산을 지속적으로 초과</td>
+                  </tr>
+                  <tr>
+                    <td><strong>예산 대비</strong></td>
+                    <td>예산 - 지출(남긴 금액)</td>
+                    <td>남긴 금액이 비전/저축으로 연결</td>
+                    <td>항상 0에 가까워 버퍼가 부족</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="text-body mt-16 mc-prose-list">
+              <li><strong>상한의 역할</strong>: 예산은 죄책감을 주는 숫자가 아니라, 선택을 단순화하는 안전장치입니다.</li>
+              <li><strong>남김의 의미</strong>: 남긴 돈은 ‘참은 결과’가 아니라 비전을 지키기 위한 연료입니다.</li>
+              <li><strong>한 번에 하나</strong>: 지표를 전부 바꾸려 하지 말고, 가장 큰 레버 1개부터 조정합니다.</li>
+            </ul>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-action-title">
+            <h2 id="seo-action-title">진단 결과를 다음 달 설계로 전환하는 실행 로드맵</h2>
+            <p class="text-body mt-10">
+              좋은 진단은 결론이 아니라 시작입니다. 이 페이지의 차트에서 “어디가 문제인지”를 확인했다면,
+              다음 달에는 “무엇을 바꿀지”가 결정되어야 합니다. 아래 표는 진단에서 흔히 나오는 결과 유형과,
+              이를 실제 행동으로 바꾸는 연결 루트를 정리합니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="정밀 진단 결과의 후속 액션 연결 표">
+                <thead>
+                  <tr>
+                    <th scope="col">진단에서 보이는 패턴</th>
+                    <th scope="col">해석</th>
+                    <th scope="col">연결 기능</th>
+                    <th scope="col">다음 달 액션</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>예산은 있는데 지출이 초과</td>
+                    <td>규칙이 실행으로 연결되지 않음</td>
+                    <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a></td>
+                    <td>자주 흔들리는 카테고리 1개에 상한/횟수 규칙</td>
+                  </tr>
+                  <tr>
+                    <td>Needs 비중이 과도</td>
+                    <td>고정비/생활 구조 문제</td>
+                    <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a></td>
+                    <td>고정비 1개를 구조 변경 관점으로 조정</td>
+                  </tr>
+                  <tr>
+                    <td>비전/저축이 계속 밀림</td>
+                    <td>저축이 “남는 돈”이 됨</td>
+                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2번</strong></a></td>
+                    <td>선저축으로 순서 고정 후 월말 복기</td>
+                  </tr>
+                  <tr>
+                    <td>매달 기준이 바뀌어 비교가 어려움</td>
+                    <td>학습 루프가 끊김</td>
+                    <td><a href="../budget-lock/03_budget_lock.html"><strong>3번</strong></a></td>
+                    <td>한 달 기준선을 락으로 고정해 비교 가능하게 유지</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-body mt-16">
+              정밀 진단의 핵심은 “완벽한 달”을 만드는 것이 아니라, 매달 한 단계씩 건전성을 올리는 것입니다.
+              10번(월간 복기)과 11번(타임라인)을 함께 사용하면 원인과 흐름이 더 명확해지고, 14번(비전 시뮬레이터)은
+              그 변화가 목표 달성 시점에 어떤 영향을 주는지 보여 줍니다. 이렇게 연결된 루틴이 완성되면,
+              재정 관리는 단기 절약이 아니라 장기 성취가 됩니다.
+            </p>
+          </section>
+          <footer class="page-foot mt-24 mb-20">
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+          </footer>
+        </main>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../js/nav-config.js"></script>
+    <script src="../js/app-shell.js"></script>
+    <script src="../js/vision-budget-utils.js"></script>
+    <script src="./community.js"></script>
+  </body>
+</html>

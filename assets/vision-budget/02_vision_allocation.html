@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+
     <title>2. 비전 기반 예산 할당 · Money Calendar</title>
     <meta
       name="description"
@@ -263,8 +267,123 @@
         <p class="text-sm mt-8">비전 목록과 할당·잔여 요약은 상단 통합 엑셀 컨트롤의 「현재 화면 엑셀 저장」으로 받을 수 있습니다.</p>
       </section>
 
+      <section class="card vb-stack mt-24" aria-labelledby="seo-vision-overview-title">
+        <h2 id="seo-vision-overview-title">비전 기반 예산 할당이란 무엇인가</h2>
+        <p class="text-body mt-10">
+          <strong>비전 기반 예산 할당</strong>은 “이번 달의 돈을 어디에 먼저 둘 것인가”를 결정하는 설계 단계입니다. Money Calendar는
+          단순히 지출을 기록하는 가계부가 아니라, 1원의 가치가 흩어지지 않도록 <em>우선순위</em>를 세워 예산을 배치합니다.
+          이 페이지에서는 <strong>월 가용 수입</strong>에서 <strong>고정 지출</strong>을 먼저 차감하고, 남은 재원을 단기·장기 목표(비전)에
+          순서대로 할당합니다. 즉, 예산의 ‘기분’이 아니라 예산의 ‘구조’를 만드는 화면입니다.
+        </p>
+        <p class="text-body mt-10">
+          2번 기능은 1번 수입 설계와 연결됩니다.
+          <a href="../income-design/01_income_design.html"><strong>1번 계층형 수입 설계</strong></a>에서 기준 수입을 정리한 뒤,
+          여기서 고정 지출을 반영하고 비전을 배치하면 4번 시뮬레이터와 14번 성장 곡선이 더 정확해집니다.
+        </p>
+      </section>
+
+      <section class="card vb-stack mt-24" aria-labelledby="seo-principles-title">
+        <h2 id="seo-principles-title">비전 예산 설계의 핵심 원칙 5가지</h2>
+        <p class="text-body mt-10">
+          검색에서 “예산 설계”, “목표 저축”, “고정 지출 관리”를 찾는 대부분의 사람은 ‘계획은 세웠는데 지속이 어렵다’는 문제를
+          겪습니다. 아래 원칙은 복잡한 재무 이론이 아니라, 일상에서 지킬 수 있는 최소 규칙으로 구성했습니다.
+        </p>
+        <ul class="text-body mt-16 mc-prose-list">
+          <li><strong>고정 지출 우선</strong>: 집세·통신·보험처럼 빠질 수 없는 비용을 먼저 차감합니다.</li>
+          <li><strong>비전은 “남는 돈”이 아니라 “남기기로 한 돈”</strong>: 남은 뒤에 넣는 것이 아니라, 남기기 위해 구조를 만듭니다.</li>
+          <li><strong>단기·장기 목표 분리</strong>: 단기 목표는 안전판, 장기 목표는 방향성으로 관리합니다.</li>
+          <li><strong>우선순위는 숫자 1개로 고정</strong>: 목표를 늘리더라도 순서를 정해 분산을 줄입니다.</li>
+          <li><strong>1원의 가치로 검증</strong>: 월 할당액이 지나치게 커지면 지속성이 떨어지고, 지나치게 작으면 의지가 식습니다.</li>
+        </ul>
+        <article class="mt-16" aria-labelledby="seo-principles-h3">
+          <h3 id="seo-principles-h3">왜 ‘우선순위 연동’이 중요한가</h3>
+          <p class="text-body mt-10">
+            목표는 늘기 쉽고, 돈은 늘지 않는 경우가 많습니다. 우선순위를 정하지 않으면 모든 목표가 “조금씩”만 채워지고,
+            체감 성취가 낮아져 계획이 깨집니다. 우선순위 연동 배분은 ‘지속 가능한 한 가지’가 만들어지는 구조를 제공합니다.
+          </p>
+        </article>
+      </section>
+
+      <section class="card vb-stack mt-24" aria-labelledby="seo-workflow-title">
+        <h2 id="seo-workflow-title">2번 기능 사용 순서(권장)</h2>
+        <p class="text-body mt-10">
+          이 페이지는 입력 순서 자체가 설계 철학입니다. 아래 순서대로 진행하면 “비전 예산”이 숫자에서 습관으로 이어집니다.
+        </p>
+        <ol class="text-body mt-16 mc-prose-steps">
+          <li>
+            <strong>월 가용 수입</strong>을 입력하거나 1번 수입 설계 합계를 불러옵니다.
+            (<a href="../income-design/01_income_design.html">1번 페이지</a>)
+          </li>
+          <li>
+            <strong>고정 지출 합계</strong>를 입력해 “비전 예산 상한”을 확정합니다.
+          </li>
+          <li>
+            <strong>비전 목표</strong>를 단기/장기로 분류하고, 목표 금액과 이번 달 할당액을 작성합니다.
+          </li>
+          <li>
+            <strong>우선순위</strong>를 조정해 물 흐르듯 배치되도록 정리합니다.
+          </li>
+          <li>
+            이후
+            <a href="../budget-simulator/04_budget_simulator.html"><strong>4번 예산 분배 시뮬레이터</strong></a>에서 생활 예산 비율을 맞추고,
+            <a href="../vision-simulator/14_vision_goal_simulator.html"><strong>14번 비전 달성 시뮬레이터</strong></a>에서 성장 곡선을 확인합니다.
+          </li>
+        </ol>
+      </section>
+
+      <section class="card vb-stack mt-24" aria-labelledby="seo-table-title">
+        <h2 id="seo-table-title">데이터 구조 표: 비전 예산이 다음 기능으로 전달되는 방식</h2>
+        <p class="text-body mt-10">
+          Money Calendar는 기능별로 데이터가 분리되어 보이지만, 실제로는 “같은 달의 예산 흐름”을 공유합니다. 아래 표는
+          2번에서 확정되는 값이 어느 기능에 영향을 주는지 정리한 안내입니다.
+        </p>
+        <div class="table-wrap mt-16">
+          <table class="data-table" aria-label="비전 기반 예산 할당 데이터 연동 표">
+            <thead>
+              <tr>
+                <th scope="col">2번에서 다루는 값</th>
+                <th scope="col">연결되는 기능</th>
+                <th scope="col">활용 포인트</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>월 가용 수입</td>
+                <td><a href="../income-design/01_income_design.html"><strong>1번</strong></a></td>
+                <td>수입 구조(확정/잠재)를 기반으로 “현실적인 상한”을 잡습니다.</td>
+              </tr>
+              <tr>
+                <td>고정 지출</td>
+                <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a></td>
+                <td>분배 가능 금액을 줄여 과대 배분을 방지합니다.</td>
+              </tr>
+              <tr>
+                <td>월 비전 할당 합계</td>
+                <td><a href="../vision-simulator/14_vision_goal_simulator.html"><strong>14번</strong></a></td>
+                <td>성장 곡선의 월 적립(M)을 결정합니다.</td>
+              </tr>
+              <tr>
+                <td>우선순위 기반 배치</td>
+                <td><a href="../weekly-report/09_weekly_practice_report.html"><strong>9번</strong></a></td>
+                <td>실천 리포트에서 ‘다음 주 행동’의 기준(집중 대상)을 세웁니다.</td>
+              </tr>
+              <tr>
+                <td>예산 준수 철학(돌발 지출 분리)</td>
+                <td><a href="../daily-nospend/08_no_spending_calendar.html"><strong>8번</strong></a></td>
+                <td>돌발 지출 여부로 스티커 작성 경험이 갈립니다.</td>
+              </tr>
+              <tr>
+                <td>엑셀 내보내기(통합)</td>
+                <td><a href="../backup-security/13_export_restore.html"><strong>13번</strong></a></td>
+                <td>설계·기록 데이터를 통합 워크북으로 백업합니다.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <footer class="page-foot mt-16 mb-20">
-        <p class="text-sm text-center">Money Calendar · 가상 재정 시스템 투어 — 사용 가이드 전용 비공개 페이지입니다.</p>
+        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
       </footer>
         </main>
       </div>

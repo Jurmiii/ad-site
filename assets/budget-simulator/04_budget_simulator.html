@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+
     <title>4. 카테고리별 예산 분배 시뮬레이터 · Money Calendar</title>
     <meta
       name="description"
@@ -236,8 +240,102 @@
         </section>
       </div>
 
+      <section class="card mt-24" aria-labelledby="seo-sim-overview-title">
+        <h2 id="seo-sim-overview-title">카테고리별 예산 분배 시뮬레이터란 무엇인가</h2>
+        <p class="text-body mt-10">
+          <strong>카테고리별 예산 분배 시뮬레이터</strong>는 예산 설계를 “숫자 입력”이 아니라 “비율 조정”으로 바꾸는 도구입니다.
+          많은 가계부가 지출 합계만 보여주지만, Money Calendar는 <em>필수 지출(Needs)</em>, <em>선택적 지출(Wants)</em>,
+          <em>저축 및 투자(Savings)</em>의 균형을 먼저 잡아야 실제 생활에서 예산이 지속된다고 봅니다. 이 페이지는 권장 비율
+          <strong>50/30/20</strong>을 기준으로, 한 항목을 늘릴 때 다른 항목이 자동으로 반응하도록 설계되어 “합계는 고정”되고
+          “구조만 바뀌는” 시뮬레이션 경험을 제공합니다.
+        </p>
+        <p class="text-body mt-10">
+          4번 기능은 2번 비전 기반 예산과 연결됩니다.
+          <a href="../vision-budget/02_vision_allocation.html"><strong>2번 비전 기반 예산 할당</strong></a>에서 고정 지출과 비전을
+          먼저 배치한 뒤, 남은 가용 예산을 이 화면에서 생활 카테고리로 분배하면 계획이 더 단단해집니다.
+        </p>
+      </section>
+
+      <section class="card mt-24" aria-labelledby="seo-sim-principles-title">
+        <h2 id="seo-sim-principles-title">예산 비율 설계의 핵심 원칙 6가지</h2>
+        <p class="text-body mt-10">
+          검색에서 “예산 분배”, “50 30 20”, “가계부 예산”을 찾는 사용자는 보통 ‘어느 항목을 줄여야 하는지’에서 막힙니다.
+          아래 원칙은 1원의 가치가 새는 지점을 찾고, 조정의 방향을 고정하는 최소 규칙입니다.
+        </p>
+        <ul class="text-body mt-16 mc-prose-list">
+          <li><strong>필수 지출부터 안정화</strong>: 생존 비용이 흔들리면 나머지 설계는 무너집니다.</li>
+          <li><strong>선택적 지출은 ‘완충재’</strong>: 삶의 질을 지키되, 조정 가능한 범위를 남깁니다.</li>
+          <li><strong>저축/투자는 ‘미래 고정 지출’</strong>: 장기적으로는 저축이 선택이 아니라 구조가 됩니다.</li>
+          <li><strong>합계 고정, 구조만 조정</strong>: 총액을 늘리기보다 비율을 먼저 정리합니다.</li>
+          <li><strong>권장 비율은 출발점</strong>: 50/30/20은 정답이 아니라 ‘점검 기준’입니다.</li>
+          <li><strong>1원의 가치로 검증</strong>: 큰 한 번보다 작은 반복 지출을 줄이는 편이 지속됩니다.</li>
+        </ul>
+        <article class="mt-16" aria-labelledby="seo-sim-h3">
+          <h3 id="seo-sim-h3">50/30/20을 그대로 따르지 않아도 되는 경우</h3>
+          <p class="text-body mt-10">
+            상황에 따라 필수 지출이 높은 달도 있고, 투자·상환이 중요한 시기도 있습니다. 중요한 것은 “왜 그 비율인지”를
+            설명할 수 있는지입니다. 이 시뮬레이터는 그 이유를 숫자와 표로 확인하게 해 줍니다.
+          </p>
+        </article>
+      </section>
+
+      <section class="card mt-24" aria-labelledby="seo-sim-flow-title">
+        <h2 id="seo-sim-flow-title">4번 기능 사용 순서(권장)</h2>
+        <p class="text-body mt-10">
+          이 페이지는 입력보다 흐름이 중요합니다. 아래 순서대로 진행하면 ‘내가 지킬 수 있는 예산’에 가까워집니다.
+        </p>
+        <ol class="text-body mt-16 mc-prose-steps">
+          <li>
+            <strong>월 가용 수입</strong>과 <strong>고정 지출</strong>을 넣어 분배 가능 금액 상한을 만듭니다.
+            (상한은 2번 설계와 연결됩니다. <a href="../vision-budget/02_vision_allocation.html">2번 페이지</a>)
+          </li>
+          <li><strong>50/30/20</strong>을 적용해 출발점(기준 비율)을 만든 뒤, 현재 생활에 맞게 조정합니다.</li>
+          <li>슬라이더로 한 항목을 늘리고, 다른 항목이 어떻게 줄어드는지 보며 균형점을 찾습니다.</li>
+          <li>아래 표(권장 대비 차이)에서 “왜 과/부족인지”를 확인한 뒤, 과도한 항목의 원인을 찾습니다.</li>
+          <li>
+            이후 5~8번 데일리 기록을 쌓고, 10번 복기에서 설계 대비 실제 집행을 확인합니다.
+            (<a href="../daily-quick/05_daily_quick_input.html">5번</a>, <a href="../monthly-review/10_monthly_budget_review.html">10번</a>)
+          </li>
+        </ol>
+      </section>
+
+      <section class="card mt-24" aria-labelledby="seo-sim-table-title">
+        <h2 id="seo-sim-table-title">비교 표: Needs/Wants/Savings가 의미하는 것</h2>
+        <p class="text-body mt-10">
+          같은 “지출”이라도 성격이 다릅니다. 아래 표는 카테고리를 분류하는 기본 관점을 제공해, 입력이 흔들리지 않도록 돕습니다.
+        </p>
+        <div class="table-wrap mt-16">
+          <table class="data-table" aria-label="예산 3분류(필수/선택/저축) 비교 표">
+            <thead>
+              <tr>
+                <th scope="col">분류</th>
+                <th scope="col">예시</th>
+                <th scope="col">핵심 질문</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>필수 지출 (Needs)</strong></td>
+                <td>주거, 공과금, 보험, 식재료, 교통</td>
+                <td>없으면 생활이 유지되는가</td>
+              </tr>
+              <tr>
+                <td><strong>선택적 지출 (Wants)</strong></td>
+                <td>외식, 쇼핑, 취미, 여행, 구독</td>
+                <td>줄여도 당장 큰 문제가 없는가</td>
+              </tr>
+              <tr>
+                <td><strong>저축 및 투자 (Savings)</strong></td>
+                <td>예적금, 투자, 비상금, 원금 상환</td>
+                <td>미래를 위해 지금 ‘남기고 있는가’</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <footer class="page-foot mt-24 mb-20">
-        <p class="text-sm text-center">Money Calendar · 가상 재정 시스템 투어 — 사용 가이드 전용 비공개 페이지입니다.</p>
+        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
       </footer>
         </main>
       </div>

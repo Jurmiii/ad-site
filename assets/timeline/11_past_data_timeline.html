@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+
+    <title>11. 과거 데이터 타임라인 · Money Calendar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <script src="../js/theme.js"></script>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/journal-shell.css" />
+    <link rel="stylesheet" href="../js/excel-manager.css" />
+    <link rel="stylesheet" href="./timeline.css" />
+  </head>
+  <body class="mc-app" data-mc-feature-id="11">
+    <script>
+      window.__MC_ASSETS_BASE = "..";
+    </script>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <header class="mc-global-header" role="banner">
+      <div class="container mc-global-header__inner">
+        <a class="mc-brand" href="../index.html">
+          <span class="mc-brand__mark" aria-hidden="true">M</span>
+          <span class="mc-brand__titles">
+            <span class="mc-brand__series">Money Calendar</span>
+            <span class="mc-brand__page">11. 과거 데이터 타임라인</span>
+          </span>
+        </a>
+        <div class="mc-global-header__tools">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb" aria-hidden="true"></span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="mc-hamburger hamburger"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-controls="drawer"
+            aria-expanded="false"
+            id="drawer-open"
+          >
+            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">머니 캘린더</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+        </div>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
+        <div class="drawer__meta">
+          <p class="text-sm">월별 합계는 데일리 지출 합산입니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mc-app__canvas">
+      <div class="container">
+        <main id="main">
+          <header class="mc-page-intro">
+            <h1 class="mc-page-intro__title">11. 과거 데이터 타임라인</h1>
+            <p class="mc-page-intro__kicker">11 · 과거 데이터 타임라인</p>
+            <p class="mc-page-intro__lead text-body">
+              조회한 달에 대해 데일리에 기록된 지출·수입을 일별로 집계하여 한 달 흐름을 선 그래프로 보여 줍니다.
+            </p>
+          </header>
+          <div id="excel-control-root" class="mc-excel-slot"></div>
+          <section class="card mt-24">
+            <div class="tl-controls tl-controls--simple" aria-label="월 선택">
+              <button id="tl-prev" type="button" aria-label="이전 달">&lt;</button>
+              <div class="money-cal__month-picker-wrap tl-month-wrap">
+                <button
+                  type="button"
+                  id="tl-month"
+                  class="tl-month-label tl-month-btn"
+                  aria-expanded="false"
+                  aria-haspopup="dialog"
+                ></button>
+                <div id="tl-month-dropdown" class="money-cal__month-dropdown is-hidden" role="dialog" aria-label="연도·월 선택">
+                  <div class="money-cal__month-pick-row">
+                    <label class="money-cal__pick-field">
+                      <span class="money-cal__pick-k">연도</span>
+                      <select id="tl-pick-year" class="money-cal__pick-select" aria-label="연도"></select>
+                    </label>
+                    <label class="money-cal__pick-field">
+                      <span class="money-cal__pick-k">월</span>
+                      <select id="tl-pick-month" class="money-cal__pick-select" aria-label="월"></select>
+                    </label>
+                  </div>
+                  <button type="button" id="tl-month-apply" class="btn btn-secondary money-cal__month-apply">이동</button>
+                </div>
+              </div>
+              <button id="tl-next" type="button" aria-label="다음 달">&gt;</button>
+            </div>
+            <div class="tl-chart-wrap">
+              <canvas id="tl-canvas" width="900" height="340" aria-label="월간 일별 지출·수입 추이"></canvas>
+            </div>
+            <p id="tl-legend" class="text-sm mt-16"></p>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-title">
+            <h2 id="seo-title">과거 데이터 타임라인이 “재무 습관”을 교정하는 이유</h2>
+            <p class="text-body mt-10">
+              과거 데이터 타임라인은 월간 합계를 보여 주는 화면이 아니라, 한 달의 지출·수입 흐름을 일별로 펼쳐서
+              <strong>패턴의 원인</strong>을 찾는 분석 도구입니다. 사람은 월말에 금액을 합산할 때 ‘느낌으로’ 해석하는 경향이
+              강합니다. 그래서 같은 지출이라도 “이번 달은 많이 쓴 것 같다”처럼 감정 중심의 결론으로 끝나기 쉽습니다.
+              11번 기능은 선 그래프로 흐름을 시각화해, 언제 돈이 빠르게 새었고 언제 회복되었는지, 그리고 어떤 날에
+              반복적으로 변곡점이 발생했는지 확인하도록 돕습니다.
+            </p>
+            <p class="text-body mt-10">
+              이 흐름을 읽으면, 절약을 의지로 강요하기보다 구조를 바꿀 수 있습니다. 예를 들어 특정 주차에 지출이 급증한다면
+              해당 주차의 일정·이동·식사·구독 결제일 같은 트리거를 의심할 수 있고, 수입이 들어오는 날 이후에 지출이 확 늘어난다면
+              ‘입금 직후 소비’라는 자동 반응을 다루는 것이 효과적입니다. 타임라인은 숫자를 비난하지 않고,
+              <strong>행동을 바꾸는 실마리</strong>를 제공합니다.
+            </p>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-read-title">
+            <h2 id="seo-read-title">그래프 해석 가이드: 변곡점과 밀도를 읽는 4가지 관점</h2>
+            <p class="text-body mt-10">
+              타임라인을 잘 쓰는 핵심은 “선이 예쁘게 내려갔는가”가 아니라, 선이 꺾인 지점에서 어떤 사건이 있었는지
+              연결하는 것입니다. 아래 표는 그래프를 읽는 대표적인 관점을 정리한 것입니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="과거 데이터 타임라인 그래프 해석 관점 표">
+                <thead>
+                  <tr>
+                    <th scope="col">관점</th>
+                    <th scope="col">그래프에서 보이는 신호</th>
+                    <th scope="col">자주 발생하는 원인</th>
+                    <th scope="col">추천 대응</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>변곡점</strong></td>
+                    <td>특정 날짜에 급격한 상승/하락</td>
+                    <td>경조사·병원·여행·큰 결제</td>
+                    <td>사건성 지출은 버퍼 예산으로 분리</td>
+                  </tr>
+                  <tr>
+                    <td><strong>밀도</strong></td>
+                    <td>작은 변동이 연속으로 반복</td>
+                    <td>카페/배달/소액 결제 습관</td>
+                    <td>횟수 규칙 또는 주간 상한으로 전환</td>
+                  </tr>
+                  <tr>
+                    <td><strong>주차 패턴</strong></td>
+                    <td>매주 같은 구간에서 급증</td>
+                    <td>정기 모임·이동·장보기 루틴</td>
+                    <td>해당 주차의 계획 예산을 선반영</td>
+                  </tr>
+                  <tr>
+                    <td><strong>입금 직후 소비</strong></td>
+                    <td>수입일 이후 지출이 빠르게 증가</td>
+                    <td>심리적 여유 → 즉시 보상</td>
+                    <td>선저축/자동이체로 순서를 고정</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="text-body mt-16 mc-prose-list">
+              <li><strong>의미 없는 날을 찾기</strong>: “아무 일 없는데 많이 쓴 날”이 진짜 습관의 핵심입니다.</li>
+              <li><strong>사건과 습관을 분리</strong>: 사건성은 예비비, 습관성은 규칙으로 다룹니다.</li>
+              <li><strong>한 달을 한 문장으로 요약</strong>: 다음 달 설계에 반영할 규칙을 문장으로 남깁니다.</li>
+            </ul>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-connect-title">
+            <h2 id="seo-connect-title">비전과 연결하기: 타임라인을 월간 설계로 되돌리는 방법</h2>
+            <p class="text-body mt-10">
+              타임라인의 분석이 가치 있으려면, 결과가 다음 달 설계로 되돌아가야 합니다. 11번에서 발견한 패턴은
+              <strong>예산 복기(10번)</strong>와 함께 읽을 때 가장 강해집니다. 타임라인이 “언제”를 보여 준다면,
+              월간 복기는 “얼마나”와 “기준 대비”를 보여 줍니다. 두 화면을 연결하면 예산이 흔들린 원인을 훨씬 정확히 찾을 수 있습니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="타임라인 분석 결과의 후속 액션 연결 표">
+                <thead>
+                  <tr>
+                    <th scope="col">타임라인에서 발견</th>
+                    <th scope="col">의미</th>
+                    <th scope="col">연결하면 좋은 기능</th>
+                    <th scope="col">다음 달 설계 변경</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>주차별 지출이 특정 구간에 집중</td>
+                    <td>생활 루틴 기반의 반복 지출</td>
+                    <td><a href="../monthly-review/10_monthly_budget_review.html"><strong>10번</strong></a></td>
+                    <td>해당 주차에 Needs/Wants 예산을 선배치</td>
+                  </tr>
+                  <tr>
+                    <td>소액 결제의 연속(밀도 증가)</td>
+                    <td>마찰이 낮은 소비 습관</td>
+                    <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a></td>
+                    <td>카테고리 1개를 ‘횟수 규칙’으로 고정</td>
+                  </tr>
+                  <tr>
+                    <td>사건성 지출이 반복적으로 발생</td>
+                    <td>예외가 아니라 구조적 변수</td>
+                    <td><a href="../daily-nospend/08_no_spending_calendar.html"><strong>8번</strong></a></td>
+                    <td>버퍼 예산/예비비 항목을 설계에 포함</td>
+                  </tr>
+                  <tr>
+                    <td>수입일 이후 급격한 지출</td>
+                    <td>보상 소비 트리거</td>
+                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2번</strong></a></td>
+                    <td>선저축 비율을 먼저 확보하고 Wants를 제한</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-body mt-16">
+              결국 타임라인은 “내가 어떤 사람인가”를 드러내는 기록입니다. 비전은 멀리 있는 목표처럼 보이지만,
+              매일의 선택이 쌓인 결과로만 완성됩니다. 11번 기능으로 흐름을 읽고, 10번에서 기준선을 재정렬하면
+              다음 달의 실행은 더 단단해집니다.
+            </p>
+            <p class="text-body mt-10">
+              한 가지를 더 강조하면, 타임라인은 ‘절약’보다 ‘예측’에 강합니다. 그래프의 주차 패턴을 읽으면 다음 달의
+              위험 구간이 보이고, 위험 구간이 보이면 그 구간에 미리 예산을 배치할 수 있습니다. 즉 월초에 완벽한 계획을
+              세우지 못해도, 월중에 흐름을 확인하면서 “남은 기간에 무엇을 조정할지”를 정할 수 있습니다. 이때 중요한 것은
+              지출을 0으로 만드는 목표가 아니라, <strong>비전에 필요한 항목을 끝까지 남기는 전략</strong>입니다.
+            </p>
+          </section>
+          <footer class="page-foot mt-24 mb-20">
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+          </footer>
+        </main>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../js/nav-config.js"></script>
+    <script src="../js/excel-manager.js"></script>
+    <script src="../js/app-shell.js"></script>
+    <script src="./timeline.js"></script>
+  </body>
+</html>

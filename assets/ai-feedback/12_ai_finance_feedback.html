@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+
+    <title>12. AI 재정 피드백 · Money Calendar</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <script src="../js/theme.js"></script>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/journal-shell.css" />
+    <link rel="stylesheet" href="../js/excel-manager.css" />
+    <link rel="stylesheet" href="./ai-feedback.css" />
+  </head>
+  <body class="mc-app" data-mc-feature-id="12">
+    <script>
+      window.__MC_ASSETS_BASE = "..";
+    </script>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <header class="mc-global-header" role="banner">
+      <div class="container mc-global-header__inner">
+        <a class="mc-brand" href="../index.html">
+          <span class="mc-brand__mark" aria-hidden="true">M</span>
+          <span class="mc-brand__titles">
+            <span class="mc-brand__series">Money Calendar</span>
+            <span class="mc-brand__page">12. AI 재정 피드백</span>
+          </span>
+        </a>
+        <div class="mc-global-header__tools">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb" aria-hidden="true"></span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="mc-hamburger hamburger"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-controls="drawer"
+            aria-expanded="false"
+            id="drawer-open"
+          >
+            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">머니 캘린더</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+        </div>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
+        <div class="drawer__meta">
+          <p class="text-sm">분석은 브라우저 내 규칙 엔진으로 수행됩니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="mc-app__canvas">
+      <div class="container">
+        <main id="main">
+          <header class="mc-page-intro">
+            <h1 class="mc-page-intro__title">12. AI 재정 피드백</h1>
+            <p class="mc-page-intro__kicker">12 · AI 재정 피드백</p>
+            <p class="mc-page-intro__lead text-body">
+              저장된 예산·시뮬·데일리 데이터를 읽어 임계값 규칙으로 경고·칭찬 메시지를 생성합니다. 외부 LLM API는 사용하지
+              않습니다.
+            </p>
+          </header>
+          <div id="excel-control-root" class="mc-excel-slot"></div>
+          <section class="card mt-24">
+            <ul id="ai-list" class="ai-list"></ul>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-title">
+            <h2 id="seo-title">AI 재정 피드백: 기록을 “행동 변화”로 바꾸는 코칭 시스템</h2>
+            <p class="text-body mt-10">
+              AI 재정 피드백의 목표는 ‘정답 예산’을 제시하는 것이 아니라, 사용자가 이미 저장해 둔 예산·시뮬레이션·데일리 기록을
+              바탕으로 <strong>지금 바꾸기 쉬운 행동</strong>을 제안하는 것입니다. 월 단위로 계획을 세워도, 하루 단위의 선택이
+              누적되면 계획은 쉽게 흔들립니다. 이때 사람은 “왜 실패했는지”를 정확히 기억하지 못하고, 감정적으로 자신을 평가해
+              다음 계획을 과도하게 조이거나 반대로 포기해 버리기도 합니다. 12번 기능은 임계값 규칙 기반의 메시지를 통해
+              <strong>경고·칭찬·리마인드</strong>를 제공하고, 복잡한 데이터를 한 문장으로 요약해 다음 행동을 단순화합니다.
+            </p>
+            <p class="text-body mt-10">
+              또한 이 기능은 외부 LLM API를 사용하지 않고, 브라우저 내 규칙 엔진으로 판단합니다. 따라서 민감한 재무 데이터가
+              외부로 전송되지 않으며, 사용자는 ‘내 기록을 내가 통제한다’는 안정감 속에서 피드백을 받을 수 있습니다. 이런
+              안전한 피드백 루프는 장기적으로 <strong>비전 예산(2번)</strong>과 <strong>예산 락(3번)</strong>의 지속성을
+              강화하는 역할을 합니다.
+            </p>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-rule-title">
+            <h2 id="seo-rule-title">피드백이 만들어지는 기준: 임계값 규칙의 핵심 구조</h2>
+            <p class="text-body mt-10">
+              피드백 메시지는 “기분”이 아니라 규칙으로 만들어집니다. 규칙이 명확할수록 사용자는 납득하기 쉽고, 행동으로 옮기기
+              쉬워집니다. 아래 표는 AI 재정 피드백이 자주 사용하는 임계값 기준을 예시로 정리한 것입니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="AI 재정 피드백 임계값 규칙 예시 표">
+                <thead>
+                  <tr>
+                    <th scope="col">분류</th>
+                    <th scope="col">관측 지표</th>
+                    <th scope="col">판단 기준(임계값)</th>
+                    <th scope="col">권장 메시지 방향</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>경고</strong></td>
+                    <td>Wants 지출 비중</td>
+                    <td>월 중반 이전에 계획 대비 과도</td>
+                    <td>횟수/상한 규칙으로 즉시 조정 제안</td>
+                  </tr>
+                  <tr>
+                    <td><strong>칭찬</strong></td>
+                    <td>선저축/저축 실행</td>
+                    <td>계획한 저축이 꾸준히 유지</td>
+                    <td>성과를 언어화해 지속성 강화</td>
+                  </tr>
+                  <tr>
+                    <td><strong>주의</strong></td>
+                    <td>Needs 급등</td>
+                    <td>사건성 지출이 반복(2회 이상)</td>
+                    <td>예비비/버퍼 예산 설계로 전환</td>
+                  </tr>
+                  <tr>
+                    <td><strong>리마인드</strong></td>
+                    <td>기록 누락/지연</td>
+                    <td>기록 공백이 연속으로 발생</td>
+                    <td>빠른 입력(5번)으로 복귀 유도</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <ul class="text-body mt-16 mc-prose-list">
+              <li><strong>명확성</strong>: 메시지가 애매하면 행동이 늦어집니다. 한 문장, 한 규칙이 효과적입니다.</li>
+              <li><strong>타이밍</strong>: 월말 평가보다 “월중 조정”이 비용을 줄입니다.</li>
+              <li><strong>재현성</strong>: 같은 상황이면 같은 피드백이 나와야 신뢰가 쌓입니다.</li>
+            </ul>
+          </section>
+
+          <section class="card mt-24" aria-labelledby="seo-action-title">
+            <h2 id="seo-action-title">피드백을 실행으로 연결하는 방법: 다음 화면으로 이어지는 루트</h2>
+            <p class="text-body mt-10">
+              피드백은 읽는 순간보다, 다음 행동으로 이어질 때 가치가 커집니다. 12번 화면에서 나온 메시지는 “당장 기록을 보완할지”,
+              “예산 구조를 바꿀지”, “비전 항목을 다시 우선순위화할지”로 갈립니다. 아래 표는 피드백 유형별로 연결하면 좋은 기능과
+              실질적인 다음 액션을 정리합니다.
+            </p>
+            <div class="table-wrap mt-16">
+              <table class="data-table mc-table-centered" aria-label="AI 피드백 후속 액션 연결 표">
+                <thead>
+                  <tr>
+                    <th scope="col">피드백 유형</th>
+                    <th scope="col">자주 등장하는 상황</th>
+                    <th scope="col">연결 기능</th>
+                    <th scope="col">다음 액션</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>지출 과속 경고</td>
+                    <td>Wants가 계획을 앞지름</td>
+                    <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a></td>
+                    <td>오늘부터 “횟수 제한” 1개를 적용</td>
+                  </tr>
+                  <tr>
+                    <td>고정비 구조 점검</td>
+                    <td>Needs가 구조적으로 높음</td>
+                    <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a></td>
+                    <td>대체 시나리오로 고정비 1개 조정</td>
+                  </tr>
+                  <tr>
+                    <td>비전 희생 경고</td>
+                    <td>Savings가 월말에만 남음</td>
+                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2번</strong></a></td>
+                    <td>선저축 비율을 먼저 확보해 순서 고정</td>
+                  </tr>
+                  <tr>
+                    <td>기준 고정 권고</td>
+                    <td>계획이 자주 바뀌어 비교 불가</td>
+                    <td><a href="../budget-lock/03_budget_lock.html"><strong>3번</strong></a></td>
+                    <td>한 달 기준선을 락으로 고정 후 복기</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-body mt-16">
+              이 연결 구조 덕분에 12번 기능은 “분석만 하는 페이지”가 아니라, 설계와 실행을 다시 묶는 허브가 됩니다.
+              결국 비전은 큰 결심으로 지켜지는 것이 아니라, 작은 규칙과 빠른 피드백으로 유지됩니다. AI 재정 피드백은 그 과정을
+              매일 반복 가능한 루틴으로 바꿉니다.
+            </p>
+            <p class="text-body mt-10">
+              더 나아가 사용자는 피드백을 통해 ‘내가 어떤 소비자 유형인지’를 빠르게 학습합니다. 같은 달의 기록에서도 사람마다
+              흔들리는 지점이 다릅니다. 누군가는 주차 패턴이 강하고, 누군가는 입금 직후 소비가 강하며, 또 다른 사람은 돌발 지출이
+              반복됩니다. 12번 기능은 이 차이를 한눈에 드러내어, 불필요한 죄책감을 줄이고
+              <strong>개인화된 개선 포인트</strong>를 좁혀 줍니다. 이 과정이 쌓이면, 예산은 억압이 아니라 ‘내 삶을 설명하는 모델’이
+              되고, 비전은 추상적인 목표가 아니라 달성 가능한 일정표가 됩니다.
+            </p>
+          </section>
+          <footer class="page-foot mt-24 mb-20">
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+          </footer>
+        </main>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="../js/nav-config.js"></script>
+    <script src="../js/excel-manager.js"></script>
+    <script src="../js/app-shell.js"></script>
+    <script src="./ai-feedback.js"></script>
+  </body>
+</html>
