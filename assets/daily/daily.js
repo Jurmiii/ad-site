@@ -264,6 +264,17 @@
     var all = loadAll();
     all[state.date] = state;
     saveAll(all);
+
+    // 데모 데이터 분리: 현재 월에 첫 기록이 생기면 데모를 즉시 제거
+    try {
+      var demo = window.MoneyCalendarDemo;
+      if (demo && demo.isActive && demo.isActive()) {
+        if (monthKeyFromDate(state.date) === monthKeyFromDate(today())) {
+          var hasReal = (state.txs && state.txs.length > 0) || (state.notes && state.notes.length > 0) || Boolean(state.dayNote);
+          if (hasReal) demo.purge();
+        }
+      }
+    } catch (e) {}
   }
 
   function sumDayExpenses(dayState) {

@@ -1,85 +1,60 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
 
-    <!-- ================== 湲곕낯 硫뷀? ?쒓렇 (SEO) ================== -->
-    <meta name="title" content="3. ?덉궛???뺤젙 諛???Lock) 쨌 Money Calendar" />
+    <!-- ================== 기본 메타 태그 (SEO) ================== -->
+    <meta name="title" content="3. 예산안 확정 및 락(Lock) · Money Calendar" />
     <meta
       name="description"
-      content="?붾퀎 ?덉궛?덉쓣 ?뺤젙쨌?좉렇怨? 蹂寃??대젰???④린硫?怨쇨굅 ?ㅻ깄?룹쓣 ?묒?濡?蹂댁〈?⑸땲??"
+      content="월별 예산안을 확정·잠그고, 변경 이력을 남기며 과거 스냅샷을 엑셀로 보존합니다."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://money-calender.netlify.app/budget-lock/03_budget_lock.html" />
+    <meta property="og:title" content="3. 예산안 확정 및 락(Lock) · Money Calendar" />
+    <meta property="og:description" content="월별 예산안을 확정·잠그고, 변경 이력을 남기며 과거 스냅샷을 엑셀로 보존합니다." />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="Money Calendar" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="3. 예산안 확정 및 락(Lock) · Money Calendar" />
+    <meta name="twitter:description" content="월별 예산안을 확정·잠그고, 변경 이력을 남기며 과거 스냅샷을 엑셀로 보존합니다." />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <link rel="canonical" href="https://money-calender.netlify.app/budget-lock/03_budget_lock.html" />
+
     <meta
       name="keywords"
-      content="?덉궛 ?뺤젙, ?덉궛 ?? ?덉궛???좉툑, ?덉궛 蹂寃??대젰, ?덉궛 ?ㅻ깄?? ?덉궛 諛깆뾽, 媛怨꾨?, ?덉궛愿由? Money Calendar, ?묒?"
+      content="예산 확정, 예산 락, 예산안 잠금, 예산 변경 이력, 예산 스냅샷, 예산 백업, 가계부, 예산관리, Money Calendar, 엑셀"
     />
     <meta name="author" content="Money Calendar" />
     <meta name="robots" content="index, follow" />
 
-    <!-- ================== Open Graph 硫뷀? ?쒓렇 (SNS 怨듭쑀: Facebook, Kakao ?? ================== -->
-    <meta property="og:title" content="3. ?덉궛???뺤젙 諛???Lock) 쨌 Money Calendar" />
-    <meta
-      property="og:description"
-      content="?붾퀎 ?덉궛?덉쓣 ?뺤젙쨌?좉렇怨? 蹂寃??대젰???④린硫?怨쇨굅 ?ㅻ깄?룹쓣 ?묒?濡?蹂댁〈?⑸땲??"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="./03_budget_lock.html" />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:image:alt" content="Money Calendar ?꾩씠肄? />
-    <meta property="og:site_name" content="Money Calendar" />
-    <meta property="og:locale" content="ko_KR" />
 
-    <!-- ================== Twitter 移대뱶 硫뷀? ?쒓렇 ================== -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="3. ?덉궛???뺤젙 諛???Lock) 쨌 Money Calendar" />
-    <meta
-      name="twitter:description"
-      content="?붾퀎 ?덉궛?덉쓣 ?뺤젙쨌?좉렇怨? 蹂寃??대젰???④린硫?怨쇨굅 ?ㅻ깄?룹쓣 ?묒?濡?蹂댁〈?⑸땲??"
-    />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
-    <meta name="twitter:image:alt" content="Money Calendar ?꾩씠肄? />
-    <meta name="twitter:site" content="Money Calendar" />
-    <meta name="twitter:creator" content="Money Calendar" />
-
-    <!-- ================== SEO 諛??ъ슜??寃쏀뿕 蹂댁셿 ?쒓렇 ================== -->
+    <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="language" content="ko" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="canonical" href="./03_budget_lock.html" />
 
-    <!-- ================== ?뱀빋 諛?釉뚮씪?곗? 理쒖쟻??================== -->
+    <!-- ================== 웹앱 및 브라우저 최적화 ================== -->
     <meta name="theme-color" content="#ffffff" />
     <meta name="application-name" content="Money Calendar" />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
 
-    <link rel="icon" href="/assets/images/icon/favicon.ico?v=2" type="image/x-icon">
-    <link rel="shortcut icon" href="/assets/images/icon/favicon.png?v=2" type="image/png">
-    <link rel="apple-touch-icon" href="/assets/images/icon/favicon.png?v=2">
-    <link rel="manifest" href="/site.webmanifest?v=2">
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+    <link rel="manifest" href="../../site.webmanifest">
 
-    <title>3. ?덉궛???뺤젙 諛???Lock) 쨌 Money Calendar</title>
+    <title>3. 예산안 확정 및 락(Lock) · Money Calendar</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
     />
-    <!-- OG/CANONICAL START: money-calender.netlify.app -->
-    <meta property="og:url" content="https://money-calender.netlify.app/assets/budget-lock/03_budget_lock.html" />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <meta property="og:image:type" content="image/webp" />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <link rel="canonical" href="https://money-calender.netlify.app/assets/budget-lock/03_budget_lock.html" />
-    <!-- OG/CANONICAL END -->
     <script src="../js/theme.js"></script>
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/journal-shell.css" />
@@ -90,7 +65,7 @@
     <script>
       window.__MC_ASSETS_BASE = "..";
     </script>
-    <a class="skip-link" href="#main">蹂몃Ц?쇰줈 嫄대꼫?곌린</a>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
     <header class="mc-global-header" role="banner">
       <div class="container mc-global-header__inner">
@@ -108,11 +83,11 @@
           </span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">3. ?덉궛???뺤젙 諛???Lock)</span>
+            <span class="mc-brand__page">3. 예산안 확정 및 락(Lock)</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
-          <button class="theme-toggle" type="button" data-theme-toggle aria-label="?뚮쭏 ?꾪솚" aria-pressed="false">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
             <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
             <span class="theme-toggle__thumb" aria-hidden="true"></span>
             <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
@@ -120,7 +95,7 @@
           <button
             class="mc-hamburger hamburger"
             type="button"
-            aria-label="硫붾돱 ?닿린"
+            aria-label="메뉴 열기"
             aria-controls="drawer"
             aria-expanded="false"
             id="drawer-open"
@@ -131,16 +106,16 @@
       </div>
     </header>
 
-    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="湲곕뒫 硫붾돱" hidden>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
       <div class="drawer__backdrop" data-drawer-close></div>
       <div class="drawer__panel" role="document">
         <div class="drawer__top">
-          <p class="drawer__title">媛怨꾨? ?쒕━利?/p>
-          <button class="drawer__close" type="button" aria-label="硫붾돱 ?リ린" data-drawer-close>?リ린</button>
+          <p class="drawer__title">가계부 시리즈</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
-        <nav class="drawer__nav" id="mc-drawer-list" aria-label="湲곕뒫 1~15"></nav>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">?뱀뿉???뺤젙???덉궛?덉쓣 ?묒?濡???Β룸갚?낇븯怨? ?꾩슂 ??媛숈? ?뚯씪濡??ㅼ떆 遺덈윭?????덉뒿?덈떎.</p>
+          <p class="text-sm">웹에서 확정한 예산안을 엑셀로 저장·백업하고, 필요 시 같은 파일로 다시 불러올 수 있습니다.</p>
         </div>
       </div>
     </div>
@@ -149,20 +124,13 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">3. ?덉궛???뺤젙 諛???Lock)</h1>
-            <p class="mc-page-intro__kicker">3 쨌 ?덉궛???뺤젙 諛???Lock)</p>
+            <h1 class="mc-page-intro__title">3. 예산안 확정 및 락(Lock)</h1>
+            <p class="mc-page-intro__kicker">3 · 예산안 확정 및 락(Lock)</p>
             <p class="mc-page-intro__lead text-body">
-              ?섎┰???덉궛?덉쓣 ?뺤젙?섎㈃ ?쎄린 ?꾩슜?쇰줈 蹂댄샇?⑸땲?? 遺?앹씠???섏젙? ???댁젣 ??媛?ν븯硫? 蹂寃??댁뿭?
-              ??꾨씪?몄뿉 湲곕줉?⑸땲??
+              수립한 예산안을 확정하면 읽기 전용으로 보호합니다. 부득이한 수정은 락 해제 후 가능하며, 변경 내역은
+              타임라인에 기록됩니다.
             </p>
           </header>
-
-<ins class="kakao_ad_area" style="display:none;"
-data-ad-unit = "DAN-jGaTWdkt4JHwlfwT"
-data-ad-width = "300"
-data-ad-height = "250"></ins>
-<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-
 
           <div id="excel-control-root" class="mc-excel-slot"></div>
 
@@ -170,14 +138,14 @@ data-ad-height = "250"></ins>
 
       <section class="card mt-20" aria-labelledby="month-title">
         <div class="flex-between month-row">
-          <h2 id="month-title">湲곗? ??쨌 ?곹깭</h2>
+          <h2 id="month-title">기준 월 · 상태</h2>
           <div class="month-controls">
             <label class="month-wrap">
-              <span class="sr-only">湲곗? ?????щ젰?먯꽌 ?좎쭨瑜??좏깮?섎㈃ ?대떦 ?붿쓽 ?덉궛?덉씠 ?대┰?덈떎.</span>
+              <span class="sr-only">기준 월 — 달력에서 날짜를 선택하면 해당 월의 예산안이 열립니다.</span>
               <input id="plan-date" type="date" />
             </label>
             <button type="button" id="btn-purge-month" class="btn-secondary">
-              ????湲곕줉 ??젣
+              이 달 기록 삭제
             </button>
           </div>
         </div>
@@ -186,39 +154,39 @@ data-ad-height = "250"></ins>
 
       <section class="card mt-24" aria-labelledby="lock-title">
         <div class="flex-between">
-          <h2 id="lock-title">?덉궛???곗씠??/h2>
+          <h2 id="lock-title">예산안 데이터</h2>
           <span id="lock-badge" class="lock-badge" aria-hidden="true"></span>
         </div>
         <p class="text-sm mt-10">
-          Weekly ?덉궛???섎┰ ?섏씠吏? ?숈씪????μ냼瑜??ъ슜?⑸땲?? ?ш린???뺤젙쨌?댁젣?섎㈃ ?섎┰
-          ?붾㈃怨??숆린?붾맗?덈떎.
+          Weekly 예산안 수립 페이지와 동일한 저장소를 사용합니다. 여기서 확정·해제하면 수립
+          화면과 동기화됩니다.
         </p>
 
         <div class="form-grid mt-20">
           <fieldset class="fieldset" id="fieldset-income">
-            <legend>?뚮뱷 (4?④퀎)</legend>
-            <label>?ㅼ젣?뚮뱷
+            <legend>소득 (4단계)</legend>
+            <label>실제소득
               <input id="f-real" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
-            <label>?덉젙?뚮뱷
+            <label>예정소득
               <input id="f-scheduled" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
-            <label>湲고??뚮뱷
+            <label>기타소득
               <input id="f-other" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
-            <label>?щ쭩?뚮뱷
+            <label>희망소득
               <input id="f-hope" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
           </fieldset>
           <fieldset class="fieldset" id="fieldset-budget">
-            <legend>?덉궛 諛곕텇</legend>
-            <label>?꾩닔 吏異?(Needs)
+            <legend>예산 배분</legend>
+            <label>필수 지출 (Needs)
               <input id="f-living" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
-            <label>?좏깮??吏異?(Wants)
+            <label>선택적 지출 (Wants)
               <input id="f-activity" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
-            <label>?異?諛??ъ옄 (Savings)
+            <label>저축 및 투자 (Savings)
               <input id="f-essential" class="money-input" type="tel" inputmode="numeric" autocomplete="off" />
             </label>
           </fieldset>
@@ -227,171 +195,177 @@ data-ad-height = "250"></ins>
         <p id="summary-line" class="summary-line mt-16 text-sm"></p>
 
         <div class="btn-row mt-20">
-          <button id="btn-lock" class="btn" type="button">?대쾲 ???덉궛???뺤젙?섍린</button>
-          <button id="btn-unlock" class="btn-secondary is-hidden" type="button">???댁젣 (?섏젙)</button>
-          <button id="btn-relock" class="btn is-hidden" type="button">蹂寃???????ㅼ떆 ?뺤젙</button>
+          <button id="btn-lock" class="btn" type="button">이번 달 예산안 확정하기</button>
+          <button id="btn-unlock" class="btn-secondary is-hidden" type="button">락 해제 (수정)</button>
+          <button id="btn-relock" class="btn is-hidden" type="button">변경 저장 후 다시 확정</button>
         </div>
         <p id="unlock-note" class="text-sm mt-10 is-hidden">
-          ?쎌씠 ?댁젣???곹깭?낅땲?? ?섏젙 ??諛섎뱶???ㅼ떆 ?뺤젙??怨꾪쉷??蹂댄샇?섏꽭??
+          락이 해제된 상태입니다. 수정 후 반드시 다시 확정해 계획을 보호하세요.
         </p>
       </section>
 
       <section class="card mt-24" aria-labelledby="history-title">
-        <h2 id="history-title">蹂寃??대젰 ??꾨씪??/h2>
-        <p class="text-sm mt-10">?뺤젙쨌?댁젣쨌?ы솗???쒖젏??湲곕줉?⑸땲?? ?ы솗??????ぉ蹂??꽷룻썑 李⑥씠瑜??쒖떆?⑸땲??</p>
+        <h2 id="history-title">변경 이력 타임라인</h2>
+        <p class="text-sm mt-10">확정·해제·재확정 시점이 기록됩니다. 재확정 시 항목별 전·후 차이를 표시합니다.</p>
         <ol id="history-timeline" class="timeline mt-20"></ol>
-        <p id="history-empty" class="text-sm mt-10">?꾩쭅 湲곕줉???대젰???놁뒿?덈떎.</p>
+        <p id="history-empty" class="text-sm mt-10">아직 기록된 이력이 없습니다.</p>
       </section>
 
       <section class="card mt-24" aria-labelledby="archive-title">
-        <h2 id="archive-title">?뺤젙 ?ㅻ깄??蹂댁〈??/h2>
+        <h2 id="archive-title">확정 스냅샷 보존함</h2>
         <p class="text-sm mt-10">
-          ?뺤젙(?먮뒗 ?ы솗?????뚮쭏???ㅻ깄?룹씠 ?볦엯?덈떎. ?뱀젙 ?쒖젏 ?곗씠?곕? ?묒?濡??대젮諛쏆븘 諛깆뾽쨌蹂듦뎄
-          ?먮즺濡??ъ슜?섏꽭??
+          확정(또는 재확정)할 때마다 스냅샷이 쌓입니다. 특정 시점 데이터를 엑셀로 내려받아 백업·복구
+          자료로 사용하세요.
         </p>
         <div class="table-wrap mt-16">
-          <table class="archive-table" aria-label="?뺤젙 ?덉궛???ㅻ깄??紐⑸줉">
+          <table class="archive-table" aria-label="확정 예산안 스냅샷 목록">
             <thead>
               <tr>
-                <th scope="col">湲곗? ??/th>
-                <th scope="col">?뺤젙 ?쇱떆</th>
-                <th scope="col">珥??뚮뱷</th>
-                <th scope="col">諛곕텇 ??/th>
-                <th scope="col">?붿뿬</th>
-                <th scope="col">?묒?</th>
+                <th scope="col">기준 월</th>
+                <th scope="col">확정 일시</th>
+                <th scope="col">총 소득</th>
+                <th scope="col">배분 합</th>
+                <th scope="col">잔여</th>
+                <th scope="col">엑셀</th>
               </tr>
             </thead>
             <tbody id="archive-body"></tbody>
           </table>
         </div>
-        <p id="archive-empty" class="text-sm mt-10 is-hidden">??λ맂 ?ㅻ깄?룹씠 ?놁뒿?덈떎. ?덉궛?덉쓣 ?뺤젙?섎㈃ ?ш린???섑??⑸땲??</p>
+        <p id="archive-empty" class="text-sm mt-10 is-hidden">저장된 스냅샷이 없습니다. 예산안을 확정하면 여기에 나타납니다.</p>
       </section>
 
+      <ins class="kakao_ad_area" style="display:none;"
+      data-ad-unit = "DAN-jGaTWdkt4JHwlfwT"
+      data-ad-width = "300"
+      data-ad-height = "250"></ins>
+      <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
       <section class="card mt-24" aria-labelledby="seo-lock-overview-title">
-        <h2 id="seo-lock-overview-title">?덉궛???뺤젙(?? 湲곕뒫???꾩슂???댁쑀</h2>
+        <h2 id="seo-lock-overview-title">예산안 확정(락) 기능이 필요한 이유</h2>
         <p class="text-body mt-10">
-          <strong>?덉궛???뺤젙 諛???Lock)</strong>? ?쒓퀎?띿쓣 ?몄슦???쒓컙?앷낵 ?쒖떎?쒕줈 ?щ뒗 ?쒓컙?앹쓣 遺꾨━??二쇰뒗 ?μ튂?낅땲?? ?덉궛?
-          醫낆쥌 湲곕텇怨??곹솴???곕씪 ?붾뱾由쎈땲?? 洹몃옒??Money Calendar??1?먯쓽 媛移섍? ?⑹뼱吏吏 ?딅룄濡? ?뱀젙 ?붿쓽 ?덉궛?덉쓣
-          <em>?쎄린 ?꾩슜</em>?쇰줈 蹂댄샇?섍퀬 蹂寃??대젰???④퉩?덈떎. ??湲곕뒫? ?섑넻?쒋숆? ?꾨땲??<strong>?쇨???/strong>???꾪븳 ?덉쟾?μ튂?대ŉ,
-          二쇨컙쨌?붽컙 由ы룷?몄뿉??鍮꾧탳 湲곗???吏?ㅻ뒗 ?듭떖?낅땲??
+          <strong>예산안 확정 및 락(Lock)</strong>은 “계획을 세우는 순간”과 “실제로 사는 순간”을 분리해 주는 장치입니다. 예산은
+          종종 기분과 상황에 따라 흔들립니다. 그래서 Money Calendar는 1원의 가치가 흩어지지 않도록, 특정 월의 예산안을
+          <em>읽기 전용</em>으로 보호하고 변경 이력을 남깁니다. 이 기능은 ‘통제’가 아니라 <strong>일관성</strong>을 위한 안전장치이며,
+          주간·월간 리포트에서 비교 기준을 지키는 핵심입니다.
         </p>
         <p class="text-body mt-10">
-          3踰?湲곕뒫? ?ㅼ쓬 ?먮쫫怨?湲대????곌껐?⑸땲??
-          <a href="../vision-budget/02_vision_allocation.html"><strong>2踰?鍮꾩쟾 湲곕컲 ?덉궛 ?좊떦</strong></a>怨?
-          <a href="../budget-simulator/04_budget_simulator.html"><strong>4踰??덉궛 遺꾨같 ?쒕??덉씠??/strong></a>?먯꽌 留뚮뱺 怨꾪쉷??
-          ?뺤젙???먮㈃,
-          <a href="../weekly-report/09_weekly_practice_report.html"><strong>9踰?二쇨컙 ?⑥쐞 ?ㅼ쿇 由ы룷??/strong></a>?
-          <a href="../monthly-review/10_monthly_budget_review.html"><strong>10踰??붽컙 ?덉궛 蹂듦린</strong></a>?먯꽌 ?쒕??섏? ?딅뒗 湲곗??앹쑝濡?
-          鍮꾧탳?????덉뒿?덈떎.
+          3번 기능은 다음 흐름과 긴밀히 연결됩니다.
+          <a href="../vision-budget/02_vision_allocation.html"><strong>2번 비전 기반 예산 할당</strong></a>과
+          <a href="../budget-simulator/04_budget_simulator.html"><strong>4번 예산 분배 시뮬레이터</strong></a>에서 만든 계획을
+          확정해 두면,
+          <a href="../weekly-report/09_weekly_practice_report.html"><strong>9번 주간 단위 실천 리포트</strong></a>와
+          <a href="../monthly-review/10_monthly_budget_review.html"><strong>10번 월간 예산 복기</strong></a>에서 “변하지 않는 기준”으로
+          비교할 수 있습니다.
         </p>
       </section>
 
       <section class="card mt-24" aria-labelledby="seo-lock-rules-title">
-        <h2 id="seo-lock-rules-title">?쎌쓣 ???곕뒗 洹쒖튃(?ㅽ뻾 媛?ν븳 6媛吏)</h2>
+        <h2 id="seo-lock-rules-title">락을 잘 쓰는 규칙(실행 가능한 6가지)</h2>
         <p class="text-body mt-10">
-          寃?됱뿉???쒖삁??愿由р? ?쒖?異??듭젣?? ?쒓퀎???몄슦湲겸앸? 李얜뒗 留롮? ?ъ슜?먮뒗 怨꾪쉷???섏닔?뺚숉븯???쒓컙 紐⑺몴媛 ?먮젮議뚮떎怨?
-          ?먮굧?덈떎. ?꾨옒 洹쒖튃? 怨꾪쉷??怨좎젙?섎㈃?쒕룄 ?꾩떎??諛섏쁺?????덈룄濡??ㅺ퀎??理쒖냼 ?먯튃?낅땲??
+          검색에서 “예산 관리”, “지출 통제”, “계획 세우기”를 찾는 많은 사용자는 계획을 ‘수정’하는 순간 목표가 흐려졌다고
+          느낍니다. 아래 규칙은 계획을 고정하면서도 현실을 반영할 수 있도록 설계한 최소 원칙입니다.
         </p>
         <ul class="text-body mt-16 mc-prose-list">
-          <li><strong>?뺤젙? ??1??/strong>: 媛?ν븯硫???珥덉뿉 ?뺤젙?섍퀬, 洹몃떖??湲곗???諛붽씀吏 ?딆뒿?덈떎.</li>
-          <li><strong>???댁젣???댁쑀媛 ?덉쓣 ?뚮쭔</strong>: 媛먯젙???꾨땲???쒖“嫄?蹂?붴앷? ?덉쓣 ?뚮쭔 ?섏젙?⑸땲??</li>
-          <li><strong>?섏젙? 湲곕줉???④린湲??꾪븳 ?됱쐞</strong>: 諛붽엥?ㅻ㈃ 諛섎뱶???쒖솢 諛붽엥?붿??앸? ?대젰?쇰줈 ?뺤씤?⑸땲??</li>
-          <li><strong>怨좎젙 吏異?蹂?붾뒗 利됱떆 諛섏쁺</strong>: 吏묒꽭/蹂댄뿕泥섎읆 援ъ“瑜?諛붽씀????ぉ? ?④린吏 ?딄퀬 諛섏쁺?⑸땲??</li>
-          <li><strong>鍮꾩쟾/?異뺤쓣 留덉?留됱뿉 嫄대뱶由곕떎</strong>: 湲됲븷?섎줉 紐⑺몴瑜?癒쇱? 源롪쾶 ?섎?濡? 洹쒖튃?쇰줈 蹂댄샇?⑸땲??</li>
-          <li><strong>1?먯쓽 媛移?湲곗??쇰줈 以꾩씤??/strong>: ??湲덉븸???꾨땲???쒖옄二??덈뒗 ?묒? 湲덉븸?앸???議곗젙?⑸땲??</li>
+          <li><strong>확정은 월 1회</strong>: 가능하면 월 초에 확정하고, 그달의 기준을 바꾸지 않습니다.</li>
+          <li><strong>락 해제는 이유가 있을 때만</strong>: 감정이 아니라 “조건 변화”가 있을 때만 수정합니다.</li>
+          <li><strong>수정은 기록을 남기기 위한 행위</strong>: 바꿨다면 반드시 “왜 바꿨는지”를 이력으로 확인합니다.</li>
+          <li><strong>고정 지출 변화는 즉시 반영</strong>: 집세/보험처럼 구조를 바꾸는 항목은 숨기지 않고 반영합니다.</li>
+          <li><strong>비전/저축을 마지막에 건드린다</strong>: 급할수록 목표를 먼저 깎게 되므로, 규칙으로 보호합니다.</li>
+          <li><strong>1원의 가치 기준으로 줄인다</strong>: 큰 금액이 아니라 “자주 새는 작은 금액”부터 조정합니다.</li>
         </ul>
         <article class="mt-16" aria-labelledby="seo-lock-h3">
-          <h3 id="seo-lock-h3">?쎌? ???섏옄?좊? 以꾩씠??湲곕뒫?숈씠 ?꾨땲???섍껐???쇰줈瑜?以꾩씠??湲곕뒫?숈씤媛</h3>
+          <h3 id="seo-lock-h3">락은 왜 ‘자유를 줄이는 기능’이 아니라 ‘결정 피로를 줄이는 기능’인가</h3>
           <p class="text-body mt-10">
-            留ㅼ씪 ?덉궛???ㅼ떆 ?먮떒?섎㈃, ?섏삤?섎쭔?숈씠?쇰뒗 ?덉쇅媛 ?섏뼱?⑸땲?? ?쎌? ?먮떒??以꾩뿬 ?먮꼫吏瑜??꾨겮怨? ???湲곕줉怨??ㅽ뻾??
-            吏묒쨷?섍쾶 ?⑸땲?? 寃곌뎅 ?덉궛??吏?ㅻ뒗 ?섏? ?섏?媛 ?꾨땲??援ъ“?먯꽌 ?섏샃?덈떎.
+            매일 예산을 다시 판단하면, ‘오늘만’이라는 예외가 늘어납니다. 락은 판단을 줄여 에너지를 아끼고, 대신 기록과 실행에
+            집중하게 합니다. 결국 예산을 지키는 힘은 의지가 아니라 구조에서 나옵니다.
           </p>
         </article>
       </section>
 
       <section class="card mt-24" aria-labelledby="seo-lock-flow-title">
-        <h2 id="seo-lock-flow-title">3踰?湲곕뒫 ?ъ슜 ?쒖꽌(沅뚯옣)</h2>
+        <h2 id="seo-lock-flow-title">3번 기능 사용 순서(권장)</h2>
         <p class="text-body mt-10">
-          ???섏씠吏???붾퀎 ?덉궛?덉쓣 ?쒓린以 ?곗씠?겸앸줈 留뚮뱶??怨쇱젙?낅땲?? ?꾨옒 ?쒖꽌?濡?吏꾪뻾?섎㈃ ?뺤젙/?댁젣/?ы솗?뺤씠 ?쇰????꾨땲??
-          愿由ъ쓽 ?붿쟻???⑸땲??
+          이 페이지는 월별 예산안을 “기준 데이터”로 만드는 과정입니다. 아래 순서대로 진행하면 확정/해제/재확정이 혼란이 아니라
+          관리의 흔적이 됩니다.
         </p>
         <ol class="text-body mt-16 mc-prose-steps">
           <li>
-            2踰?4踰덉뿉??留뚮뱺 ?덉궛 諛곕텇???뺤씤?⑸땲??
-            (<a href="../vision-budget/02_vision_allocation.html">2踰?/a>, <a href="../budget-simulator/04_budget_simulator.html">4踰?/a>)
+            2번/4번에서 만든 예산 배분을 확인합니다.
+            (<a href="../vision-budget/02_vision_allocation.html">2번</a>, <a href="../budget-simulator/04_budget_simulator.html">4번</a>)
           </li>
-          <li>湲곗? ?붿쓣 ?좏깮???대떦 ?붿쓽 ?곹깭(?몄쭛 媛???뺤젙)瑜??뺤씤?⑸땲??</li>
-          <li><strong>?뺤젙?섍린</strong>瑜??뚮윭 ?쎄린 ?꾩슜?쇰줈 蹂댄샇?섍퀬, ?댄썑 ?ㅼ쿇 ?곗씠?곕? ?볦뒿?덈떎.</li>
-          <li>議곌굔 蹂?붽? ?앷린硫?<strong>???댁젣</strong> ???섏젙?섍퀬, <strong>?ㅼ떆 ?뺤젙</strong>??湲곗????뚮났?⑸땲??</li>
+          <li>기준 월을 선택해 해당 월의 상태(편집 가능/확정)를 확인합니다.</li>
+          <li><strong>확정하기</strong>를 눌러 읽기 전용으로 보호하고, 이후 실천 데이터를 쌓습니다.</li>
+          <li>조건 변화가 생기면 <strong>락 해제</strong> 후 수정하고, <strong>다시 확정</strong>해 기준을 회복합니다.</li>
           <li>
-            ?볦씤 ?대젰? 11踰???꾨씪?멸낵 10踰?蹂듦린?먯꽌 鍮꾧탳 湲곗????⑸땲??
-            (<a href="../timeline/11_past_data_timeline.html">11踰?/a>, <a href="../monthly-review/10_monthly_budget_review.html">10踰?/a>)
+            쌓인 이력은 11번 타임라인과 10번 복기에서 비교 기준이 됩니다.
+            (<a href="../timeline/11_past_data_timeline.html">11번</a>, <a href="../monthly-review/10_monthly_budget_review.html">10번</a>)
           </li>
         </ol>
       </section>
 
       <section class="card mt-24" aria-labelledby="seo-lock-final-title">
-        <h2 id="seo-lock-final-title">?뺤젙???щ━??媛移섏? ?ㅻ깄??蹂댁〈 ?꾨왂</h2>
+        <h2 id="seo-lock-final-title">확정의 심리적 가치와 스냅샷 보존 전략</h2>
         <p class="text-body mt-10">
-          ?덉궛???앷퉴吏 吏?ㅻ뒗 ?щ엺怨? 以묎컙??臾대꼫吏???щ엺??李⑥씠???섏????ш린蹂대떎 ?쒓린以???붾뱾由???臾댁뾿??遺숈옟?붽??앹뿉
-          媛源앹뒿?덈떎. 3踰?湲곕뒫??<strong>?뺤젙</strong>? ?レ옄瑜??좉렇???됱쐞媛 ?꾨땲?? <strong>?먭린 ?쎌냽??怨좎젙?섎뒗 ?μ튂</strong>?낅땲??
-          湲곗???怨좎젙?섎㈃ 鍮꾧탳媛 媛?ν빐吏怨? 鍮꾧탳媛 媛?ν빐吏硫?媛쒖꽑??媛?ν빐吏묐땲?? 洹??쒓컙遺???덉궛? 媛먯젙???꾨땲??
-          <em>?숈뒿 媛?ν븳 ?쒖뒪??/em>???⑸땲??
+          예산을 끝까지 지키는 사람과, 중간에 무너지는 사람의 차이는 의지의 크기보다 “기준이 흔들릴 때 무엇을 붙잡는가”에
+          가깝습니다. 3번 기능의 <strong>확정</strong>은 숫자를 잠그는 행위가 아니라, <strong>자기 약속을 고정하는 장치</strong>입니다.
+          기준이 고정되면 비교가 가능해지고, 비교가 가능해지면 개선이 가능해집니다. 그 순간부터 예산은 감정이 아니라
+          <em>학습 가능한 시스템</em>이 됩니다.
         </p>
 
-        <div class="mc-borderless-stack mt-16" role="group" aria-label="???놁씠 ?щ갚?쇰줈 援щ텇???덈궡 釉붾줉">
+        <div class="mc-borderless-stack mt-16" role="group" aria-label="선 없이 여백으로 구분된 안내 블록">
           <article class="mc-borderless-item" aria-labelledby="seo-lock-h3-a">
-            <h3 id="seo-lock-h3-a">?몄쭛 媛?? ?ㅺ퀎???④퀎</h3>
+            <h3 id="seo-lock-h3-a">편집 가능: 설계의 단계</h3>
             <p class="text-body mt-10">
-              ???④퀎???쒖뼱??鍮꾩쑉?????앺솢??留욌뒗媛?앸? ?ㅽ뿕?섎뒗 援ш컙?낅땲?? 2踰덉뿉??怨좎젙 吏異쑣룸퉬???곹븳??留뚮뱺 ??
-              4踰덉뿉??Needs/Wants/Savings 鍮꾩쑉??議곗젙?섍퀬, 洹?寃곌낵瑜?3踰덉뿉????踰????뺤씤?⑸땲?? 以묒슂??寃껋? ?꾨꼍???꾨땲??
-              <strong>?ㅻ챸 媛?ν븳 湲곗?</strong>?낅땲??
+              이 단계는 “어떤 비율이 내 생활에 맞는가”를 실험하는 구간입니다. 2번에서 고정 지출·비전 상한을 만든 뒤,
+              4번에서 Needs/Wants/Savings 비율을 조정하고, 그 결과를 3번에서 한 번 더 확인합니다. 중요한 것은 완벽이 아니라
+              <strong>설명 가능한 기준</strong>입니다.
             </p>
             <ul class="text-body mt-12 mc-prose-list">
-              <li><strong>媛?ν븳 ?묒뾽</strong>: ?뚮뱷쨌諛곕텇 ?낅젰/?섏젙, 湲곗? ???좏깮</li>
-              <li><strong>異붿쿇 ?곹솴</strong>: ??珥? 怨꾪쉷???꾩쭅 ?쒓껐?뺚앹씠 ?꾨땲???쒓??뺚앹씪 ??/li>
+              <li><strong>가능한 작업</strong>: 소득·배분 입력/수정, 기준 월 선택</li>
+              <li><strong>추천 상황</strong>: 월 초, 계획이 아직 “결정”이 아니라 “가정”일 때</li>
             </ul>
           </article>
 
           <article class="mc-borderless-item" aria-labelledby="seo-lock-h3-b">
-            <h3 id="seo-lock-h3-b">?뺤젙(??: ?ㅽ뻾??湲곗?</h3>
+            <h3 id="seo-lock-h3-b">확정(락): 실행의 기준</h3>
             <p class="text-body mt-10">
-              ?뺤젙? ?섎궡媛 吏?????덈뒗 踰붿쐞?숇? ?좎뼵?섎뒗 ?됱쐞?낅땲?? ?대젃寃?湲곗???怨좎젙???먮㈃, ?곗씪由?湲곕줉?먯꽌 諛쒖깮?섎뒗 ?묒?
-              ?좏샊(1?먯쓽 媛移섍? ?볦씠??諛섎났 吏異????쒖삤?섎쭔?앹씠?쇰뒗 ?덉쇅濡???린 ?대졄?듬땲?? 洹????9踰?二쇨컙 由ы룷?몄? 10踰??붽컙
-              蹂듦린?먯꽌 <strong>蹂?섏? ?딅뒗 湲곗?</strong>?쇰줈 媛쒖꽑???⑸땲??
+              확정은 ‘내가 지킬 수 있는 범위’를 선언하는 행위입니다. 이렇게 기준을 고정해 두면, 데일리 기록에서 발생하는 작은
+              유혹(1원의 가치가 쌓이는 반복 지출)을 “오늘만”이라는 예외로 덮기 어렵습니다. 그 대신 9번 주간 리포트와 10번 월간
+              복기에서 <strong>변하지 않는 기준</strong>으로 개선을 합니다.
             </p>
             <ul class="text-body mt-12 mc-prose-list">
-              <li><strong>媛?ν븳 ?묒뾽</strong>: ?쎄린 ?꾩슜 ?좎?, ?대젰 ?꾩쟻, ?ㅻ깄???앹꽦</li>
-              <li><strong>異붿쿇 ?곹솴</strong>: ?ㅽ뻾쨌湲곕줉 ?④퀎, 鍮꾧탳 湲곗????붾뱾由щ㈃ ???섎뒗 湲곌컙</li>
+              <li><strong>가능한 작업</strong>: 읽기 전용 유지, 이력 누적, 스냅샷 생성</li>
+              <li><strong>추천 상황</strong>: 실행·기록 단계, 비교 기준이 흔들리면 안 되는 기간</li>
             </ul>
           </article>
 
           <article class="mc-borderless-item" aria-labelledby="seo-lock-h3-c">
-            <h3 id="seo-lock-h3-c">???댁젣: 議곌굔 蹂?붿쓽 諛섏쁺</h3>
+            <h3 id="seo-lock-h3-c">락 해제: 조건 변화의 반영</h3>
             <p class="text-body mt-10">
-              ???댁젣???섏떎?섃숆? ?꾨땲???섏“嫄?蹂?붴숈뿉 ?????묒엯?덈떎. 吏묒꽭쨌蹂댄뿕泥섎읆 援ъ“瑜?諛붽씀??鍮꾩슜???앷린硫? 湲곗????④릿 梨?
-              ?듭?濡?踰꾪떚湲곕낫??湲곗????낅뜲?댄듃?섍퀬 ?ㅼ떆 ?뺤젙?섎뒗 ?몄씠 ?κ린?곸쑝濡??덉젙?곸엯?덈떎. 以묒슂??寃껋? ?섏젙 洹??먯껜媛 ?꾨땲??
-              <strong>?섏젙???댁쑀瑜??대젰?쇰줈 ?④린??寃?/strong>?낅땲??
+              락 해제는 ‘실수’가 아니라 ‘조건 변화’에 대한 대응입니다. 집세·보험처럼 구조를 바꾸는 비용이 생기면, 기준을 숨긴 채
+              억지로 버티기보다 기준을 업데이트하고 다시 확정하는 편이 장기적으로 안정적입니다. 중요한 것은 수정 그 자체가 아니라
+              <strong>수정의 이유를 이력으로 남기는 것</strong>입니다.
             </p>
             <ul class="text-body mt-12 mc-prose-list">
-              <li><strong>媛?ν븳 ?묒뾽</strong>: ?섏젙 ???ы솗?? ?꽷룻썑 李⑥씠 湲곕줉</li>
-              <li><strong>異붿쿇 ?곹솴</strong>: 怨좎젙 吏異?蹂?? ?뚮뱷 援ъ“ 蹂?? 怨꾪쉷???꾩젣媛 諛붾?寃쎌슦</li>
+              <li><strong>가능한 작업</strong>: 수정 후 재확정, 전·후 차이 기록</li>
+              <li><strong>추천 상황</strong>: 고정 지출 변화, 소득 구조 변화, 계획의 전제가 바뀐 경우</li>
             </ul>
           </article>
         </div>
 
         <article class="mt-16" aria-labelledby="seo-lock-h3-snap">
-          <h3 id="seo-lock-h3-snap">?ㅻ깄??蹂댁〈???섎?: ?쒕굹??湲곗??앹쓣 蹂닿??섎뒗 諛⑸쾿</h3>
+          <h3 id="seo-lock-h3-snap">스냅샷 보존의 의미: “나의 기준”을 보관하는 방법</h3>
           <p class="text-body mt-10">
-            ?ㅻ깄?룹? ?⑥닚 諛깆뾽 ?뚯씪???꾨땲?? ?쒓렇 ?ъ쓽 ?섃앷? ?대뼡 湲곗??쇰줈 ?댁븯?붿?瑜???ν븯??湲곕줉?낅땲?? ?쒓컙??吏?섎㈃
-            ?щ엺? ?깃낵留?湲곗뼲?섍퀬 湲곗?? ?딆뒿?덈떎. ?ㅻ깄?룹? 湲곗????④꺼, ?ㅼ쓬 ???ㅺ퀎?먯꽌 怨쇱엵 ?숆??대굹 怨쇱엵 ?덈쭩??以꾩뿬 以띾땲??
-            寃곌낵?곸쑝濡??덉궛 ?ㅺ퀎??媛먯젙?먯꽌 硫?댁?怨? 諛섎났 媛?ν븳 ?숈뒿?쇰줈 諛붾앸땲??
+            스냅샷은 단순 백업 파일이 아니라, “그 달의 나”가 어떤 기준으로 살았는지를 저장하는 기록입니다. 시간이 지나면
+            사람은 성과만 기억하고 기준은 잊습니다. 스냅샷은 기준을 남겨, 다음 달 설계에서 과잉 낙관이나 과잉 절망을 줄여 줍니다.
+            결과적으로 예산 설계는 감정에서 멀어지고, 반복 가능한 학습으로 바뀝니다.
           </p>
         </article>
       </section>
 
       <footer class="page-foot mt-24 mb-20">
-        <p class="text-sm text-center">짤 2026 Money Calendar. All rights reserved.</p>
+        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
       </footer>
         </main>
       </div>
@@ -405,4 +379,3 @@ data-ad-height = "250"></ins>
     <script src="./budget-lock.js"></script>
   </body>
 </html>
-

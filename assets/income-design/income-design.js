@@ -82,6 +82,15 @@ function load() {
 
 function save() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(amounts));
+  try {
+    const demo = window.MoneyCalendarDemo;
+    if (demo && demo.isActive && demo.isActive()) {
+      const hasReal = grandTotal() > 0;
+      if (hasReal) demo.purge();
+    }
+  } catch {
+    /* ignore */
+  }
 }
 
 function wireMoneyInput(id, key) {

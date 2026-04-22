@@ -1,85 +1,60 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
 
-    <!-- ================== 湲곕낯 硫뷀? ?쒓렇 (SEO) ================== -->
-    <meta name="title" content="12. AI ?ъ젙 ?쇰뱶諛?쨌 Money Calendar" />
+    <!-- ================== 기본 메타 태그 (SEO) ================== -->
+    <meta name="title" content="12. AI 재정 피드백 · Money Calendar" />
     <meta
       name="description"
-      content="??λ맂 ?덉궛쨌?쒕?쨌?곗씪由??곗씠?곕? 諛뷀깢?쇰줈 ?꾧퀎媛?洹쒖튃?쇰줈 寃쎄퀬쨌移?갔쨌由щ쭏?몃뱶瑜??앹꽦???ㅼ쓬 ?됰룞???쒖븞?⑸땲??"
+      content="저장된 예산·시뮬·데일리 데이터를 바탕으로 임계값 규칙으로 경고·칭찬·리마인드를 생성해 다음 행동을 제안합니다."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://money-calender.netlify.app/ai-feedback/12_ai_finance_feedback.html" />
+    <meta property="og:title" content="12. AI 재정 피드백 · Money Calendar" />
+    <meta property="og:description" content="저장된 예산·시뮬·데일리 데이터를 바탕으로 임계값 규칙으로 경고·칭찬·리마인드를 생성해 다음 행동을 제안합니다." />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="Money Calendar" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="12. AI 재정 피드백 · Money Calendar" />
+    <meta name="twitter:description" content="저장된 예산·시뮬·데일리 데이터를 바탕으로 임계값 규칙으로 경고·칭찬·리마인드를 생성해 다음 행동을 제안합니다." />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <link rel="canonical" href="https://money-calender.netlify.app/ai-feedback/12_ai_finance_feedback.html" />
+
     <meta
       name="keywords"
-      content="AI ?ъ젙 ?쇰뱶諛? ?덉궛 肄붿묶, 吏異?寃쎄퀬, ?뚮퉬 ?듦?, ?꾧퀎媛?洹쒖튃, ?곗씠??湲곕컲 ?쇰뱶諛? Money Calendar, ?묒?"
+      content="AI 재정 피드백, 예산 코칭, 지출 경고, 소비 습관, 임계값 규칙, 데이터 기반 피드백, Money Calendar, 엑셀"
     />
     <meta name="author" content="Money Calendar" />
     <meta name="robots" content="index, follow" />
 
-    <!-- ================== Open Graph 硫뷀? ?쒓렇 (SNS 怨듭쑀: Facebook, Kakao ?? ================== -->
-    <meta property="og:title" content="12. AI ?ъ젙 ?쇰뱶諛?쨌 Money Calendar" />
-    <meta
-      property="og:description"
-      content="??λ맂 ?덉궛쨌?쒕?쨌?곗씪由??곗씠?곕? 諛뷀깢?쇰줈 ?꾧퀎媛?洹쒖튃?쇰줈 寃쎄퀬쨌移?갔쨌由щ쭏?몃뱶瑜??앹꽦???ㅼ쓬 ?됰룞???쒖븞?⑸땲??"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="./12_ai_finance_feedback.html" />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:image:alt" content="Money Calendar ?꾩씠肄? />
-    <meta property="og:site_name" content="Money Calendar" />
-    <meta property="og:locale" content="ko_KR" />
 
-    <!-- ================== Twitter 移대뱶 硫뷀? ?쒓렇 ================== -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="12. AI ?ъ젙 ?쇰뱶諛?쨌 Money Calendar" />
-    <meta
-      name="twitter:description"
-      content="??λ맂 ?덉궛쨌?쒕?쨌?곗씪由??곗씠?곕? 諛뷀깢?쇰줈 ?꾧퀎媛?洹쒖튃?쇰줈 寃쎄퀬쨌移?갔쨌由щ쭏?몃뱶瑜??앹꽦???ㅼ쓬 ?됰룞???쒖븞?⑸땲??"
-    />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
-    <meta name="twitter:image:alt" content="Money Calendar ?꾩씠肄? />
-    <meta name="twitter:site" content="Money Calendar" />
-    <meta name="twitter:creator" content="Money Calendar" />
-
-    <!-- ================== SEO 諛??ъ슜??寃쏀뿕 蹂댁셿 ?쒓렇 ================== -->
+    <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="language" content="ko" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="canonical" href="./12_ai_finance_feedback.html" />
 
-    <!-- ================== ?뱀빋 諛?釉뚮씪?곗? 理쒖쟻??================== -->
+    <!-- ================== 웹앱 및 브라우저 최적화 ================== -->
     <meta name="theme-color" content="#ffffff" />
     <meta name="application-name" content="Money Calendar" />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
 
-    <link rel="icon" href="/assets/images/icon/favicon.ico?v=2" type="image/x-icon">
-    <link rel="shortcut icon" href="/assets/images/icon/favicon.png?v=2" type="image/png">
-    <link rel="apple-touch-icon" href="/assets/images/icon/favicon.png?v=2">
-    <link rel="manifest" href="/site.webmanifest?v=2">
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+    <link rel="manifest" href="../../site.webmanifest">
 
-    <title>12. AI ?ъ젙 ?쇰뱶諛?쨌 Money Calendar</title>
+    <title>12. AI 재정 피드백 · Money Calendar</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
     />
-    <!-- OG/CANONICAL START: money-calender.netlify.app -->
-    <meta property="og:url" content="https://money-calender.netlify.app/assets/ai-feedback/12_ai_finance_feedback.html" />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <meta property="og:image:type" content="image/webp" />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <link rel="canonical" href="https://money-calender.netlify.app/assets/ai-feedback/12_ai_finance_feedback.html" />
-    <!-- OG/CANONICAL END -->
     <script src="../js/theme.js"></script>
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/journal-shell.css" />
@@ -90,7 +65,7 @@
     <script>
       window.__MC_ASSETS_BASE = "..";
     </script>
-    <a class="skip-link" href="#main">蹂몃Ц?쇰줈 嫄대꼫?곌린</a>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
     <header class="mc-global-header" role="banner">
       <div class="container mc-global-header__inner">
         <a class="mc-brand" href="../index.html">
@@ -107,11 +82,11 @@
           </span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">12. AI ?ъ젙 ?쇰뱶諛?/span>
+            <span class="mc-brand__page">12. AI 재정 피드백</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
-          <button class="theme-toggle" type="button" data-theme-toggle aria-label="?뚮쭏 ?꾪솚" aria-pressed="false">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
             <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
             <span class="theme-toggle__thumb" aria-hidden="true"></span>
             <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
@@ -119,7 +94,7 @@
           <button
             class="mc-hamburger hamburger"
             type="button"
-            aria-label="硫붾돱 ?닿린"
+            aria-label="메뉴 열기"
             aria-controls="drawer"
             aria-expanded="false"
             id="drawer-open"
@@ -129,16 +104,16 @@
         </div>
       </div>
     </header>
-    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="湲곕뒫 硫붾돱" hidden>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
       <div class="drawer__backdrop" data-drawer-close></div>
       <div class="drawer__panel" role="document">
         <div class="drawer__top">
-          <p class="drawer__title">癒몃땲 罹섎┛??/p>
-          <button class="drawer__close" type="button" aria-label="硫붾돱 ?リ린" data-drawer-close>?リ린</button>
+          <p class="drawer__title">머니 캘린더</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
-        <nav class="drawer__nav" id="mc-drawer-list" aria-label="湲곕뒫 1~15"></nav>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">遺꾩꽍? 釉뚮씪?곗? ??洹쒖튃 ?붿쭊?쇰줈 ?섑뻾?⑸땲??</p>
+          <p class="text-sm">분석은 브라우저 내 규칙 엔진으로 수행됩니다.</p>
         </div>
       </div>
     </div>
@@ -146,153 +121,152 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">12. AI ?ъ젙 ?쇰뱶諛?/h1>
-            <p class="mc-page-intro__kicker">12 쨌 AI ?ъ젙 ?쇰뱶諛?/p>
+            <h1 class="mc-page-intro__title">12. AI 재정 피드백</h1>
+            <p class="mc-page-intro__kicker">12 · AI 재정 피드백</p>
             <p class="mc-page-intro__lead text-body">
-              ??λ맂 ?덉궛쨌?쒕?쨌?곗씪由??곗씠?곕? ?쎌뼱 ?꾧퀎媛?洹쒖튃?쇰줈 寃쎄퀬쨌移?갔 硫붿떆吏瑜??앹꽦?⑸땲?? ?몃? LLM API???ъ슜?섏?
-              ?딆뒿?덈떎.
+              저장된 예산·시뮬·데일리 데이터를 읽어 임계값 규칙으로 경고·칭찬 메시지를 생성합니다. 외부 LLM API는 사용하지
+              않습니다.
             </p>
           </header>
-
-<ins class="kakao_ad_area" style="display:none;"
-data-ad-unit = "DAN-jGaTWdkt4JHwlfwT"
-data-ad-width = "300"
-data-ad-height = "250"></ins>
-<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-
           <div id="excel-control-root" class="mc-excel-slot"></div>
           <section class="card mt-24">
             <ul id="ai-list" class="ai-list"></ul>
           </section>
 
+          <ins class="kakao_ad_area" style="display:none;"
+          data-ad-unit = "DAN-jGaTWdkt4JHwlfwT"
+          data-ad-width = "300"
+          data-ad-height = "250"></ins>
+          <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
           <section class="card mt-24" aria-labelledby="seo-title">
-            <h2 id="seo-title">AI ?ъ젙 ?쇰뱶諛? 湲곕줉???쒗뻾??蹂?붴앸줈 諛붽씀??肄붿묶 ?쒖뒪??/h2>
+            <h2 id="seo-title">AI 재정 피드백: 기록을 “행동 변화”로 바꾸는 코칭 시스템</h2>
             <p class="text-body mt-10">
-              AI ?ъ젙 ?쇰뱶諛깆쓽 紐⑺몴???섏젙???덉궛?숈쓣 ?쒖떆?섎뒗 寃껋씠 ?꾨땲?? ?ъ슜?먭? ?대? ??ν빐 ???덉궛쨌?쒕??덉씠?샕룸뜲?쇰━ 湲곕줉??
-              諛뷀깢?쇰줈 <strong>吏湲?諛붽씀湲??ъ슫 ?됰룞</strong>???쒖븞?섎뒗 寃껋엯?덈떎. ???⑥쐞濡?怨꾪쉷???몄썙?? ?섎（ ?⑥쐞???좏깮??
-              ?꾩쟻?섎㈃ 怨꾪쉷? ?쎄쾶 ?붾뱾由쎈땲?? ?대븣 ?щ엺? ?쒖솢 ?ㅽ뙣?덈뒗吏?앸? ?뺥솗??湲곗뼲?섏? 紐삵븯怨? 媛먯젙?곸쑝濡??먯떊???됯???
-              ?ㅼ쓬 怨꾪쉷??怨쇰룄?섍쾶 議곗씠嫄곕굹 諛섎?濡??ш린??踰꾨━湲곕룄 ?⑸땲?? 12踰?湲곕뒫? ?꾧퀎媛?洹쒖튃 湲곕컲??硫붿떆吏瑜??듯빐
-              <strong>寃쎄퀬쨌移?갔쨌由щ쭏?몃뱶</strong>瑜??쒓났?섍퀬, 蹂듭옟???곗씠?곕? ??臾몄옣?쇰줈 ?붿빟???ㅼ쓬 ?됰룞???⑥닚?뷀빀?덈떎.
+              AI 재정 피드백의 목표는 ‘정답 예산’을 제시하는 것이 아니라, 사용자가 이미 저장해 둔 예산·시뮬레이션·데일리 기록을
+              바탕으로 <strong>지금 바꾸기 쉬운 행동</strong>을 제안하는 것입니다. 월 단위로 계획을 세워도, 하루 단위의 선택이
+              누적되면 계획은 쉽게 흔들립니다. 이때 사람은 “왜 실패했는지”를 정확히 기억하지 못하고, 감정적으로 자신을 평가해
+              다음 계획을 과도하게 조이거나 반대로 포기해 버리기도 합니다. 12번 기능은 임계값 규칙 기반의 메시지를 통해
+              <strong>경고·칭찬·리마인드</strong>를 제공하고, 복잡한 데이터를 한 문장으로 요약해 다음 행동을 단순화합니다.
             </p>
             <p class="text-body mt-10">
-              ?먰븳 ??湲곕뒫? ?몃? LLM API瑜??ъ슜?섏? ?딄퀬, 釉뚮씪?곗? ??洹쒖튃 ?붿쭊?쇰줈 ?먮떒?⑸땲?? ?곕씪??誘쇨컧???щТ ?곗씠?곌?
-              ?몃?濡??꾩넚?섏? ?딆쑝硫? ?ъ슜?먮뒗 ?섎궡 湲곕줉???닿? ?듭젣?쒕떎?숇뒗 ?덉젙媛??띿뿉???쇰뱶諛깆쓣 諛쏆쓣 ???덉뒿?덈떎. ?대윴
-              ?덉쟾???쇰뱶諛?猷⑦봽???κ린?곸쑝濡?<strong>鍮꾩쟾 ?덉궛(2踰?</strong>怨?<strong>?덉궛 ??3踰?</strong>??吏?띿꽦??
-              媛뺥솕?섎뒗 ??븷???⑸땲??
+              또한 이 기능은 외부 LLM API를 사용하지 않고, 브라우저 내 규칙 엔진으로 판단합니다. 따라서 민감한 재무 데이터가
+              외부로 전송되지 않으며, 사용자는 ‘내 기록을 내가 통제한다’는 안정감 속에서 피드백을 받을 수 있습니다. 이런
+              안전한 피드백 루프는 장기적으로 <strong>비전 예산(2번)</strong>과 <strong>예산 락(3번)</strong>의 지속성을
+              강화하는 역할을 합니다.
             </p>
           </section>
 
           <section class="card mt-24" aria-labelledby="seo-rule-title">
-            <h2 id="seo-rule-title">?쇰뱶諛깆씠 留뚮뱾?댁???湲곗?: ?꾧퀎媛?洹쒖튃???듭떖 援ъ“</h2>
+            <h2 id="seo-rule-title">피드백이 만들어지는 기준: 임계값 규칙의 핵심 구조</h2>
             <p class="text-body mt-10">
-              ?쇰뱶諛?硫붿떆吏???쒓린遺꾟앹씠 ?꾨땲??洹쒖튃?쇰줈 留뚮뱾?댁쭛?덈떎. 洹쒖튃??紐낇솗?좎닔濡??ъ슜?먮뒗 ?⑸뱷?섍린 ?쎄퀬, ?됰룞?쇰줈 ??린湲?
-              ?ъ썙吏묐땲?? ?꾨옒 ?쒕뒗 AI ?ъ젙 ?쇰뱶諛깆씠 ?먯＜ ?ъ슜?섎뒗 ?꾧퀎媛?湲곗????덉떆濡??뺣━??寃껋엯?덈떎.
+              피드백 메시지는 “기분”이 아니라 규칙으로 만들어집니다. 규칙이 명확할수록 사용자는 납득하기 쉽고, 행동으로 옮기기
+              쉬워집니다. 아래 표는 AI 재정 피드백이 자주 사용하는 임계값 기준을 예시로 정리한 것입니다.
             </p>
             <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="AI ?ъ젙 ?쇰뱶諛??꾧퀎媛?洹쒖튃 ?덉떆 ??>
+              <table class="data-table mc-table-centered" aria-label="AI 재정 피드백 임계값 규칙 예시 표">
                 <thead>
                   <tr>
-                    <th scope="col">遺꾨쪟</th>
-                    <th scope="col">愿痢?吏??/th>
-                    <th scope="col">?먮떒 湲곗?(?꾧퀎媛?</th>
-                    <th scope="col">沅뚯옣 硫붿떆吏 諛⑺뼢</th>
+                    <th scope="col">분류</th>
+                    <th scope="col">관측 지표</th>
+                    <th scope="col">판단 기준(임계값)</th>
+                    <th scope="col">권장 메시지 방향</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>寃쎄퀬</strong></td>
-                    <td>Wants 吏異?鍮꾩쨷</td>
-                    <td>??以묐컲 ?댁쟾??怨꾪쉷 ?鍮?怨쇰룄</td>
-                    <td>?잛닔/?곹븳 洹쒖튃?쇰줈 利됱떆 議곗젙 ?쒖븞</td>
+                    <td><strong>경고</strong></td>
+                    <td>Wants 지출 비중</td>
+                    <td>월 중반 이전에 계획 대비 과도</td>
+                    <td>횟수/상한 규칙으로 즉시 조정 제안</td>
                   </tr>
                   <tr>
-                    <td><strong>移?갔</strong></td>
-                    <td>?좎?異??異??ㅽ뻾</td>
-                    <td>怨꾪쉷???異뺤씠 袁몄????좎?</td>
-                    <td>?깃낵瑜??몄뼱?뷀빐 吏?띿꽦 媛뺥솕</td>
+                    <td><strong>칭찬</strong></td>
+                    <td>선저축/저축 실행</td>
+                    <td>계획한 저축이 꾸준히 유지</td>
+                    <td>성과를 언어화해 지속성 강화</td>
                   </tr>
                   <tr>
-                    <td><strong>二쇱쓽</strong></td>
-                    <td>Needs 湲됰벑</td>
-                    <td>?ш굔??吏異쒖씠 諛섎났(2???댁긽)</td>
-                    <td>?덈퉬鍮?踰꾪띁 ?덉궛 ?ㅺ퀎濡??꾪솚</td>
+                    <td><strong>주의</strong></td>
+                    <td>Needs 급등</td>
+                    <td>사건성 지출이 반복(2회 이상)</td>
+                    <td>예비비/버퍼 예산 설계로 전환</td>
                   </tr>
                   <tr>
-                    <td><strong>由щ쭏?몃뱶</strong></td>
-                    <td>湲곕줉 ?꾨씫/吏??/td>
-                    <td>湲곕줉 怨듬갚???곗냽?쇰줈 諛쒖깮</td>
-                    <td>鍮좊Ⅸ ?낅젰(5踰??쇰줈 蹂듦? ?좊룄</td>
+                    <td><strong>리마인드</strong></td>
+                    <td>기록 누락/지연</td>
+                    <td>기록 공백이 연속으로 발생</td>
+                    <td>빠른 입력(5번)으로 복귀 유도</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <ul class="text-body mt-16 mc-prose-list">
-              <li><strong>紐낇솗??/strong>: 硫붿떆吏媛 ?좊ℓ?섎㈃ ?됰룞????뼱吏묐땲?? ??臾몄옣, ??洹쒖튃???④낵?곸엯?덈떎.</li>
-              <li><strong>??대컢</strong>: ?붾쭚 ?됯?蹂대떎 ?쒖썡以?議곗젙?앹씠 鍮꾩슜??以꾩엯?덈떎.</li>
-              <li><strong>?ы쁽??/strong>: 媛숈? ?곹솴?대㈃ 媛숈? ?쇰뱶諛깆씠 ?섏????좊ː媛 ?볦엯?덈떎.</li>
+              <li><strong>명확성</strong>: 메시지가 애매하면 행동이 늦어집니다. 한 문장, 한 규칙이 효과적입니다.</li>
+              <li><strong>타이밍</strong>: 월말 평가보다 “월중 조정”이 비용을 줄입니다.</li>
+              <li><strong>재현성</strong>: 같은 상황이면 같은 피드백이 나와야 신뢰가 쌓입니다.</li>
             </ul>
           </section>
 
           <section class="card mt-24" aria-labelledby="seo-action-title">
-            <h2 id="seo-action-title">?쇰뱶諛깆쓣 ?ㅽ뻾?쇰줈 ?곌껐?섎뒗 諛⑸쾿: ?ㅼ쓬 ?붾㈃?쇰줈 ?댁뼱吏??猷⑦듃</h2>
+            <h2 id="seo-action-title">피드백을 실행으로 연결하는 방법: 다음 화면으로 이어지는 루트</h2>
             <p class="text-body mt-10">
-              ?쇰뱶諛깆? ?쎈뒗 ?쒓컙蹂대떎, ?ㅼ쓬 ?됰룞?쇰줈 ?댁뼱吏???媛移섍? 而ㅼ쭛?덈떎. 12踰??붾㈃?먯꽌 ?섏삩 硫붿떆吏???쒕떦??湲곕줉??蹂댁셿?좎???
-              ?쒖삁??援ъ“瑜?諛붽?吏?? ?쒕퉬????ぉ???ㅼ떆 ?곗꽑?쒖쐞?뷀븷吏?앸줈 媛덈┰?덈떎. ?꾨옒 ?쒕뒗 ?쇰뱶諛??좏삎蹂꾨줈 ?곌껐?섎㈃ 醫뗭? 湲곕뒫怨?
-              ?ㅼ쭏?곸씤 ?ㅼ쓬 ?≪뀡???뺣━?⑸땲??
+              피드백은 읽는 순간보다, 다음 행동으로 이어질 때 가치가 커집니다. 12번 화면에서 나온 메시지는 “당장 기록을 보완할지”,
+              “예산 구조를 바꿀지”, “비전 항목을 다시 우선순위화할지”로 갈립니다. 아래 표는 피드백 유형별로 연결하면 좋은 기능과
+              실질적인 다음 액션을 정리합니다.
             </p>
             <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="AI ?쇰뱶諛??꾩냽 ?≪뀡 ?곌껐 ??>
+              <table class="data-table mc-table-centered" aria-label="AI 피드백 후속 액션 연결 표">
                 <thead>
                   <tr>
-                    <th scope="col">?쇰뱶諛??좏삎</th>
-                    <th scope="col">?먯＜ ?깆옣?섎뒗 ?곹솴</th>
-                    <th scope="col">?곌껐 湲곕뒫</th>
-                    <th scope="col">?ㅼ쓬 ?≪뀡</th>
+                    <th scope="col">피드백 유형</th>
+                    <th scope="col">자주 등장하는 상황</th>
+                    <th scope="col">연결 기능</th>
+                    <th scope="col">다음 액션</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>吏異?怨쇱냽 寃쎄퀬</td>
-                    <td>Wants媛 怨꾪쉷???욎?由?/td>
-                    <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5踰?/strong></a></td>
-                    <td>?ㅻ뒛遺???쒗슏???쒗븳??1媛쒕? ?곸슜</td>
+                    <td>지출 과속 경고</td>
+                    <td>Wants가 계획을 앞지름</td>
+                    <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a></td>
+                    <td>오늘부터 “횟수 제한” 1개를 적용</td>
                   </tr>
                   <tr>
-                    <td>怨좎젙鍮?援ъ“ ?먭?</td>
-                    <td>Needs媛 援ъ“?곸쑝濡??믪쓬</td>
-                    <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4踰?/strong></a></td>
-                    <td>?泥??쒕굹由ъ삤濡?怨좎젙鍮?1媛?議곗젙</td>
+                    <td>고정비 구조 점검</td>
+                    <td>Needs가 구조적으로 높음</td>
+                    <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a></td>
+                    <td>대체 시나리오로 고정비 1개 조정</td>
                   </tr>
                   <tr>
-                    <td>鍮꾩쟾 ?ъ깮 寃쎄퀬</td>
-                    <td>Savings媛 ?붾쭚?먮쭔 ?⑥쓬</td>
-                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2踰?/strong></a></td>
-                    <td>?좎?異?鍮꾩쑉??癒쇱? ?뺣낫???쒖꽌 怨좎젙</td>
+                    <td>비전 희생 경고</td>
+                    <td>Savings가 월말에만 남음</td>
+                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2번</strong></a></td>
+                    <td>선저축 비율을 먼저 확보해 순서 고정</td>
                   </tr>
                   <tr>
-                    <td>湲곗? 怨좎젙 沅뚭퀬</td>
-                    <td>怨꾪쉷???먯＜ 諛붾뚯뼱 鍮꾧탳 遺덇?</td>
-                    <td><a href="../budget-lock/03_budget_lock.html"><strong>3踰?/strong></a></td>
-                    <td>????湲곗??좎쓣 ?쎌쑝濡?怨좎젙 ??蹂듦린</td>
+                    <td>기준 고정 권고</td>
+                    <td>계획이 자주 바뀌어 비교 불가</td>
+                    <td><a href="../budget-lock/03_budget_lock.html"><strong>3번</strong></a></td>
+                    <td>한 달 기준선을 락으로 고정 후 복기</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <p class="text-body mt-16">
-              ???곌껐 援ъ“ ?뺣텇??12踰?湲곕뒫? ?쒕텇?앸쭔 ?섎뒗 ?섏씠吏?앷? ?꾨땲?? ?ㅺ퀎? ?ㅽ뻾???ㅼ떆 臾띕뒗 ?덈툕媛 ?⑸땲??
-              寃곌뎅 鍮꾩쟾? ??寃곗떖?쇰줈 吏耳쒖???寃껋씠 ?꾨땲?? ?묒? 洹쒖튃怨?鍮좊Ⅸ ?쇰뱶諛깆쑝濡??좎??⑸땲?? AI ?ъ젙 ?쇰뱶諛깆? 洹?怨쇱젙??
-              留ㅼ씪 諛섎났 媛?ν븳 猷⑦떞?쇰줈 諛붽퓠?덈떎.
+              이 연결 구조 덕분에 12번 기능은 “분석만 하는 페이지”가 아니라, 설계와 실행을 다시 묶는 허브가 됩니다.
+              결국 비전은 큰 결심으로 지켜지는 것이 아니라, 작은 규칙과 빠른 피드백으로 유지됩니다. AI 재정 피드백은 그 과정을
+              매일 반복 가능한 루틴으로 바꿉니다.
             </p>
             <p class="text-body mt-10">
-              ???섏븘媛 ?ъ슜?먮뒗 ?쇰뱶諛깆쓣 ?듯빐 ?섎궡媛 ?대뼡 ?뚮퉬???좏삎?몄??숇? 鍮좊Ⅴ寃??숈뒿?⑸땲?? 媛숈? ?ъ쓽 湲곕줉?먯꽌???щ엺留덈떎
-              ?붾뱾由щ뒗 吏?먯씠 ?ㅻ쫭?덈떎. ?꾧뎔媛??二쇱감 ?⑦꽩??媛뺥븯怨? ?꾧뎔媛???낃툑 吏곹썑 ?뚮퉬媛 媛뺥븯硫? ???ㅻⅨ ?щ엺? ?뚮컻 吏異쒖씠
-              諛섎났?⑸땲?? 12踰?湲곕뒫? ??李⑥씠瑜??쒕늿???쒕윭?댁뼱, 遺덊븘?뷀븳 二꾩콉媛먯쓣 以꾩씠怨?
-              <strong>媛쒖씤?붾맂 媛쒖꽑 ?ъ씤??/strong>瑜?醫곹? 以띾땲?? ??怨쇱젙???볦씠硫? ?덉궛? ?듭븬???꾨땲???섎궡 ?띠쓣 ?ㅻ챸?섎뒗 紐⑤뜽?숈씠
-              ?섍퀬, 鍮꾩쟾? 異붿긽?곸씤 紐⑺몴媛 ?꾨땲???ъ꽦 媛?ν븳 ?쇱젙?쒓? ?⑸땲??
+              더 나아가 사용자는 피드백을 통해 ‘내가 어떤 소비자 유형인지’를 빠르게 학습합니다. 같은 달의 기록에서도 사람마다
+              흔들리는 지점이 다릅니다. 누군가는 주차 패턴이 강하고, 누군가는 입금 직후 소비가 강하며, 또 다른 사람은 돌발 지출이
+              반복됩니다. 12번 기능은 이 차이를 한눈에 드러내어, 불필요한 죄책감을 줄이고
+              <strong>개인화된 개선 포인트</strong>를 좁혀 줍니다. 이 과정이 쌓이면, 예산은 억압이 아니라 ‘내 삶을 설명하는 모델’이
+              되고, 비전은 추상적인 목표가 아니라 달성 가능한 일정표가 됩니다.
             </p>
           </section>
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">짤 2026 Money Calendar. All rights reserved.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
           </footer>
         </main>
       </div>
@@ -304,4 +278,3 @@ data-ad-height = "250"></ins>
     <script src="./ai-feedback.js"></script>
   </body>
 </html>
-

@@ -1,85 +1,60 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
 
-    <!-- ================== 湲곕낯 硫뷀? ?쒓렇 (SEO) ================== -->
-    <meta name="title" content="14. 鍮꾩쟾 ?ъ꽦 ?쒕??덉씠??쨌 Money Calendar" />
+    <!-- ================== 기본 메타 태그 (SEO) ================== -->
+    <meta name="title" content="14. 비전 달성 시뮬레이터 · Money Calendar" />
     <meta
       name="description"
-      content="???좊떦 鍮꾩쟾??諛뷀깢?쇰줈 ?먯궛 ?깆옣 怨≪꽑???쒕??덉씠?섑븯怨?紐⑺몴 ?ъ꽦 媛?μ꽦???쒓컖?곸쑝濡??뺤씤?⑸땲??"
+      content="월 할당 비전을 바탕으로 자산 성장 곡선을 시뮬레이션하고 목표 달성 가능성을 시각적으로 확인합니다."
     />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://money-calender.netlify.app/vision-simulator/14_vision_goal_simulator.html" />
+    <meta property="og:title" content="14. 비전 달성 시뮬레이터 · Money Calendar" />
+    <meta property="og:description" content="월 할당 비전을 바탕으로 자산 성장 곡선을 시뮬레이션하고 목표 달성 가능성을 시각적으로 확인합니다." />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="Money Calendar" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="14. 비전 달성 시뮬레이터 · Money Calendar" />
+    <meta name="twitter:description" content="월 할당 비전을 바탕으로 자산 성장 곡선을 시뮬레이션하고 목표 달성 가능성을 시각적으로 확인합니다." />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <link rel="canonical" href="https://money-calender.netlify.app/vision-simulator/14_vision_goal_simulator.html" />
+
     <meta
       name="keywords"
-      content="鍮꾩쟾 ?ъ꽦 ?쒕??덉씠?? 紐⑺몴 ?쒕??덉씠?? ?먯궛 ?깆옣 怨≪꽑, 蹂듬━, ???곷┰, D-Day, ?섏씡瑜?媛?? Money Calendar"
+      content="비전 달성 시뮬레이터, 목표 시뮬레이션, 자산 성장 곡선, 복리, 월 적립, D-Day, 수익률 가정, Money Calendar"
     />
     <meta name="author" content="Money Calendar" />
     <meta name="robots" content="index, follow" />
 
-    <!-- ================== Open Graph 硫뷀? ?쒓렇 (SNS 怨듭쑀: Facebook, Kakao ?? ================== -->
-    <meta property="og:title" content="14. 鍮꾩쟾 ?ъ꽦 ?쒕??덉씠??쨌 Money Calendar" />
-    <meta
-      property="og:description"
-      content="???좊떦 鍮꾩쟾??諛뷀깢?쇰줈 ?먯궛 ?깆옣 怨≪꽑???쒕??덉씠?섑븯怨?紐⑺몴 ?ъ꽦 媛?μ꽦???쒓컖?곸쑝濡??뺤씤?⑸땲??"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="./14_vision_goal_simulator.html" />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
-    <meta property="og:image:width" content="512" />
-    <meta property="og:image:height" content="512" />
-    <meta property="og:image:alt" content="Money Calendar ?꾩씠肄? />
-    <meta property="og:site_name" content="Money Calendar" />
-    <meta property="og:locale" content="ko_KR" />
 
-    <!-- ================== Twitter 移대뱶 硫뷀? ?쒓렇 ================== -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="14. 鍮꾩쟾 ?ъ꽦 ?쒕??덉씠??쨌 Money Calendar" />
-    <meta
-      name="twitter:description"
-      content="???좊떦 鍮꾩쟾??諛뷀깢?쇰줈 ?먯궛 ?깆옣 怨≪꽑???쒕??덉씠?섑븯怨?紐⑺몴 ?ъ꽦 媛?μ꽦???쒓컖?곸쑝濡??뺤씤?⑸땲??"
-    />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
-    <meta name="twitter:image:alt" content="Money Calendar ?꾩씠肄? />
-    <meta name="twitter:site" content="Money Calendar" />
-    <meta name="twitter:creator" content="Money Calendar" />
-
-    <!-- ================== SEO 諛??ъ슜??寃쏀뿕 蹂댁셿 ?쒓렇 ================== -->
+    <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="language" content="ko" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=no" />
-    <link rel="canonical" href="./14_vision_goal_simulator.html" />
 
-    <!-- ================== ?뱀빋 諛?釉뚮씪?곗? 理쒖쟻??================== -->
+    <!-- ================== 웹앱 및 브라우저 최적화 ================== -->
     <meta name="theme-color" content="#ffffff" />
     <meta name="application-name" content="Money Calendar" />
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
 
-    <link rel="icon" href="/assets/images/icon/favicon.ico?v=2" type="image/x-icon">
-    <link rel="shortcut icon" href="/assets/images/icon/favicon.png?v=2" type="image/png">
-    <link rel="apple-touch-icon" href="/assets/images/icon/favicon.png?v=2">
-    <link rel="manifest" href="/site.webmanifest?v=2">
+    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
+    <link rel="manifest" href="../../site.webmanifest">
 
-    <title>14. 鍮꾩쟾 ?ъ꽦 ?쒕??덉씠??쨌 Money Calendar</title>
+    <title>14. 비전 달성 시뮬레이터 · Money Calendar</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
     />
-    <!-- OG/CANONICAL START: money-calender.netlify.app -->
-    <meta property="og:url" content="https://money-calender.netlify.app/assets/vision-simulator/14_vision_goal_simulator.html" />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <meta property="og:image:type" content="image/webp" />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <link rel="canonical" href="https://money-calender.netlify.app/assets/vision-simulator/14_vision_goal_simulator.html" />
-    <!-- OG/CANONICAL END -->
     <script src="../js/theme.js"></script>
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/journal-shell.css" />
@@ -90,7 +65,7 @@
     <script>
       window.__MC_ASSETS_BASE = "..";
     </script>
-    <a class="skip-link" href="#main">蹂몃Ц?쇰줈 嫄대꼫?곌린</a>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
     <header class="mc-global-header" role="banner">
       <div class="container mc-global-header__inner">
@@ -108,11 +83,11 @@
           </span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">14. 鍮꾩쟾 ?ъ꽦 ?쒕??덉씠??/span>
+            <span class="mc-brand__page">14. 비전 달성 시뮬레이터</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
-          <button class="theme-toggle" type="button" data-theme-toggle aria-label="?뚮쭏 ?꾪솚" aria-pressed="false">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
             <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
             <span class="theme-toggle__thumb" aria-hidden="true"></span>
             <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
@@ -120,7 +95,7 @@
           <button
             class="mc-hamburger hamburger"
             type="button"
-            aria-label="硫붾돱 ?닿린"
+            aria-label="메뉴 열기"
             aria-controls="drawer"
             aria-expanded="false"
             id="drawer-open"
@@ -131,16 +106,16 @@
       </div>
     </header>
 
-    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="湲곕뒫 硫붾돱" hidden>
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
       <div class="drawer__backdrop" data-drawer-close></div>
       <div class="drawer__panel" role="document">
         <div class="drawer__top">
-          <p class="drawer__title">媛怨꾨? ?쒕━利?/p>
-          <button class="drawer__close" type="button" aria-label="硫붾돱 ?リ린" data-drawer-close>?リ린</button>
+          <p class="drawer__title">가계부 시리즈</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
-        <nav class="drawer__nav" id="mc-drawer-list" aria-label="湲곕뒫 1~15"></nav>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
         <div class="drawer__meta">
-          <p class="text-sm">2踰덉뿉??鍮꾩쟾??遺숈씤 ?? ?닿납?먯꽌 ?깆옣 怨≪꽑怨??꾩꽦??鍮꾩쑀瑜??④퍡 ?뺤씤?섏꽭??</p>
+          <p class="text-sm">2번에서 비전을 붙인 뒤, 이곳에서 성장 곡선과 완성도 비유를 함께 확인하세요.</p>
         </div>
       </div>
     </div>
@@ -149,27 +124,20 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">14. 鍮꾩쟾 ?ъ꽦 ?쒕??덉씠??/h1>
-            <p class="mc-page-intro__kicker mc-intro-single-line">14 쨌 鍮꾩쟾 ?ъ꽦 ?쒕??덉씠??/p>
+            <h1 class="mc-page-intro__title">14. 비전 달성 시뮬레이터</h1>
+            <p class="mc-page-intro__kicker mc-intro-single-line">14 · 비전 달성 시뮬레이터</p>
             <p class="mc-page-intro__lead text-body mc-intro-single-line">
-              ?ㅼ젙?????좊떦 鍮꾩쟾??諛뷀깢?쇰줈 ?먯궛 ?깆옣 怨≪꽑???쒕??덉씠?섑븯??紐⑺몴 ?ъ꽦 媛?μ꽦???쒓컖?곸쑝濡??뺤씤?⑸땲??
+              설정한 월 할당 비전을 바탕으로 자산 성장 곡선을 시뮬레이션하여 목표 달성 가능성을 시각적으로 확인합니다.
             </p>
           </header>
-
-<ins class="kakao_ad_area" style="display:none;"
-data-ad-unit = "DAN-jGaTWdkt4JHwlfwT"
-data-ad-width = "300"
-data-ad-height = "250"></ins>
-<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-
 
           <div id="excel-control-root" class="mc-excel-slot"></div>
 
           <section class="card vs-top mt-24" aria-labelledby="vs-top-title">
-            <h2 id="vs-top-title" class="vs-h2">紐⑺몴? 鍮꾩쟾 ?곷┰ ?띾룄</h2>
+            <h2 id="vs-top-title" class="vs-h2">목표와 비전 적립 속도</h2>
             <div class="vs-top-grid">
               <label class="field-grow">
-                <span class="field-label">紐⑺몴 ?먯궛??/span>
+                <span class="field-label">목표 자산액</span>
                 <div class="money-wrap">
                   <input
                     id="vs-target"
@@ -180,11 +148,11 @@ data-ad-height = "250"></ins>
                     placeholder="0"
                     aria-describedby="vs-hint-target"
                   />
-                  <span class="money-suffix" aria-hidden="true">??/span>
+                  <span class="money-suffix" aria-hidden="true">원</span>
                 </div>
               </label>
               <label class="field-grow">
-                <span class="field-label">?꾩옱 鍮꾩쟾??梨꾩슫 ?꾩쟻 (?좏깮)</span>
+                <span class="field-label">현재 비전을 채운 누적 (선택)</span>
                 <div class="money-wrap">
                   <input
                     id="vs-balance"
@@ -194,11 +162,11 @@ data-ad-height = "250"></ins>
                     autocomplete="off"
                     placeholder="0"
                   />
-                  <span class="money-suffix" aria-hidden="true">??/span>
+                  <span class="money-suffix" aria-hidden="true">원</span>
                 </div>
               </label>
               <label class="field-grow">
-                <span class="field-label">???섏씡瑜?媛??(%)</span>
+                <span class="field-label">연 수익률 가정 (%)</span>
                 <input
                   id="vs-rate"
                   class="vs-rate-input"
@@ -211,42 +179,42 @@ data-ad-height = "250"></ins>
                 />
               </label>
             </div>
-            <p id="vs-hint-target" class="text-sm vs-hint">紐⑺몴??鍮꾩쟾쨌鍮꾩긽湲댟룸ぉ??留덈젴 ???⑹궛 湲덉븸?쇰줈 ?먯뼱???⑸땲??</p>
-            <p id="vs-hint-rate" class="text-sm vs-hint">????덇툑???꾨땶 ?κ린 ?됯퇏??媛?뺥븳 援먯쑁???섏튂?낅땲??</p>
+            <p id="vs-hint-target" class="text-sm vs-hint">목표는 비전·비상금·목돈 마련 등 합산 금액으로 두어도 됩니다.</p>
+            <p id="vs-hint-rate" class="text-sm vs-hint">은행 예금이 아닌 장기 평균을 가정한 교육용 수치입니다.</p>
 
             <div class="vs-vision-row mt-16" role="status" aria-live="polite">
               <div>
-                <p class="vs-vision-row__label">??鍮꾩쟾 ?곷┰ (2踰?鍮꾩쟾 ?좊떦 ?⑷퀎)</p>
-                <p class="vs-vision-row__value" id="vs-monthly-display">??/p>
+                <p class="vs-vision-row__label">월 비전 적립 (2번 비전 할당 합계)</p>
+                <p class="vs-vision-row__value" id="vs-monthly-display">—</p>
               </div>
-              <a class="btn btn--ghost btn--sm" href="../vision-budget/02_vision_allocation.html">2踰덉뿉??鍮꾩쟾 ?섏젙</a>
+              <a class="btn btn--ghost btn--sm" href="../vision-budget/02_vision_allocation.html">2번에서 비전 수정</a>
             </div>
 
             <div class="vs-dday mt-20" id="vs-dday-block">
-              <p class="vs-dday__title">紐⑺몴 ?ъ꽦 ?덉젙</p>
-              <p class="vs-dday__main" id="vs-dday-text">?곗씠?곕? 遺덈윭?ㅻ뒗 以묒엯?덈떎.</p>
+              <p class="vs-dday__title">목표 달성 예정</p>
+              <p class="vs-dday__main" id="vs-dday-text">데이터를 불러오는 중입니다.</p>
               <p class="vs-dday__sub" id="vs-dday-sub"></p>
             </div>
           </section>
 
           <section class="card mt-24 vs-chart-card" aria-labelledby="vs-chart-title">
-            <h2 id="vs-chart-title" class="vs-h2">鍮꾩쟾???먮씪???깆옣 怨≪꽑</h2>
+            <h2 id="vs-chart-title" class="vs-h2">비전이 자라는 성장 곡선</h2>
             <p class="text-sm mt-8">
-              媛濡쒕뒗 寃쎄낵 ?? ?몃줈??蹂듬━쨌???곷┰??諛섏쁺???덉긽 ?붿븸?낅땲?? 怨≪꽑 ?앹뿉?쒕뒗 ?꾨옒 遺꾧린 ?꾩떇泥섎읆
-              <strong>?꾩꽦??99%? 100%??鍮꾩쑀</strong>瑜??섎????먯뼱, ?묒? ??議곌컖??鍮꾩쟾???ロ옒怨??대┝??媛瑜대뒗 ?곸쭠??蹂댁뿬 以띾땲?? ?ㅼ젣 ?섏씡? ?쒖옣怨??곹뭹???곕씪 ?щ씪吏묐땲??
+              가로는 경과 월, 세로는 복리·월 적립을 반영한 예상 잔액입니다. 곡선 끝에서는 아래 분기 도식처럼
+              <strong>완성도 99%와 100%의 비유</strong>를 나란히 두어, 작은 한 조각이 비전의 닫힘과 열림을 가르는 상징을 보여 줍니다. 실제 수익은 시장과 상품에 따라 달라집니다.
             </p>
             <div class="vs-chart-wrap mt-16">
-              <canvas id="vs-line" width="640" height="320" aria-label="鍮꾩쟾 ?곷┰ 湲곗? ?덉긽 ?붿븸 爰얠???洹몃옒??></canvas>
+              <canvas id="vs-line" width="640" height="320" aria-label="비전 적립 기준 예상 잔액 꺾은선 그래프"></canvas>
             </div>
 
             <div class="vs-end-impact mt-20" aria-labelledby="vs-end-title">
-              <h3 id="vs-end-title" class="vs-end-impact__title">怨≪꽑 ?? ?꾩꽦?꾩쓽 遺꾧린??/h3>
+              <h3 id="vs-end-title" class="vs-end-impact__title">곡선 끝, 완성도의 분기점</h3>
               <p class="text-sm vs-end-impact__lead">
-                10??120媛쒖썡) ?쒖젏 ?덉긽 ?붿븸??湲곗??쇰줈, <strong>媛숈? 怨≪꽑 ?꾩뿉?쒕룄 ?섍굅???ъ꽦(鍮꾩쑀 99%)??/strong>怨?
-                <strong>?섎퉬?꾩뿉 ?용뒗 ?꾩꽦(100%)??/strong>???섎????〓땲?? 湲덉븸? ?숈씪 ?쒖젏 ?붿븸??鍮꾩쑉 鍮꾧탳?대ŉ, 硫붿떆吏??
-                <strong>留덉?留???議곌컖??留덉쓬媛吏먯씠 鍮꾩쟾???ロ옒怨??대┝??媛瑜대뒗 鍮꾩쑀</strong>? 媛숈뒿?덈떎.
+                10년(120개월) 시점 예상 잔액을 기준으로, <strong>같은 곡선 위에서도 ‘거의 달성(비유 99%)’</strong>과
+                <strong>‘비전에 닿는 완성(100%)’</strong>을 나란히 둡니다. 금액은 동일 시점 잔액의 비율 비교이며, 메시지는
+                <strong>마지막 한 조각의 마음가짐이 비전의 닫힘과 열림을 가르는 비유</strong>와 같습니다.
               </p>
-              <div class="vs-end-impact__fork" role="img" aria-label="?꾩꽦??99%? 100%???곸쭠??鍮꾧탳">
+              <div class="vs-end-impact__fork" role="img" aria-label="완성도 99%와 100%의 상징적 비교">
                 <svg class="vs-end-impact__svg" viewBox="0 0 420 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                   <path
                     d="M24 112 C 80 40, 160 24, 220 56 L 260 72"
@@ -263,18 +231,18 @@ data-ad-height = "250"></ins>
                 </svg>
                 <div class="vs-end-impact__cols">
                   <div class="vs-end-impact__col vs-end-impact__col--low">
-                    <p class="vs-end-impact__tag">誘몄셿 쨌 99%</p>
-                    <p class="vs-end-impact__amt" id="vs-split-incomplete">??/p>
-                    <p class="vs-end-impact__hint">嫄곗쓽 ?ъ꽦(鍮꾩쑀)</p>
+                    <p class="vs-end-impact__tag">미완 · 99%</p>
+                    <p class="vs-end-impact__amt" id="vs-split-incomplete">—</p>
+                    <p class="vs-end-impact__hint">거의 달성(비유)</p>
                   </div>
                   <div class="vs-end-impact__gap" aria-hidden="true">
-                    <span class="vs-end-impact__gap-num">??議곌컖</span>
-                    <span class="vs-end-impact__gap-arrow">??/span>
+                    <span class="vs-end-impact__gap-num">한 조각</span>
+                    <span class="vs-end-impact__gap-arrow">↔</span>
                   </div>
                   <div class="vs-end-impact__col vs-end-impact__col--high">
-                    <p class="vs-end-impact__tag">?꾩꽦 쨌 100%</p>
-                    <p class="vs-end-impact__amt" id="vs-split-complete">??/p>
-                    <p class="vs-end-impact__hint">鍮꾩쟾???용뒗 ?꾩꽦</p>
+                    <p class="vs-end-impact__tag">완성 · 100%</p>
+                    <p class="vs-end-impact__amt" id="vs-split-complete">—</p>
+                    <p class="vs-end-impact__hint">비전에 닿는 완성</p>
                   </div>
                 </div>
               </div>
@@ -282,138 +250,144 @@ data-ad-height = "250"></ins>
           </section>
 
           <section class="card mt-24 vs-motivation" aria-labelledby="vs-mot-title">
-            <h2 id="vs-mot-title" class="vs-h2 vs-h2--quiet">?듭떖 硫붿떆吏</h2>
+            <h2 id="vs-mot-title" class="vs-h2 vs-h2--quiet">핵심 메시지</h2>
             <blockquote class="vs-motivation__quote">
-              <p>?묒? 吏異쑣룹꽑????議곌컖(1)??紐⑥뿬 鍮꾩쟾???꾩꽦?꾨? 寃곗젙?쒕떎??硫붿떆吏瑜? 怨≪꽑怨?鍮꾩쑉濡??곸쭠?곸쑝濡?遊낅땲??</p>
+              <p>작은 지출·선택 한 조각(1)이 모여 비전의 완성도를 결정한다는 메시지를, 곡선과 비율로 상징적으로 봅니다.</p>
             </blockquote>
             <p class="text-sm mt-12 vs-motivation__logic">
-              ?ш린??(1)? ?ㅼ젣 湲덉븸 ?낅젰???꾨땲??留덉쓬媛吏먭낵 湲곕줉???섑븳 議곌컖?숈쓣 ?삵븯???곸쭠?낅땲?? ?꾩꽦??媛源뚯?怨??우쓬??
-              李⑥씠???レ옄濡?鍮꾩쑀??肉? ?쇱긽?먯꽌??洹쒖쑉蹂대떎 ?ㅼ뒪濡??몄슫 ?쎌냽??吏?ㅻ뒗 ?쒕룄濡??꾩꽦?⑸땲??
+              여기서 (1)은 실제 금액 입력이 아니라 마음가짐과 기록의 ‘한 조각’을 뜻하는 상징입니다. 완성에 가까움과 닿음의
+              차이는 숫자로 비유할 뿐, 일상에서는 규율보다 스스로 세운 약속을 지키는 태도로 완성됩니다.
             </p>
             <p class="text-body mt-12" id="vs-motivate"></p>
           </section>
 
+          <ins class="kakao_ad_area" style="display:none;"
+          data-ad-unit = "DAN-jGaTWdkt4JHwlfwT"
+          data-ad-width = "300"
+          data-ad-height = "250"></ins>
+          <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
           <section class="card mt-24" aria-labelledby="seo-title">
-            <h2 id="seo-title">鍮꾩쟾 ?ъ꽦 ?쒕??덉씠?곌? 紐⑺몴瑜??쒗쁽?ㅼ쓽 怨꾪쉷?앹쑝濡?諛붽씀???댁쑀</h2>
+            <h2 id="seo-title">비전 달성 시뮬레이터가 목표를 “현실의 계획”으로 바꾸는 이유</h2>
             <p class="text-body mt-10">
-              鍮꾩쟾 ?ъ꽦 ?쒕??덉씠?곕뒗 ?щ쭩???レ옄濡?諛붽씀???꾧뎄?낅땲?? 紐⑺몴 ?먯궛?≪씠 而ㅼ쭏?섎줉 ?щ엺? 留됱뿰?⑥쓣 ?먮겮怨?
-              留됱뿰?⑥? ?ㅽ뻾??誘몃（寃?留뚮벊?덈떎. ???붾㈃? ??鍮꾩쟾 ?곷┰(2踰덉뿉???ㅼ젙???⑷퀎)??湲곗??쇰줈 ?깆옣 怨≪꽑??洹몃젮
-              ?쒖뼵?쒖? 媛?ν븳媛?앸? ?쒓컖?곸쑝濡?蹂댁뿬 以띾땲?? 以묒슂???먯? ?⑥닚??怨꾩궛湲곌? ?꾨땲?? <strong>吏??媛?ν븳 ?щТ ?ㅺ퀎</strong>瑜?
-              留뚮뱾湲??꾪븳 鍮꾧탳 ?꾨젅?꾩쓣 ?쒓났?쒕떎??寃껋엯?덈떎. ???곷┰??議곌툑留??щ씪?몃룄 紐⑺몴 ?ъ꽦 ?쒖젏???대뼸寃?蹂?섎뒗吏,
-              ???섏씡瑜?媛?뺤씠 寃곌낵???쇰쭏???곹뼢??二쇰뒗吏 ?뺤씤?섎㈃, ?ъ슜?먮뒗 紐⑺몴瑜??꾩떎?곸씤 ?④퀎濡?遺꾪빐?????덉뒿?덈떎.
+              비전 달성 시뮬레이터는 희망을 숫자로 바꾸는 도구입니다. 목표 자산액이 커질수록 사람은 막연함을 느끼고,
+              막연함은 실행을 미루게 만듭니다. 이 화면은 월 비전 적립(2번에서 설정한 합계)을 기준으로 성장 곡선을 그려
+              “언제쯤 가능한가”를 시각적으로 보여 줍니다. 중요한 점은 단순한 계산기가 아니라, <strong>지속 가능한 재무 설계</strong>를
+              만들기 위한 비교 프레임을 제공한다는 것입니다. 월 적립이 조금만 달라져도 목표 달성 시점이 어떻게 변하는지,
+              연 수익률 가정이 결과에 얼마나 영향을 주는지 확인하면, 사용자는 목표를 현실적인 단계로 분해할 수 있습니다.
             </p>
             <p class="text-body mt-10">
-              ?먰븳 ?щ엺? ?쒓굅?????덈떎?앸뒗 吏?먯뿉?????쎄쾶 ?붾뱾由쎈땲?? ???섏씠吏媛 99%? 100%??鍮꾩쑀瑜??④퍡 蹂댁뿬 二쇰뒗 ?댁쑀??
-              留덉?留?援ш컙???됰룞??紐⑺몴???ロ옒怨??대┝??媛瑜대뒗 寃쏀뿕???곸쭠?곸쑝濡??꾨떖?섍린 ?꾪븿?낅땲?? 寃곌뎅 鍮꾩쟾? ??踰덉쓽 寃곗떖???꾨땲??
-              留ㅻ떖 諛섎났?섎뒗 ?묒? ?좏깮???⑹쑝濡??꾩꽦?⑸땲?? ???쒕??덉씠?곕뒗 洹?諛섎났??寃щ뵜 ???덈룄濡?
-              <strong>?쒓컙쨌湲덉븸쨌?쒕룄</strong>???곌껐??紐낇솗?섍쾶 留뚮뱾??以띾땲??
+              또한 사람은 “거의 다 했다”는 지점에서 더 쉽게 흔들립니다. 이 페이지가 99%와 100%의 비유를 함께 보여 주는 이유는,
+              마지막 구간의 행동이 목표의 닫힘과 열림을 가르는 경험을 상징적으로 전달하기 위함입니다. 결국 비전은 한 번의 결심이 아니라,
+              매달 반복되는 작은 선택의 합으로 완성됩니다. 이 시뮬레이터는 그 반복을 견딜 수 있도록,
+              <strong>시간·금액·태도</strong>의 연결을 명확하게 만들어 줍니다.
             </p>
           </section>
 
           <section class="card mt-24" aria-labelledby="seo-how-title">
-            <h2 id="seo-how-title">?낅젰媛??댁꽍: 紐⑺몴쨌?꾩옱 ?꾩쟻쨌?섏씡瑜좎씠 ?섎??섎뒗 寃?/h2>
+            <h2 id="seo-how-title">입력값 해석: 목표·현재 누적·수익률이 의미하는 것</h2>
             <p class="text-body mt-10">
-              媛숈? 紐⑺몴?쇰룄 ?쒖옉?먭낵 媛?뺤씠 ?ㅻⅤ硫?怨≪꽑???뺥깭媛 ?щ씪吏묐땲?? ?꾨옒 ?쒕뒗 ???붾㈃??二쇱슂 ?낅젰媛믪씠 ?대뼡 ?섎?瑜?媛吏硫?
-              ?대뼡 諛⑹떇?쇰줈 ?섏궗寃곗젙???꾩???二쇰뒗吏 ?뺣━?⑸땲??
+              같은 목표라도 시작점과 가정이 다르면 곡선의 형태가 달라집니다. 아래 표는 이 화면의 주요 입력값이 어떤 의미를 가지며,
+              어떤 방식으로 의사결정에 도움을 주는지 정리합니다.
             </p>
             <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="鍮꾩쟾 ?ъ꽦 ?쒕??덉씠???낅젰媛??댁꽍 ??>
+              <table class="data-table mc-table-centered" aria-label="비전 달성 시뮬레이터 입력값 해석 표">
                 <thead>
                   <tr>
-                    <th scope="col">?낅젰媛?/th>
-                    <th scope="col">?뺤쓽</th>
-                    <th scope="col">?뷀븳 ?ㅽ빐</th>
-                    <th scope="col">異붿쿇 ?댁꽍</th>
+                    <th scope="col">입력값</th>
+                    <th scope="col">정의</th>
+                    <th scope="col">흔한 오해</th>
+                    <th scope="col">추천 해석</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>紐⑺몴 ?먯궛??/strong></td>
-                    <td>鍮꾩쟾쨌紐⑸룉쨌鍮꾩긽湲????⑹궛 紐⑺몴</td>
-                    <td>?섎굹??紐⑺몴留??ｌ뼱???쒕떎</td>
-                    <td>?섎?媛 媛숈? 紐⑺몴??臾띠뼱????/td>
+                    <td><strong>목표 자산액</strong></td>
+                    <td>비전·목돈·비상금 등 합산 목표</td>
+                    <td>하나의 목표만 넣어야 한다</td>
+                    <td>의미가 같은 목표는 묶어도 됨</td>
                   </tr>
                   <tr>
-                    <td><strong>?꾩옱 ?꾩쟻</strong></td>
-                    <td>?대? 紐⑥븘 ??湲덉븸(?좏깮)</td>
-                    <td>?놁쑝硫??쒖옉??遺덈━?섎떎</td>
-                    <td>?놁뼱?????곷┰??援ъ“媛 ??以묒슂</td>
+                    <td><strong>현재 누적</strong></td>
+                    <td>이미 모아 둔 금액(선택)</td>
+                    <td>없으면 시작이 불리하다</td>
+                    <td>없어도 월 적립의 구조가 더 중요</td>
                   </tr>
                   <tr>
-                    <td><strong>???섏씡瑜?/strong></td>
-                    <td>援먯쑁??媛?뺤튂(蹂듬━ 諛섏쁺)</td>
-                    <td>諛섎뱶???믪? ?섏씡瑜좎쓣 紐⑺몴濡??댁빞 ?쒕떎</td>
-                    <td>蹂댁닔?곸쑝濡??↔퀬 ?쒖떎?됤앹쓣 ?곗꽑</td>
+                    <td><strong>연 수익률</strong></td>
+                    <td>교육용 가정치(복리 반영)</td>
+                    <td>반드시 높은 수익률을 목표로 해야 한다</td>
+                    <td>보수적으로 잡고 “실행”을 우선</td>
                   </tr>
                   <tr>
-                    <td><strong>??鍮꾩쟾 ?곷┰</strong></td>
-                    <td>2踰?鍮꾩쟾 ?좊떦 ?⑷퀎</td>
-                    <td>?⑤뒗 ?덉쑝濡쒕쭔 ?곷┰?쒕떎</td>
-                    <td>?좎?異뺤쿂???쒖닚?쒋앸줈 怨좎젙?좎닔濡?媛뺥븿</td>
+                    <td><strong>월 비전 적립</strong></td>
+                    <td>2번 비전 할당 합계</td>
+                    <td>남는 돈으로만 적립한다</td>
+                    <td>선저축처럼 “순서”로 고정할수록 강함</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <ul class="text-body mt-16 mc-prose-list">
-              <li><strong>蹂댁닔??媛??/strong>: ?섏씡瑜좎쓣 ??쾶 ?≪븘???ъ꽦 媛?ν븳 援ъ“硫??ㅼ젣 ?ㅽ뻾???덉젙?곸엯?덈떎.</li>
-              <li><strong>?듭떖 蹂??/strong>: 留롮? 寃쎌슦 寃곌낵瑜?諛붽씀??寃껋? ?섏씡瑜좊낫?????곷┰??袁몄??⑥엯?덈떎.</li>
-              <li><strong>湲곗????좎?</strong>: 湲곗? ?덉궛???먯＜ 諛붽씀硫?怨≪꽑??鍮꾧탳媛 ?대젮?뚯쭛?덈떎.</li>
+              <li><strong>보수적 가정</strong>: 수익률을 낮게 잡아도 달성 가능한 구조면 실제 실행이 안정적입니다.</li>
+              <li><strong>핵심 변수</strong>: 많은 경우 결과를 바꾸는 것은 수익률보다 월 적립의 꾸준함입니다.</li>
+              <li><strong>기준선 유지</strong>: 기준 예산을 자주 바꾸면 곡선의 비교가 어려워집니다.</li>
             </ul>
           </section>
 
           <section class="card mt-24" aria-labelledby="seo-strategy-title">
-            <h2 id="seo-strategy-title">?ъ꽦 ?꾨왂: 紐⑺몴瑜?遺꾪빐?섍퀬, ??猷⑦떞?쇰줈 怨좎젙?섎뒗 4?④퀎</h2>
+            <h2 id="seo-strategy-title">달성 전략: 목표를 분해하고, 월 루틴으로 고정하는 4단계</h2>
             <p class="text-body mt-10">
-              ?쒕??덉씠?섏쓽 寃곕줎? ?쒓???遺덇??β앹씠 ?꾨땲?? ?쒖뼱??援ъ“濡?媛?ν븯寃?留뚮뱾 寃껋씤媛?앹엯?덈떎.
-              ?꾨옒 ?쒕뒗 ?쒕??덉씠??寃곌낵瑜??ㅼ쓬 ???됰룞?쇰줈 ?꾪솚?섎뒗 ??쒖쟻??4?④퀎 ?꾨왂?낅땲??
+              시뮬레이션의 결론은 “가능/불가능”이 아니라, “어떤 구조로 가능하게 만들 것인가”입니다.
+              아래 표는 시뮬레이터 결과를 다음 달 행동으로 전환하는 대표적인 4단계 전략입니다.
             </p>
             <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="鍮꾩쟾 ?ъ꽦 ?쒕??덉씠??湲곕컲 4?④퀎 ?꾨왂 ??>
+              <table class="data-table mc-table-centered" aria-label="비전 달성 시뮬레이터 기반 4단계 전략 표">
                 <thead>
                   <tr>
-                    <th scope="col">?④퀎</th>
-                    <th scope="col">紐⑺몴</th>
-                    <th scope="col">?먮떒 湲곗?</th>
-                    <th scope="col">?곌껐 湲곕뒫</th>
+                    <th scope="col">단계</th>
+                    <th scope="col">목표</th>
+                    <th scope="col">판단 기준</th>
+                    <th scope="col">연결 기능</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td><strong>1</strong></td>
-                    <td>紐⑺몴瑜??쒓린媛꾟앹쑝濡?踰덉뿭</td>
-                    <td>DDay媛 ?⑸뱷 媛?ν븳 踰붿쐞?몄?</td>
-                    <td><a href="../monthly-review/10_monthly_budget_review.html"><strong>10踰?/strong></a></td>
+                    <td>목표를 “기간”으로 번역</td>
+                    <td>DDay가 납득 가능한 범위인지</td>
+                    <td><a href="../monthly-review/10_monthly_budget_review.html"><strong>10번</strong></a></td>
                   </tr>
                   <tr>
                     <td><strong>2</strong></td>
-                    <td>???곷┰???ㅺ퀎濡?怨좎젙</td>
-                    <td>??鍮꾩쟾 ?곷┰???붾뱾由ъ? ?딅뒗吏</td>
-                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2踰?/strong></a></td>
+                    <td>월 적립을 설계로 고정</td>
+                    <td>월 비전 적립이 흔들리지 않는지</td>
+                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2번</strong></a></td>
                   </tr>
                   <tr>
                     <td><strong>3</strong></td>
-                    <td>蹂?숈쓣 以꾩씠??援ъ“ 留뚮뱾湲?/td>
-                    <td>Needs/Wants 蹂?숈씠 ??援ш컙???덈뒗吏</td>
-                    <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4踰?/strong></a></td>
+                    <td>변동을 줄이는 구조 만들기</td>
+                    <td>Needs/Wants 변동이 큰 구간이 있는지</td>
+                    <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a></td>
                   </tr>
                   <tr>
                     <td><strong>4</strong></td>
-                    <td>留덉?留?援ш컙???붾뱾由?諛⑹?</td>
-                    <td>紐⑺몴 洹쇱쿂?먯꽌 ?ш린/蹂댁긽??諛섎났?섎뒗吏</td>
-                    <td><a href="../budget-lock/03_budget_lock.html"><strong>3踰?/strong></a></td>
+                    <td>마지막 구간의 흔들림 방지</td>
+                    <td>목표 근처에서 포기/보상이 반복되는지</td>
+                    <td><a href="../budget-lock/03_budget_lock.html"><strong>3번</strong></a></td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <p class="text-body mt-16">
-              紐⑺몴??硫由??덉쓣?섎줉 異붿긽?곸씠吏留? 怨≪꽑??蹂대㈃ 援ш컙??蹂댁씠怨?援ш컙??蹂댁씠硫?議곗젙??媛?ν빀?덈떎.
-              ???섏씠吏?먯꽌 ?듭떖 硫붿떆吏瑜??ㅼ떆 ?뺤씤?섍퀬, 2踰덉뿉??鍮꾩쟾???ㅻ벉怨? 3踰덉쑝濡?湲곗??좎쓣 怨좎젙????
-              10踰덉뿉???붾쭚 蹂듦린瑜?諛섎났?섎㈃ 鍮꾩쟾? ?먯젏 ?꾩떎??怨꾪쉷???⑸땲??
+              목표는 멀리 있을수록 추상적이지만, 곡선을 보면 구간이 보이고 구간이 보이면 조정이 가능합니다.
+              이 페이지에서 핵심 메시지를 다시 확인하고, 2번에서 비전을 다듬고, 3번으로 기준선을 고정한 뒤,
+              10번에서 월말 복기를 반복하면 비전은 점점 현실의 계획이 됩니다.
             </p>
           </section>
 
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">짤 2026 Money Calendar. All rights reserved.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
           </footer>
         </main>
       </div>
@@ -428,4 +402,3 @@ data-ad-height = "250"></ins>
     <script src="./vision-simulator.js"></script>
   </body>
 </html>
-

@@ -263,6 +263,18 @@ function render() {
 
 function persist() {
   saveState(getMonthKey(), state);
+  try {
+    const demo = window.MoneyCalendarDemo;
+    if (demo && demo.isActive && demo.isActive()) {
+      const mk = getMonthKey();
+      if (mk === currentMonthKey()) {
+        const hasReal = totalIncome() > 0 || totalAllocated() > 0;
+        if (hasReal) demo.purge();
+      }
+    }
+  } catch {
+    /* ignore */
+  }
 }
 
 function loadMonth(monthKey) {

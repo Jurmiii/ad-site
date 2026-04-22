@@ -1,7 +1,7 @@
 {
   "name": "Money Calendar",
   "short_name": "Money Calendar",
-  "start_url": "/",
+  "start_url": "/assets/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffffff",

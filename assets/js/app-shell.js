@@ -78,6 +78,9 @@
 
   var FAV_STORAGE_KEY = "moneyCalendar.navFavorites.v1";
   var MAX_FAVORITES = 5;
+  var DEMO_ACTIVE_KEY = "moneyCalendar.demoActive.v1";
+  var DEMO_KEYS_KEY = "moneyCalendar.demoKeys.v1";
+  var DEMO_TUTORIAL_DONE_KEY = "moneyCalendar.demoTutorialDone.v1";
   var DRAWER_FAV_TIP_KEY = "moneyCalendar.drawerFavTipDismissed.v1";
 
   function showNotice(message) {
@@ -113,8 +116,30 @@
     }, 2400);
   }
 
-  function pad2(n) {
-    return String(n).padStart(2, "0");
+  function isDemoActive() {
+    return String(localStorage.getItem(DEMO_ACTIVE_KEY) || "") === "1";
+  }
+
+  function readDemoKeys() {
+    try {
+      var raw = localStorage.getItem(DEMO_KEYS_KEY);
+      var arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr.map(String) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function purgeDemoData() {
+    var keys = readDemoKeys();
+    for (var i = 0; i < keys.length; i++) {
+      try {
+        localStorage.removeItem(keys[i]);
+      } catch (e) {}
+    }
+    localStorage.removeItem(DEMO_KEYS_KEY);
+    localStorage.removeItem(DEMO_ACTIVE_KEY);
+    localStorage.removeItem(DEMO_TUTORIAL_DONE_KEY);
   }
 
   function getFavorites() {
@@ -677,8 +702,23 @@
         buildDrawerList(inferFeatureId());
         renderFavoriteBar();
       }
+      if (e.key === DEMO_ACTIVE_KEY && !isDemoActive()) {
+        renderFavoriteBar();
+      }
     });
   }
+
+  // 다른 기능 스크립트에서 데모 전환을 트리거할 수 있도록 노출
+  window.MoneyCalendarDemo = {
+    isActive: isDemoActive,
+    purge: purgeDemoData,
+  };
+
+  try {
+    if (isDemoActive()) {
+      purgeDemoData();
+    }
+  } catch (e) {}
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();
