@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="../assets/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../assets/images/icon/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../assets/images/icon/favicon.png">
+    <link rel="icon" href="/assets/images/icon/favicon.ico?v=2" type="image/x-icon">
+    <link rel="shortcut icon" href="/assets/images/icon/favicon.png?v=2" type="image/png">
+    <link rel="apple-touch-icon" href="/assets/images/icon/favicon.png?v=2">
 
     <title>Money Calendar — 1원의 가치부터, 건설적인 재정 생활</title>
     <meta
@@ -22,16 +22,24 @@
       property="og:description"
       content="1원의 가치부터 시작하는 머니 캘린더. Weekly 예산·Daily 소비·엑셀로 재정을 설계합니다."
     />
-    <meta name="twitter:card" content="summary" />
-    <link rel="canonical" href="./" />
+    <meta property="og:url" content="https://money-calender.netlify.app/" />
+    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
+    <link rel="canonical" href="https://money-calender.netlify.app/" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
     />
-    <script src="./js/theme.js"></script>
-    <link rel="stylesheet" href="./css/common.css" />
-    <link rel="stylesheet" href="./css/journal-shell.css" />
-    <link rel="stylesheet" href="./css/style.css" />
+    <script src="./assets/js/theme.js"></script>
+    <link rel="stylesheet" href="./assets/css/common.css" />
+    <link rel="stylesheet" href="./assets/css/journal-shell.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <style>
       .page-home .site-footer__copyright {
         grid-column: 1 / -1;
@@ -43,7 +51,7 @@
   </head>
   <body class="page-home">
     <script>
-      window.__MC_ASSETS_BASE = ".";
+      window.__MC_ASSETS_BASE = "./assets";
     </script>
     <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
@@ -52,7 +60,7 @@
         <a class="brand" href="./" aria-current="page">
           <span class="brand__mark" aria-hidden="true">
             <img
-              src="./images/icon/mc-logo.svg"
+              src="./assets/images/icon/mc-logo.svg"
               width="44"
               height="44"
               alt=""
@@ -109,8 +117,8 @@
             <h1 id="hero-title" class="cover__title">1원의 가치로 설계하는 당신의 재정 비전</h1>
             <p class="cover__lead">정갈하게 설계하고, 부드럽게 기록하는 가계부 머니 캘린더</p>
             <div class="cover__cta">
-              <a class="btn btn--lg" href="./income-design/01_income_design.html">시작하기</a>
-              <a class="btn btn--lg btn--ghost" href="./demo-tour.html">사용 가이드</a>
+              <a class="btn btn--lg" href="./assets/income-design/01_income_design.html">시작하기</a>
+              <a class="btn btn--lg btn--ghost" href="#guide-title">사용 가이드</a>
             </div>
 
             <div class="cover__progress" aria-live="polite">
@@ -128,6 +136,13 @@
           </div>
           <div class="cover__paper" aria-hidden="true"></div>
         </section>
+
+<ins class="kakao_ad_area" style="display:none;"
+data-ad-unit = "DAN-jGaTWdkt4JHwlfwT"
+data-ad-width = "300"
+data-ad-height = "250"></ins>
+<script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
 
         <section class="about" aria-labelledby="about-title">
           <header class="about__head reveal">
@@ -163,8 +178,8 @@
 
         <section class="entry reveal" aria-label="빠른 시작">
           <div class="entry__row">
-            <a class="btn btn--pill" href="./daily/index.html">오늘의 지출 기록</a>
-            <a class="btn btn--pill btn--ghost" href="./budget-setup/index.html">이번 주 예산 확인</a>
+            <a class="btn btn--pill" href="./assets/daily/index.html">오늘의 지출 기록</a>
+            <a class="btn btn--pill btn--ghost" href="./assets/budget-setup/index.html">이번 주 예산 확인</a>
           </div>
         </section>
 
@@ -274,13 +289,13 @@
         </p>
 
         <p class="text-sm text-center mt-20 mb-0 site-footer__copyright">
-          © 2026 Money Calendar. All rights reserved. | <a class="site-footer__policy" href="../privacy-policy.html">개인정보 처리방침</a>
+          © 2026 Money Calendar. All rights reserved. | <a class="site-footer__policy" href="./privacy-policy.html">개인정보 처리방침</a>
         </p>
       </div>
     </footer>
 
-    <script src="./js/nav-config.js"></script>
-    <script src="./js/app-shell.js"></script>
+    <script src="./assets/js/nav-config.js"></script>
+    <script src="./assets/js/app-shell.js"></script>
     <script>
       (function () {
         // Scroll reveal (soft fade-in)
