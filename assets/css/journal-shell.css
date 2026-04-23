@@ -217,6 +217,10 @@ html[data-theme="dark"] .mc-scroll-top {
 .mc-fav-dropdown > summary {
   list-style: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   font-size: 0.75rem;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -227,6 +231,14 @@ html[data-theme="dark"] .mc-scroll-top {
   border: 1px solid var(--border-default);
   background: color-mix(in srgb, var(--color-surface) 90%, transparent);
   user-select: none;
+}
+
+.mc-fav-dropdown > summary::after {
+  content: "▾";
+  flex: 0 0 auto;
+  font-size: 0.9em;
+  line-height: 1;
+  opacity: 0.95;
 }
 
 .mc-fav-dropdown > summary::-webkit-details-marker {

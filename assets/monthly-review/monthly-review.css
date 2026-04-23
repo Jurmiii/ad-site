@@ -15,6 +15,53 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* 10번 SEO 표 — 다른 기능 페이지와 동일한 반응형(가로 스크롤) */
+.mc-app[data-mc-feature-id="10"] .table-wrap--data {
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+}
+
+.mc-app[data-mc-feature-id="10"] .table-wrap--data .data-table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.mc-app[data-mc-feature-id="10"] .table-wrap--data .data-table th,
+.mc-app[data-mc-feature-id="10"] .table-wrap--data .data-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-default);
+  vertical-align: top;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.mc-app[data-mc-feature-id="10"] .table-wrap--data .data-table thead th {
+  background: var(--color-bg-soft);
+  font-size: 0.8125rem;
+  font-weight: 850;
+}
+
+.mc-app[data-mc-feature-id="10"] .table-wrap--data .data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 600px) {
+  .mc-app[data-mc-feature-id="10"] .table-wrap--data .data-table th,
+  .mc-app[data-mc-feature-id="10"] .table-wrap--data .data-table td {
+    padding: 10px 8px;
+    font-size: 0.875rem;
+  }
+
+  .mc-app[data-mc-feature-id="10"] .table-wrap--data .data-table thead th {
+    font-size: 0.75rem;
+  }
+}
+
 .mr-chart {
   display: grid;
   gap: 12px;

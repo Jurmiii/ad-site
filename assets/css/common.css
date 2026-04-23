@@ -748,6 +748,44 @@ html[data-theme="dark"] select:focus {
   color: var(--color-warn);
 }
 
+/* 기능·가이드 등 공통: 카카오 광고 상단 여백(메인 index와 동일) + 가운데 정렬 */
+ins.kakao_ad_area {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 56px 0 0;
+  text-align: center;
+}
+
+ins.kakao_ad_area > iframe,
+ins.kakao_ad_area iframe,
+ins.kakao_ad_area > div,
+ins.kakao_ad_area > span {
+  display: block;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 100%;
+}
+
+/* 메인(홈)만 왼쪽 정렬 — 광고 위쪽 margin-top(56px / 600px↓ 40px)은 그대로 */
+.page-home ins.kakao_ad_area {
+  text-align: left;
+}
+
+.page-home ins.kakao_ad_area > iframe,
+.page-home ins.kakao_ad_area iframe,
+.page-home ins.kakao_ad_area > div,
+.page-home ins.kakao_ad_area > span {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+}
+
+@media (max-width: 600px) {
+  ins.kakao_ad_area {
+    margin-top: 40px;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --mc-header-scale: 0.85;
