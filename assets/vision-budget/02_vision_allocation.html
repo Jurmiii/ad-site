@@ -3,10 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
-
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="robots" content="index, follow" />
     <title>2. 비전 기반 예산 할당 · Money Calendar</title>
     <meta
       name="description"
@@ -16,14 +15,14 @@
     <meta property="og:url" content="https://money-calender.netlify.app/vision-budget/02_vision_allocation.html" />
     <meta property="og:title" content="2. 비전 기반 예산 할당 · Money Calendar" />
     <meta property="og:description" content="먼저 월 가용 수입을 확인한 뒤 고정 지출을 반영하고, 남은 재원을 비전 목표에 할당하며 최종 잔여 가용 예산을 확인합니다." />
-    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Money Calendar" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="2. 비전 기반 예산 할당 · Money Calendar" />
     <meta name="twitter:description" content="먼저 월 가용 수입을 확인한 뒤 고정 지출을 반영하고, 남은 재원을 비전 목표에 할당하며 최종 잔여 가용 예산을 확인합니다." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <link rel="canonical" href="https://money-calender.netlify.app/vision-budget/02_vision_allocation.html" />
 
     <link
@@ -35,6 +34,7 @@
     <link rel="stylesheet" href="../css/journal-shell.css" />
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="./vision-budget.css" />
+    <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
   </head>
   <body class="mc-app page-vision" data-mc-feature-id="2">
     <script>
@@ -361,14 +361,13 @@
         </ol>
       </section>
 
-      <section class="card vb-stack mt-24" aria-labelledby="seo-table-title">
-        <h2 id="seo-table-title">데이터 구조 표: 비전 예산이 다음 기능으로 전달되는 방식</h2>
+      <section class="card vb-stack mt-24" aria-labelledby="value-linkage-title">
+        <h2 id="value-linkage-title">값-기능 연결</h2>
         <p class="text-body mt-10">
-          Money Calendar는 기능별로 데이터가 분리되어 보이지만, 실제로는 “같은 달의 예산 흐름”을 공유합니다. 아래 표는
-          2번에서 확정되는 값이 어느 기능에 영향을 주는지 정리한 안내입니다.
+          2번에서 입력·확인하는 항목이 가계부 시리즈의 다른 기능과 어떻게 이어지는지 한눈에 정리한 표입니다.
         </p>
         <div class="table-wrap mt-16">
-          <table class="data-table" aria-label="비전 기반 예산 할당 데이터 연동 표">
+          <table class="data-table" aria-label="2번 비전 기반 예산 할당—값과 기능 연결">
             <thead>
               <tr>
                 <th scope="col">2번에서 다루는 값</th>
@@ -379,32 +378,44 @@
             <tbody>
               <tr>
                 <td>월 가용 수입</td>
-                <td><a href="../income-design/01_income_design.html"><strong>1번</strong></a></td>
+                <td>
+                  <a href="../income-design/01_income_design.html"><strong>1번</strong> (수입 구조)</a>
+                </td>
                 <td>수입 구조(확정/잠재)를 기반으로 “현실적인 상한”을 잡습니다.</td>
               </tr>
               <tr>
                 <td>고정 지출</td>
-                <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a></td>
+                <td>
+                  <a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong> (카테고리)</a>
+                </td>
                 <td>분배 가능 금액을 줄여 과대 배분을 방지합니다.</td>
               </tr>
               <tr>
                 <td>월 비전 할당 합계</td>
-                <td><a href="../vision-simulator/14_vision_goal_simulator.html"><strong>14번</strong></a></td>
+                <td>
+                  <a href="../vision-simulator/14_vision_goal_simulator.html"><strong>14번</strong> (성장 곡선)</a>
+                </td>
                 <td>성장 곡선의 월 적립(M)을 결정합니다.</td>
               </tr>
               <tr>
                 <td>우선순위 기반 배치</td>
-                <td><a href="../weekly-report/09_weekly_practice_report.html"><strong>9번</strong></a></td>
+                <td>
+                  <a href="../weekly-report/09_weekly_practice_report.html"><strong>9번</strong> (실천 리포트)</a>
+                </td>
                 <td>실천 리포트에서 ‘다음 주 행동’의 기준(집중 대상)을 세웁니다.</td>
               </tr>
               <tr>
-                <td>예산 준수 철학(돌발 지출 분리)</td>
-                <td><a href="../daily-nospend/08_no_spending_calendar.html"><strong>8번</strong></a></td>
+                <td>예산 준수 철학</td>
+                <td>
+                  <a href="../daily-nospend/08_no_spending_calendar.html"><strong>8번</strong> (스티커)</a>
+                </td>
                 <td>돌발 지출 여부로 스티커 작성 경험이 갈립니다.</td>
               </tr>
               <tr>
-                <td>엑셀 내보내기(통합)</td>
-                <td><a href="../backup-security/13_export_restore.html"><strong>13번</strong></a></td>
+                <td>엑셀 내보내기</td>
+                <td>
+                  <a href="../backup-security/13_export_restore.html"><strong>13번</strong> (통합 내보내기)</a>
+                </td>
                 <td>설계·기록 데이터를 통합 워크북으로 백업합니다.</td>
               </tr>
             </tbody>
@@ -413,7 +424,7 @@
       </section>
 
       <footer class="page-foot mt-16 mb-20">
-        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/legal.html#contact">문의</a></p>
       </footer>
         </main>
       </div>

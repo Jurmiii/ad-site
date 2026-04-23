@@ -10,14 +10,14 @@
     <meta property="og:url" content="https://money-calender.netlify.app/daily-sense/07_one_won_sense.html" />
     <meta property="og:title" content="7. 1원 단위 체감 지수 · Money Calendar" />
     <meta property="og:description" content="오늘 지출이 이번 달 예산에서 차지하는 체감 비중을 확인합니다." />
-    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Money Calendar" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="7. 1원 단위 체감 지수 · Money Calendar" />
     <meta name="twitter:description" content="오늘 지출이 이번 달 예산에서 차지하는 체감 비중을 확인합니다." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <link rel="canonical" href="https://money-calender.netlify.app/daily-sense/07_one_won_sense.html" />
 
     <meta
@@ -31,7 +31,8 @@
 
     <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="language" content="ko" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />    <meta name="language" content="ko" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=no" />
@@ -42,10 +43,6 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
-
-    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
     <link rel="manifest" href="../../site.webmanifest">
 
     <title>7. 1원 단위 체감 지수 · Money Calendar</title>
@@ -58,6 +55,7 @@
     <link rel="stylesheet" href="../css/journal-shell.css" />
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="../daily/daily.css" />
+    <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
   </head>
   <body class="mc-app page-daily" data-mc-feature-id="7">
     <script>
@@ -305,8 +303,15 @@
             <p class="text-body mt-10">
               같은 소비라도 “피드백이 있는지”에 따라 다음 행동이 달라집니다.
             </p>
-            <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="1원 단위 체감 지수 행동 변화 표">
+          </section>
+
+          <section class="card mt-24" aria-labelledby="feedback-change-title">
+            <h2 id="feedback-change-title">피드백의 변화</h2>
+            <p class="text-body mt-10">
+              <strong>상황별 피드백 유무에 따른 사용자 반응 및 변화</strong>를 1원 단위 체감 지수(실시간 비중) 관점에서 정리했습니다.
+            </p>
+            <div class="table-wrap table-wrap--data mt-16">
+              <table class="data-table" aria-label="피드백의 변화—상황별 피드백 유무에 따른 반응">
                 <thead>
                   <tr>
                     <th scope="col">상황</th>
@@ -333,16 +338,16 @@
                 </tbody>
               </table>
             </div>
-            <p class="text-body mt-16">
-              추천 흐름은 <a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a>으로 빠르게 기록을 남기고,
-              <a href="../daily-note/06_daily_note_review.html"><strong>6번</strong></a>으로 원인과 행동을 문장으로 정리한 뒤,
-              7번에서 체감 비중으로 조정하는 방식입니다. 마지막으로
-              <a href="../weekly-report/09_weekly_practice_report.html"><strong>9번</strong></a>에서 반복 패턴을 규칙으로 만들면 안정성이 올라갑니다.
+            <p class="daily-recommended-flow mt-20" role="note" aria-label="가계부 시리즈 추천 흐름">
+              추천 흐름은 <a href="../daily-quick/05_daily_quick_input.html">5번</a>으로 빠르게 기록을 남기고,
+              <a href="../daily-note/06_daily_note_review.html">6번</a>으로 원인과 행동을 문장으로 정리한 뒤,
+              <span class="daily-recommended-flow__here">7번</span>에서 체감 비중으로 조정하는 방식입니다. 마지막으로
+              <a href="../weekly-report/09_weekly_practice_report.html">9번</a>에서 반복 패턴을 규칙으로 만들면 안정성이 올라갑니다.
             </p>
           </section>
 
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/legal.html#contact">문의</a></p>
           </footer>
         </main>
       </div>

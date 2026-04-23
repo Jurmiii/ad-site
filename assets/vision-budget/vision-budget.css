@@ -555,3 +555,43 @@ html[data-theme="dark"] .waterfall--budget-over .wf-row--total .wf-amt {
     grid-template-columns: 1fr;
   }
 }
+
+/* 4번 예산 시뮬레이터와 동일한 선이 있는 테이블 — 값-기능 연결 표 (셀 가운데 정렬) */
+.page-vision .table-wrap {
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.page-vision .data-table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+  table-layout: auto;
+}
+
+.page-vision .data-table th,
+.page-vision .data-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-default);
+  text-align: center;
+  font-size: 0.9375rem;
+  vertical-align: middle;
+}
+
+.page-vision .data-table thead th {
+  background: var(--color-bg-soft);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.page-vision .data-table tbody tr:last-child td {
+  border-bottom: none;
+}

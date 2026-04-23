@@ -13,14 +13,14 @@
     <meta property="og:url" content="https://money-calender.netlify.app/weekly-report/09_weekly_practice_report.html" />
     <meta property="og:title" content="9. 주간 단위 실천 리포트 · Money Calendar" />
     <meta property="og:description" content="데일리(5~8) 지출을 주차별로 합산하고, 배분 예산 대비 달성률을 보여 준 뒤 차주 행동을 제안합니다." />
-    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Money Calendar" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="9. 주간 단위 실천 리포트 · Money Calendar" />
     <meta name="twitter:description" content="데일리(5~8) 지출을 주차별로 합산하고, 배분 예산 대비 달성률을 보여 준 뒤 차주 행동을 제안합니다." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <link rel="canonical" href="https://money-calender.netlify.app/weekly-report/09_weekly_practice_report.html" />
 
     <meta
@@ -33,7 +33,8 @@
 
     <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="language" content="ko" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />    <meta name="language" content="ko" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=no" />
@@ -44,10 +45,6 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
-
-    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
     <link rel="manifest" href="../../site.webmanifest">
 
     <title>9. 주간 단위 실천 리포트 · Money Calendar</title>
@@ -60,6 +57,7 @@
     <link rel="stylesheet" href="../css/journal-shell.css" />
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="./weekly-report.css" />
+    <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
   </head>
   <body class="mc-app" data-mc-feature-id="9">
     <script>
@@ -182,8 +180,8 @@
                 4번에서 확정한 비율/예산이 기준이 되어 “달성률”을 계산합니다. 아래 표는 각 기능이 어떤 역할을 하는지
                 한눈에 정리한 데이터 구조 가이드입니다.
               </p>
-              <div class="table-wrap mt-16">
-                <table class="data-table mc-table-centered" aria-label="주간 리포트 데이터 흐름 표">
+              <div class="table-wrap table-wrap--data mt-16">
+                <table class="data-table" aria-label="데이터의 연동 및 역할(시너지)">
                   <thead>
                     <tr>
                       <th scope="col">데이터</th>
@@ -195,31 +193,31 @@
                   <tbody>
                     <tr>
                       <td>일일 지출 기록</td>
-                      <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a></td>
+                      <td><a href="../daily-quick/05_daily_quick_input.html">5번</a></td>
                       <td>주차별 합산의 원천 데이터</td>
                       <td>반복 카테고리 1개를 규칙으로 바꾸기</td>
                     </tr>
                     <tr>
                       <td>한 줄 평/평가</td>
-                      <td><a href="../daily-note/06_daily_note_review.html"><strong>6번</strong></a></td>
+                      <td><a href="../daily-note/06_daily_note_review.html">6번</a></td>
                       <td>원인(감정/상황) 맥락을 보충</td>
                       <td>지출의 ‘트리거’를 끊는 대체 행동 설정</td>
                     </tr>
                     <tr>
                       <td>체감 비중</td>
-                      <td><a href="../daily-sense/07_one_won_sense.html"><strong>7번</strong></a></td>
+                      <td><a href="../daily-sense/07_one_won_sense.html">7번</a></td>
                       <td>과소비 신호를 조기에 감지</td>
                       <td>다음 주 Wants 조정 폭을 결정</td>
                     </tr>
                     <tr>
                       <td>돌발 지출 여부</td>
-                      <td><a href="../daily-nospend/08_no_spending_calendar.html"><strong>8번</strong></a></td>
+                      <td><a href="../daily-nospend/08_no_spending_calendar.html">8번</a></td>
                       <td>이탈을 ‘사건’과 ‘패턴’으로 구분</td>
                       <td>버퍼/예비비 설계로 다음 달 구조 개선</td>
                     </tr>
                     <tr>
                       <td>예산 비율(기준)</td>
-                      <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a></td>
+                      <td><a href="../budget-simulator/04_budget_simulator.html">4번</a></td>
                       <td>달성률 계산의 기준선</td>
                       <td>과/부족 항목을 조정해 균형 회복</td>
                     </tr>
@@ -233,8 +231,8 @@
               <p class="text-body mt-10">
                 주간 리포트는 읽고 끝내면 의미가 없습니다. 아래 단계는 “이번 주 관찰 → 다음 주 규칙”으로 이어지는 최소 절차입니다.
               </p>
-              <div class="table-wrap mt-16">
-                <table class="data-table mc-table-centered" aria-label="주간 리포트 단계별 실행 가이드 표">
+              <div class="table-wrap table-wrap--data mt-16">
+                <table class="data-table" aria-label="주간 피드백 4단계(단계별)">
                   <thead>
                     <tr>
                       <th scope="col">단계</th>
@@ -245,25 +243,25 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><strong>1</strong></td>
+                      <td>1단계</td>
                       <td>이번 주 합산이 예상보다 큰가</td>
                       <td>가장 많이 늘어난 카테고리 1개 선택</td>
                       <td>외식/배달</td>
                     </tr>
                     <tr>
-                      <td><strong>2</strong></td>
+                      <td>2단계</td>
                       <td>늘어난 이유(상황/감정/동선)</td>
                       <td>트리거 1개를 끊는 대체 행동 결정</td>
                       <td>퇴근길 편의점 대신 집에서 간식 준비</td>
                     </tr>
                     <tr>
-                      <td><strong>3</strong></td>
+                      <td>3단계</td>
                       <td>다음 주 목표를 숫자보다 규칙으로 표현</td>
                       <td>규칙을 1문장으로 고정</td>
                       <td>“이번 주 배달은 2회까지만”</td>
                     </tr>
                     <tr>
-                      <td><strong>4</strong></td>
+                      <td>4단계</td>
                       <td>돌발 지출이 반복되는지</td>
                       <td>버퍼/예비비 설계로 구조 보정</td>
                       <td>월 예외 예산 3만 원 확보</td>
@@ -294,7 +292,7 @@
               </ul>
           </section>
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/legal.html#contact">문의</a></p>
           </footer>
         </main>
       </div>

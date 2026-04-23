@@ -270,3 +270,72 @@
   line-height: 1.75;
   color: var(--color-text-primary);
 }
+
+/* 14번 — 2~13번과 동일한 선이 있는 데이터 표 */
+.page-vs .table-wrap--data {
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.page-vs .table-wrap--data .data-table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  min-width: 480px;
+  table-layout: auto;
+}
+
+.page-vs .table-wrap--data .data-table th,
+.page-vs .table-wrap--data .data-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-default);
+  text-align: center;
+  font-size: 0.9375rem;
+  vertical-align: middle;
+  font-weight: 500;
+}
+
+.page-vs .table-wrap--data .data-table thead th {
+  background: var(--color-bg-soft);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.page-vs .table-wrap--data .data-table tbody th[scope="row"] {
+  font-weight: 800;
+  color: var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-bg-soft) 75%, var(--color-surface));
+}
+
+.page-vs .table-wrap--data .data-table tbody tr:last-child th,
+.page-vs .table-wrap--data .data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.page-vs .table-wrap--data .data-table a {
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 600px) {
+  .page-vs .table-wrap--data .data-table th,
+  .page-vs .table-wrap--data .data-table td {
+    padding: 10px 8px;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    word-break: keep-all;
+  }
+
+  .page-vs .table-wrap--data .data-table thead th {
+    font-size: 0.75rem;
+  }
+}

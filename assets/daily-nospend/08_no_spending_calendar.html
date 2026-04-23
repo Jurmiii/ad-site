@@ -13,14 +13,14 @@
     <meta property="og:url" content="https://money-calender.netlify.app/daily-nospend/08_no_spending_calendar.html" />
     <meta property="og:title" content="8. 예산 준수 캘린더 (무지출 스티커) · Money Calendar" />
     <meta property="og:description" content="수립한 예산안(Plan) 밖의 돌발 지출(Surprise)이 없었던 날을 예산 준수(Budget Integrity) 스티커로 남깁니다." />
-    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Money Calendar" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="8. 예산 준수 캘린더 (무지출 스티커) · Money Calendar" />
     <meta name="twitter:description" content="수립한 예산안(Plan) 밖의 돌발 지출(Surprise)이 없었던 날을 예산 준수(Budget Integrity) 스티커로 남깁니다." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <link rel="canonical" href="https://money-calender.netlify.app/daily-nospend/08_no_spending_calendar.html" />
 
     <meta
@@ -33,7 +33,8 @@
 
     <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="language" content="ko" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />    <meta name="language" content="ko" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=no" />
@@ -44,10 +45,6 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
-
-    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
     <link rel="manifest" href="../../site.webmanifest">
 
     <title>8. 예산 준수 캘린더 (무지출 스티커) · Money Calendar</title>
@@ -60,6 +57,7 @@
     <link rel="stylesheet" href="../css/journal-shell.css" />
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="../daily/daily.css" />
+    <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
   </head>
   <body class="mc-app page-daily" data-mc-feature-id="8">
     <script>
@@ -297,8 +295,8 @@
             <p class="text-body mt-10">
               스티커는 장식이 아니라 규칙입니다. “돌발 지출을 줄이고 예산 복귀를 빠르게 한다”로 설계하는 편이 현실적입니다.
             </p>
-            <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="예산 준수 캘린더 단계별 사용 가이드 표">
+            <div class="table-wrap table-wrap--data mt-16">
+              <table class="data-table" aria-label="BI 스티커—습관 형성 단계(프로세스)">
                 <thead>
                   <tr>
                     <th scope="col">단계</th>
@@ -309,30 +307,30 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>1</strong></td>
+                    <td>1단계</td>
                     <td>월 예산의 기준(비율/상한)을 먼저 세웁니다.</td>
                     <td>
-                      <a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a>,
-                      <a href="../budget-lock/03_budget_lock.html"><strong>3번</strong></a>
+                      <a href="../budget-simulator/04_budget_simulator.html">4번</a>,
+                      <a href="../budget-lock/03_budget_lock.html">3번</a>
                     </td>
                     <td>비교 가능한 기준이 생겨 “흔들림”을 데이터로 볼 수 있습니다.</td>
                   </tr>
                   <tr>
-                    <td><strong>2</strong></td>
+                    <td>2단계</td>
                     <td>지출은 즉시 기록하고, 돌발 지출이면 체크로 분리합니다.</td>
-                    <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a></td>
+                    <td><a href="../daily-quick/05_daily_quick_input.html">5번</a></td>
                     <td>예산 이탈의 원인이 숨지 않고 빠르게 드러납니다.</td>
                   </tr>
                   <tr>
-                    <td><strong>3</strong></td>
+                    <td>3단계</td>
                     <td>하루를 마감하며 BI 스티커를 토글해 ‘지켜낸 날’을 남깁니다.</td>
-                    <td><strong>8번(현재 화면)</strong></td>
+                    <td><span class="nospend-page-here">8번(현재)</span></td>
                     <td>지속 가능한 습관의 증거가 누적됩니다.</td>
                   </tr>
                   <tr>
-                    <td><strong>4</strong></td>
+                    <td>4단계</td>
                     <td>주간 단위로 패턴을 묶어 ‘다음 주 규칙 1개’를 만듭니다.</td>
-                    <td><a href="../weekly-report/09_weekly_practice_report.html"><strong>9번</strong></a></td>
+                    <td><a href="../weekly-report/09_weekly_practice_report.html">9번</a></td>
                     <td>자책 대신 “규칙”으로 개선이 진행됩니다.</td>
                   </tr>
                 </tbody>
@@ -345,8 +343,8 @@
             <p class="text-body mt-10">
               같은 지출이라도 ‘계획 안’과 ‘계획 밖’은 다음 달 전략이 달라야 합니다.
             </p>
-            <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="돌발 지출 유무에 따른 해석 비교 표">
+            <div class="table-wrap table-wrap--data mt-16">
+              <table class="data-table" aria-label="지출 결과 해석 및 조정(분석)">
                 <thead>
                   <tr>
                     <th scope="col">구분</th>
@@ -357,16 +355,16 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>돌발 지출 없음</strong></td>
+                    <td>돌발 지출 없음</td>
                     <td>예산 경계 안에서 하루를 마감했습니다(BI 스티커의 의미).</td>
                     <td>현재 비율을 유지하거나, 목표(저축/비전)를 소폭 상향할 수 있습니다.</td>
-                    <td><a href="../monthly-review/10_monthly_budget_review.html"><strong>10번</strong></a></td>
+                    <td><a href="../monthly-review/10_monthly_budget_review.html">10번</a></td>
                   </tr>
                   <tr>
-                    <td><strong>돌발 지출 있음</strong></td>
+                    <td>돌발 지출 있음</td>
                     <td>사건/환경 요인이 계획을 흔들었습니다. 실패가 아니라 ‘조건 변화’ 신호입니다.</td>
                     <td>버퍼(예외 예산) 마련, 고정비 구조 점검, 보험/예비비 설계로 대응합니다.</td>
-                    <td><a href="../daily-note/06_daily_note_review.html"><strong>6번</strong></a></td>
+                    <td><a href="../daily-note/06_daily_note_review.html">6번</a></td>
                   </tr>
                 </tbody>
               </table>
@@ -380,7 +378,7 @@
           </section>
 
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/legal.html#contact">문의</a></p>
           </footer>
         </main>
       </div>

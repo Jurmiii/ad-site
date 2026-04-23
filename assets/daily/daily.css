@@ -935,3 +935,98 @@ html[data-theme="dark"] .money-cal__sticker {
     display: none;
   }
 }
+
+/* 선이 있는 데이터 표(2·4번과 동일) — 5번 퀵 인풋 ‘퀵 인풋의 변화’ 등: 기록 표(daily-table)와 구분 */
+.page-daily .table-wrap--data {
+  overflow-x: auto;
+  width: 100%;
+  max-width: 100%;
+  border: 1px solid var(--border-default);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.page-daily .table-wrap--data .data-table {
+  width: 100%;
+  max-width: 100%;
+  border-collapse: collapse;
+  min-width: 360px;
+  table-layout: auto;
+}
+
+.page-daily .table-wrap--data .data-table th,
+.page-daily .table-wrap--data .data-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-default);
+  text-align: center;
+  font-size: 0.9375rem;
+  vertical-align: middle;
+}
+
+.page-daily .table-wrap--data .data-table thead th {
+  background: var(--color-bg-soft);
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.page-daily .table-wrap--data .data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 600px) {
+  .page-daily .table-wrap--data .data-table th,
+  .page-daily .table-wrap--data .data-table td {
+    padding: 10px 8px;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    word-break: keep-all;
+  }
+
+  .page-daily .table-wrap--data .data-table thead th {
+    font-size: 0.75rem;
+  }
+}
+
+/* 7번 — 표 아래 추천 흐름 강조 */
+.page-daily .daily-recommended-flow {
+  margin-top: 1.25rem;
+  padding: 1rem 1.125rem;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, var(--border-default));
+  background: var(--color-bg-soft);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-text-primary);
+  word-break: keep-all;
+  box-sizing: border-box;
+}
+
+.page-daily .daily-recommended-flow a {
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: var(--color-text-primary);
+}
+
+.page-daily .daily-recommended-flow__here {
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+/* 8번 등: 데이터 표 안 링크·현재 화면 표기 */
+.page-daily .table-wrap--data .data-table a {
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: var(--color-text-primary);
+}
+
+.page-daily .nospend-page-here {
+  font-weight: 800;
+  color: var(--color-primary);
+}

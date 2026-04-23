@@ -227,20 +227,21 @@
     var cy = size / 2;
     var rOuter = size * 0.38;
     var rInner = size * 0.22;
+    var isDark = document.documentElement.getAttribute("data-theme") === "dark";
 
     ctx.clearRect(0, 0, size, size);
 
     // subtle plate
     ctx.beginPath();
     ctx.arc(cx, cy, rOuter + 18, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(15,23,42,0.04)";
+    ctx.fillStyle = isDark ? "rgba(255,255,255,0.06)" : "rgba(15,23,42,0.04)";
     ctx.fill();
 
     var start = -Math.PI / 2;
     if (!total || total <= 0 || !items.length) {
       ctx.beginPath();
       ctx.arc(cx, cy, rOuter, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(100,116,139,0.25)";
+      ctx.strokeStyle = isDark ? "rgba(148,163,184,0.38)" : "rgba(100,116,139,0.25)";
       ctx.lineWidth = 18;
       ctx.stroke();
     } else {
@@ -260,11 +261,11 @@
     // center cut
     ctx.beginPath();
     ctx.arc(cx, cy, rInner, 0, Math.PI * 2);
-    ctx.fillStyle = "rgba(255,255,255,0.92)";
+    ctx.fillStyle = isDark ? "rgba(17, 24, 39, 0.94)" : "rgba(255,255,255,0.92)";
     ctx.fill();
 
-    // center text
-    ctx.fillStyle = "#0f172a";
+    // center text (light ink in dark theme)
+    ctx.fillStyle = themeInk();
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.font = "900 " + Math.round(size * 0.06) + "px Pretendard, system-ui, sans-serif";

@@ -155,9 +155,8 @@ html[data-theme="dark"] .mc-scroll-top {
   box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text-primary) 4%, transparent);
 }
 
-/* 헤더 즐겨찾기(최대 5) — 한 줄·5칸 고정, 가로 스크롤 없음 */
+/* 헤더 즐겨찾기(최대 5) — 한 줄·5칸 고정, flex 비율은 common.css */
 .mc-fav-bar {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -275,7 +274,30 @@ html[data-theme="dark"] .mc-scroll-top {
   color: var(--color-text-muted);
 }
 
+/* 모바일·태블릿: 드롭다운 슬림 / 데스크톱 좁은 폭: 그리드 탭 밀도 */
+@media (min-width: 1025px) and (max-width: 1320px) {
+  .mc-fav-bar,
+  .page-home .mc-fav-bar {
+    gap: 4px;
+  }
+
+  .mc-fav-bar.mc-fav-bar--grid,
+  .page-home .mc-fav-bar.mc-fav-bar--grid {
+    gap: 4px;
+  }
+
+  .mc-fav-bar__link,
+  .page-home .mc-fav-bar__link {
+    padding: 4px 4px;
+  }
+}
+
 @media (max-width: 1024px) {
+  .mc-fav-dropdown > summary {
+    padding: 6px 8px;
+    font-size: 0.72rem;
+  }
+
   .mc-global-header__inner .mc-fav-bar,
   .site-header__inner .mc-fav-bar {
     display: none !important;
@@ -283,6 +305,14 @@ html[data-theme="dark"] .mc-scroll-top {
 
   .mc-fav-dropdown {
     display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .mc-fav-dropdown > summary {
+    padding: 5px 6px;
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
   }
 }
 
@@ -353,7 +383,6 @@ html[data-theme="dark"] .mc-scroll-top {
 .mc-brand {
   display: flex;
   align-items: center;
-  gap: 12px;
   min-width: 0;
   flex: 1;
   text-decoration: none;
@@ -364,21 +393,10 @@ html[data-theme="dark"] .mc-scroll-top {
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
   min-width: 0;
   flex: 1;
   text-decoration: none;
   color: inherit;
-}
-
-.brand__mark {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  overflow: hidden;
-  flex: 0 0 auto;
-  background: transparent;
-  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
 }
 
 .mc-brand:focus-visible {
@@ -388,15 +406,8 @@ html[data-theme="dark"] .mc-scroll-top {
 }
 
 .mc-brand__mark {
-  flex: 0 0 auto;
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
   display: grid;
   place-items: center;
-  overflow: hidden;
-  background: transparent;
-  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
 }
 
 .mc-brand__titles {
@@ -422,15 +433,12 @@ html[data-theme="dark"] .mc-scroll-top {
 .mc-global-header__tools {
   display: flex;
   align-items: center;
-  gap: 10px;
   flex-shrink: 0;
 }
 
-/* Theme toggle (기능 페이지용) */
+/* Theme toggle (기능 페이지용) — 치수는 common.css --mc-header-scale */
 .mc-global-header .theme-toggle {
   position: relative;
-  width: 54px;
-  height: 34px;
   border-radius: 999px;
   border: 1px solid var(--border-default);
   background: color-mix(in srgb, var(--color-text-muted) 16%, var(--color-surface));
@@ -454,19 +462,11 @@ html[data-theme="dark"] .mc-scroll-top {
 
 .mc-global-header .theme-toggle__thumb {
   position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 26px;
-  height: 26px;
   border-radius: 999px;
   background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.14);
   transform: translateX(0);
   transition: transform 0.22s ease;
-}
-
-html[data-theme="dark"] .mc-global-header .theme-toggle__thumb {
-  transform: translateX(20px);
 }
 
 html[data-theme="dark"] .mc-global-header .theme-toggle {
@@ -478,12 +478,9 @@ html[data-theme="dark"] .mc-global-header .theme-toggle {
   display: none;
 }
 
-/* Hamburger */
+/* Hamburger — 치수는 common.css */
 .mc-hamburger,
 .mc-global-header .hamburger {
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
   border: 1px solid var(--border-default);
   background: var(--color-surface);
   cursor: pointer;
@@ -506,9 +503,9 @@ html[data-theme="dark"] .mc-global-header .theme-toggle {
 
 .mc-hamburger__icon,
 .mc-global-header .hamburger__icon {
+  position: relative;
   width: 18px;
   height: 12px;
-  position: relative;
 }
 
 .mc-hamburger__icon::before,

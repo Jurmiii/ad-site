@@ -562,19 +562,16 @@
 
     var isTour = body.classList.contains("page-demo-tour");
     var isMcApp = body.classList.contains("mc-app");
+    var isHome = body.classList.contains("page-home");
 
-    if (!isTour && !isMcApp) return;
-
-    if (isMcApp) {
-      var fid = inferFeatureId();
-      if (fid === 12 || fid === 13) return;
-    }
+    if (!isTour && !isMcApp && !isHome) return;
 
     var btn = document.createElement("button");
     btn.id = "mc-scroll-top";
     btn.type = "button";
     btn.className = "mc-scroll-top";
     btn.setAttribute("aria-label", "맨 위로");
+    btn.setAttribute("title", "맨 위로");
     btn.setAttribute("data-mc-scroll-top", "1");
     if (isTour) btn.setAttribute("data-mc-scroll-top-tour", "1");
     btn.innerHTML =
@@ -584,16 +581,16 @@
       '<span class="mc-scroll-top__label">TOP</span>';
     document.body.appendChild(btn);
 
-    function countMainSections() {
-      var main = document.getElementById("main");
-      if (!main) return 0;
-      var ch = main.children;
-      var n = 0;
-      var i;
-      for (i = 0; i < ch.length; i++) {
-        if (ch[i].tagName === "SECTION") n += 1;
-      }
-      return n;
+    var REVEAL_SCROLL_Y = 300;
+
+    function getScrollY() {
+      return window.pageYOffset != null
+        ? window.pageYOffset
+        : document.documentElement && document.documentElement.scrollTop
+          ? document.documentElement.scrollTop
+          : document.body
+            ? document.body.scrollTop
+            : 0;
     }
 
     function shouldShow() {
@@ -602,8 +599,7 @@
       if (vh <= 0) return false;
       var range = docEl.scrollHeight - vh;
       if (range <= 32) return false;
-      if (isTour) return true;
-      return countMainSections() > 2;
+      return getScrollY() >= REVEAL_SCROLL_Y;
     }
 
     function sync() {
@@ -619,6 +615,7 @@
     });
 
     sync();
+    window.addEventListener("scroll", sync, { passive: true });
     window.addEventListener("resize", sync);
     window.addEventListener("load", sync);
     try {

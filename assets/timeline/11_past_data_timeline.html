@@ -13,14 +13,14 @@
     <meta property="og:url" content="https://money-calender.netlify.app/timeline/11_past_data_timeline.html" />
     <meta property="og:title" content="11. 과거 데이터 타임라인 · Money Calendar" />
     <meta property="og:description" content="선택한 달의 지출·수입을 일별로 집계해 한 달 흐름을 선 그래프로 보여 주고, 반복 패턴을 찾도록 돕습니다." />
-    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Money Calendar" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="11. 과거 데이터 타임라인 · Money Calendar" />
     <meta name="twitter:description" content="선택한 달의 지출·수입을 일별로 집계해 한 달 흐름을 선 그래프로 보여 주고, 반복 패턴을 찾도록 돕습니다." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <link rel="canonical" href="https://money-calender.netlify.app/timeline/11_past_data_timeline.html" />
 
     <meta
@@ -33,7 +33,8 @@
 
     <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="language" content="ko" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />    <meta name="language" content="ko" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=no" />
@@ -44,10 +45,6 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
-
-    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
     <link rel="manifest" href="../../site.webmanifest">
 
     <title>11. 과거 데이터 타임라인 · Money Calendar</title>
@@ -60,6 +57,7 @@
     <link rel="stylesheet" href="../css/journal-shell.css" />
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="./timeline.css" />
+    <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
   </head>
   <body class="mc-app" data-mc-feature-id="11">
     <script>
@@ -190,8 +188,8 @@
               타임라인을 잘 쓰는 핵심은 “선이 예쁘게 내려갔는가”가 아니라, 선이 꺾인 지점에서 어떤 사건이 있었는지
               연결하는 것입니다. 아래 표는 그래프를 읽는 대표적인 관점을 정리한 것입니다.
             </p>
-            <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="과거 데이터 타임라인 그래프 해석 관점 표">
+            <div class="table-wrap table-wrap--data mt-16">
+              <table class="data-table" aria-label="그래프 신호 분석—타임라인 시각적 패턴">
                 <thead>
                   <tr>
                     <th scope="col">관점</th>
@@ -202,25 +200,25 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>변곡점</strong></td>
+                    <td>변곡점</td>
                     <td>특정 날짜에 급격한 상승/하락</td>
                     <td>경조사·병원·여행·큰 결제</td>
                     <td>사건성 지출은 버퍼 예산으로 분리</td>
                   </tr>
                   <tr>
-                    <td><strong>밀도</strong></td>
+                    <td>밀도</td>
                     <td>작은 변동이 연속으로 반복</td>
                     <td>카페/배달/소액 결제 습관</td>
                     <td>횟수 규칙 또는 주간 상한으로 전환</td>
                   </tr>
                   <tr>
-                    <td><strong>주차 패턴</strong></td>
+                    <td>주차 패턴</td>
                     <td>매주 같은 구간에서 급증</td>
                     <td>정기 모임·이동·장보기 루틴</td>
                     <td>해당 주차의 계획 예산을 선반영</td>
                   </tr>
                   <tr>
-                    <td><strong>입금 직후 소비</strong></td>
+                    <td>입금 직후 소비</td>
                     <td>수입일 이후 지출이 빠르게 증가</td>
                     <td>심리적 여유 → 즉시 보상</td>
                     <td>선저축/자동이체로 순서를 고정</td>
@@ -242,8 +240,8 @@
               <strong>예산 복기(10번)</strong>와 함께 읽을 때 가장 강해집니다. 타임라인이 “언제”를 보여 준다면,
               월간 복기는 “얼마나”와 “기준 대비”를 보여 줍니다. 두 화면을 연결하면 예산이 흔들린 원인을 훨씬 정확히 찾을 수 있습니다.
             </p>
-            <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="타임라인 분석 결과의 후속 액션 연결 표">
+            <div class="table-wrap table-wrap--data mt-16">
+              <table class="data-table" aria-label="데이터 기반 설계 변경—다음 달로의 반영">
                 <thead>
                   <tr>
                     <th scope="col">타임라인에서 발견</th>
@@ -256,25 +254,25 @@
                   <tr>
                     <td>주차별 지출이 특정 구간에 집중</td>
                     <td>생활 루틴 기반의 반복 지출</td>
-                    <td><a href="../monthly-review/10_monthly_budget_review.html"><strong>10번</strong></a></td>
+                    <td><a href="../monthly-review/10_monthly_budget_review.html">10번</a></td>
                     <td>해당 주차에 Needs/Wants 예산을 선배치</td>
                   </tr>
                   <tr>
                     <td>소액 결제의 연속(밀도 증가)</td>
                     <td>마찰이 낮은 소비 습관</td>
-                    <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a></td>
+                    <td><a href="../daily-quick/05_daily_quick_input.html">5번</a></td>
                     <td>카테고리 1개를 ‘횟수 규칙’으로 고정</td>
                   </tr>
                   <tr>
                     <td>사건성 지출이 반복적으로 발생</td>
                     <td>예외가 아니라 구조적 변수</td>
-                    <td><a href="../daily-nospend/08_no_spending_calendar.html"><strong>8번</strong></a></td>
+                    <td><a href="../daily-nospend/08_no_spending_calendar.html">8번</a></td>
                     <td>버퍼 예산/예비비 항목을 설계에 포함</td>
                   </tr>
                   <tr>
                     <td>수입일 이후 급격한 지출</td>
                     <td>보상 소비 트리거</td>
-                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2번</strong></a></td>
+                    <td><a href="../vision-budget/02_vision_allocation.html">2번</a></td>
                     <td>선저축 비율을 먼저 확보하고 Wants를 제한</td>
                   </tr>
                 </tbody>
@@ -293,7 +291,7 @@
             </p>
           </section>
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/legal.html#contact">문의</a></p>
           </footer>
         </main>
       </div>

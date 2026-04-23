@@ -13,14 +13,14 @@
     <meta property="og:url" content="https://money-calender.netlify.app/community/15_financial_health_diagnosis.html" />
     <meta property="og:title" content="15. 재정 건전성 정밀 진단 · Money Calendar" />
     <meta property="og:description" content="KPI 카드와 막대·도넛 차트로 이번 달 수입·예산·지출을 한눈에 비교하고, 재정 건전성을 데이터로 점검합니다." />
-    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Money Calendar" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="15. 재정 건전성 정밀 진단 · Money Calendar" />
     <meta name="twitter:description" content="KPI 카드와 막대·도넛 차트로 이번 달 수입·예산·지출을 한눈에 비교하고, 재정 건전성을 데이터로 점검합니다." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <link rel="canonical" href="https://money-calender.netlify.app/community/15_financial_health_diagnosis.html" />
 
     <meta
@@ -33,7 +33,8 @@
 
     <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="language" content="ko" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />    <meta name="language" content="ko" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=no" />
@@ -44,10 +45,6 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
-
-    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
     <link rel="manifest" href="../../site.webmanifest">
 
     <title>15. 재정 건전성 정밀 진단 · Money Calendar</title>
@@ -60,6 +57,7 @@
     <link rel="stylesheet" href="../css/journal-shell.css" />
     
     <link rel="stylesheet" href="./community.css" />
+    <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
   </head>
   <body class="mc-app" data-mc-feature-id="15">
     <script>
@@ -230,8 +228,8 @@
               KPI는 많이 만들수록 좋은 것이 아니라, 행동으로 이어질 수 있어야 합니다. 아래 표는 이 페이지에서 다루는 대표 지표를
               어떤 의미로 읽어야 하는지 정리합니다. 모든 셀은 같은 기준으로 가운데 정렬되어, 빠르게 비교할 수 있습니다.
             </p>
-            <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="재정 건전성 KPI 해석 표">
+            <div class="table-wrap table-wrap--data mt-16">
+              <table class="data-table" aria-label="월간 주요 지표 정의">
                 <thead>
                   <tr>
                     <th scope="col">지표</th>
@@ -242,25 +240,25 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>총 수입</strong></td>
+                    <th scope="row">총 수입</th>
                     <td>해당 월에 들어온 모든 수입 합계</td>
                     <td>변동이 작고 예측 가능</td>
                     <td>과대 추정으로 예산이 과도해짐</td>
                   </tr>
                   <tr>
-                    <td><strong>예산</strong></td>
+                    <th scope="row">예산</th>
                     <td>지출 상한(계획선)</td>
                     <td>생활 구조에 맞는 현실적 상한</td>
                     <td>너무 낮아 월중 붕괴(포기) 발생</td>
                   </tr>
                   <tr>
-                    <td><strong>총 지출</strong></td>
+                    <th scope="row">총 지출</th>
                     <td>데일리 기록 기반 실제 지출 합계</td>
                     <td>예산 내에서 관리됨</td>
                     <td>예산을 지속적으로 초과</td>
                   </tr>
                   <tr>
-                    <td><strong>예산 대비</strong></td>
+                    <th scope="row">예산 대비</th>
                     <td>예산 - 지출(남긴 금액)</td>
                     <td>남긴 금액이 비전/저축으로 연결</td>
                     <td>항상 0에 가까워 버퍼가 부족</td>
@@ -282,8 +280,8 @@
               다음 달에는 “무엇을 바꿀지”가 결정되어야 합니다. 아래 표는 진단에서 흔히 나오는 결과 유형과,
               이를 실제 행동으로 바꾸는 연결 루트를 정리합니다.
             </p>
-            <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="정밀 진단 결과의 후속 액션 연결 표">
+            <div class="table-wrap table-wrap--data mt-16">
+              <table class="data-table" aria-label="데이터 진단 및 실행 패턴">
                 <thead>
                   <tr>
                     <th scope="col">진단에서 보이는 패턴</th>
@@ -294,27 +292,27 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>예산은 있는데 지출이 초과</td>
+                    <th scope="row">예산은 있는데 지출이 초과</th>
                     <td>규칙이 실행으로 연결되지 않음</td>
-                    <td><a href="../daily-quick/05_daily_quick_input.html"><strong>5번</strong></a></td>
+                    <td><a href="../daily-quick/05_daily_quick_input.html">5번</a></td>
                     <td>자주 흔들리는 카테고리 1개에 상한/횟수 규칙</td>
                   </tr>
                   <tr>
-                    <td>Needs 비중이 과도</td>
+                    <th scope="row">Needs 비중이 과도</th>
                     <td>고정비/생활 구조 문제</td>
-                    <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a></td>
+                    <td><a href="../budget-simulator/04_budget_simulator.html">4번</a></td>
                     <td>고정비 1개를 구조 변경 관점으로 조정</td>
                   </tr>
                   <tr>
-                    <td>비전/저축이 계속 밀림</td>
+                    <th scope="row">비전/저축이 계속 밀림</th>
                     <td>저축이 “남는 돈”이 됨</td>
-                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2번</strong></a></td>
+                    <td><a href="../vision-budget/02_vision_allocation.html">2번</a></td>
                     <td>선저축으로 순서 고정 후 월말 복기</td>
                   </tr>
                   <tr>
-                    <td>매달 기준이 바뀌어 비교가 어려움</td>
+                    <th scope="row">매달 기준이 바뀌어 비교가 어려움</th>
                     <td>학습 루프가 끊김</td>
-                    <td><a href="../budget-lock/03_budget_lock.html"><strong>3번</strong></a></td>
+                    <td><a href="../budget-lock/03_budget_lock.html">3번</a></td>
                     <td>한 달 기준선을 락으로 고정해 비교 가능하게 유지</td>
                   </tr>
                 </tbody>
@@ -328,7 +326,7 @@
             </p>
           </section>
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/legal.html#contact">문의</a></p>
           </footer>
         </main>
       </div>

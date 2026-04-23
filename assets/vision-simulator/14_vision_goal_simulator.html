@@ -13,14 +13,14 @@
     <meta property="og:url" content="https://money-calender.netlify.app/vision-simulator/14_vision_goal_simulator.html" />
     <meta property="og:title" content="14. 비전 달성 시뮬레이터 · Money Calendar" />
     <meta property="og:description" content="월 할당 비전을 바탕으로 자산 성장 곡선을 시뮬레이션하고 목표 달성 가능성을 시각적으로 확인합니다." />
-    <meta property="og:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta property="og:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Money Calendar" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="14. 비전 달성 시뮬레이터 · Money Calendar" />
     <meta name="twitter:description" content="월 할당 비전을 바탕으로 자산 성장 곡선을 시뮬레이션하고 목표 달성 가능성을 시각적으로 확인합니다." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og.img.webp" />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og-img.webp" />
     <link rel="canonical" href="https://money-calender.netlify.app/vision-simulator/14_vision_goal_simulator.html" />
 
     <meta
@@ -33,7 +33,8 @@
 
     <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="language" content="ko" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />    <meta name="language" content="ko" />
     <meta name="distribution" content="global" />
     <meta name="rating" content="general" />
     <meta name="format-detection" content="telephone=no" />
@@ -44,10 +45,6 @@
     <meta name="msapplication-TileColor" content="#ffffff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
-
-    <link rel="icon" href="../../assets/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../../assets/images/icon/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" href="../../assets/images/icon/favicon.png">
     <link rel="manifest" href="../../site.webmanifest">
 
     <title>14. 비전 달성 시뮬레이터 · Money Calendar</title>
@@ -60,6 +57,7 @@
     <link rel="stylesheet" href="../css/journal-shell.css" />
     <link rel="stylesheet" href="../js/excel-manager.css" />
     <link rel="stylesheet" href="./vision-simulator.css" />
+    <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
   </head>
   <body class="mc-app page-vs" data-mc-feature-id="14">
     <script>
@@ -290,8 +288,8 @@
               같은 목표라도 시작점과 가정이 다르면 곡선의 형태가 달라집니다. 아래 표는 이 화면의 주요 입력값이 어떤 의미를 가지며,
               어떤 방식으로 의사결정에 도움을 주는지 정리합니다.
             </p>
-            <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="비전 달성 시뮬레이터 입력값 해석 표">
+            <div class="table-wrap table-wrap--data mt-16">
+              <table class="data-table" aria-label="입력값 정의 및 해석">
                 <thead>
                   <tr>
                     <th scope="col">입력값</th>
@@ -302,25 +300,25 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>목표 자산액</strong></td>
+                    <th scope="row">목표 자산액</th>
                     <td>비전·목돈·비상금 등 합산 목표</td>
                     <td>하나의 목표만 넣어야 한다</td>
                     <td>의미가 같은 목표는 묶어도 됨</td>
                   </tr>
                   <tr>
-                    <td><strong>현재 누적</strong></td>
+                    <th scope="row">현재 누적</th>
                     <td>이미 모아 둔 금액(선택)</td>
                     <td>없으면 시작이 불리하다</td>
                     <td>없어도 월 적립의 구조가 더 중요</td>
                   </tr>
                   <tr>
-                    <td><strong>연 수익률</strong></td>
+                    <th scope="row">연 수익률</th>
                     <td>교육용 가정치(복리 반영)</td>
                     <td>반드시 높은 수익률을 목표로 해야 한다</td>
                     <td>보수적으로 잡고 “실행”을 우선</td>
                   </tr>
                   <tr>
-                    <td><strong>월 비전 적립</strong></td>
+                    <th scope="row">월 비전 적립</th>
                     <td>2번 비전 할당 합계</td>
                     <td>남는 돈으로만 적립한다</td>
                     <td>선저축처럼 “순서”로 고정할수록 강함</td>
@@ -341,8 +339,8 @@
               시뮬레이션의 결론은 “가능/불가능”이 아니라, “어떤 구조로 가능하게 만들 것인가”입니다.
               아래 표는 시뮬레이터 결과를 다음 달 행동으로 전환하는 대표적인 4단계 전략입니다.
             </p>
-            <div class="table-wrap mt-16">
-              <table class="data-table mc-table-centered" aria-label="비전 달성 시뮬레이터 기반 4단계 전략 표">
+            <div class="table-wrap table-wrap--data mt-16">
+              <table class="data-table" aria-label="성장 곡선 달성 4단계(마일스톤)">
                 <thead>
                   <tr>
                     <th scope="col">단계</th>
@@ -353,28 +351,28 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><strong>1</strong></td>
+                    <th scope="row">1단계</th>
                     <td>목표를 “기간”으로 번역</td>
                     <td>DDay가 납득 가능한 범위인지</td>
-                    <td><a href="../monthly-review/10_monthly_budget_review.html"><strong>10번</strong></a></td>
+                    <td><a href="../monthly-review/10_monthly_budget_review.html">10번</a></td>
                   </tr>
                   <tr>
-                    <td><strong>2</strong></td>
+                    <th scope="row">2단계</th>
                     <td>월 적립을 설계로 고정</td>
                     <td>월 비전 적립이 흔들리지 않는지</td>
-                    <td><a href="../vision-budget/02_vision_allocation.html"><strong>2번</strong></a></td>
+                    <td><a href="../vision-budget/02_vision_allocation.html">2번</a></td>
                   </tr>
                   <tr>
-                    <td><strong>3</strong></td>
+                    <th scope="row">3단계</th>
                     <td>변동을 줄이는 구조 만들기</td>
                     <td>Needs/Wants 변동이 큰 구간이 있는지</td>
-                    <td><a href="../budget-simulator/04_budget_simulator.html"><strong>4번</strong></a></td>
+                    <td><a href="../budget-simulator/04_budget_simulator.html">4번</a></td>
                   </tr>
                   <tr>
-                    <td><strong>4</strong></td>
+                    <th scope="row">4단계</th>
                     <td>마지막 구간의 흔들림 방지</td>
                     <td>목표 근처에서 포기/보상이 반복되는지</td>
-                    <td><a href="../budget-lock/03_budget_lock.html"><strong>3번</strong></a></td>
+                    <td><a href="../budget-lock/03_budget_lock.html">3번</a></td>
                   </tr>
                 </tbody>
               </table>
@@ -387,7 +385,7 @@
           </section>
 
           <footer class="page-foot mt-24 mb-20">
-            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved.</p>
+            <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/legal.html#contact">문의</a></p>
           </footer>
         </main>
       </div>

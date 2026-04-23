@@ -27,6 +27,8 @@
   /* 헤더(홈·기능 공통): PC 기준 69px — html 배율(100% / 85% / 75%)에 맞춰 rem으로 비례 축소 */
   --mc-header-height: 4.3125rem;
   --mc-header-inner-gap: 0.75rem;
+  /* 로고·토글·햄버거: 768px 이하 0.85, 480px 이하 0.7(요청 비율) */
+  --mc-header-scale: 1;
   --shadow-card: 0 14px 46px rgba(15, 23, 42, 0.07);
   --focus-ring: 0 0 0 3px rgba(34, 197, 94, 0.22);
   /* 종이 가계부 셸 */
@@ -110,6 +112,12 @@ html {
   html {
     font-size: 75%;
   }
+
+  .site-header > .container.site-header__inner,
+  .mc-global-header > .container.mc-global-header__inner {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
 }
 
 html,
@@ -178,8 +186,10 @@ video {
   display: block !important;
   width: 100% !important;
   height: 100% !important;
-  min-width: 44px;
-  min-height: 44px;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
   visibility: visible !important;
   opacity: 1 !important;
   object-fit: contain;
@@ -335,28 +345,136 @@ a {
   box-sizing: border-box;
 }
 
-/* App header — 홈·기능 페이지 공통: inner 높이 69px(기준 16px root), 수직 중앙 정렬 */
+/* App header — 홈·기능 페이지 공통: 최소 69px, 제목 2줄일 때는 높이 자동 확장 */
 /* 별칭 .common-header__inner — 동일 규격 재사용 시 사용 */
 .site-header__inner,
 .mc-global-header__inner,
 .common-header__inner {
   display: flex;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--mc-header-inner-gap);
-  height: var(--mc-header-height);
+  min-width: 0;
   min-height: var(--mc-header-height);
-  max-height: var(--mc-header-height);
+  height: auto;
+  max-height: none;
   padding-top: 0;
   padding-bottom: 0;
   box-sizing: border-box;
 }
 
-/* 헤더 행은 .container를 쓰되 세로 패딩 없음(전체 바 높이 = --mc-header-height) */
+/* .container와 겹친 한 요소: 좌우는 .container, 세로는 제목 2줄 대비 */
 .site-header > .container.site-header__inner,
 .mc-global-header > .container.mc-global-header__inner {
-  padding-top: 0;
-  padding-bottom: 0;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* —— Header: 겹침 방지 + 로고·테마·햄버거 유동 축소(768→85%, 480→70%) —— */
+.site-header .brand,
+.mc-global-header .mc-brand {
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: calc(12px * var(--mc-header-scale));
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand__text,
+.mc-brand__titles {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible;
+}
+
+/* 헤더 제목: 잘림 방지(줄바꿈), 한글은 단어 단위 유지 */
+.site-header .brand__name,
+.site-header .brand__tag,
+.mc-global-header .mc-brand__series {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  line-height: 1.28;
+}
+
+.site-header .brand__mark,
+.mc-global-header .brand__mark,
+.mc-brand__mark {
+  width: calc(44px * var(--mc-header-scale));
+  height: calc(44px * var(--mc-header-scale));
+  max-width: calc(44px * var(--mc-header-scale));
+  max-height: calc(44px * var(--mc-header-scale));
+  border-radius: calc(14px * var(--mc-header-scale));
+  flex: 0 0 auto;
+  overflow: hidden;
+  background: transparent;
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.12);
+  box-sizing: border-box;
+}
+
+.site-header .header-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: calc(10px * var(--mc-header-scale));
+}
+
+.mc-global-header .mc-global-header__tools {
+  gap: calc(10px * var(--mc-header-scale));
+}
+
+.site-header .theme-toggle,
+.mc-global-header .theme-toggle {
+  width: calc(54px * var(--mc-header-scale));
+  height: calc(34px * var(--mc-header-scale));
+  flex-shrink: 0;
+}
+
+.site-header .theme-toggle__thumb,
+.mc-global-header .theme-toggle__thumb {
+  top: calc(3px * var(--mc-header-scale));
+  left: calc(3px * var(--mc-header-scale));
+  width: calc(26px * var(--mc-header-scale));
+  height: calc(26px * var(--mc-header-scale));
+}
+
+html[data-theme="dark"] .site-header .theme-toggle__thumb,
+html[data-theme="dark"] .mc-global-header .theme-toggle__thumb {
+  transform: translateX(calc(20px * var(--mc-header-scale)));
+}
+
+.site-header .hamburger,
+.mc-global-header .hamburger,
+.mc-hamburger {
+  width: calc(48px * var(--mc-header-scale));
+  height: calc(48px * var(--mc-header-scale));
+  border-radius: calc(16px * var(--mc-header-scale));
+  flex-shrink: 0;
+}
+
+.site-header .hamburger__icon,
+.mc-global-header .hamburger__icon,
+.mc-hamburger__icon {
+  transform: scale(var(--mc-header-scale));
+  transform-origin: center;
+}
+
+/* 브랜드가 가로를 우선(즐겨찾기 영역은 필요 시 수축) */
+.site-header__inner .mc-fav-bar,
+.site-header__inner .mc-fav-dropdown,
+.mc-global-header__inner .mc-fav-bar,
+.mc-global-header__inner .mc-fav-dropdown,
+.page-home .site-header__inner .mc-fav-bar,
+.page-home .site-header__inner .mc-fav-dropdown {
+  flex: 0 1 40%;
+  min-width: 0;
+  max-width: min(28rem, 48%);
 }
 
 .page-foot {
@@ -631,17 +749,36 @@ html[data-theme="dark"] select:focus {
 }
 
 @media (max-width: 768px) {
+  :root {
+    --mc-header-scale: 0.85;
+  }
+
   .container {
     padding: 16px;
   }
 
   .site-header > .container.site-header__inner,
   .mc-global-header > .container.mc-global-header__inner {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 
   h1 {
     font-size: 1.5rem;
+  }
+}
+
+/* 480px는 768px보다 캐스케이드가 뒤에 와야 --mc-header-scale(0.7)이 덮어씀 */
+@media (max-width: 480px) {
+  :root {
+    --mc-header-scale: 0.7;
+    --mc-header-inner-gap: 0.5rem;
+  }
+
+  .site-header .brand__name,
+  .site-header .brand__tag,
+  .mc-global-header .mc-brand__series {
+    font-size: 0.86rem; /* 약 14% 수준 축소(1rem 대비) */
+    line-height: 1.3;
   }
 }
