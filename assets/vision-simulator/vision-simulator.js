@@ -48,15 +48,15 @@
   function loadState() {
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return { targetAmount: 0, annualReturnPct: 4, currentBalance: 0 };
+      if (!raw) return { targetAmount: 0, annualReturnPct: 0, currentBalance: 0 };
       var o = JSON.parse(raw);
       return {
         targetAmount: Math.max(0, Math.trunc(Number(o.targetAmount) || 0)),
-        annualReturnPct: Math.min(30, Math.max(0, Number(o.annualReturnPct) || 4)),
+        annualReturnPct: Math.min(30, Math.max(0, Number(o.annualReturnPct) || 0)),
         currentBalance: Math.max(0, Math.trunc(Number(o.currentBalance) || 0)),
       };
     } catch (e) {
-      return { targetAmount: 0, annualReturnPct: 4, currentBalance: 0 };
+      return { targetAmount: 0, annualReturnPct: 0, currentBalance: 0 };
     }
   }
 

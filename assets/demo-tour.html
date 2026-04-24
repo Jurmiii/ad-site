@@ -6,25 +6,26 @@
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="shortcut icon" href="/favicon.ico" />
     <link rel="apple-touch-icon" href="/favicon.ico" />
-    <meta name="robots" content="noindex, nofollow" />
+    <meta name="robots" content="index, follow" />
     <title>가상 재정 시스템 투어 · Money Calendar</title>
     <meta
       name="description"
       content="머니 캘린더 1~13번 기능이 연결된 가상 재정 시나리오를 한 페이지에서 미리 봅니다. 메인 화면 데모 진입 전용."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://money-calender.netlify.app/demo-tour.html" />
+    <meta property="og:url" content="https://money-calender.netlify.app/assets/demo-tour.html" />
     <meta property="og:title" content="가상 재정 시스템 투어 · Money Calendar" />
     <meta property="og:description" content="머니 캘린더 1~13번 기능이 연결된 가상 재정 시나리오를 한 페이지에서 미리 봅니다. 메인 화면 데모 진입 전용." />
-    <meta property="og:image" content="https://money-calender.netlify.app/images/og-img.webp" />
+    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Money Calendar" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="가상 재정 시스템 투어 · Money Calendar" />
     <meta name="twitter:description" content="머니 캘린더 1~13번 기능이 연결된 가상 재정 시나리오를 한 페이지에서 미리 봅니다. 메인 화면 데모 진입 전용." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/images/og-img.webp" />
-    <link rel="canonical" href="https://money-calender.netlify.app/demo-tour.html" />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
+    <link rel="canonical" href="https://money-calender.netlify.app/assets/demo-tour.html" />
+    <link rel="sitemap" type="application/xml" href="https://money-calender.netlify.app/sitemap.xml" title="Sitemap" />
 
     <link
       rel="stylesheet"
@@ -38,6 +39,8 @@
     <link rel="stylesheet" href="./weekly-report/weekly-report.css" />
     <link rel="stylesheet" href="./css/demo-tour.css" />
     <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
+    <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
+    <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
   </head>
   <body class="page-home page-demo-tour">
     <script>
@@ -53,8 +56,7 @@
               src="./images/icon/mc-logo.svg"
               width="44"
               height="44"
-              alt=""
-              role="presentation"
+              alt="Money Calendar 머니캘린더 로고"
               loading="eager"
               decoding="async"
             />
@@ -106,7 +108,7 @@
             <p class="dt-hero__badge">DEMO TOUR - 머니 캘린더 가이드</p>
             <p class="dt-hero__lead dt-guide-text dt-prose-br">
               <span class="dt-hero__lead-line1"
-                >아래는 <strong>5,500,000원 수입 · 1,800,000원 고정 · 2,500,000원 비전 할당</strong>이 균형을 이룬 가상 시나리오 입니다.</span
+                >아래는 <strong>실제로 입력·저장한 기록</strong>이 있을 때 보게 되는 화면의 <strong>레이아웃</strong>을 훑는 가이드입니다. 금액은 0·빈 상태에서 시작합니다.</span
               ><br />
               실제 1~13번 화면이 모였을 때의 <strong>미래 모습</strong>을 한 번에 훑어 보세요.<br />
               이 페이지는 메인의 「사용 가이드」에서만 들어올 수 있습니다.
@@ -129,22 +131,22 @@
                     <div class="dt-inc-grid">
                       <div class="dt-inc-cell">
                         <div class="dt-inc-cell__k">실제 소득</div>
-                        <div class="dt-inc-cell__v">2,200,000원</div>
+                        <div class="dt-inc-cell__v">0원</div>
                       </div>
                       <div class="dt-inc-cell">
                         <div class="dt-inc-cell__k">예정 소득</div>
-                        <div class="dt-inc-cell__v">1,500,000원</div>
+                        <div class="dt-inc-cell__v">0원</div>
                       </div>
                       <div class="dt-inc-cell">
                         <div class="dt-inc-cell__k">기타 소득</div>
-                        <div class="dt-inc-cell__v">1,300,000원</div>
+                        <div class="dt-inc-cell__v">0원</div>
                       </div>
                       <div class="dt-inc-cell">
                         <div class="dt-inc-cell__k">희망 소득</div>
-                        <div class="dt-inc-cell__v">500,000원</div>
+                        <div class="dt-inc-cell__v">0원</div>
                       </div>
                     </div>
-                    <p class="text-sm mt-10 dt-mock__foot-sum">합계 5,500,000원</p>
+                    <p class="text-sm mt-10 dt-mock__foot-sum">합계 0원</p>
                   </div>
                 </div>
               </div>
@@ -162,11 +164,11 @@
               <div class="dt-mock-wrap">
                 <div class="dt-mock dt-mock--wf" aria-hidden="true">
                   <div class="dt-mock__body">
-                    <div class="dt-wf-row"><span>월 가용 수입</span><strong>5,500,000원</strong></div>
-                    <div class="dt-wf-row"><span>고정 지출</span><strong>−1,800,000원</strong></div>
-                    <div class="dt-wf-row"><span>가용 비전 상한</span><strong>3,700,000원</strong></div>
-                    <div class="dt-wf-row"><span>비전 할당 합계</span><strong>−2,500,000원</strong></div>
-                    <div class="dt-wf-row"><span>잔여 가용</span><strong style="color: var(--color-primary)">1,200,000원</strong></div>
+                    <div class="dt-wf-row"><span>월 가용 수입</span><strong>0원</strong></div>
+                    <div class="dt-wf-row"><span>고정 지출</span><strong>0원</strong></div>
+                    <div class="dt-wf-row"><span>가용 비전 상한</span><strong>0원</strong></div>
+                    <div class="dt-wf-row"><span>비전 할당 합계</span><strong>0원</strong></div>
+                    <div class="dt-wf-row"><span>잔여 가용</span><strong style="color: var(--color-primary)">0원</strong></div>
                   </div>
                 </div>
               </div>
@@ -233,29 +235,29 @@
               <div class="dt-mock-wrap">
                 <div class="dt-mock" aria-hidden="true">
                   <div class="dt-mock__body dt-bs-mock">
-                    <p class="text-sm dt-bs-mock__kicker">월 가용 수입 1,500,000원 · 세부 카테고리 배분 예시</p>
+                    <p class="text-sm dt-bs-mock__kicker">가용 수입·배분을 입력하면 아래에 반영됩니다</p>
                     <ul class="dt-bs-legend" role="list">
-                      <li><span class="dt-bs-dot dt-bs-dot--food"></span> 식비 <strong>600,000원</strong></li>
-                      <li><span class="dt-bs-dot dt-bs-dot--home"></span> 주거비 <strong>800,000원</strong></li>
-                      <li><span class="dt-bs-dot dt-bs-dot--tel"></span> 통신비 <strong>100,000원</strong></li>
+                      <li><span class="dt-bs-dot dt-bs-dot--food"></span> 식비 <strong>0원</strong></li>
+                      <li><span class="dt-bs-dot dt-bs-dot--home"></span> 주거비 <strong>0원</strong></li>
+                      <li><span class="dt-bs-dot dt-bs-dot--tel"></span> 통신비 <strong>0원</strong></li>
                     </ul>
                     <div class="dt-stack-bar" role="img" aria-label="식비·주거·통신 비중 막대">
-                      <span class="dt-stack-bar__seg dt-stack-bar__seg--food" style="width: 40%"></span>
-                      <span class="dt-stack-bar__seg dt-stack-bar__seg--home" style="width: 53.33%"></span>
-                      <span class="dt-stack-bar__seg dt-stack-bar__seg--tel" style="width: 6.67%"></span>
+                      <span class="dt-stack-bar__seg dt-stack-bar__seg--food" style="width: 33.33%"></span>
+                      <span class="dt-stack-bar__seg dt-stack-bar__seg--home" style="width: 33.33%"></span>
+                      <span class="dt-stack-bar__seg dt-stack-bar__seg--tel" style="width: 33.34%"></span>
                     </div>
                     <div class="dt-donut-wrap">
                       <div class="dt-donut" aria-hidden="true"></div>
                       <div class="dt-donut-legend text-sm">
-                        <span><span class="dt-bs-dot dt-bs-dot--food"></span> 40%</span>
-                        <span><span class="dt-bs-dot dt-bs-dot--home"></span> 53%</span>
-                        <span><span class="dt-bs-dot dt-bs-dot--tel"></span> 7%</span>
+                        <span><span class="dt-bs-dot dt-bs-dot--food"></span> 0%</span>
+                        <span><span class="dt-bs-dot dt-bs-dot--home"></span> 0%</span>
+                        <span><span class="dt-bs-dot dt-bs-dot--tel"></span> 0%</span>
                       </div>
                     </div>
                     <div class="dt-bs-summary">
                       <div class="dt-bs-summary__tile">
                         <span class="dt-bs-summary__k">합계</span>
-                        <span class="dt-bs-summary__v">1,500,000원</span>
+                        <span class="dt-bs-summary__v">0원</span>
                       </div>
                       <div class="dt-bs-summary__tile">
                         <span class="dt-bs-summary__k">남는 금액</span>
@@ -263,26 +265,26 @@
                       </div>
                       <div class="dt-bs-summary__tile">
                         <span class="dt-bs-summary__k">상태</span>
-                        <span class="dt-bs-summary__v">정상</span>
+                        <span class="dt-bs-summary__v">—</span>
                       </div>
                     </div>
-                    <p class="text-sm dt-bs-divider-label">수입을 초과한 경우(실제 서비스와 동일)</p>
+                    <p class="text-sm dt-bs-divider-label">초과·경고는 실제 입력 값에 따라 표시됩니다</p>
                     <div class="dt-bs-summary dt-bs-summary--warn">
                       <div class="dt-bs-summary__tile">
                         <span class="dt-bs-summary__k">합계</span>
-                        <span class="dt-bs-summary__v">2,150,000원</span>
+                        <span class="dt-bs-summary__v">0원</span>
                       </div>
                       <div class="dt-bs-summary__tile">
                         <span class="dt-bs-summary__k">남는 금액</span>
-                        <span class="dt-bs-summary__v dt-bs-summary__v--bad">−650,000원</span>
+                        <span class="dt-bs-summary__v dt-bs-summary__v--bad">0원</span>
                       </div>
                       <div class="dt-bs-summary__tile">
                         <span class="dt-bs-summary__k">상태</span>
-                        <span class="dt-bs-summary__v dt-bs-summary__v--bad">초과</span>
+                        <span class="dt-bs-summary__v dt-bs-summary__v--bad">—</span>
                       </div>
                     </div>
                     <p class="text-sm dt-bs-warn-msg" role="status">
-                      총 예산(분배 합계)이 월 가용 수입을 넘었습니다. 슬라이더로 항목을 조정해 주세요.
+                      수치를 입력한 뒤, 필요 시 이 영역에 검증 메시지가 나타납니다.
                     </p>
                   </div>
                 </div>
@@ -335,7 +337,7 @@
                               type="text"
                               readonly
                               tabindex="-1"
-                              value="12,500"
+                              value=""
                             />
                             <span class="won" aria-hidden="true">원</span>
                           </div>
@@ -347,23 +349,23 @@
                             type="text"
                             readonly
                             tabindex="-1"
-                            value="점심 식사(김치찌개)"
+                            value=""
                           />
                         </label>
                       </div>
                       <div class="daily-quick__balance-block mt-16">
                         <p class="daily-quick__balance-label">현재 잔액</p>
-                        <p class="daily-quick__balance-amount">2,847,500원</p>
+                        <p class="daily-quick__balance-amount">0원</p>
                       </div>
                       <div class="daily-quick__live mt-16">
                         <p class="daily-quick__budget">
-                          식비 예산 600,000원 중 <strong>387,500원</strong> 남음
+                          예산·지출을 입력한 뒤 <strong>남은 금액</strong>이 표시됩니다
                         </p>
                         <div class="daily-pct-wrap">
                           <div class="daily-pct-bar" role="presentation">
                             <span class="daily-pct-fill" style="width: 35%"></span>
                           </div>
-                          <p class="text-sm daily-pct-label">이번 입력이 식비 예산의 약 2.1%를 씁니다.</p>
+                          <p class="text-sm daily-pct-label">금액을 입력하면 예산 대비 비중(%)이 표시됩니다.</p>
                         </div>
                       </div>
                       <button type="button" class="btn btn--block mt-16" tabindex="-1">기록에 추가</button>
@@ -426,18 +428,18 @@
                         <label class="field">
                           <span class="field-label">금액</span>
                           <div class="money-wrap">
-                            <input class="money-input daily-quick-amount" type="text" readonly tabindex="-1" value="5,000" />
+                            <input class="money-input daily-quick-amount" type="text" readonly tabindex="-1" value="" />
                             <span class="won" aria-hidden="true">원</span>
                           </div>
                         </label>
                         <label class="field">
                           <span class="field-label">카테고리</span>
-                          <input class="daily-quick-cat" type="text" readonly tabindex="-1" value="교통" />
+                          <input class="daily-quick-cat" type="text" readonly tabindex="-1" value="" />
                         </label>
                       </div>
                       <div class="daily-quick__live mt-16">
                         <p class="daily-quick__budget dt-sense-lead">
-                          오늘의 한 건 지출(5,000원)이 흐름 안에서 차지하는 <strong>비중</strong>을 보면, 비전을 채우는 한
+                          오늘의 한 건 지출(0원)이 흐름 안에서 차지하는 <strong>비중</strong>을 보면, 비전을 채우는 한
                           조각의 무게가 보입니다.
                         </p>
                         <div class="daily-pct-wrap">
@@ -445,7 +447,7 @@
                             <span class="daily-pct-fill" style="width: 8%"></span>
                           </div>
                           <p class="text-sm daily-pct-label">
-                            이번 달 식비 예산에서 약 0.08% · 오늘 누적 지출 대비 약 1.2%
+                            예산·지출이 있으면 1원 단위 비중으로 풀어 표시됩니다
                           </p>
                         </div>
                       </div>
@@ -518,44 +520,44 @@
                         <summary class="wk-week-sum">
                           <span class="wk-week-sum__label">[4월 1주차(1일~7일)]</span>
                           <span class="wk-week-sum__bar" role="presentation"><span style="width: 19%"></span></span>
-                          <span class="wk-week-sum__amt num">380,000원</span>
+                          <span class="wk-week-sum__amt num">0원</span>
                           <span class="wk-week-sum__chev" aria-hidden="true">▾</span>
                         </summary>
                         <div class="wk-week-body">
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-01</span>
                             <div class="wk-bar"><span style="width: 2.8%"></span></div>
-                            <span class="text-sm num">55,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-02</span>
                             <div class="wk-bar"><span style="width: 2.4%"></span></div>
-                            <span class="text-sm num">48,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-03</span>
                             <div class="wk-bar"><span style="width: 3.1%"></span></div>
-                            <span class="text-sm num">62,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-04</span>
                             <div class="wk-bar"><span style="width: 2.6%"></span></div>
-                            <span class="text-sm num">51,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-05</span>
                             <div class="wk-bar"><span style="width: 3.7%"></span></div>
-                            <span class="text-sm num">74,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-06</span>
                             <div class="wk-bar"><span style="width: 2.3%"></span></div>
-                            <span class="text-sm num">45,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-07</span>
                             <div class="wk-bar"><span style="width: 2.3%"></span></div>
-                            <span class="text-sm num">45,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                         </div>
                       </details>
@@ -563,44 +565,44 @@
                         <summary class="wk-week-sum">
                           <span class="wk-week-sum__label">[4월 2주차(8일~14일)]</span>
                           <span class="wk-week-sum__bar" role="presentation"><span style="width: 21%"></span></span>
-                          <span class="wk-week-sum__amt num">420,000원</span>
+                          <span class="wk-week-sum__amt num">0원</span>
                           <span class="wk-week-sum__chev" aria-hidden="true">▾</span>
                         </summary>
                         <div class="wk-week-body">
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-08</span>
                             <div class="wk-bar"><span style="width: 3%"></span></div>
-                            <span class="text-sm num">60,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-09</span>
                             <div class="wk-bar"><span style="width: 3%"></span></div>
-                            <span class="text-sm num">60,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-10</span>
                             <div class="wk-bar"><span style="width: 3%"></span></div>
-                            <span class="text-sm num">60,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-11</span>
                             <div class="wk-bar"><span style="width: 3%"></span></div>
-                            <span class="text-sm num">60,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-12</span>
                             <div class="wk-bar"><span style="width: 3%"></span></div>
-                            <span class="text-sm num">60,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-13</span>
                             <div class="wk-bar"><span style="width: 3%"></span></div>
-                            <span class="text-sm num">60,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-14</span>
                             <div class="wk-bar"><span style="width: 3%"></span></div>
-                            <span class="text-sm num">60,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                         </div>
                       </details>
@@ -608,44 +610,44 @@
                         <summary class="wk-week-sum">
                           <span class="wk-week-sum__label">[4월 3주차(15일~21일)]</span>
                           <span class="wk-week-sum__bar" role="presentation"><span style="width: 17.5%"></span></span>
-                          <span class="wk-week-sum__amt num">350,000원</span>
+                          <span class="wk-week-sum__amt num">0원</span>
                           <span class="wk-week-sum__chev" aria-hidden="true">▾</span>
                         </summary>
                         <div class="wk-week-body">
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-15</span>
                             <div class="wk-bar"><span style="width: 2.5%"></span></div>
-                            <span class="text-sm num">50,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-16</span>
                             <div class="wk-bar"><span style="width: 2.5%"></span></div>
-                            <span class="text-sm num">50,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-17</span>
                             <div class="wk-bar"><span style="width: 2.5%"></span></div>
-                            <span class="text-sm num">50,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-18</span>
                             <div class="wk-bar"><span style="width: 2.5%"></span></div>
-                            <span class="text-sm num">50,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-19</span>
                             <div class="wk-bar"><span style="width: 2.5%"></span></div>
-                            <span class="text-sm num">50,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-20</span>
                             <div class="wk-bar"><span style="width: 2.5%"></span></div>
-                            <span class="text-sm num">50,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-21</span>
                             <div class="wk-bar"><span style="width: 2.5%"></span></div>
-                            <span class="text-sm num">50,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                         </div>
                       </details>
@@ -653,44 +655,44 @@
                         <summary class="wk-week-sum">
                           <span class="wk-week-sum__label">[4월 4주차(22일~28일)]</span>
                           <span class="wk-week-sum__bar" role="presentation"><span style="width: 20.5%"></span></span>
-                          <span class="wk-week-sum__amt num">410,000원</span>
+                          <span class="wk-week-sum__amt num">0원</span>
                           <span class="wk-week-sum__chev" aria-hidden="true">▾</span>
                         </summary>
                         <div class="wk-week-body">
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-22</span>
                             <div class="wk-bar"><span style="width: 2.9%"></span></div>
-                            <span class="text-sm num">58,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-23</span>
                             <div class="wk-bar"><span style="width: 3.1%"></span></div>
-                            <span class="text-sm num">62,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-24</span>
                             <div class="wk-bar"><span style="width: 2.8%"></span></div>
-                            <span class="text-sm num">55,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-25</span>
                             <div class="wk-bar"><span style="width: 2.4%"></span></div>
-                            <span class="text-sm num">48,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-26</span>
                             <div class="wk-bar"><span style="width: 3.1%"></span></div>
-                            <span class="text-sm num">61,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-27</span>
                             <div class="wk-bar"><span style="width: 3.2%"></span></div>
-                            <span class="text-sm num">63,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-28</span>
                             <div class="wk-bar"><span style="width: 3.2%"></span></div>
-                            <span class="text-sm num">63,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                         </div>
                       </details>
@@ -698,25 +700,25 @@
                         <summary class="wk-week-sum">
                           <span class="wk-week-sum__label">[4월 5주차(29일~30일)]</span>
                           <span class="wk-week-sum__bar" role="presentation"><span style="width: 6%"></span></span>
-                          <span class="wk-week-sum__amt num">120,000원</span>
+                          <span class="wk-week-sum__amt num">0원</span>
                           <span class="wk-week-sum__chev" aria-hidden="true">▾</span>
                         </summary>
                         <div class="wk-week-body">
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-29</span>
                             <div class="wk-bar"><span style="width: 3.3%"></span></div>
-                            <span class="text-sm num">65,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                           <div class="wk-day-row">
                             <span class="text-sm">2026-04-30</span>
                             <div class="wk-bar"><span style="width: 2.8%"></span></div>
-                            <span class="text-sm num">55,000원</span>
+                            <span class="text-sm num">0원</span>
                           </div>
                         </div>
                       </details>
                     </div>
                     <div class="wk-summary mt-16">
-                      이번 달(4월) 누적 지출 1,680,000원 · 기준 2,000,000원 대비 84.0%
+                      이번 달(4월) 누적 지출 0원 · 기준(배분·시뮬) 대비 0%
                     </div>
                     <div class="wk-tip mt-16 card card--inset">
                       주간 식비·교통 항목을 데일리에서 태그로 묶어 보면 패턴이 드러납니다. 한 항목만 10% 줄이는 실험을
@@ -753,20 +755,20 @@
                         <tbody>
                           <tr>
                             <td>식비</td>
-                            <td class="num">600,000</td>
-                            <td class="num">540,000</td>
-                            <td class="num dt-mr-diff--good">−60,000</td>
+                            <td class="num">0</td>
+                            <td class="num">0</td>
+                            <td class="num dt-mr-diff--good">0</td>
                           </tr>
                           <tr>
                             <td>통신비</td>
-                            <td class="num">100,000</td>
-                            <td class="num">99,000</td>
-                            <td class="num dt-mr-diff--good">−1,000</td>
+                            <td class="num">0</td>
+                            <td class="num">0</td>
+                            <td class="num dt-mr-diff--good">0</td>
                           </tr>
                           <tr>
                             <td>주거·공과</td>
-                            <td class="num">800,000</td>
-                            <td class="num">800,000</td>
+                            <td class="num">0</td>
+                            <td class="num">0</td>
                             <td class="num">0</td>
                           </tr>
                         </tbody>
@@ -776,26 +778,26 @@
                     <div class="mr-chart dt-mr-chart" role="img" aria-label="배분 대비 지출 막대 데모">
                       <div class="mr-chart-row">
                         <span class="mr-chart-label">필수</span>
-                        <div class="mr-bar"><span style="width: 72%"></span></div>
-                        <span class="mr-chart-pct">72%</span>
+                        <div class="mr-bar"><span style="width: 0%"></span></div>
+                        <span class="mr-chart-pct">0%</span>
                       </div>
                       <div class="mr-chart-row">
                         <span class="mr-chart-label">선택</span>
-                        <div class="mr-bar"><span style="width: 88%"></span></div>
-                        <span class="mr-chart-pct">88%</span>
+                        <div class="mr-bar"><span style="width: 0%"></span></div>
+                        <span class="mr-chart-pct">0%</span>
                       </div>
                       <div class="mr-chart-row">
                         <span class="mr-chart-label">저축</span>
-                        <div class="mr-bar"><span style="width: 95%"></span></div>
-                        <span class="mr-chart-pct">95%</span>
+                        <div class="mr-bar"><span style="width: 0%"></span></div>
+                        <span class="mr-chart-pct">0%</span>
                       </div>
                     </div>
                     <ul class="dt-mr-notes text-sm">
                       <li>
-                        <strong>식비 10% 가치 있는 배정 성공!</strong> 완성을 위한 선택으로 식비 리듬을 맞춘 주가 많았습니다.
+                        <strong>기록이 쌓이면</strong> 여기에 배분 대비 지출에 대한 복기 메시지가 나타납니다.
                       </li>
-                      <li><strong>통신비 예산 준수.</strong> 약정 요금 안에서 유지했습니다.</li>
-                      <li class="dt-mr-notes__one">한 줄평: 다음 달은 선택적 지출만 한 단계 낮춰 보자.</li>
+                      <li><strong>예·실차이</strong>는 직접 입력한 데일리와 예산 설계에 따라 달라집니다.</li>
+                      <li class="dt-mr-notes__one">한 줄평: (입력한 한 줄 소비 코멘트)</li>
                     </ul>
                   </div>
                 </div>
@@ -855,8 +857,8 @@
                 <li>
                   <span class="dt-feature__kw">저장</span>
                   <span class="dt-feature__topic">데이터 소유</span>
-                  웹의 휘발성을 방지하고, 소중한 재정 기록을 엑셀 파일로 영구 보관합니다. 99만 원짜리 기록만 있고 마지막
-                  1원이 없으면 100만 원짜리 완성이 될 수 없듯, 끊기지 않게 남기는 일입니다.
+                  웹의 휘발성을 방지하고, 소중한 재정 기록을 엑셀 파일로 영구 보관합니다. 앞부분만 남기고 끊기지 않게
+                  기록을 이어 가는 것이 곧 완성에 닿는 일입니다.
                 </li>
                 <li>
                   <span class="dt-feature__kw">복원</span>
@@ -889,7 +891,7 @@
           <section class="dt-cta" aria-labelledby="dt-cta-title">
             <h2 id="dt-cta-title" class="dt-hero__title" style="font-size: 1.15rem">나만의 머니 캘린더로 이어지기</h2>
             <p class="dt-guide-text dt-prose-br" style="margin: 12px 0 0; color: var(--color-text-secondary); font-weight: 650">
-              웹에서 기록을 시작하면 위 가상 시나리오가 실제 데이터로 이어집니다. 입력·편집은 브라우저에서 가장
+              웹에서 기록을 시작하면, 위에서 본 흐름이 직접 입력한 수치로만 채워집니다. 입력·편집은 브라우저에서 가장
               편리합니다.
             </p>
             <div class="dt-cta__row dt-cta__row--single">

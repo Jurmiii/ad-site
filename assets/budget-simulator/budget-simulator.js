@@ -75,25 +75,6 @@ function roundInt(n) {
   return Math.trunc(Number.isFinite(n) ? n : 0);
 }
 
-/** 비전 예산: 수입−고정−비전 합이 양수이고 시뮬 풀이 비어 있으면 시드 */
-function trySeedFromVisionRemainder() {
-  if (state.confirmed) return false;
-  if (state.total > 0 || state.income > 0) return false;
-  if (typeof window.MoneyCalendarVisionBudget === "undefined") return false;
-  var snap = window.MoneyCalendarVisionBudget.read();
-  if (!snap || snap.disposable <= 0) return false;
-  var t = snap.disposable;
-  var fix = Math.max(0, roundInt(state.fixed));
-  state.income = t + fix;
-  state.fixed = fix;
-  state.total = t;
-  state.living = roundInt(t * GUIDE.living);
-  state.activity = roundInt(t * GUIDE.activity);
-  state.essential = t - state.living - state.activity;
-  normalizeToTotal(state);
-  return true;
-}
-
 /** @returns {SimState} */
 function emptyState(monthKey) {
   return {
@@ -702,7 +683,6 @@ function init() {
   monthKey = monthKeyFromDateInputValue(els.month.value);
   state = loadState(monthKey);
   state.monthKey = monthKey;
-  if (trySeedFromVisionRemainder()) persist();
 
   els.month.addEventListener("change", () => {
     const next = monthKeyFromDateInputValue(els.month.value || currentDateKey());
@@ -712,7 +692,6 @@ function init() {
     monthKey = next;
     state = loadState(monthKey);
     state.monthKey = monthKey;
-    if (trySeedFromVisionRemainder()) persist();
     renderAll();
   });
 

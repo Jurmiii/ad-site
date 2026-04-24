@@ -16,13 +16,6 @@
   var BUDGET_PREFIX = "moneyCalendar.budgetSetup.v1";
   var SIM_PREFIX = "moneyCalendar.budgetSimulator.v1";
 
-  function loadVisionDisposableCap() {
-    if (typeof window.MoneyCalendarVisionBudget === "undefined") return 0;
-    var snap = window.MoneyCalendarVisionBudget.read();
-    if (!snap) return 0;
-    return Math.max(0, snap.disposable);
-  }
-
   function $(id) {
     var el = document.getElementById(id);
     if (!el) throw new Error("#" + id + " not found");
@@ -97,14 +90,12 @@
     }
   }
 
-  /** @returns {{ cap: number, mode: 'alloc'|'sim'|'vision'|'none' }} */
+  /** @returns {{ cap: number, mode: 'alloc'|'sim'|'none' }} */
   function getMonthlyBudgetCap(monthKey) {
     var alloc = loadBudgetAllocated(monthKey);
     if (alloc > 0) return { cap: alloc, mode: "alloc" };
     var sim = loadSimulatorTotal(monthKey);
     if (sim > 0) return { cap: sim, mode: "sim" };
-    var vis = loadVisionDisposableCap();
-    if (vis > 0) return { cap: vis, mode: "vision" };
     return { cap: 0, mode: "none" };
   }
 
@@ -385,18 +376,13 @@
 
     if (budget <= 0) {
       line.textContent =
-        "이번 달 비교 기준이 없습니다. 「Weekly 예산안」배분, 「예산 시뮬레이터」총예산, 또는 「비전 기반 예산」에서 수입·고정·비전을 입력하면 실시간 잔액이 표시됩니다.";
+        "이번 달 비교 기준이 없습니다. 「Weekly 예산안」에서 배분 합계 또는 「예산 시뮬레이터」에서 총예산을 먼저 입력하면, 그 기준으로 실시간 비중이 표시됩니다.";
       fill.style.width = "0%";
       pctLabel.textContent = "";
       return;
     }
 
-    var capLabel =
-      ctx.mode === "sim"
-        ? "시뮬레이터 총예산"
-        : ctx.mode === "vision"
-          ? "2번 잔여 가용(수입−고정−비전)"
-          : "배분 예산(필수+선택+저축)";
+    var capLabel = ctx.mode === "sim" ? "시뮬레이터 총예산" : "배분 예산(필수+선택+저축)";
 
     var projected = spentOther + todaySpent + draft;
     var left = budget - projected;

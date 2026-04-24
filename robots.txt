@@ -1,4 +1,13 @@
+# 머니캘린더 — 전체 경로(HTML, CSS, JS, 이미지) 크롤 허용. Bingbot/기타 봇 공통.
 User-agent: *
 Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# 정적 자산(렌더링·콘텐츠 이해에 필요) 명시적 허용
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/images/
 
 Sitemap: https://money-calender.netlify.app/sitemap.xml

@@ -60,10 +60,6 @@
       var st = toInt0(sim.total);
       if (st > 0) return st;
     }
-    if (typeof window.MoneyCalendarVisionBudget !== "undefined") {
-      var snap = window.MoneyCalendarVisionBudget.read();
-      if (snap && snap.disposable > 0) return snap.disposable;
-    }
     return 0;
   }
 

@@ -1,0 +1,4 @@
+# Money Calendar — 정적 사이트. 배포(게시) 루트는 리포지터리 루트(.)이며, 메인 진입은 /index.html 입니다.
+# Netlify UI에서 Publish directory 를 `assets` 로 두지 마세요(중복·경로 혼선만 유발).
+[build]
+  publish = "."
