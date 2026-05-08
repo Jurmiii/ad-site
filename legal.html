@@ -11,14 +11,14 @@
     <title>법적 고지 · Money Calendar</title>
     <meta
       name="description"
-      content="Money Calendar의 개인정보처리방침, 이용약관, 문의처 정보를 한 페이지에서 확인할 수 있는 통합 법적 고지 페이지입니다."
+      content="Money Calendar의 개인정보처리방침과 이용약관을 한 페이지에서 확인할 수 있는 통합 법적 고지 페이지입니다."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://money-calender.netlify.app/legal.html" />
     <meta property="og:title" content="법적 고지 · Money Calendar" />
     <meta
       property="og:description"
-      content="Money Calendar의 개인정보처리방침, 이용약관, 문의처 정보를 한 페이지에서 확인할 수 있는 통합 법적 고지 페이지입니다."
+      content="Money Calendar의 개인정보처리방침과 이용약관을 한 페이지에서 확인할 수 있는 통합 법적 고지 페이지입니다."
     />
     <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
@@ -28,7 +28,7 @@
     <meta name="twitter:title" content="법적 고지 · Money Calendar" />
     <meta
       name="twitter:description"
-      content="Money Calendar의 개인정보처리방침, 이용약관, 문의처 정보를 한 페이지에서 확인할 수 있는 통합 법적 고지 페이지입니다."
+      content="Money Calendar의 개인정보처리방침과 이용약관을 한 페이지에서 확인할 수 있는 통합 법적 고지 페이지입니다."
     />
     <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
     <link rel="canonical" href="https://money-calender.netlify.app/legal.html" />
@@ -42,10 +42,22 @@
     <link rel="stylesheet" href="./assets/css/common.css" />
     <link rel="stylesheet" href="./assets/css/journal-shell.css" />
     <link rel="stylesheet" href="./assets/css/style.css" />
+    <style>
+      html:has(body.page-legal) {
+        scroll-padding-top: 80px;
+      }
+      .page-legal #privacy,
+      .page-legal #terms {
+        scroll-margin-top: 80px;
+      }
+    </style>
     <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
     <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
   </head>
   <body class="mc-app page-legal" data-mc-feature-id="0">
+    <script>
+      window.scrollTo(0, 0);
+    </script>
     <script>
       window.__MC_ASSETS_BASE = "./assets";
     </script>
@@ -109,11 +121,11 @@
           <section class="card mt-16" aria-labelledby="legal-title">
             <h1 id="legal-title">법적 고지</h1>
             <p class="text-body mt-10">
-              이 페이지는 Money Calendar의 <strong>개인정보처리방침</strong>, <strong>이용약관</strong>, <strong>문의처</strong>를 한 번에
-              확인할 수 있도록 통합한 문서입니다.
+              이 페이지는 Money Calendar의 <strong>개인정보처리방침</strong>과 <strong>이용약관</strong>을 한 번에 확인할 수 있도록 통합한
+              문서입니다.
             </p>
             <p class="text-body mt-10">
-              바로가기: <a href="#privacy">개인정보처리방침</a> | <a href="#terms">이용약관</a> | <a href="#contact">문의</a>
+              바로가기: <a href="#privacy">개인정보처리방침</a> | <a href="#terms">이용약관</a>
             </p>
           </section>
 
@@ -220,20 +232,10 @@
             </p>
           </section>
 
-          <section id="contact" class="card mt-24" aria-labelledby="contact-title">
-            <h2 id="contact-title">문의</h2>
-            <p class="text-body mt-10">
-              서비스 이용 및 법적 고지 관련 문의는 아래 이메일로 연락해 주세요.
-            </p>
-            <p class="text-body mt-12">
-              <a href="mailto:money.calenderr@gmail.com">money.calenderr@gmail.com</a>
-            </p>
-          </section>
-
           <footer class="page-foot mt-24 mb-20">
             <p class="text-sm text-center">
               © 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> |
-              <a href="/legal.html#terms">이용약관</a> | <a href="/legal.html#contact">문의</a>
+              <a href="/legal.html#terms">이용약관</a>
             </p>
           </footer>
         </main>
@@ -242,6 +244,32 @@
 
     <script src="assets/js/nav-config.js"></script>
     <script src="assets/js/app-shell.js"></script>
+    <script>
+      (function () {
+        if ("scrollRestoration" in history) {
+          history.scrollRestoration = "manual";
+        }
+        function scrollTopUnlessHash() {
+          if (!window.location.hash) {
+            window.scrollTo(0, 0);
+          }
+        }
+        function flushScrollTop() {
+          scrollTopUnlessHash();
+          requestAnimationFrame(function () {
+            requestAnimationFrame(scrollTopUnlessHash);
+          });
+        }
+        scrollTopUnlessHash();
+        document.addEventListener("DOMContentLoaded", flushScrollTop);
+        window.addEventListener("load", flushScrollTop);
+        window.addEventListener("pageshow", function (ev) {
+          if (ev.persisted) {
+            flushScrollTop();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
 

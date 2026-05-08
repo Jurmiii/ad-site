@@ -590,6 +590,7 @@ textarea {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="tel"],
 input[type="number"],
 input[type="month"],
@@ -607,6 +608,7 @@ textarea {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="tel"],
 input[type="number"],
 input[type="month"],
@@ -618,6 +620,7 @@ select:not([multiple]) {
 }
 
 html[data-theme="dark"] input[type="text"],
+html[data-theme="dark"] input[type="email"],
 html[data-theme="dark"] input[type="tel"],
 html[data-theme="dark"] input[type="number"],
 html[data-theme="dark"] input[type="month"],

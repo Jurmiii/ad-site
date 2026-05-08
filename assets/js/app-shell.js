@@ -256,8 +256,50 @@
         }
       }
     }
+    var contactDd = document.createElement("a");
+    contactDd.className = "mc-fav-dropdown__link mc-fav-dropdown__link--contact";
+    contactDd.href = contactPageHref();
+    contactDd.textContent = "문의하기";
+    panel.appendChild(contactDd);
+
     dd.appendChild(summary);
     dd.appendChild(panel);
+  }
+
+  function injectContactNavLink() {
+    if (document.getElementById("mc-header-contact")) return;
+    var tools = document.querySelector(".mc-global-header__tools, .header-actions");
+    if (!tools) return;
+    var a = document.createElement("a");
+    a.id = "mc-header-contact";
+    a.className = "mc-header-contact";
+    a.href = contactPageHref();
+    a.textContent = "문의하기";
+    var loc = (window.location.pathname || "").replace(/\\/g, "/").toLowerCase();
+    if (loc.indexOf("contact.html") >= 0) {
+      a.setAttribute("aria-current", "page");
+    }
+    tools.insertBefore(a, tools.firstChild);
+  }
+
+  function injectDrawerContactLink() {
+    var drawer = document.getElementById("drawer");
+    if (!drawer || drawer.querySelector('[data-mc-drawer-contact="1"]')) return;
+    var meta = drawer.querySelector(".drawer__meta");
+    if (!meta) return;
+    var wrap = document.createElement("div");
+    wrap.className = "mc-drawer__contact-wrap";
+    wrap.setAttribute("data-mc-drawer-contact", "1");
+    var link = document.createElement("a");
+    link.className = "mc-drawer__contact-link";
+    link.href = contactPageHref();
+    link.textContent = "문의하기";
+    var loc = (window.location.pathname || "").replace(/\\/g, "/").toLowerCase();
+    if (loc.indexOf("contact.html") >= 0) {
+      link.setAttribute("aria-current", "page");
+    }
+    wrap.appendChild(link);
+    meta.insertAdjacentElement("beforebegin", wrap);
   }
 
   function injectFavoriteBar() {
@@ -288,6 +330,14 @@
     var b = window.__MC_ASSETS_BASE;
     if (b == null || b === "") return ".";
     return String(b).replace(/\/+$/, "");
+  }
+
+  /** 문의 페이지(contact.html)로 가는 상대 경로 — 호스트 서브경로 없는 배포 기준 */
+  function contactPageHref() {
+    var base = assetBase();
+    if (base === "..") return "../../contact.html";
+    if (base === "./") return "../contact.html";
+    return "./contact.html";
   }
 
   function joinBase(rel) {
@@ -691,6 +741,8 @@
       });
     })();
     injectFavoriteBar();
+    injectContactNavLink();
+    injectDrawerContactLink();
     injectScrollTopButton();
     buildDrawerList(inferFeatureId());
     wireDrawer();

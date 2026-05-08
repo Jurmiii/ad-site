@@ -980,3 +980,71 @@ html[data-theme="dark"] .mc-security-tip {
     font-size: 0.9375rem;
   }
 }
+
+/* 헤더 · 즐겨찾기 드롭다운 · 사이드 메뉴 — 문의하기 */
+.mc-header-contact {
+  margin-right: 2px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mc-header-contact:hover {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+}
+
+.mc-header-contact:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.mc-fav-dropdown__link--contact {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-default);
+  font-weight: 850;
+  color: var(--color-primary);
+}
+
+.mc-drawer__contact-wrap {
+  flex-shrink: 0;
+  padding: 8px 2px 4px;
+}
+
+.mc-drawer__contact-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 35%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 12%, var(--color-surface));
+  color: var(--color-primary);
+  font-weight: 850;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.mc-drawer__contact-link:hover {
+  background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+}
+
+.mc-drawer__contact-link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+@media (max-width: 380px) {
+  .mc-header-contact {
+    font-size: 0.75rem;
+    padding: 6px 8px;
+  }
+}
