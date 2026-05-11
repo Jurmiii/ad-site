@@ -402,18 +402,50 @@ html.is-drawer-open body {
 .cover__title {
   margin: 0 0 14px;
   font-size: clamp(1.55rem, 4.2vw, 2.35rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.18;
+  font-weight: 800;
+  letter-spacing: -0.028em;
+  line-height: 1.22;
+  color: var(--color-text-primary);
+}
+
+.cover__title-en {
+  display: inline;
+  font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  font-size: 0.92em;
+  letter-spacing: 0.015em;
   color: var(--color-text-primary);
 }
 
 .cover__lead {
   margin-top: 0;
-  font-size: 1rem;
-  line-height: 1.6;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(0.94rem, 2.1vw, 1.02rem);
+  line-height: 1.72;
   color: var(--color-text-secondary);
-  font-weight: 650;
+  font-weight: 580;
+  letter-spacing: -0.012em;
+}
+
+.home-identity {
+  padding: 22px 20px;
+  border: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--color-surface) 94%, var(--color-bg-soft));
+  box-shadow: var(--shadow-card);
+}
+
+.home-identity__text {
+  margin: 0 auto;
+  max-width: 60ch;
+  text-align: center;
+  font-size: clamp(0.9rem, 1.9vw, 0.98rem);
+  line-height: 1.78;
+  font-weight: 600;
+  letter-spacing: -0.014em;
+  color: var(--color-text-secondary);
+  word-break: keep-all;
 }
 
 .cover__cta {

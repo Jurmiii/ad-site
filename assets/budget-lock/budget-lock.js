@@ -21,9 +21,9 @@ const FIELD_LABELS = {
   scheduled: "예정소득",
   other: "기타소득",
   hope: "희망소득",
-  living: "필수 지출 (Needs)",
-  activity: "선택적 지출 (Wants)",
-  essential: "저축 및 투자 (Savings)",
+  living: "1. 필수(의무)",
+  activity: "2. 필요",
+  essential: "3. 선한 영향력",
 };
 
 function $(id) {
@@ -419,9 +419,9 @@ function exportSnapshotExcel(snap, labelMonth, lockedAt) {
     { 구분: "예정소득", 값: snap.scheduled },
     { 구분: "기타소득", 값: snap.other },
     { 구분: "희망소득", 값: snap.hope },
-    { 구분: "필수 지출 (Needs)", 값: snap.living },
-    { 구분: "선택적 지출 (Wants)", 값: snap.activity },
-    { 구분: "저축 및 투자 (Savings)", 값: snap.essential },
+    { 구분: "1. 필수(의무)", 값: snap.living },
+    { 구분: "2. 필요", 값: snap.activity },
+    { 구분: "3. 선한 영향력", 값: snap.essential },
     {
       구분: "총소득",
       값: snap.real + snap.scheduled + snap.other + snap.hope,

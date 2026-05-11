@@ -11,6 +11,61 @@
     <priority>0.75</priority>
   </url>
   <url>
+    <loc>https://money-calender.netlify.app/faq.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.72</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/legal.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.68</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/guide.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.78</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/privacy-policy.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.55</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/success.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/assets/demo-tour.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.74</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/assets/demo-guide.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/assets/budget-setup/index.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/assets/export-center/index.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.45</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/assets/roadmap/index.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.45</priority>
+  </url>
+  <url>
+    <loc>https://money-calender.netlify.app/assets/daily/index.html</loc>
+    <lastmod>2026-05-10</lastmod>
+    <priority>0.65</priority>
+  </url>
+  <url>
     <loc>https://money-calender.netlify.app/assets/income-design/01_income_design.html</loc>
     <lastmod>2026-04-24</lastmod>
     <priority>0.85</priority>

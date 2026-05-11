@@ -8,7 +8,20 @@
 const STORAGE_KEY = "moneyCalendar.visionBudget.v1";
 const INCOME_DESIGN_KEY = "moneyCalendar.incomeDesign.v1";
 
-/** @typedef {{ id: string, title: string, horizon: 'short' | 'long', targetAmount: number, currentProgress: number, monthlyAllocation: number, order: number }} Vision */
+/** @typedef {{ id: string, title: string, horizon: 'mandatory' | 'needed' | 'impact' | 'wish', targetAmount: number, currentProgress: number, monthlyAllocation: number, order: number }} Vision */
+
+const HORIZON_LABELS = {
+  mandatory: "1. 필수(의무)",
+  needed: "2. 필요",
+  impact: "3. 선한 영향력",
+  wish: "4. 요망 사항",
+};
+
+function normalizeHorizon(raw) {
+  const v = String(raw || "");
+  if (v === "mandatory" || v === "needed" || v === "impact" || v === "wish") return v;
+  return "needed";
+}
 
 /** @type {number} */
 let totalIncome = 0;
@@ -128,7 +141,7 @@ function load() {
       .map((v, i) => ({
         id: String(v.id || createId()),
         title: String(v.title || "").slice(0, 80),
-        horizon: v.horizon === "long" ? "long" : "short",
+        horizon: normalizeHorizon(v.horizon),
         targetAmount: Math.max(0, Math.trunc(Number(v.targetAmount) || 0)),
         currentProgress: Math.max(0, Math.trunc(Number(v.currentProgress) || 0)),
         monthlyAllocation: Math.max(0, Math.trunc(Number(v.monthlyAllocation) || 0)),
@@ -228,8 +241,8 @@ function renderWaterfall() {
   ordered.forEach((v, idx) => {
     running -= v.monthlyAllocation;
     const row = document.createElement("div");
-    row.className = `wf-row wf-row--vision ${v.horizon === "long" ? "wf-row--long" : "wf-row--short"}`;
-    const horizonLabel = v.horizon === "long" ? "장기" : "단기";
+    row.className = "wf-row wf-row--vision";
+    const horizonLabel = HORIZON_LABELS[v.horizon] || HORIZON_LABELS.needed;
     row.innerHTML = `
       <div class="wf-label">
         비전 차감 ${idx + 1} · ${escapeHtml(v.title)}
@@ -304,7 +317,7 @@ function renderVisionList() {
 
   ordered.forEach((v, idx) => {
     const article = document.createElement("article");
-    article.className = `vision-item vision-item--${v.horizon}`;
+    article.className = "vision-item";
     article.dataset.id = v.id;
 
     const pct = progressPct(v);
@@ -361,9 +374,7 @@ function renderVisionList() {
         <h3 class="vision-item__title">${escapeHtml(v.title)}</h3>
         <div class="vision-item__badges">
           <span class="badge badge--prio">우선순위 ${idx + 1}</span>
-          <span class="badge ${v.horizon === "long" ? "badge--long" : "badge--short"}">${
-            v.horizon === "long" ? "장기" : "단기"
-          }</span>
+          <span class="badge badge--short">${HORIZON_LABELS[v.horizon] || HORIZON_LABELS.needed}</span>
         </div>
       </div>
       <div class="vision-item__stats">
@@ -576,7 +587,7 @@ function exportExcel() {
   const ordered = sortedVisions();
   const rows = ordered.map((v, idx) => ({
     우선순위: idx + 1,
-    구분: v.horizon === "long" ? "장기" : "단기",
+    구분: HORIZON_LABELS[v.horizon] || HORIZON_LABELS.needed,
     목표명: v.title,
     최종목표금액: v.targetAmount,
     누적진행금액: v.currentProgress,
@@ -629,7 +640,7 @@ function initForm() {
       alert("이번 달 비전 할당액은 0원 이상이어야 합니다.");
       return;
     }
-    const horizon = /** @type {'short'|'long'} */ ($("vf-horizon").value === "long" ? "long" : "short");
+    const horizon = /** @type {'mandatory'|'needed'|'impact'|'wish'} */ (normalizeHorizon($("vf-horizon").value));
     const maxOrder = visions.reduce((m, v) => Math.max(m, v.order), -1);
     visions.push({
       id: createId(),
@@ -689,7 +700,7 @@ function init() {
                 .map((v, i) => ({
                   id: createId(),
                   title: String(v.title || "").slice(0, 80),
-                  horizon: v.horizon === "long" ? "long" : "short",
+                  horizon: normalizeHorizon(v.horizon),
                   targetAmount: Math.max(0, Math.trunc(Number(v.targetAmount) || 0)),
                   currentProgress: Math.max(0, Math.trunc(Number(v.currentProgress) || 0)),
                   monthlyAllocation: Math.max(0, Math.trunc(Number(v.monthlyAllocation) || 0)),

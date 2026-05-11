@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.ico" />
+    <meta name="robots" content="index, follow" />
+    <title>1. 부채 리스트 | 머니캘린더</title>
+    <meta name="description" content="0원으로 가기 위한 정직한 직면. 긴급한 빚, 일반 빚, 협의 중인 빚을 분리해 상환 계획을 쌓는 부채 리스트입니다." />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+    <script src="./js/theme.js"></script>
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/journal-shell.css" />
+  </head>
+  <body class="mc-app" data-mc-feature-id="1">
+    <script>
+      window.__MC_ASSETS_BASE = "./";
+    </script>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+    <header class="mc-global-header" role="banner">
+      <div class="container mc-global-header__inner">
+        <a class="mc-brand" href="../index.html">
+          <span class="mc-brand__mark" aria-hidden="true"><img src="./images/icon/mc-logo.svg" width="44" height="44" alt="Money Calendar 머니캘린더 로고" loading="eager" decoding="async" /></span>
+          <span class="mc-brand__titles"><span class="mc-brand__series">Money Calendar</span><span class="mc-brand__page">1. 부채 리스트</span></span>
+        </a>
+        <div class="mc-global-header__tools">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false"><span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span><span class="theme-toggle__thumb" aria-hidden="true"></span><span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span></button>
+          <button class="mc-hamburger hamburger" type="button" aria-label="메뉴 열기" aria-controls="drawer" aria-expanded="false" id="drawer-open"><span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span></button>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">가계부 시리즈</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+        </div>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~16"></nav>
+        <div class="drawer__meta"><p class="text-sm">작게 나누어 상환하면, 끝까지 갑니다.</p></div>
+      </div>
+    </div>
+
+    <div class="mc-app__canvas">
+      <div class="container">
+        <main id="main">
+          <header class="mc-page-intro">
+            <h1 class="mc-page-intro__title">1. 부채 리스트</h1>
+            <p class="mc-page-intro__kicker">0원으로 가기 위한 정직한 직면</p>
+            <p class="mc-page-intro__lead text-body">빚을 성격별로 분리해 적고, 감정이 아닌 순서로 상환 계획을 세우는 출발점입니다.</p>
+          </header>
+
+          <section class="card mt-24">
+            <h2>긴급한 빚 (고이율/압류/지인)</h2>
+            <p class="text-sm mt-10">연체 리스크가 크거나 관계 손상이 큰 항목을 먼저 적습니다.</p>
+          </section>
+
+          <section class="card mt-24">
+            <h2>일반 빚</h2>
+            <p class="text-sm mt-10">정기 상환 중인 대출·카드 잔액을 월 납입 기준으로 정리합니다.</p>
+          </section>
+
+          <section class="card mt-24">
+            <h2>협의 중인 빚 (메모)</h2>
+            <p class="text-sm mt-10">상환 유예·분할 협의 상태, 다음 연락 일정, 합의 조건을 메모합니다.</p>
+          </section>
+
+          <section class="card mt-24">
+            <p class="text-body"><strong>현실적으로 상환 가능한 금액으로 최대한 쪼개는 것이 완주의 비결입니다.</strong></p>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script src="./js/nav-config.js"></script>
+    <script src="./js/app-shell.js"></script>
+  </body>
+</html>

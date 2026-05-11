@@ -152,7 +152,7 @@
           return parseInt(String(x), 10);
         })
         .filter(function (id) {
-          return id >= 1 && id <= 15;
+          return id >= 1 && id <= 16;
         });
     } catch (e) {
       return [];
@@ -164,7 +164,7 @@
     var out = [];
     for (var i = 0; i < ids.length; i++) {
       var id = ids[i];
-      if (id < 1 || id > 15 || seen[id]) continue;
+      if (id < 1 || id > 16 || seen[id]) continue;
       seen[id] = true;
       out.push(id);
       if (out.length >= MAX_FAVORITES) break;
@@ -229,7 +229,7 @@
     if (!dd) return;
     dd.textContent = "";
     var summary = document.createElement("summary");
-    summary.textContent = "즐겨찾기";
+    summary.innerHTML = '<span class="mc-fav-dropdown__summary-label">즐겨찾기</span>';
     var panel = document.createElement("div");
     panel.className = "mc-fav-dropdown__panel";
     if (!favs.length) {
@@ -471,11 +471,12 @@
       host.appendChild(wrap);
     }
 
-    // 카테고리(전역): 예산 / 기록 / 분석 / 관리
-    section("예산", 1, 4);
-    section("기록", 5, 8);
-    section("분석", 9, 12);
-    section("관리", 13, 15);
+    // 카테고리(전역): 준비 / 예산 / 기록 / 분석 / 관리
+    section("준비", 1, 2);
+    section("예산", 3, 5);
+    section("기록", 6, 9);
+    section("분석", 10, 13);
+    section("관리", 14, 16);
   }
 
   function tryShowDrawerFavTip() {
@@ -742,7 +743,7 @@
     })();
     injectFavoriteBar();
     injectContactNavLink();
-    injectDrawerContactLink();
+    // Mobile drawer: '문의하기' 항목 제거(메뉴 구조 일원화)
     injectScrollTopButton();
     buildDrawerList(inferFeatureId());
     wireDrawer();
