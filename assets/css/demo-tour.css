@@ -123,6 +123,7 @@
   align-items: center;
   text-align: center;
   padding: 22px 16px 26px;
+  margin: 3px;
   border-radius: var(--radius-xl, 20px);
   border: 1px solid var(--border-default);
   background: color-mix(in srgb, var(--color-surface) 94%, transparent);
@@ -133,7 +134,7 @@ html[data-theme="dark"] .dt-feature {
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.32);
 }
 
-.dt-feature + .dt-feature {
+.dt-feature+.dt-feature {
   margin-top: 6px;
   border-top: 1px solid color-mix(in srgb, var(--border-default) 75%, transparent);
   background: color-mix(in srgb, var(--color-surface) 88%, var(--color-bg-soft) 12%);
@@ -193,7 +194,7 @@ html[data-theme="dark"] .dt-feature {
   line-height: 1.82;
 }
 
-.dt-feature__reasons li + li {
+.dt-feature__reasons li+li {
   margin-top: 1.15rem;
 }
 
@@ -283,7 +284,7 @@ html[data-theme="dark"] .page-demo-tour .dt-mock {
   text-align: left;
 }
 
-.page-demo-tour .dt-mock__body > p.dt-guide-text {
+.page-demo-tour .dt-mock__body>p.dt-guide-text {
   text-align: center;
 }
 
@@ -427,7 +428,7 @@ html[data-theme="dark"] .page-demo-tour .dt-mock {
   overflow: hidden;
 }
 
-.dt-sim-bar > span {
+.dt-sim-bar>span {
   display: block;
   height: 100%;
   border-radius: inherit;
@@ -554,9 +555,11 @@ html[data-theme="dark"] .page-demo-tour .dt-mock {
 .dt-bs-dot--food {
   background: #22c55e;
 }
+
 .dt-bs-dot--home {
   background: #3b82f6;
 }
+
 .dt-bs-dot--tel {
   background: #f59e0b;
 }
@@ -579,9 +582,11 @@ html[data-theme="dark"] .page-demo-tour .dt-mock {
 .dt-stack-bar__seg--food {
   background: #22c55e;
 }
+
 .dt-stack-bar__seg--home {
   background: #3b82f6;
 }
+
 .dt-stack-bar__seg--tel {
   background: #f59e0b;
 }
@@ -830,7 +835,7 @@ html[data-theme="dark"] .page-demo-tour .dt-mr-diff--good {
   overflow: hidden;
 }
 
-.page-demo-tour .dt-mr-chart .mr-bar > span {
+.page-demo-tour .dt-mr-chart .mr-bar>span {
   display: block;
   height: 100%;
   border-radius: inherit;
@@ -875,7 +880,7 @@ html[data-theme="dark"] .page-demo-tour .dt-mr-diff--good {
   font-weight: 650;
 }
 
-.dt-mr-notes li + li {
+.dt-mr-notes li+li {
   border-top: 1px dashed color-mix(in srgb, var(--border-default) 85%, transparent);
 }
 

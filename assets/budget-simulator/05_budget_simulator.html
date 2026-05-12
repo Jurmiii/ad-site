@@ -1,410 +1,399 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
 
-    <!-- ================== 기본 메타 태그 (SEO) ================== -->
-    <meta name="title" content="5. 예산 분배 시뮬레이터 | 머니캘린더" />
-    <meta
-      name="description"
-      content="총 가용 안에서 Needs·Wants·Savings를 슬라이더·도넛으로 맞추고, 50/30/20 권장과 대조해 가장 건강한 비율을 잡는 화면입니다."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://money-calender.netlify.app/assets/budget-simulator/05_budget_simulator.html" />
-    <meta property="og:title" content="5. 예산 분배 시뮬레이터 | 머니캘린더" />
-    <meta property="og:description" content="총 가용 안에서 Needs·Wants·Savings를 슬라이더·도넛으로 맞추고, 50/30/20 권장과 대조해 가장 건강한 비율을 잡는 화면입니다." />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <meta property="og:image:type" content="image/webp" />
-    <meta property="og:locale" content="ko_KR" />
-    <meta property="og:site_name" content="Money Calendar" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="5. 예산 분배 시뮬레이터 | 머니캘린더" />
-    <meta name="twitter:description" content="총 가용 안에서 Needs·Wants·Savings를 슬라이더·도넛으로 맞추고, 50/30/20 권장과 대조해 가장 건강한 비율을 잡는 화면입니다." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <link rel="canonical" href="https://money-calender.netlify.app/assets/budget-simulator/04_budget_simulator.html" />
-    <link rel="sitemap" type="application/xml" href="https://money-calender.netlify.app/sitemap.xml" title="Sitemap" />
+<head>
+  <meta charset="UTF-8" />
 
-    <meta
-      name="keywords"
-      content="예산 시뮬레이터, 예산 분배, 50/30/20, Needs Wants Savings, 가계부 예산, 예산 비율, 고정지출, 가용수입, Money Calendar, 엑셀"
-    />
-    <meta name="author" content="Money Calendar" />
-    <meta name="robots" content="index, follow" />
+  <!-- ================== 기본 메타 태그 (SEO) ================== -->
+  <meta name="title" content="5. 예산 분배 시뮬레이터 | 머니캘린더" />
+  <meta name="description"
+    content="총 가용 안에서 Needs·Wants·Savings를 슬라이더·도넛으로 맞추고, 50/30/20 권장과 대조해 가장 건강한 비율을 잡는 화면입니다." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url"
+    content="https://money-calender.netlify.app/assets/budget-simulator/05_budget_simulator.html" />
+  <meta property="og:title" content="5. 예산 분배 시뮬레이터 | 머니캘린더" />
+  <meta property="og:description"
+    content="총 가용 안에서 Needs·Wants·Savings를 슬라이더·도넛으로 맞추고, 50/30/20 권장과 대조해 가장 건강한 비율을 잡는 화면입니다." />
+  <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
+  <meta property="og:image:type" content="image/webp" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="Money Calendar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="5. 예산 분배 시뮬레이터 | 머니캘린더" />
+  <meta name="twitter:description"
+    content="총 가용 안에서 Needs·Wants·Savings를 슬라이더·도넛으로 맞추고, 50/30/20 권장과 대조해 가장 건강한 비율을 잡는 화면입니다." />
+  <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
+  <link rel="canonical" href="https://money-calender.netlify.app/assets/budget-simulator/04_budget_simulator.html" />
+  <link rel="sitemap" type="application/xml" href="https://money-calender.netlify.app/sitemap.xml" title="Sitemap" />
+
+  <meta name="keywords"
+    content="예산 시뮬레이터, 예산 분배, 50/30/20, Needs Wants Savings, 가계부 예산, 예산 비율, 고정지출, 가용수입, Money Calendar, 엑셀" />
+  <meta name="author" content="Money Calendar" />
+  <meta name="robots" content="index, follow" />
 
 
-    <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/favicon.ico" />
-    <meta name="language" content="ko" />
-    <meta name="distribution" content="global" />
-    <meta name="rating" content="general" />
-    <meta name="format-detection" content="telephone=no" />
+  <!-- ================== SEO 및 사용자 경험 보완 태그 ================== -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon.ico" />
+  <meta name="language" content="ko" />
+  <meta name="distribution" content="global" />
+  <meta name="rating" content="general" />
+  <meta name="format-detection" content="telephone=no" />
 
-    <!-- ================== 웹앱 및 브라우저 최적화 ================== -->
-    <meta name="theme-color" content="#ffffff" />
-    <meta name="application-name" content="Money Calendar" />
-    <meta name="msapplication-TileColor" content="#ffffff" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Money Calendar" />
-    <link rel="manifest" href="../../site.webmanifest">
+  <!-- ================== 웹앱 및 브라우저 최적화 ================== -->
+  <meta name="theme-color" content="#ffffff" />
+  <meta name="application-name" content="Money Calendar" />
+  <meta name="msapplication-TileColor" content="#ffffff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Money Calendar" />
+  <link rel="manifest" href="../../site.webmanifest">
 
-    <title>5. 예산 분배 시뮬레이터 | 머니캘린더</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
-    />
-    <script src="../js/theme.js"></script>
-    <link rel="stylesheet" href="../css/common.css" />
-    <link rel="stylesheet" href="../css/journal-shell.css" />
-    <link rel="stylesheet" href="../js/excel-manager.css" />
-    <link rel="stylesheet" href="./budget-simulator.css" />
-    <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
-    <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
-    <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
-  </head>
-  <body class="mc-app page-sim" data-mc-feature-id="4">
-    <script>
-      window.__MC_ASSETS_BASE = "..";
-    </script>
-    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+  <title>5. 예산 분배 시뮬레이터 | 머니캘린더</title>
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="../js/theme.js"></script>
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/journal-shell.css" />
+  <link rel="stylesheet" href="../js/excel-manager.css" />
+  <link rel="stylesheet" href="./budget-simulator.css" />
+  <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
+  <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
+  <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
+</head>
 
-    <header class="mc-global-header" role="banner">
-      <div class="container mc-global-header__inner">
-        <a class="mc-brand" href="../../index.html">
-          <span class="mc-brand__mark" aria-hidden="true">
-            <img
-              src="../images/icon/mc-logo.svg"
-              width="44"
-              height="44"
-              alt="Money Calendar 머니캘린더 로고"
-              loading="eager"
-              decoding="async"
-            />
-          </span>
-          <span class="mc-brand__titles">
-            <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">5. 카테고리별 예산 분배 시뮬레이터</span>
-          </span>
-        </a>
-        <div class="mc-global-header__tools">
-          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
-            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
-            <span class="theme-toggle__thumb" aria-hidden="true"></span>
-            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
-          </button>
-          <button
-            class="mc-hamburger hamburger"
-            type="button"
-            aria-label="메뉴 열기"
-            aria-controls="drawer"
-            aria-expanded="false"
-            id="drawer-open"
-          >
-            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
-    </header>
+<body class="mc-app page-sim" data-mc-feature-id="5">
+  <script>
+    window.__MC_ASSETS_BASE = "..";
+  </script>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
-    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
-      <div class="drawer__backdrop" data-drawer-close></div>
-      <div class="drawer__panel" role="document">
-        <div class="drawer__top">
-          <p class="drawer__title">가계부 시리즈</p>
-          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
-        </div>
-        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~16"></nav>
-        <div class="drawer__meta">
-          <p class="text-sm">시뮬레이션 결과를 엑셀로 내려받아 예산 수립과 비교해 보세요.</p>
-        </div>
+  <header class="mc-global-header" role="banner">
+    <div class="container mc-global-header__inner">
+      <a class="mc-brand" href="../../index.html">
+        <span class="mc-brand__mark" aria-hidden="true">
+          <img src="../images/icon/mc-logo.svg" width="44" height="44" alt="Money Calendar 머니캘린더 로고" loading="eager"
+            decoding="async" />
+        </span>
+        <span class="mc-brand__titles">
+          <span class="mc-brand__series">Money Calendar</span>
+          <span class="mc-brand__page">5. 카테고리별 예산 분배 시뮬레이터</span>
+        </span>
+      </a>
+      <div class="mc-global-header__tools">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+          <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+          <span class="theme-toggle__thumb" aria-hidden="true"></span>
+          <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+        </button>
+        <button class="mc-hamburger hamburger" type="button" aria-label="메뉴 열기" aria-controls="drawer"
+          aria-expanded="false" id="drawer-open">
+          <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
+  </header>
 
-    <div class="mc-app__canvas">
-      <div class="container">
-        <main id="main">
-          <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">5. 카테고리별 예산 분배 시뮬레이터</h1>
-            <p class="mc-page-intro__kicker mc-intro-single-line">5 · 카테고리별 예산 분배 시뮬레이터</p>
-            <p class="mc-page-intro__lead text-body mc-intro-single-line">
-              예산은 ‘합계’보다 ‘비율’에서 건강함이 드러납니다. 한 항목을 늘리면 다른 항목이 자동으로 반응하며, 권장 비율(50/30/20)과의 차이를 바로 확인할 수 있습니다.
-            </p>
-          </header>
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+    <div class="drawer__backdrop" data-drawer-close></div>
+    <div class="drawer__panel" role="document">
+      <div class="drawer__top">
+        <p class="drawer__title">가계부 시리즈</p>
+        <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+      </div>
+      <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~16"></nav>
+      <div class="drawer__meta">
+        <p class="text-sm">시뮬레이션 결과를 엑셀로 내려받아 예산 수립과 비교해 보세요.</p>
+      </div>
+    </div>
+  </div>
 
-          <div id="excel-control-root" class="mc-excel-slot"></div>
+  <div class="mc-app__canvas">
+    <div class="container">
+      <main id="main">
+        <header class="mc-page-intro">
+          <h1 class="mc-page-intro__title">5. 카테고리별 예산 분배 시뮬레이터</h1>
+          <p class="mc-page-intro__kicker mc-intro-single-line">5 · 카테고리별 예산 분배 시뮬레이터</p>
+          <p class="mc-page-intro__lead text-body mc-intro-single-line">
+            예산은 ‘합계’보다 ‘비율’에서 건강함이 드러납니다. 한 항목을 늘리면 다른 항목이 자동으로 반응하며, 권장 비율(50/30/20)과의 차이를 바로 확인할 수 있습니다.
+          </p>
+        </header>
 
-      <section class="card mt-24" aria-labelledby="base-title">
-        <div class="flex-between">
-          <h2 id="base-title">기준값</h2>
-          <label class="month-wrap">
-            <span class="sr-only">기준 월</span>
-            <input id="plan-date" type="date" class="daily-date" />
-          </label>
-        </div>
-        <p class="text-sm mt-10">
-          먼저 <strong>월 가용 수입</strong>과 <strong>고정 지출</strong>을 입력하면, 그 차액이 1.필수(의무)·2.필요·3.선한
-          영향력에 나누어 쓸 <strong>분배 가능 금액</strong>의 상한입니다.<br />
-          예산 수립 화면의 배분값을 불러와 기준으로 삼을 수 있습니다.
-        </p>
+        <div id="excel-control-root" class="mc-excel-slot"></div>
 
-        <div class="base-grid base-grid--income-fixed mt-16">
-          <label class="field">
-            <span class="field-label">전체 수입(가용)</span>
-            <div class="money-wrap">
-              <input id="sim-income" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
-              <span class="won" aria-hidden="true">원</span>
-            </div>
-          </label>
-          <label class="field">
-            <span class="field-label">고정 지출(필수 생활비)</span>
-            <div class="money-wrap">
-              <input id="sim-fixed" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
-              <span class="won" aria-hidden="true">원</span>
-            </div>
-          </label>
-        </div>
-        <p class="text-sm mt-12 sim-pool-line">
-          <strong>분배 가능 금액(필수·선택·저축):</strong>
-          <span id="sim-pool-display" class="sim-pool-display">0원</span>
-        </p>
-        <div class="base-actions base-actions--full mt-16">
-          <div class="base-532-row">
-            <button id="btn-load-budget-setup" class="btn-secondary" type="button">예산 수립 값 불러오기</button>
-            <button id="btn-apply-532" class="btn-secondary" type="button">50/30/20 적용</button>
-            <div class="base-532-guide" role="note" aria-label="50 30 20 권장 비율 안내">
-              <p class="base-532-guide__line">1. 필수(의무): 반드시 지켜야 하는 기반 비용</p>
-              <p class="base-532-guide__line">2. 필요: 생활 유지를 위한 필요 지출</p>
-              <p class="base-532-guide__line">3. 선한 영향력: 나와 주변에 긍정적 영향을 주는 지출</p>
-              <p class="base-532-guide__line">4. 요망 사항: 조정 가능한 희망 지출(잔여에서 관리)</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="grid-main mt-24">
-        <section class="card" aria-labelledby="slider-title">
+        <section class="card mt-24" aria-labelledby="base-title">
           <div class="flex-between">
-            <h2 id="slider-title">카테고리 조정</h2>
-            <span id="lock-pill" class="pill pill-muted">편집 가능</span>
-          </div>
-          <p class="text-sm mt-10">슬라이더를 움직이면 합계는 고정되고, 나머지 항목이 자동으로 재분배됩니다.</p>
-
-          <div class="sim-list mt-20">
-            <div class="sim-item sim-item--living">
-              <div class="sim-head">
-                <div>
-                  <h3>1. 필수(의무)</h3>
-                  <p class="text-sm sim-item__sub">주거·공과·식재료·교통·보험·통신 등 필수 비용</p>
-                </div>
-                <div class="sim-value">
-                  <input id="amt-living" class="money-input sm" type="tel" inputmode="numeric" placeholder="0" />
-                  <span class="won">원</span>
-                </div>
-              </div>
-              <input id="rng-living" class="range" type="range" min="0" max="0" step="1" value="0" />
-              <div class="sim-meta"><span id="pct-living">0%</span><span class="badge">권장 50%</span></div>
-            </div>
-
-            <div class="sim-item sim-item--activity">
-              <div class="sim-head">
-                <div>
-                  <h3>2. 필요</h3>
-                  <p class="text-sm sim-item__sub">삶의 질을 위한 유연한 비용 (외식, 쇼핑, 취미, 여행 등)</p>
-                </div>
-                <div class="sim-value">
-                  <input id="amt-activity" class="money-input sm" type="tel" inputmode="numeric" placeholder="0" />
-                  <span class="won">원</span>
-                </div>
-              </div>
-              <input id="rng-activity" class="range" type="range" min="0" max="0" step="1" value="0" />
-              <div class="sim-meta"><span id="pct-activity">0%</span><span class="badge">권장 30%</span></div>
-            </div>
-
-            <div class="sim-item sim-item--essential">
-              <div class="sim-head">
-                <div>
-                  <h3>3. 선한 영향력</h3>
-                  <p class="text-sm sim-item__sub">미래 자산 형성 (예적금, 투자, 비상금, 대출 원금 상환 등)</p>
-                </div>
-                <div class="sim-value">
-                  <input id="amt-essential" class="money-input sm" type="tel" inputmode="numeric" placeholder="0" />
-                  <span class="won">원</span>
-                </div>
-              </div>
-              <input id="rng-essential" class="range" type="range" min="0" max="0" step="1" value="0" />
-              <div class="sim-meta"><span id="pct-essential">0%</span><span class="badge">권장 20%</span></div>
-            </div>
-          </div>
-
-          <div class="mt-20 summary-box">
-            <div class="summary-grid">
-              <div class="summary-tile">
-                <div class="k">합계</div>
-                <div id="sum-total" class="v">0원</div>
-              </div>
-              <div class="summary-tile">
-                <div class="k">남는 금액</div>
-                <div id="sum-left" class="v">0원</div>
-              </div>
-              <div class="summary-tile">
-                <div class="k">상태</div>
-                <div id="sum-status" class="v">정상</div>
-              </div>
-            </div>
-            <p id="guide-text" class="mt-16 text-sm"></p>
-          </div>
-
-          <div class="mt-20 btn-row">
-            <button id="btn-confirm" class="btn" type="button">시뮬레이션 결과 확정</button>
-            <button id="btn-unconfirm" class="btn-secondary is-hidden" type="button">확정 해제</button>
+            <h2 id="base-title">기준값</h2>
+            <label class="month-wrap">
+              <span class="sr-only">기준 월</span>
+              <input id="plan-date" type="date" class="daily-date" />
+            </label>
           </div>
           <p class="text-sm mt-10">
-            확정 시 입력이 잠깁니다. 엑셀 파일은 상단 통합 엑셀 컨트롤의 「현재 화면 엑셀 저장」에서 받을 수 있습니다.
+            먼저 <strong>월 가용 수입</strong>과 <strong>고정 지출</strong>을 입력하면, 그 차액이 1.필수(의무)·2.필요·3.선한
+            영향력에 나누어 쓸 <strong>분배 가능 금액</strong>의 상한입니다.<br />
+            예산 수립 화면의 배분값을 불러와 기준으로 삼을 수 있습니다.
+          </p>
+
+          <div class="base-grid base-grid--income-fixed mt-16">
+            <label class="field">
+              <span class="field-label">전체 수입(가용)</span>
+              <div class="money-wrap">
+                <input id="sim-income" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
+                <span class="won" aria-hidden="true">원</span>
+              </div>
+            </label>
+            <label class="field">
+              <span class="field-label">고정 지출(필수 생활비)</span>
+              <div class="money-wrap">
+                <input id="sim-fixed" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
+                <span class="won" aria-hidden="true">원</span>
+              </div>
+            </label>
+          </div>
+          <p class="text-sm mt-12 sim-pool-line">
+            <strong>분배 가능 금액(필수·선택·저축):</strong>
+            <span id="sim-pool-display" class="sim-pool-display">0원</span>
+          </p>
+          <div class="base-actions base-actions--full mt-16">
+            <div class="base-532-row">
+              <button id="btn-load-budget-setup" class="btn-secondary" type="button">예산 수립 값 불러오기</button>
+              <button id="btn-apply-532" class="btn-secondary" type="button">50/30/20 적용</button>
+              <div class="base-532-guide" role="note" aria-label="50 30 20 권장 비율 안내">
+                <p class="base-532-guide__line">1. 필수(의무): 반드시 지켜야 하는 기반 비용</p>
+                <p class="base-532-guide__line">2. 필요: 생활 유지를 위한 필요 지출</p>
+                <p class="base-532-guide__line">3. 선한 영향력: 나와 주변에 긍정적 영향을 주는 지출</p>
+                <p class="base-532-guide__line">4. 요망 사항: 조정 가능한 희망 지출(잔여에서 관리)</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="grid-main mt-24">
+          <section class="card" aria-labelledby="slider-title">
+            <div class="flex-between">
+              <h2 id="slider-title">카테고리 조정</h2>
+              <span id="lock-pill" class="pill pill-muted">편집 가능</span>
+            </div>
+            <p class="text-sm mt-10">슬라이더를 움직이면 합계는 고정되고, 나머지 항목이 자동으로 재분배됩니다.</p>
+
+            <div class="sim-list mt-20">
+              <div class="sim-item sim-item--living">
+                <div class="sim-head">
+                  <div>
+                    <h3>1. 필수(의무)</h3>
+                    <p class="text-sm sim-item__sub">주거·공과·식재료·교통·보험·통신 등 필수 비용</p>
+                  </div>
+                  <div class="sim-value">
+                    <input id="amt-living" class="money-input sm" type="tel" inputmode="numeric" placeholder="0" />
+                    <span class="won">원</span>
+                  </div>
+                </div>
+                <input id="rng-living" class="range" type="range" min="0" max="0" step="1" value="0" />
+                <div class="sim-meta"><span id="pct-living">0%</span><span class="badge">권장 50%</span></div>
+              </div>
+
+              <div class="sim-item sim-item--activity">
+                <div class="sim-head">
+                  <div>
+                    <h3>2. 필요</h3>
+                    <p class="text-sm sim-item__sub">삶의 질을 위한 유연한 비용 (외식, 쇼핑, 취미, 여행 등)</p>
+                  </div>
+                  <div class="sim-value">
+                    <input id="amt-activity" class="money-input sm" type="tel" inputmode="numeric" placeholder="0" />
+                    <span class="won">원</span>
+                  </div>
+                </div>
+                <input id="rng-activity" class="range" type="range" min="0" max="0" step="1" value="0" />
+                <div class="sim-meta"><span id="pct-activity">0%</span><span class="badge">권장 30%</span></div>
+              </div>
+
+              <div class="sim-item sim-item--essential">
+                <div class="sim-head">
+                  <div>
+                    <h3>3. 선한 영향력</h3>
+                    <p class="text-sm sim-item__sub">미래 자산 형성 (예적금, 투자, 비상금, 대출 원금 상환 등)</p>
+                  </div>
+                  <div class="sim-value">
+                    <input id="amt-essential" class="money-input sm" type="tel" inputmode="numeric" placeholder="0" />
+                    <span class="won">원</span>
+                  </div>
+                </div>
+                <input id="rng-essential" class="range" type="range" min="0" max="0" step="1" value="0" />
+                <div class="sim-meta"><span id="pct-essential">0%</span><span class="badge">권장 20%</span></div>
+              </div>
+            </div>
+
+            <div class="mt-20 summary-box">
+              <div class="summary-grid">
+                <div class="summary-tile">
+                  <div class="k">합계</div>
+                  <div id="sum-total" class="v">0원</div>
+                </div>
+                <div class="summary-tile">
+                  <div class="k">남는 금액</div>
+                  <div id="sum-left" class="v">0원</div>
+                </div>
+                <div class="summary-tile">
+                  <div class="k">상태</div>
+                  <div id="sum-status" class="v">정상</div>
+                </div>
+              </div>
+              <p id="guide-text" class="mt-16 text-sm"></p>
+            </div>
+
+            <div class="mt-20 btn-row">
+              <button id="btn-confirm" class="btn" type="button">시뮬레이션 결과 확정</button>
+              <button id="btn-unconfirm" class="btn-secondary is-hidden" type="button">확정 해제</button>
+            </div>
+            <p class="text-sm mt-10">
+              확정 시 입력이 잠깁니다. 엑셀 파일은 상단 통합 엑셀 컨트롤의 「현재 화면 엑셀 저장」에서 받을 수 있습니다.
+            </p>
+          </section>
+
+          <section class="card" aria-labelledby="chart-title">
+            <div class="flex-between">
+              <h2 id="chart-title">비중 시각화</h2>
+              <span id="delta-pill" class="pill pill-muted">권장 대비 분석</span>
+            </div>
+            <p class="text-sm mt-10">도넛 차트는 현재 비중을, 아래 표는 권장 비율과의 차이를 보여줍니다.</p>
+
+            <div class="chart-wrap mt-20">
+              <canvas id="donut" width="420" height="420" aria-label="예산 도넛 차트"></canvas>
+            </div>
+
+            <div class="table-wrap mt-20">
+              <table class="data-table" aria-label="권장 비율 비교 표">
+                <thead>
+                  <tr>
+                    <th scope="col">항목</th>
+                    <th scope="col" class="num">현재</th>
+                    <th scope="col" class="num">권장</th>
+                    <th scope="col" class="num">차이</th>
+                  </tr>
+                </thead>
+                <tbody id="diff-body"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-jGaTWdkt4JHwlfwT" data-ad-width="300"
+          data-ad-height="250"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
+        <section class="card mt-24" aria-labelledby="seo-sim-overview-title">
+          <h2 id="seo-sim-overview-title">카테고리별 예산 분배 시뮬레이터란 무엇인가</h2>
+          <p class="text-body mt-10">
+            <strong>카테고리별 예산 분배 시뮬레이터</strong>는 예산 설계를 “숫자 입력”이 아니라 “비율 조정”으로 바꾸는 도구입니다.
+            많은 가계부가 지출 합계만 보여주지만, Money Calendar는 <em>필수 지출(Needs)</em>, <em>선택적 지출(Wants)</em>,
+            <em>저축 및 투자(Savings)</em>의 균형을 먼저 잡아야 실제 생활에서 예산이 지속된다고 봅니다. 이 페이지는 권장 비율
+            <strong>50/30/20</strong>을 기준으로, 한 항목을 늘릴 때 다른 항목이 자동으로 반응하도록 설계되어 “합계는 고정”되고
+            “구조만 바뀌는” 시뮬레이션 경험을 제공합니다.
+          </p>
+          <p class="text-body mt-10">
+            5번 기능은 3번 비전 기반 예산과 연결됩니다.
+            <a href="../vision-budget/03_vision_allocation.html"><strong>3번 비전 기반 예산 할당</strong></a>에서 고정 지출과 비전을
+            먼저 배치한 뒤, 남은 가용 예산을 이 화면에서 생활 카테고리로 분배하면 계획이 더 단단해집니다.
           </p>
         </section>
 
-        <section class="card" aria-labelledby="chart-title">
-          <div class="flex-between">
-            <h2 id="chart-title">비중 시각화</h2>
-            <span id="delta-pill" class="pill pill-muted">권장 대비 분석</span>
-          </div>
-          <p class="text-sm mt-10">도넛 차트는 현재 비중을, 아래 표는 권장 비율과의 차이를 보여줍니다.</p>
+        <section class="card mt-24" aria-labelledby="seo-sim-principles-title">
+          <h2 id="seo-sim-principles-title">예산 비율 설계의 핵심 원칙 6가지</h2>
+          <p class="text-body mt-10">
+            검색에서 “예산 분배”, “50 30 20”, “가계부 예산”을 찾는 사용자는 보통 ‘어느 항목을 줄여야 하는지’에서 막힙니다.
+            아래 원칙은 1원의 가치가 새는 지점을 찾고, 조정의 방향을 고정하는 최소 규칙입니다.
+          </p>
+          <ul class="text-body mt-16 mc-prose-list">
+            <li><strong>필수 지출부터 안정화</strong>: 생존 비용이 흔들리면 나머지 설계는 무너집니다.</li>
+            <li><strong>선택적 지출은 ‘완충재’</strong>: 삶의 질을 지키되, 조정 가능한 범위를 남깁니다.</li>
+            <li><strong>저축/투자는 ‘미래 고정 지출’</strong>: 장기적으로는 저축이 선택이 아니라 구조가 됩니다.</li>
+            <li><strong>합계 고정, 구조만 조정</strong>: 총액을 늘리기보다 비율을 먼저 정리합니다.</li>
+            <li><strong>권장 비율은 출발점</strong>: 50/30/20은 정답이 아니라 ‘점검 기준’입니다.</li>
+            <li><strong>1원의 가치로 검증</strong>: 큰 한 번보다 작은 반복 지출을 줄이는 편이 지속됩니다.</li>
+          </ul>
+          <article class="mt-16" aria-labelledby="seo-sim-h3">
+            <h3 id="seo-sim-h3">50/30/20을 그대로 따르지 않아도 되는 경우</h3>
+            <p class="text-body mt-10">
+              상황에 따라 필수 지출이 높은 달도 있고, 투자·상환이 중요한 시기도 있습니다. 중요한 것은 “왜 그 비율인지”를
+              설명할 수 있는지입니다. 이 시뮬레이터는 그 이유를 숫자와 표로 확인하게 해 줍니다.
+            </p>
+          </article>
+        </section>
 
-          <div class="chart-wrap mt-20">
-            <canvas id="donut" width="420" height="420" aria-label="예산 도넛 차트"></canvas>
-          </div>
+        <section class="card mt-24" aria-labelledby="seo-sim-flow-title">
+          <h2 id="seo-sim-flow-title">4번 기능 사용 순서(권장)</h2>
+          <p class="text-body mt-10">
+            이 페이지는 입력보다 흐름이 중요합니다. 아래 순서대로 진행하면 ‘내가 지킬 수 있는 예산’에 가까워집니다.
+          </p>
+          <ol class="text-body mt-16 mc-prose-steps">
+            <li>
+              <strong>월 가용 수입</strong>과 <strong>고정 지출</strong>을 넣어 분배 가능 금액 상한을 만듭니다.
+              (상한은 3번 설계와 연결됩니다. <a href="../vision-budget/03_vision_allocation.html">3번 페이지</a>)
+            </li>
+            <li><strong>50/30/20</strong>을 적용해 출발점(기준 비율)을 만든 뒤, 현재 생활에 맞게 조정합니다.</li>
+            <li>슬라이더로 한 항목을 늘리고, 다른 항목이 어떻게 줄어드는지 보며 균형점을 찾습니다.</li>
+            <li>아래 표(권장 대비 차이)에서 “왜 과/부족인지”를 확인한 뒤, 과도한 항목의 원인을 찾습니다.</li>
+            <li>
+              이후 6~9번 데일리 기록을 쌓고, 11번 복기에서 설계 대비 실제 집행을 확인합니다.
+              (<a href="../daily-quick/06_daily_quick_input.html">6번</a>, <a
+                href="../monthly-review/11_monthly_budget_review.html">11번</a>)
+            </li>
+          </ol>
+        </section>
 
-          <div class="table-wrap mt-20">
-            <table class="data-table" aria-label="권장 비율 비교 표">
+        <section class="card mt-24" aria-labelledby="seo-sim-table-title">
+          <h2 id="seo-sim-table-title">비교 표: Needs/Wants/Savings가 의미하는 것</h2>
+          <p class="text-body mt-10">
+            같은 “지출”이라도 성격이 다릅니다. 아래 표는 카테고리를 분류하는 기본 관점을 제공해, 입력이 흔들리지 않도록 돕습니다.
+          </p>
+          <div class="table-wrap mt-16">
+            <table class="data-table" aria-label="예산 3분류(필수/선택/저축) 비교 표">
               <thead>
                 <tr>
-                  <th scope="col">항목</th>
-                  <th scope="col" class="num">현재</th>
-                  <th scope="col" class="num">권장</th>
-                  <th scope="col" class="num">차이</th>
+                  <th scope="col">분류</th>
+                  <th scope="col">예시</th>
+                  <th scope="col">핵심 질문</th>
                 </tr>
               </thead>
-              <tbody id="diff-body"></tbody>
+              <tbody>
+                <tr>
+                  <td><strong>필수 지출 (Needs)</strong></td>
+                  <td>주거, 공과금, 보험, 식재료, 교통</td>
+                  <td>없으면 생활이 유지되는가</td>
+                </tr>
+                <tr>
+                  <td><strong>선택적 지출 (Wants)</strong></td>
+                  <td>외식, 쇼핑, 취미, 여행, 구독</td>
+                  <td>줄여도 당장 큰 문제가 없는가</td>
+                </tr>
+                <tr>
+                  <td><strong>저축 및 투자 (Savings)</strong></td>
+                  <td>예적금, 투자, 비상금, 원금 상환</td>
+                  <td>미래를 위해 지금 ‘남기고 있는가’</td>
+                </tr>
+              </tbody>
             </table>
           </div>
         </section>
-      </div>
 
-      <ins class="kakao_ad_area" style="display:none;"
-      data-ad-unit = "DAN-jGaTWdkt4JHwlfwT"
-      data-ad-width = "300"
-      data-ad-height = "250"></ins>
-      <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-
-      <section class="card mt-24" aria-labelledby="seo-sim-overview-title">
-        <h2 id="seo-sim-overview-title">카테고리별 예산 분배 시뮬레이터란 무엇인가</h2>
-        <p class="text-body mt-10">
-          <strong>카테고리별 예산 분배 시뮬레이터</strong>는 예산 설계를 “숫자 입력”이 아니라 “비율 조정”으로 바꾸는 도구입니다.
-          많은 가계부가 지출 합계만 보여주지만, Money Calendar는 <em>필수 지출(Needs)</em>, <em>선택적 지출(Wants)</em>,
-          <em>저축 및 투자(Savings)</em>의 균형을 먼저 잡아야 실제 생활에서 예산이 지속된다고 봅니다. 이 페이지는 권장 비율
-          <strong>50/30/20</strong>을 기준으로, 한 항목을 늘릴 때 다른 항목이 자동으로 반응하도록 설계되어 “합계는 고정”되고
-          “구조만 바뀌는” 시뮬레이션 경험을 제공합니다.
-        </p>
-        <p class="text-body mt-10">
-          5번 기능은 3번 비전 기반 예산과 연결됩니다.
-          <a href="../vision-budget/03_vision_allocation.html"><strong>3번 비전 기반 예산 할당</strong></a>에서 고정 지출과 비전을
-          먼저 배치한 뒤, 남은 가용 예산을 이 화면에서 생활 카테고리로 분배하면 계획이 더 단단해집니다.
-        </p>
-      </section>
-
-      <section class="card mt-24" aria-labelledby="seo-sim-principles-title">
-        <h2 id="seo-sim-principles-title">예산 비율 설계의 핵심 원칙 6가지</h2>
-        <p class="text-body mt-10">
-          검색에서 “예산 분배”, “50 30 20”, “가계부 예산”을 찾는 사용자는 보통 ‘어느 항목을 줄여야 하는지’에서 막힙니다.
-          아래 원칙은 1원의 가치가 새는 지점을 찾고, 조정의 방향을 고정하는 최소 규칙입니다.
-        </p>
-        <ul class="text-body mt-16 mc-prose-list">
-          <li><strong>필수 지출부터 안정화</strong>: 생존 비용이 흔들리면 나머지 설계는 무너집니다.</li>
-          <li><strong>선택적 지출은 ‘완충재’</strong>: 삶의 질을 지키되, 조정 가능한 범위를 남깁니다.</li>
-          <li><strong>저축/투자는 ‘미래 고정 지출’</strong>: 장기적으로는 저축이 선택이 아니라 구조가 됩니다.</li>
-          <li><strong>합계 고정, 구조만 조정</strong>: 총액을 늘리기보다 비율을 먼저 정리합니다.</li>
-          <li><strong>권장 비율은 출발점</strong>: 50/30/20은 정답이 아니라 ‘점검 기준’입니다.</li>
-          <li><strong>1원의 가치로 검증</strong>: 큰 한 번보다 작은 반복 지출을 줄이는 편이 지속됩니다.</li>
-        </ul>
-        <article class="mt-16" aria-labelledby="seo-sim-h3">
-          <h3 id="seo-sim-h3">50/30/20을 그대로 따르지 않아도 되는 경우</h3>
-          <p class="text-body mt-10">
-            상황에 따라 필수 지출이 높은 달도 있고, 투자·상환이 중요한 시기도 있습니다. 중요한 것은 “왜 그 비율인지”를
-            설명할 수 있는지입니다. 이 시뮬레이터는 그 이유를 숫자와 표로 확인하게 해 줍니다.
-          </p>
-        </article>
-      </section>
-
-      <section class="card mt-24" aria-labelledby="seo-sim-flow-title">
-        <h2 id="seo-sim-flow-title">4번 기능 사용 순서(권장)</h2>
-        <p class="text-body mt-10">
-          이 페이지는 입력보다 흐름이 중요합니다. 아래 순서대로 진행하면 ‘내가 지킬 수 있는 예산’에 가까워집니다.
-        </p>
-        <ol class="text-body mt-16 mc-prose-steps">
-          <li>
-            <strong>월 가용 수입</strong>과 <strong>고정 지출</strong>을 넣어 분배 가능 금액 상한을 만듭니다.
-            (상한은 3번 설계와 연결됩니다. <a href="../vision-budget/03_vision_allocation.html">3번 페이지</a>)
-          </li>
-          <li><strong>50/30/20</strong>을 적용해 출발점(기준 비율)을 만든 뒤, 현재 생활에 맞게 조정합니다.</li>
-          <li>슬라이더로 한 항목을 늘리고, 다른 항목이 어떻게 줄어드는지 보며 균형점을 찾습니다.</li>
-          <li>아래 표(권장 대비 차이)에서 “왜 과/부족인지”를 확인한 뒤, 과도한 항목의 원인을 찾습니다.</li>
-          <li>
-            이후 6~9번 데일리 기록을 쌓고, 11번 복기에서 설계 대비 실제 집행을 확인합니다.
-            (<a href="../daily-quick/06_daily_quick_input.html">6번</a>, <a href="../monthly-review/11_monthly_budget_review.html">11번</a>)
-          </li>
-        </ol>
-      </section>
-
-      <section class="card mt-24" aria-labelledby="seo-sim-table-title">
-        <h2 id="seo-sim-table-title">비교 표: Needs/Wants/Savings가 의미하는 것</h2>
-        <p class="text-body mt-10">
-          같은 “지출”이라도 성격이 다릅니다. 아래 표는 카테고리를 분류하는 기본 관점을 제공해, 입력이 흔들리지 않도록 돕습니다.
-        </p>
-        <div class="table-wrap mt-16">
-          <table class="data-table" aria-label="예산 3분류(필수/선택/저축) 비교 표">
-            <thead>
-              <tr>
-                <th scope="col">분류</th>
-                <th scope="col">예시</th>
-                <th scope="col">핵심 질문</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>필수 지출 (Needs)</strong></td>
-                <td>주거, 공과금, 보험, 식재료, 교통</td>
-                <td>없으면 생활이 유지되는가</td>
-              </tr>
-              <tr>
-                <td><strong>선택적 지출 (Wants)</strong></td>
-                <td>외식, 쇼핑, 취미, 여행, 구독</td>
-                <td>줄여도 당장 큰 문제가 없는가</td>
-              </tr>
-              <tr>
-                <td><strong>저축 및 투자 (Savings)</strong></td>
-                <td>예적금, 투자, 비상금, 원금 상환</td>
-                <td>미래를 위해 지금 ‘남기고 있는가’</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <footer class="page-foot mt-24 mb-20">
-        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/faq.html">FAQ</a></p>
-      </footer>
-        </main>
-      </div>
+        <footer class="page-foot mt-24 mb-20">
+          <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a
+              href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a
+              href="/faq.html">FAQ</a></p>
+        </footer>
+      </main>
     </div>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="../js/nav-config.js"></script>
-    <script src="../js/excel-manager.js"></script>
-    <script src="../js/app-shell.js"></script>
-    <script src="../js/vision-budget-utils.js"></script>
-    <script src="./budget-simulator.js"></script>
-  </body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="../js/nav-config.js"></script>
+  <script src="../js/excel-manager.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/vision-budget-utils.js"></script>
+  <script src="./budget-simulator.js"></script>
+</body>
+
 </html>

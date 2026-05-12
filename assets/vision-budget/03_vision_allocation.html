@@ -1,451 +1,398 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" href="/favicon.ico" />
-    <meta name="robots" content="index, follow" />
-    <title>3. 비전기반 예산 할당 | 머니캘린더</title>
-    <meta
-      name="description"
-      content="고정·비전·생활의 순서로 가용을 쪼개, 우선순위에 맞게 월 배분을 붙이고 잔여 가용이 일상으로 이어지게 합니다."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://money-calender.netlify.app/assets/vision-budget/03_vision_allocation.html" />
-    <meta property="og:title" content="3. 비전기반 예산 할당 | 머니캘린더" />
-    <meta property="og:description" content="고정·비전·생활의 순서로 가용을 쪼개, 우선순위에 맞게 월 배분을 붙이고 잔여 가용이 일상으로 이어지게 합니다." />
-    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <meta property="og:image:type" content="image/webp" />
-    <meta property="og:locale" content="ko_KR" />
-    <meta property="og:site_name" content="Money Calendar" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="3. 비전기반 예산 할당 | 머니캘린더" />
-    <meta name="twitter:description" content="고정·비전·생활의 순서로 가용을 쪼개, 우선순위에 맞게 월 배분을 붙이고 잔여 가용이 일상으로 이어지게 합니다." />
-    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-    <link rel="canonical" href="https://money-calender.netlify.app/assets/vision-budget/03_vision_allocation.html" />
-    <link rel="sitemap" type="application/xml" href="https://money-calender.netlify.app/sitemap.xml" title="Sitemap" />
 
-    <meta
-      name="keywords"
-      content="비전 예산, 예산 할당, 우선순위 예산, 월 가용 수입, 고정 지출, 잔여 가용 예산, 목표 기반 예산, 현실적인 예산 상한, Needs Wants Savings, 지출 우선순위, 돈의 방향, 머니캘린더, Money Calendar"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon.ico" />
+  <meta name="robots" content="index, follow" />
+  <title>3. 비전기반 예산 할당 | 머니캘린더</title>
+  <meta name="description" content="고정·비전·생활의 순서로 가용을 쪼개, 우선순위에 맞게 월 배분을 붙이고 잔여 가용이 일상으로 이어지게 합니다." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://money-calender.netlify.app/assets/vision-budget/03_vision_allocation.html" />
+  <meta property="og:title" content="3. 비전기반 예산 할당 | 머니캘린더" />
+  <meta property="og:description" content="고정·비전·생활의 순서로 가용을 쪼개, 우선순위에 맞게 월 배분을 붙이고 잔여 가용이 일상으로 이어지게 합니다." />
+  <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
+  <meta property="og:image:type" content="image/webp" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:site_name" content="Money Calendar" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="3. 비전기반 예산 할당 | 머니캘린더" />
+  <meta name="twitter:description" content="고정·비전·생활의 순서로 가용을 쪼개, 우선순위에 맞게 월 배분을 붙이고 잔여 가용이 일상으로 이어지게 합니다." />
+  <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
+  <link rel="canonical" href="https://money-calender.netlify.app/assets/vision-budget/03_vision_allocation.html" />
+  <link rel="sitemap" type="application/xml" href="https://money-calender.netlify.app/sitemap.xml" title="Sitemap" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
-    />
-    <script src="../js/theme.js"></script>
-    <link rel="stylesheet" href="../css/common.css" />
-    <link rel="stylesheet" href="../css/journal-shell.css" />
-    <link rel="stylesheet" href="../js/excel-manager.css" />
-    <link rel="stylesheet" href="./vision-budget.css" />
-    <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
-    <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
-    <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
-  </head>
-  <body class="mc-app page-vision" data-mc-feature-id="2">
-    <script>
-      window.__MC_ASSETS_BASE = "..";
-    </script>
-    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+  <meta name="keywords"
+    content="비전 예산, 예산 할당, 우선순위 예산, 월 가용 수입, 고정 지출, 잔여 가용 예산, 목표 기반 예산, 현실적인 예산 상한, Needs Wants Savings, 지출 우선순위, 돈의 방향, 머니캘린더, Money Calendar" />
 
-    <header class="mc-global-header" role="banner">
-      <div class="container mc-global-header__inner">
-        <a class="mc-brand" href="../../index.html">
-          <span class="mc-brand__mark" aria-hidden="true">
-            <img
-              src="../images/icon/mc-logo.svg"
-              width="44"
-              height="44"
-              alt="Money Calendar 머니캘린더 로고"
-              loading="eager"
-              decoding="async"
-            />
-          </span>
-          <span class="mc-brand__titles">
-            <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">3. 비전기반 예산 할당</span>
-          </span>
-        </a>
-        <div class="mc-global-header__tools">
-          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
-            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
-            <span class="theme-toggle__thumb" aria-hidden="true"></span>
-            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
-          </button>
-          <button
-            class="mc-hamburger hamburger"
-            type="button"
-            aria-label="메뉴 열기"
-            aria-controls="drawer"
-            aria-expanded="false"
-            id="drawer-open"
-          >
-            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
-          </button>
-        </div>
-      </div>
-    </header>
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="../js/theme.js"></script>
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/journal-shell.css" />
+  <link rel="stylesheet" href="../js/excel-manager.css" />
+  <link rel="stylesheet" href="./vision-budget.css" />
+  <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
+  <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
+  <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
+</head>
 
-    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
-      <div class="drawer__backdrop" data-drawer-close></div>
-      <div class="drawer__panel" role="document">
-        <div class="drawer__top">
-          <p class="drawer__title">가계부 시리즈</p>
-          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
-        </div>
-        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~16"></nav>
-        <div class="drawer__meta">
-          <p class="text-sm">비전 할당과 수입 설계를 엑셀로 맞춰 두면 다음 달에도 이어집니다.</p>
-        </div>
+<body class="mc-app page-vision" data-mc-feature-id="3">
+  <script>
+    window.__MC_ASSETS_BASE = "..";
+  </script>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <header class="mc-global-header" role="banner">
+    <div class="container mc-global-header__inner">
+      <a class="mc-brand" href="../../index.html">
+        <span class="mc-brand__mark" aria-hidden="true">
+          <img src="../images/icon/mc-logo.svg" width="44" height="44" alt="Money Calendar 머니캘린더 로고" loading="eager"
+            decoding="async" />
+        </span>
+        <span class="mc-brand__titles">
+          <span class="mc-brand__series">Money Calendar</span>
+          <span class="mc-brand__page">3. 비전기반 예산 할당</span>
+        </span>
+      </a>
+      <div class="mc-global-header__tools">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+          <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+          <span class="theme-toggle__thumb" aria-hidden="true"></span>
+          <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+        </button>
+        <button class="mc-hamburger hamburger" type="button" aria-label="메뉴 열기" aria-controls="drawer"
+          aria-expanded="false" id="drawer-open">
+          <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+        </button>
       </div>
     </div>
+  </header>
 
-    <div class="mc-app__canvas">
-      <div class="container">
-        <main id="main">
-          <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">3. 비전기반 예산 할당</h1>
-            <p class="mc-page-intro__kicker">3 · 비전기반 예산 할당</p>
-            <p class="mc-page-intro__lead text-body">
-              먼저 <strong>월 가용 수입</strong>을 확인하고, 이어서 <strong>고정 지출</strong>을 반영한 뒤 남은 재원을
-              비전·목표에 순서대로 할당합니다. 최종 잔여는 일상 가용으로 이어집니다.
-            </p>
-          </header>
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+    <div class="drawer__backdrop" data-drawer-close></div>
+    <div class="drawer__panel" role="document">
+      <div class="drawer__top">
+        <p class="drawer__title">가계부 시리즈</p>
+        <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+      </div>
+      <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~16"></nav>
+      <div class="drawer__meta">
+        <p class="text-sm">비전 할당과 수입 설계를 엑셀로 맞춰 두면 다음 달에도 이어집니다.</p>
+      </div>
+    </div>
+  </div>
 
-          <div id="excel-control-root" class="mc-excel-slot"></div>
+  <div class="mc-app__canvas">
+    <div class="container">
+      <main id="main">
+        <header class="mc-page-intro">
+          <h1 class="mc-page-intro__title">3. 비전기반 예산 할당</h1>
+          <p class="mc-page-intro__kicker">3 · 비전기반 예산 할당</p>
+          <p class="mc-page-intro__lead text-body">
+            먼저 <strong>월 가용 수입</strong>을 확인하고, 이어서 <strong>고정 지출</strong>을 반영한 뒤 남은 재원을
+            비전·목표에 순서대로 할당합니다. 최종 잔여는 일상 가용으로 이어집니다.
+          </p>
+        </header>
 
-      <section class="card vb-stack vb-stack--first" aria-labelledby="income-title">
-        <h2 id="income-title">전체 수입(가용)</h2>
-        <p class="text-sm mt-8">
-          이번 달 예산을 짜는 기준 수입입니다. 계층형 수입 설계에서 합산한 금액을 불러올 수 있습니다.
-        </p>
-        <div class="vb-income-stack mt-12">
-          <div class="income-row">
-            <label class="field-grow">
-              <span class="field-label">월 가용 수입</span>
-              <div id="total-income-wrap" class="money-wrap">
-                <input
-                  id="total-income"
-                  class="money-input"
-                  type="tel"
-                  inputmode="numeric"
-                  autocomplete="off"
-                  placeholder="0"
-                  aria-describedby="income-help vb-over-slot-income"
-                />
-                <span class="won" aria-hidden="true">원</span>
-              </div>
-            </label>
-            <button id="btn-sync-income" class="btn-secondary" type="button">
-              수입 설계 합계 불러오기
-            </button>
-          </div>
-          <div id="vb-over-slot-income" class="vb-validation-slot" aria-live="polite"></div>
-        </div>
-        <p id="income-help" class="text-sm mt-8">
-          고정 지출과 비전 할당 합이 수입을 넘으면 경고가 표시되며, 저장이 제한됩니다.
-        </p>
-      </section>
+        <div id="excel-control-root" class="mc-excel-slot"></div>
 
-      <section class="card vb-stack" aria-labelledby="fixed-title">
-        <h2 id="fixed-title">고정 지출(필수 생활비)</h2>
-        <p class="text-sm mt-8">
-          수입을 확인한 뒤, 월 수입에서 <strong>가장 먼저</strong> 빼 두어야 할 금액입니다. 주거·통신·보험·대출 상환 등
-          반복되는 필수 비용을 입력하세요.
-        </p>
-        <div class="vb-field-stack vb-field-stack--fixed mt-12">
-          <label class="vb-money-col">
-            <span class="field-label">이번 달 고정 지출 합계</span>
-            <div id="fixed-expense-wrap" class="money-wrap">
-              <input
-                id="fixed-expense"
-                class="money-input"
-                type="tel"
-                inputmode="numeric"
-                autocomplete="off"
-                placeholder="0"
-                aria-describedby="fixed-help vb-over-slot-fixed"
-              />
-              <span class="won" aria-hidden="true">원</span>
-            </div>
-          </label>
-          <div id="vb-over-slot-fixed" class="vb-validation-slot" aria-live="polite"></div>
-        </div>
-        <p id="fixed-help" class="text-sm mt-8">
-          이 금액은 비전 할당보다 항상 먼저 차감됩니다.
-        </p>
-      </section>
-
-      <section class="card vb-stack vb-live-banner" aria-labelledby="vb-live-title">
-        <h2 id="vb-live-title" class="vb-live-banner__title">실시간 가용 예산</h2>
-        <p class="text-sm mt-8">
-          수입에서 <strong>고정 지출을 먼저 뺀 금액</strong>이 이번 달 비전 할당의 상한입니다. 합계가 수입을 넘지 않도록
-          조정하세요.
-        </p>
-        <div class="vb-live-grid mt-12">
-          <div class="vb-live-cell">
-            <div class="vb-live-k">가용 비전 예산 (수입 − 고정 지출)</div>
-            <div id="vb-vision-ceiling" class="vb-live-v" aria-live="polite">0원</div>
-          </div>
-          <div class="vb-live-cell">
-            <div class="vb-live-k">이번 달 비전 할당 합계</div>
-            <div id="vb-vision-total" class="vb-live-v" aria-live="polite">0원</div>
-          </div>
-          <div class="vb-live-cell">
-            <div class="vb-live-k">잔여 (가용 비전 − 할당 합)</div>
-            <div id="vb-vision-remainder" class="vb-live-v" aria-live="polite">0원</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="card vb-stack" aria-labelledby="vision-form-title">
-        <h2 id="vision-form-title">비전 설정</h2>
-        <p class="text-sm mt-8">
-          단기·장기 목표와 <strong>최종 목표 금액</strong>, <strong>이번 달 비전 할당액</strong>(고정 지출
-          차감 후 남은 재원에서 순서대로 배분)을 입력하세요. 진행률은 현재까지 모은 금액을 넣으면 계산됩니다.
-        </p>
-
-        <form id="vision-add-form" class="vision-form mt-14">
-          <div class="form-grid">
-            <label class="field">
-              <span class="field-label">비전 그룹</span>
-              <select id="vf-horizon" name="horizon" required>
-                <option value="mandatory">1. 필수(의무)</option>
-                <option value="needed">2. 필요</option>
-                <option value="impact">3. 선한 영향력</option>
-                <option value="wish">4. 요망 사항</option>
-              </select>
-            </label>
-            <label class="field field-span-2">
-              <span class="field-label">목표 이름</span>
-              <input
-                id="vf-title"
-                name="title"
-                type="text"
-                maxlength="80"
-                required
-                placeholder="예: 비상금 1,000만 원, N잡 수익 시드"
-              />
-            </label>
-            <label class="field">
-              <span class="field-label">최종 목표 금액</span>
-              <div class="money-wrap">
-                <input
-                  id="vf-target"
-                  class="money-input"
-                  type="tel"
-                  inputmode="numeric"
-                  placeholder="0"
-                  required
-                />
-                <span class="won" aria-hidden="true">원</span>
-              </div>
-            </label>
-            <label class="field">
-              <span class="field-label">현재까지(누적)</span>
-              <div class="money-wrap">
-                <input
-                  id="vf-progress"
-                  class="money-input"
-                  type="tel"
-                  inputmode="numeric"
-                  placeholder="0"
-                />
-                <span class="won" aria-hidden="true">원</span>
-              </div>
-            </label>
-            <label class="field">
-              <span class="field-label">이번 달 비전 할당</span>
-              <div id="vf-monthly-wrap" class="money-wrap">
-                <input
-                  id="vf-monthly"
-                  class="money-input"
-                  type="tel"
-                  inputmode="numeric"
-                  placeholder="0"
-                  required
-                  aria-describedby="vb-over-slot-monthly"
-                />
-                <span class="won" aria-hidden="true">원</span>
-              </div>
-            </label>
-          </div>
-          <div id="vb-over-slot-monthly" class="vb-validation-slot vb-validation-slot--form mt-10" aria-live="polite"></div>
-          <div class="mt-14">
-            <button id="btn-vision-add" class="btn" type="submit">비전 추가</button>
-          </div>
-        </form>
-      </section>
-
-      <section class="vb-stack" aria-labelledby="priority-title">
-        <div class="card">
-          <h2 id="priority-title">우선순위 연동 예산 배분</h2>
+        <section class="card vb-stack vb-stack--first" aria-labelledby="income-title">
+          <h2 id="income-title">전체 수입(가용)</h2>
           <p class="text-sm mt-8">
-            먼저 고정 지출이 차감된 뒤, 아래 비전 목록의 순서대로 남은 재원에서 할당됩니다. 번호가 작을수록 비전
-            간 우선순위가 높습니다.
+            이번 달 예산을 짜는 기준 수입입니다. 계층형 수입 설계에서 합산한 금액을 불러올 수 있습니다.
+          </p>
+          <div class="vb-income-stack mt-12">
+            <div class="income-row">
+              <label class="field-grow">
+                <span class="field-label">월 가용 수입</span>
+                <div id="total-income-wrap" class="money-wrap">
+                  <input id="total-income" class="money-input" type="tel" inputmode="numeric" autocomplete="off"
+                    placeholder="0" aria-describedby="income-help vb-over-slot-income" />
+                  <span class="won" aria-hidden="true">원</span>
+                </div>
+              </label>
+              <button id="btn-sync-income" class="btn-secondary" type="button">
+                수입 설계 합계 불러오기
+              </button>
+            </div>
+            <div id="vb-over-slot-income" class="vb-validation-slot" aria-live="polite"></div>
+          </div>
+          <p id="income-help" class="text-sm mt-8">
+            고정 지출과 비전 할당 합이 수입을 넘으면 경고가 표시되며, 저장이 제한됩니다.
+          </p>
+        </section>
+
+        <section class="card vb-stack" aria-labelledby="fixed-title">
+          <h2 id="fixed-title">고정 지출(필수 생활비)</h2>
+          <p class="text-sm mt-8">
+            수입을 확인한 뒤, 월 수입에서 <strong>가장 먼저</strong> 빼 두어야 할 금액입니다. 주거·통신·보험·대출 상환 등
+            반복되는 필수 비용을 입력하세요.
+          </p>
+          <div class="vb-field-stack vb-field-stack--fixed mt-12">
+            <label class="vb-money-col">
+              <span class="field-label">이번 달 고정 지출 합계</span>
+              <div id="fixed-expense-wrap" class="money-wrap">
+                <input id="fixed-expense" class="money-input" type="tel" inputmode="numeric" autocomplete="off"
+                  placeholder="0" aria-describedby="fixed-help vb-over-slot-fixed" />
+                <span class="won" aria-hidden="true">원</span>
+              </div>
+            </label>
+            <div id="vb-over-slot-fixed" class="vb-validation-slot" aria-live="polite"></div>
+          </div>
+          <p id="fixed-help" class="text-sm mt-8">
+            이 금액은 비전 할당보다 항상 먼저 차감됩니다.
+          </p>
+        </section>
+
+        <section class="card vb-stack vb-live-banner" aria-labelledby="vb-live-title">
+          <h2 id="vb-live-title" class="vb-live-banner__title">실시간 가용 예산</h2>
+          <p class="text-sm mt-8">
+            수입에서 <strong>고정 지출을 먼저 뺀 금액</strong>이 이번 달 비전 할당의 상한입니다. 합계가 수입을 넘지 않도록
+            조정하세요.
+          </p>
+          <div class="vb-live-grid mt-12">
+            <div class="vb-live-cell">
+              <div class="vb-live-k">가용 비전 예산 (수입 − 고정 지출)</div>
+              <div id="vb-vision-ceiling" class="vb-live-v" aria-live="polite">0원</div>
+            </div>
+            <div class="vb-live-cell">
+              <div class="vb-live-k">이번 달 비전 할당 합계</div>
+              <div id="vb-vision-total" class="vb-live-v" aria-live="polite">0원</div>
+            </div>
+            <div class="vb-live-cell">
+              <div class="vb-live-k">잔여 (가용 비전 − 할당 합)</div>
+              <div id="vb-vision-remainder" class="vb-live-v" aria-live="polite">0원</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card vb-stack" aria-labelledby="vision-form-title">
+          <h2 id="vision-form-title">비전 설정</h2>
+          <p class="text-sm mt-8">
+            단기·장기 목표와 <strong>최종 목표 금액</strong>, <strong>이번 달 비전 할당액</strong>(고정 지출
+            차감 후 남은 재원에서 순서대로 배분)을 입력하세요. 진행률은 현재까지 모은 금액을 넣으면 계산됩니다.
           </p>
 
-          <div id="waterfall" class="waterfall mt-14" role="region" aria-live="polite"></div>
+          <form id="vision-add-form" class="vision-form mt-14">
+            <div class="form-grid">
+              <label class="field">
+                <span class="field-label">비전 그룹</span>
+                <select id="vf-horizon" name="horizon" required>
+                  <option value="mandatory">1. 필수(의무)</option>
+                  <option value="needed">2. 필요</option>
+                  <option value="impact">3. 선한 영향력</option>
+                  <option value="wish">4. 요망 사항</option>
+                </select>
+              </label>
+              <label class="field field-span-2">
+                <span class="field-label">목표 이름</span>
+                <input id="vf-title" name="title" type="text" maxlength="80" required
+                  placeholder="예: 비상금 1,000만 원, N잡 수익 시드" />
+              </label>
+              <label class="field">
+                <span class="field-label">최종 목표 금액</span>
+                <div class="money-wrap">
+                  <input id="vf-target" class="money-input" type="tel" inputmode="numeric" placeholder="0" required />
+                  <span class="won" aria-hidden="true">원</span>
+                </div>
+              </label>
+              <label class="field">
+                <span class="field-label">현재까지(누적)</span>
+                <div class="money-wrap">
+                  <input id="vf-progress" class="money-input" type="tel" inputmode="numeric" placeholder="0" />
+                  <span class="won" aria-hidden="true">원</span>
+                </div>
+              </label>
+              <label class="field">
+                <span class="field-label">이번 달 비전 할당</span>
+                <div id="vf-monthly-wrap" class="money-wrap">
+                  <input id="vf-monthly" class="money-input" type="tel" inputmode="numeric" placeholder="0" required
+                    aria-describedby="vb-over-slot-monthly" />
+                  <span class="won" aria-hidden="true">원</span>
+                </div>
+              </label>
+            </div>
+            <div id="vb-over-slot-monthly" class="vb-validation-slot vb-validation-slot--form mt-10" aria-live="polite">
+            </div>
+            <div class="mt-14">
+              <button id="btn-vision-add" class="btn" type="submit">비전 추가</button>
+            </div>
+          </form>
+        </section>
 
-          <div id="over-alert" class="vb-over-banner mt-12 is-hidden" role="alert" aria-live="assertive"></div>
+        <section class="vb-stack" aria-labelledby="priority-title">
+          <div class="card">
+            <h2 id="priority-title">우선순위 연동 예산 배분</h2>
+            <p class="text-sm mt-8">
+              먼저 고정 지출이 차감된 뒤, 아래 비전 목록의 순서대로 남은 재원에서 할당됩니다. 번호가 작을수록 비전
+              간 우선순위가 높습니다.
+            </p>
 
-          <div id="vision-list" class="vision-list mt-14"></div>
-        </div>
-      </section>
+            <div id="waterfall" class="waterfall mt-14" role="region" aria-live="polite"></div>
 
-      <ins class="kakao_ad_area" style="display:none;"
-      data-ad-unit = "DAN-jGaTWdkt4JHwlfwT"
-      data-ad-width = "300"
-      data-ad-height = "250"></ins>
-      <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+            <div id="over-alert" class="vb-over-banner mt-12 is-hidden" role="alert" aria-live="assertive"></div>
 
-      <section class="card vb-stack" aria-labelledby="export-title">
-        <h2 id="export-title">보내기 안내</h2>
-        <p class="text-sm mt-8">비전 목록과 할당·잔여 요약은 상단 통합 엑셀 컨트롤의 「현재 화면 엑셀 저장」으로 받을 수 있습니다.</p>
-      </section>
+            <div id="vision-list" class="vision-list mt-14"></div>
+          </div>
+        </section>
 
-      <section class="card vb-stack mt-24" aria-labelledby="seo-vision-overview-title">
-        <h2 id="seo-vision-overview-title">비전 기반 예산 할당이란 무엇인가</h2>
-        <p class="text-body mt-10">
-          <strong>비전 기반 예산 할당</strong>은 “이번 달의 돈을 어디에 먼저 둘 것인가”를 결정하는 설계 단계입니다. Money Calendar는
-          단순히 지출을 기록하는 가계부가 아니라, 1원의 가치가 흩어지지 않도록 <em>우선순위</em>를 세워 예산을 배치합니다.
-          이 페이지에서는 <strong>월 가용 수입</strong>에서 <strong>고정 지출</strong>을 먼저 차감하고, 남은 재원을 단기·장기 목표(비전)에
-          순서대로 할당합니다. 즉, 예산의 ‘기분’이 아니라 예산의 ‘구조’를 만드는 화면입니다.
-        </p>
-        <p class="text-body mt-10">
-          3번 기능은 2번 수입 설계와 연결됩니다.
-          <a href="../income-design/02_income_design.html"><strong>2번 계층형 수입 설계</strong></a>에서 기준 수입을 정리한 뒤,
-          여기서 고정 지출을 반영하고 비전을 배치하면 5번 시뮬레이터와 15번 성장 곡선이 더 정확해집니다.
-        </p>
-      </section>
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-jGaTWdkt4JHwlfwT" data-ad-width="300"
+          data-ad-height="250"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
 
-      <section class="card vb-stack mt-24" aria-labelledby="seo-principles-title">
-        <h2 id="seo-principles-title">비전 예산 설계의 핵심 원칙 5가지</h2>
-        <p class="text-body mt-10">
-          검색에서 “예산 설계”, “목표 저축”, “고정 지출 관리”를 찾는 대부분의 사람은 ‘계획은 세웠는데 지속이 어렵다’는 문제를
-          겪습니다. 아래 원칙은 복잡한 재무 이론이 아니라, 일상에서 지킬 수 있는 최소 규칙으로 구성했습니다.
-        </p>
-        <ul class="text-body mt-16 mc-prose-list">
-          <li><strong>고정 지출 우선</strong>: 집세·통신·보험처럼 빠질 수 없는 비용을 먼저 차감합니다.</li>
-          <li><strong>비전은 “남는 돈”이 아니라 “남기기로 한 돈”</strong>: 남은 뒤에 넣는 것이 아니라, 남기기 위해 구조를 만듭니다.</li>
-          <li><strong>단기·장기 목표 분리</strong>: 단기 목표는 안전판, 장기 목표는 방향성으로 관리합니다.</li>
-          <li><strong>우선순위는 숫자 1개로 고정</strong>: 목표를 늘리더라도 순서를 정해 분산을 줄입니다.</li>
-          <li><strong>1원의 가치로 검증</strong>: 월 할당액이 지나치게 커지면 지속성이 떨어지고, 지나치게 작으면 의지가 식습니다.</li>
-        </ul>
-        <article class="mt-16" aria-labelledby="seo-principles-h3">
-          <h3 id="seo-principles-h3">왜 ‘우선순위 연동’이 중요한가</h3>
+        <section class="card vb-stack" aria-labelledby="export-title">
+          <h2 id="export-title">보내기 안내</h2>
+          <p class="text-sm mt-8">비전 목록과 할당·잔여 요약은 상단 통합 엑셀 컨트롤의 「현재 화면 엑셀 저장」으로 받을 수 있습니다.</p>
+        </section>
+
+        <section class="card vb-stack mt-24" aria-labelledby="seo-vision-overview-title">
+          <h2 id="seo-vision-overview-title">비전 기반 예산 할당이란 무엇인가</h2>
           <p class="text-body mt-10">
-            목표는 늘기 쉽고, 돈은 늘지 않는 경우가 많습니다. 우선순위를 정하지 않으면 모든 목표가 “조금씩”만 채워지고,
-            체감 성취가 낮아져 계획이 깨집니다. 우선순위 연동 배분은 ‘지속 가능한 한 가지’가 만들어지는 구조를 제공합니다.
+            <strong>비전 기반 예산 할당</strong>은 “이번 달의 돈을 어디에 먼저 둘 것인가”를 결정하는 설계 단계입니다. Money Calendar는
+            단순히 지출을 기록하는 가계부가 아니라, 1원의 가치가 흩어지지 않도록 <em>우선순위</em>를 세워 예산을 배치합니다.
+            이 페이지에서는 <strong>월 가용 수입</strong>에서 <strong>고정 지출</strong>을 먼저 차감하고, 남은 재원을 단기·장기 목표(비전)에
+            순서대로 할당합니다. 즉, 예산의 ‘기분’이 아니라 예산의 ‘구조’를 만드는 화면입니다.
           </p>
-        </article>
-      </section>
+          <p class="text-body mt-10">
+            3번 기능은 2번 수입 설계와 연결됩니다.
+            <a href="../income-design/02_income_design.html"><strong>2번 계층형 수입 설계</strong></a>에서 기준 수입을 정리한 뒤,
+            여기서 고정 지출을 반영하고 비전을 배치하면 5번 시뮬레이터와 15번 성장 곡선이 더 정확해집니다.
+          </p>
+        </section>
 
-      <section class="card vb-stack mt-24" aria-labelledby="seo-workflow-title">
-        <h2 id="seo-workflow-title">2번 기능 사용 순서(권장)</h2>
-        <p class="text-body mt-10">
-          이 페이지는 입력 순서 자체가 설계 철학입니다. 아래 순서대로 진행하면 “비전 예산”이 숫자에서 습관으로 이어집니다.
-        </p>
-        <ol class="text-body mt-16 mc-prose-steps">
-          <li>
-            <strong>월 가용 수입</strong>을 입력하거나 2번 수입 설계 합계를 불러옵니다.
-            (<a href="../income-design/02_income_design.html">2번 페이지</a>)
-          </li>
-          <li>
-            <strong>고정 지출 합계</strong>를 입력해 “비전 예산 상한”을 확정합니다.
-          </li>
-          <li>
-            <strong>비전 목표</strong>를 단기/장기로 분류하고, 목표 금액과 이번 달 할당액을 작성합니다.
-          </li>
-          <li>
-            <strong>우선순위</strong>를 조정해 물 흐르듯 배치되도록 정리합니다.
-          </li>
-          <li>
-            이후
-            <a href="../budget-simulator/05_budget_simulator.html"><strong>5번 예산 분배 시뮬레이터</strong></a>에서 생활 예산 비율을 맞추고,
-            <a href="../vision-simulator/15_vision_goal_simulator.html"><strong>15번 비전 달성 시뮬레이터</strong></a>에서 성장 곡선을 확인합니다.
-          </li>
-        </ol>
-      </section>
+        <section class="card vb-stack mt-24" aria-labelledby="seo-principles-title">
+          <h2 id="seo-principles-title">비전 예산 설계의 핵심 원칙 5가지</h2>
+          <p class="text-body mt-10">
+            검색에서 “예산 설계”, “목표 저축”, “고정 지출 관리”를 찾는 대부분의 사람은 ‘계획은 세웠는데 지속이 어렵다’는 문제를
+            겪습니다. 아래 원칙은 복잡한 재무 이론이 아니라, 일상에서 지킬 수 있는 최소 규칙으로 구성했습니다.
+          </p>
+          <ul class="text-body mt-16 mc-prose-list">
+            <li><strong>고정 지출 우선</strong>: 집세·통신·보험처럼 빠질 수 없는 비용을 먼저 차감합니다.</li>
+            <li><strong>비전은 “남는 돈”이 아니라 “남기기로 한 돈”</strong>: 남은 뒤에 넣는 것이 아니라, 남기기 위해 구조를 만듭니다.</li>
+            <li><strong>단기·장기 목표 분리</strong>: 단기 목표는 안전판, 장기 목표는 방향성으로 관리합니다.</li>
+            <li><strong>우선순위는 숫자 1개로 고정</strong>: 목표를 늘리더라도 순서를 정해 분산을 줄입니다.</li>
+            <li><strong>1원의 가치로 검증</strong>: 월 할당액이 지나치게 커지면 지속성이 떨어지고, 지나치게 작으면 의지가 식습니다.</li>
+          </ul>
+          <article class="mt-16" aria-labelledby="seo-principles-h3">
+            <h3 id="seo-principles-h3">왜 ‘우선순위 연동’이 중요한가</h3>
+            <p class="text-body mt-10">
+              목표는 늘기 쉽고, 돈은 늘지 않는 경우가 많습니다. 우선순위를 정하지 않으면 모든 목표가 “조금씩”만 채워지고,
+              체감 성취가 낮아져 계획이 깨집니다. 우선순위 연동 배분은 ‘지속 가능한 한 가지’가 만들어지는 구조를 제공합니다.
+            </p>
+          </article>
+        </section>
 
-      <section class="card vb-stack mt-24" aria-labelledby="value-linkage-title">
-        <h2 id="value-linkage-title">값-기능 연결</h2>
-        <p class="text-body mt-10">
-          2번에서 입력·확인하는 항목이 가계부 시리즈의 다른 기능과 어떻게 이어지는지 한눈에 정리한 표입니다.
-        </p>
-        <div class="table-wrap mt-16">
-          <table class="data-table" aria-label="2번 비전 기반 예산 할당—값과 기능 연결">
-            <thead>
-              <tr>
-                <th scope="col">2번에서 다루는 값</th>
-                <th scope="col">연결되는 기능</th>
-                <th scope="col">활용 포인트</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>월 가용 수입</td>
-                <td>
-                  <a href="../income-design/02_income_design.html"><strong>2번</strong> (수입 구조)</a>
-                </td>
-                <td>수입 구조(확정/잠재)를 기반으로 “현실적인 상한”을 잡습니다.</td>
-              </tr>
-              <tr>
-                <td>고정 지출</td>
-                <td>
-                  <a href="../budget-simulator/05_budget_simulator.html"><strong>5번</strong> (카테고리)</a>
-                </td>
-                <td>분배 가능 금액을 줄여 과대 배분을 방지합니다.</td>
-              </tr>
-              <tr>
-                <td>월 비전 할당 합계</td>
-                <td>
-                  <a href="../vision-simulator/15_vision_goal_simulator.html"><strong>15번</strong> (성장 곡선)</a>
-                </td>
-                <td>성장 곡선의 월 적립(M)을 결정합니다.</td>
-              </tr>
-              <tr>
-                <td>우선순위 기반 배치</td>
-                <td>
-                  <a href="../weekly-report/10_weekly_practice_report.html"><strong>10번</strong> (실천 리포트)</a>
-                </td>
-                <td>실천 리포트에서 ‘다음 주 행동’의 기준(집중 대상)을 세웁니다.</td>
-              </tr>
-              <tr>
-                <td>예산 준수 철학</td>
-                <td>
-                  <a href="../daily-nospend/09_no_spending_calendar.html"><strong>9번</strong> (스티커)</a>
-                </td>
-                <td>돌발 지출 여부로 스티커 작성 경험이 갈립니다.</td>
-              </tr>
-              <tr>
-                <td>엑셀 내보내기</td>
-                <td>
-                  <a href="../backup-security/14_export_restore.html"><strong>14번</strong> (통합 내보내기)</a>
-                </td>
-                <td>설계·기록 데이터를 통합 워크북으로 백업합니다.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+        <section class="card vb-stack mt-24" aria-labelledby="seo-workflow-title">
+          <h2 id="seo-workflow-title">2번 기능 사용 순서(권장)</h2>
+          <p class="text-body mt-10">
+            이 페이지는 입력 순서 자체가 설계 철학입니다. 아래 순서대로 진행하면 “비전 예산”이 숫자에서 습관으로 이어집니다.
+          </p>
+          <ol class="text-body mt-16 mc-prose-steps">
+            <li>
+              <strong>월 가용 수입</strong>을 입력하거나 2번 수입 설계 합계를 불러옵니다.
+              (<a href="../income-design/02_income_design.html">2번 페이지</a>)
+            </li>
+            <li>
+              <strong>고정 지출 합계</strong>를 입력해 “비전 예산 상한”을 확정합니다.
+            </li>
+            <li>
+              <strong>비전 목표</strong>를 단기/장기로 분류하고, 목표 금액과 이번 달 할당액을 작성합니다.
+            </li>
+            <li>
+              <strong>우선순위</strong>를 조정해 물 흐르듯 배치되도록 정리합니다.
+            </li>
+            <li>
+              이후
+              <a href="../budget-simulator/05_budget_simulator.html"><strong>5번 예산 분배 시뮬레이터</strong></a>에서 생활 예산 비율을
+              맞추고,
+              <a href="../vision-simulator/15_vision_goal_simulator.html"><strong>15번 비전 달성 시뮬레이터</strong></a>에서 성장 곡선을
+              확인합니다.
+            </li>
+          </ol>
+        </section>
 
-      <footer class="page-foot mt-16 mb-20">
-        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/faq.html">FAQ</a></p>
-      </footer>
-        </main>
-      </div>
+        <section class="card vb-stack mt-24" aria-labelledby="value-linkage-title">
+          <h2 id="value-linkage-title">값-기능 연결</h2>
+          <p class="text-body mt-10">
+            2번에서 입력·확인하는 항목이 가계부 시리즈의 다른 기능과 어떻게 이어지는지 한눈에 정리한 표입니다.
+          </p>
+          <div class="table-wrap mt-16">
+            <table class="data-table" aria-label="2번 비전 기반 예산 할당—값과 기능 연결">
+              <thead>
+                <tr>
+                  <th scope="col">2번에서 다루는 값</th>
+                  <th scope="col">연결되는 기능</th>
+                  <th scope="col">활용 포인트</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>월 가용 수입</td>
+                  <td>
+                    <a href="../income-design/02_income_design.html"><strong>2번</strong> (수입 구조)</a>
+                  </td>
+                  <td>수입 구조(확정/잠재)를 기반으로 “현실적인 상한”을 잡습니다.</td>
+                </tr>
+                <tr>
+                  <td>고정 지출</td>
+                  <td>
+                    <a href="../budget-simulator/05_budget_simulator.html"><strong>5번</strong> (카테고리)</a>
+                  </td>
+                  <td>분배 가능 금액을 줄여 과대 배분을 방지합니다.</td>
+                </tr>
+                <tr>
+                  <td>월 비전 할당 합계</td>
+                  <td>
+                    <a href="../vision-simulator/15_vision_goal_simulator.html"><strong>15번</strong> (성장 곡선)</a>
+                  </td>
+                  <td>성장 곡선의 월 적립(M)을 결정합니다.</td>
+                </tr>
+                <tr>
+                  <td>우선순위 기반 배치</td>
+                  <td>
+                    <a href="../weekly-report/10_weekly_practice_report.html"><strong>10번</strong> (실천 리포트)</a>
+                  </td>
+                  <td>실천 리포트에서 ‘다음 주 행동’의 기준(집중 대상)을 세웁니다.</td>
+                </tr>
+                <tr>
+                  <td>예산 준수 철학</td>
+                  <td>
+                    <a href="../daily-nospend/09_no_spending_calendar.html"><strong>9번</strong> (스티커)</a>
+                  </td>
+                  <td>돌발 지출 여부로 스티커 작성 경험이 갈립니다.</td>
+                </tr>
+                <tr>
+                  <td>엑셀 내보내기</td>
+                  <td>
+                    <a href="../backup-security/14_export_restore.html"><strong>14번</strong> (통합 내보내기)</a>
+                  </td>
+                  <td>설계·기록 데이터를 통합 워크북으로 백업합니다.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <footer class="page-foot mt-16 mb-20">
+          <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a
+              href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a
+              href="/faq.html">FAQ</a></p>
+        </footer>
+      </main>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="../js/nav-config.js"></script>
-    <script src="../js/excel-manager.js"></script>
-    <script src="../js/mc-delete-confirm.js"></script>
-    <script src="../js/app-shell.js"></script>
-    <script src="../js/vision-budget-utils.js"></script>
-    <script src="./vision-budget.js"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="../js/nav-config.js"></script>
+  <script src="../js/excel-manager.js"></script>
+  <script src="../js/mc-delete-confirm.js"></script>
+  <script src="../js/app-shell.js"></script>
+  <script src="../js/vision-budget-utils.js"></script>
+  <script src="./vision-budget.js"></script>
+</body>
+
 </html>
