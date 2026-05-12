@@ -61,6 +61,21 @@
       .page-home #guide-title + .text-body a:hover {
         color: var(--color-primary-hover);
       }
+
+      /* 모바일 즐겨찾기/메뉴 드롭다운 잘림 방지 */
+      @media (max-width: 720px) {
+        .site-header .dropdown-menu,
+        .site-header .dropdown__menu,
+        .site-header .menu-dropdown,
+        .site-header .favorites-dropdown,
+        .site-header .fav-dropdown,
+        .site-header [data-dropdown-menu] {
+          right: 0;
+          left: auto;
+          max-width: 90vw;
+          transform: translateX(0);
+        }
+      }
     </style>
     <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
     <script type="application/ld+json">
@@ -227,58 +242,6 @@
         data-ad-width = "300"
         data-ad-height = "250"></ins>
         <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
-
-        <section class="card mt-24 reveal" aria-labelledby="guide-title">
-          <h2 id="guide-title">머니 캘린더 가이드</h2>
-          <p class="text-body mt-10">
-            1~16 기능의 순서와 역할 요약은 <a href="./assets/demo-guide.html">사용가이드</a>에서 함께 정리되어 있습니다.
-          </p>
-          <div class="mt-16" style="display: grid; gap: 14px">
-            <div>
-              <p class="text-sm" style="font-weight: 800; letter-spacing: 0.02em">1) 작성 방법</p>
-              <p class="text-body mt-10">
-                1) 부채 리스트 / 2) 계층형 수입 설계 엔진 / 3) 비전기반 예산 할당 / 4) 예산안 확정 및 락(Lock) / 5)
-                카테고리별 예산 분배 시뮬레이터 / 6) 데일리 퀵 인풋 / 7) 데일리 소비 한 줄 평 / 8) 일일 소비 체감지수 / 9)
-                예산 준수 캘린더 / 10) 주간 단위 실천 리포트 / 11) 월간 예산 복기 시스템 / 12) 과거 데이터 타임라인 / 13) AI 재정
-                피드백 / 14) 내보내기·복원 / 15) 비전 달성 시뮬레이터 / 16) 재정 건전성 정밀 진단
-              </p>
-            </div>
-            <div>
-              <p class="text-sm" style="font-weight: 800; letter-spacing: 0.02em">2) 관리 방식</p>
-              <p class="text-body mt-10">
-                데이터는 이 브라우저의 localStorage에 저장됩니다. 필요할 때 엑셀 다운로드/업로드로 데이터를 직접
-                소유하고, 다시 화면에 불러와 이어서 사용할 수 있습니다.
-              </p>
-            </div>
-            <div>
-              <p class="text-sm" style="font-weight: 800; letter-spacing: 0.02em">3) 엑셀 활용</p>
-              <p class="text-body mt-10">
-                기록과 수정은 웹 화면에서 진행합니다. 엑셀은 백업·보관용으로 「현재 화면 엑셀 저장」과 「파일에서 불러오기」로 주고받습니다.<br />
-                14번 화면에서는 1~16 기능에 연결된 데이터를 한 파일로 통합 추출하고 암호화 백업·복원을 할 수 있습니다.
-              </p>
-            </div>
-            <div>
-              <p class="text-sm" style="font-weight: 800; letter-spacing: 0.02em">4) Data &amp; Security</p>
-              <div class="text-body mt-10" style="display: grid; gap: 12px">
-                <p>
-                  <span style="font-weight: 750">보안 원칙.</span>
-                  귀하의 재정 데이터는 서버로 전송되지 않습니다. 오직 사용자님의 브라우저(내 기기)에만 안전하게
-                  자동 저장됩니다.
-                </p>
-                <p>
-                  <span style="font-weight: 750">데이터 연속성.</span>
-                  로그인 없이도 새로고침이나 브라우저 재시작 시 기록이 유지됩니다. 다른 기기에서 이용하시려면 엑셀
-                  파일로 백업 후 업로드하세요.
-                </p>
-                <p class="text-sm" style="color: var(--color-text-muted); line-height: 1.6">
-                  <span style="font-weight: 750">유의사항(Disclaimer).</span>
-                  *브라우저의 방문 기록이나 캐시를 모두 삭제할 경우 저장된 데이터가 초기화될 수 있으므로, 주기적인
-                  엑셀 백업(14번 기능)을 강력히 권장합니다.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
 
         <div class="bottom-nav-space" aria-hidden="true"></div>
       </div>

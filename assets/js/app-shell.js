@@ -352,7 +352,13 @@
     return { path: full.slice(0, q), search: full.slice(q) };
   }
 
+  function isDemoGuidePage() {
+    var body = document.body;
+    return !!(body && body.classList && body.classList.contains("page-demo-tour"));
+  }
+
   function navHref(item) {
+    if (isDemoGuidePage()) return "#section-" + String(item.id);
     var pq = parsePathAndQuery(item.path);
     return joinBase(pq.path) + pq.search;
   }
@@ -375,6 +381,14 @@
   function inferFeatureId() {
     var id = currentFeatureId();
     if (id > 0) return id;
+    if (isDemoGuidePage()) {
+      var m = String(window.location.hash || "").match(/section-(\d+)/);
+      var n = m ? parseInt(m[1], 10) : 1;
+      if (!Number.isFinite(n)) n = 1;
+      if (n < 1) n = 1;
+      if (n > 16) n = 16;
+      return n;
+    }
     var nav = window.MONEY_CALENDAR_NAV;
     if (!nav || !nav.length) return 0;
     var loc = (window.location.pathname || "").replace(/\\/g, "/").toLowerCase();
@@ -437,6 +451,7 @@
           var isActive = item.id === activeId;
           if (isActive) {
             row.classList.add("is-active");
+            a.classList.add("active");
             a.setAttribute("aria-current", "page");
           }
 
@@ -570,6 +585,92 @@
 
     window.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeDrawer();
+    });
+  }
+
+  function syncDemoGuideActiveByScroll() {
+    if (!isDemoGuidePage()) return;
+    var sections = [];
+    for (var i = 1; i <= 16; i++) {
+      var el = document.getElementById("section-" + i);
+      if (el) sections.push({ id: i, el: el });
+    }
+    if (!sections.length) return;
+
+    var activeId = inferFeatureId();
+    function setActive(id) {
+      if (!id || id === activeId) return;
+      activeId = id;
+      buildDrawerList(activeId);
+    }
+
+    function computeActiveFromScroll() {
+      // 가장 안전한 방식: 섹션 top 기준으로 "현재"를 결정 (오프바이원 방지)
+      var activationY = 120;
+      var cur = sections[0].id;
+      for (var j = 0; j < sections.length; j++) {
+        var top = sections[j].el.getBoundingClientRect().top;
+        if (top - activationY <= 0) cur = sections[j].id;
+        else break;
+      }
+      setActive(cur);
+    }
+
+    var raf = 0;
+    function schedule() {
+      if (raf) return;
+      raf = window.requestAnimationFrame(function () {
+        raf = 0;
+        computeActiveFromScroll();
+      });
+    }
+
+    computeActiveFromScroll();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    window.addEventListener("mc-demo-guide-active-sync", computeActiveFromScroll);
+  }
+
+  function wireDemoGuideActiveOnClick() {
+    if (!isDemoGuidePage()) return;
+
+    document.addEventListener("click", function (e) {
+      var t = e.target;
+      if (!t || !t.closest) return;
+      var a = t.closest('a[href^="#section-"]');
+      if (!a) return;
+
+      // only our menus
+      var inDrawer = !!a.closest("#mc-drawer-list");
+      var inFavBar = !!a.closest("#mc-fav-bar");
+      var inFavDd = !!a.closest("#mc-fav-dropdown");
+      if (!inDrawer && !inFavBar && !inFavDd) return;
+
+      // href="#section-x"에서 x 추출 (인덱스 연산 금지)
+      var id = 0;
+      try {
+        var m = String(a.getAttribute("href") || "").match(/section-(\d+)/);
+        id = m ? parseInt(m[1], 10) : 0;
+      } catch (err) {}
+      if (!Number.isFinite(id) || id < 1) return;
+      if (id > 16) id = 16;
+
+      // (1) 기존 active 제거 -> (2) 클릭된 요소에만 active 부여
+      try {
+        var navRoot = a.closest("#mc-drawer-list, #mc-fav-bar, #mc-fav-dropdown");
+        if (navRoot) {
+          navRoot.querySelectorAll("a.active").forEach(function (el) {
+            el.classList.remove("active");
+          });
+        }
+        a.classList.add("active");
+      } catch (e2) {}
+
+      // 해시가 같아도 UI 갱신이 되도록 강제 리빌드
+      buildDrawerList(id);
+      try {
+        window.dispatchEvent(new Event("mc-demo-guide-active-sync"));
+      } catch (e3) {}
     });
   }
 
@@ -747,6 +848,13 @@
     injectScrollTopButton();
     buildDrawerList(inferFeatureId());
     wireDrawer();
+    if (isDemoGuidePage()) {
+      window.addEventListener("hashchange", function () {
+        buildDrawerList(inferFeatureId());
+      });
+      wireDemoGuideActiveOnClick();
+      syncDemoGuideActiveByScroll();
+    }
     window.addEventListener("storage", function (e) {
       if (e.key === FAV_STORAGE_KEY) {
         buildDrawerList(inferFeatureId());
