@@ -4,21 +4,21 @@
     <meta charset="UTF-8" />
 
     <!-- ================== 기본 메타 태그 (SEO) ================== -->
-    <meta name="title" content="4. 예산 분배 시뮬레이터 | 머니캘린더" />
+    <meta name="title" content="5. 예산 분배 시뮬레이터 | 머니캘린더" />
     <meta
       name="description"
       content="총 가용 안에서 Needs·Wants·Savings를 슬라이더·도넛으로 맞추고, 50/30/20 권장과 대조해 가장 건강한 비율을 잡는 화면입니다."
     />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://money-calender.netlify.app/assets/budget-simulator/04_budget_simulator.html" />
-    <meta property="og:title" content="4. 예산 분배 시뮬레이터 | 머니캘린더" />
+    <meta property="og:title" content="5. 예산 분배 시뮬레이터 | 머니캘린더" />
     <meta property="og:description" content="총 가용 안에서 Needs·Wants·Savings를 슬라이더·도넛으로 맞추고, 50/30/20 권장과 대조해 가장 건강한 비율을 잡는 화면입니다." />
     <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
     <meta property="og:image:type" content="image/webp" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:site_name" content="Money Calendar" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="4. 예산 분배 시뮬레이터 | 머니캘린더" />
+    <meta name="twitter:title" content="5. 예산 분배 시뮬레이터 | 머니캘린더" />
     <meta name="twitter:description" content="총 가용 안에서 Needs·Wants·Savings를 슬라이더·도넛으로 맞추고, 50/30/20 권장과 대조해 가장 건강한 비율을 잡는 화면입니다." />
     <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
     <link rel="canonical" href="https://money-calender.netlify.app/assets/budget-simulator/04_budget_simulator.html" />
@@ -50,7 +50,7 @@
     <meta name="apple-mobile-web-app-title" content="Money Calendar" />
     <link rel="manifest" href="../../site.webmanifest">
 
-    <title>4. 예산 분배 시뮬레이터 | 머니캘린더</title>
+    <title>5. 예산 분배 시뮬레이터 | 머니캘린더</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
@@ -85,7 +85,7 @@
           </span>
           <span class="mc-brand__titles">
             <span class="mc-brand__series">Money Calendar</span>
-            <span class="mc-brand__page">4. 카테고리별 예산 분배 시뮬레이터</span>
+            <span class="mc-brand__page">5. 카테고리별 예산 분배 시뮬레이터</span>
           </span>
         </a>
         <div class="mc-global-header__tools">
@@ -115,7 +115,7 @@
           <p class="drawer__title">가계부 시리즈</p>
           <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
         </div>
-        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~16"></nav>
         <div class="drawer__meta">
           <p class="text-sm">시뮬레이션 결과를 엑셀로 내려받아 예산 수립과 비교해 보세요.</p>
         </div>
@@ -126,8 +126,8 @@
       <div class="container">
         <main id="main">
           <header class="mc-page-intro">
-            <h1 class="mc-page-intro__title">4. 카테고리별 예산 분배 시뮬레이터</h1>
-            <p class="mc-page-intro__kicker mc-intro-single-line">4 · 카테고리별 예산 분배 시뮬레이터</p>
+            <h1 class="mc-page-intro__title">5. 카테고리별 예산 분배 시뮬레이터</h1>
+            <p class="mc-page-intro__kicker mc-intro-single-line">5 · 카테고리별 예산 분배 시뮬레이터</p>
             <p class="mc-page-intro__lead text-body mc-intro-single-line">
               예산은 ‘합계’보다 ‘비율’에서 건강함이 드러납니다. 한 항목을 늘리면 다른 항목이 자동으로 반응하며, 권장 비율(50/30/20)과의 차이를 바로 확인할 수 있습니다.
             </p>
@@ -144,8 +144,8 @@
           </label>
         </div>
         <p class="text-sm mt-10">
-          먼저 <strong>월 가용 수입</strong>과 <strong>고정 지출</strong>을 입력하면, 그 차액이 필수 지출(Needs)·선택적
-          지출(Wants)·저축 및 투자(Savings)에 나누어 쓸 <strong>분배 가능 금액</strong>의 상한입니다.<br />
+          먼저 <strong>월 가용 수입</strong>과 <strong>고정 지출</strong>을 입력하면, 그 차액이 1.필수(의무)·2.필요·3.선한
+          영향력에 나누어 쓸 <strong>분배 가능 금액</strong>의 상한입니다.<br />
           예산 수립 화면의 배분값을 불러와 기준으로 삼을 수 있습니다.
         </p>
 
@@ -174,9 +174,10 @@
             <button id="btn-load-budget-setup" class="btn-secondary" type="button">예산 수립 값 불러오기</button>
             <button id="btn-apply-532" class="btn-secondary" type="button">50/30/20 적용</button>
             <div class="base-532-guide" role="note" aria-label="50 30 20 권장 비율 안내">
-              <p class="base-532-guide__line">50% - 필수 지출 (Needs): 생존을 위해 반드시 필요한 고정 비용</p>
-              <p class="base-532-guide__line">30% - 선택적 지출 (Wants): 삶의 질을 높이기 위한 유연한 비용</p>
-              <p class="base-532-guide__line">20% - 저축 및 투자 (Savings): 미래를 위한 자산 형성 비용</p>
+              <p class="base-532-guide__line">1. 필수(의무): 반드시 지켜야 하는 기반 비용</p>
+              <p class="base-532-guide__line">2. 필요: 생활 유지를 위한 필요 지출</p>
+              <p class="base-532-guide__line">3. 선한 영향력: 나와 주변에 긍정적 영향을 주는 지출</p>
+              <p class="base-532-guide__line">4. 요망 사항: 조정 가능한 희망 지출(잔여에서 관리)</p>
             </div>
           </div>
         </div>
@@ -194,7 +195,7 @@
             <div class="sim-item sim-item--living">
               <div class="sim-head">
                 <div>
-                  <h3>필수 지출 (Needs)</h3>
+                  <h3>1. 필수(의무)</h3>
                   <p class="text-sm sim-item__sub">주거·공과·식재료·교통·보험·통신 등 필수 비용</p>
                 </div>
                 <div class="sim-value">
@@ -209,7 +210,7 @@
             <div class="sim-item sim-item--activity">
               <div class="sim-head">
                 <div>
-                  <h3>선택적 지출 (Wants)</h3>
+                  <h3>2. 필요</h3>
                   <p class="text-sm sim-item__sub">삶의 질을 위한 유연한 비용 (외식, 쇼핑, 취미, 여행 등)</p>
                 </div>
                 <div class="sim-value">
@@ -224,7 +225,7 @@
             <div class="sim-item sim-item--essential">
               <div class="sim-head">
                 <div>
-                  <h3>저축 및 투자 (Savings)</h3>
+                  <h3>3. 선한 영향력</h3>
                   <p class="text-sm sim-item__sub">미래 자산 형성 (예적금, 투자, 비상금, 대출 원금 상환 등)</p>
                 </div>
                 <div class="sim-value">
@@ -392,7 +393,7 @@
       </section>
 
       <footer class="page-foot mt-24 mb-20">
-        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a></p>
+        <p class="text-sm text-center">© 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a href="/faq.html">FAQ</a></p>
       </footer>
         </main>
       </div>

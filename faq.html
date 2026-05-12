@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.ico" />
+
+    <title>자주 묻는 질문 · 머니캘린더 (FAQ)</title>
+    <meta
+      name="description"
+      content="머니캘린더 FAQ: 가계부가 아닌 캘린더인 이유, 1원 단위 기록의 의미, 공개 웹 서비스의 장점 등을 질문·답변 형식으로 정리했습니다."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://money-calender.netlify.app/faq.html" />
+    <meta property="og:title" content="자주 묻는 질문 · 머니캘린더 (FAQ)" />
+    <meta
+      property="og:description"
+      content="머니캘린더 FAQ: 가계부가 아닌 캘린더인 이유, 1원 단위 기록의 의미, 공개 웹 서비스의 장점 등을 질문·답변 형식으로 정리했습니다."
+    />
+    <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="Money Calendar" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="자주 묻는 질문 · 머니캘린더 (FAQ)" />
+    <meta
+      name="twitter:description"
+      content="머니캘린더 FAQ: 가계부가 아닌 캘린더인 이유, 1원 단위 기록의 의미, 공개 웹 서비스의 장점 등을 질문·답변 형식으로 정리했습니다."
+    />
+    <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
+    <link rel="canonical" href="https://money-calender.netlify.app/faq.html" />
+    <link rel="sitemap" type="application/xml" href="https://money-calender.netlify.app/sitemap.xml" title="Sitemap" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+    />
+    <script src="assets/js/theme.js"></script>
+    <link rel="stylesheet" href="./assets/css/common.css" />
+    <link rel="stylesheet" href="./assets/css/journal-shell.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <style>
+      .page-faq .faq-page-title {
+        margin: 0 0 1.25rem;
+        font-size: clamp(1.28rem, 3.2vw, 1.62rem);
+        font-weight: 850;
+        letter-spacing: -0.03em;
+        line-height: 1.22;
+        color: var(--color-text-primary);
+      }
+
+      .page-faq .faq-page-title-en {
+        font-family: "Playfair Display", Georgia, "Times New Roman", serif;
+        font-weight: 600;
+        font-size: 0.88em;
+        letter-spacing: 0.02em;
+        margin-left: 0.35em;
+      }
+
+      .page-faq .faq-accordion {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .page-faq .faq-item {
+        margin: 0;
+        border: 1px solid var(--border-default);
+        border-radius: var(--radius-lg);
+        background: var(--color-surface);
+        box-shadow: var(--shadow-card);
+      }
+
+      .page-faq .faq-item__q {
+        list-style: none;
+        cursor: pointer;
+        padding: 1rem 1.125rem;
+        font-size: 0.9375rem;
+        font-weight: 780;
+        letter-spacing: -0.018em;
+        line-height: 1.45;
+        color: var(--color-text-primary);
+        word-break: keep-all;
+      }
+
+      .page-faq .faq-item__q::-webkit-details-marker {
+        display: none;
+      }
+
+      .page-faq .faq-item__q:focus-visible {
+        outline: none;
+        box-shadow: var(--focus-ring);
+        border-radius: calc(var(--radius-lg) - 2px);
+      }
+
+      .page-faq .faq-item__a {
+        margin: 0;
+        padding: 0 1.125rem 1.125rem;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        line-height: 1.75;
+        letter-spacing: -0.012em;
+        color: var(--color-text-secondary);
+        word-break: keep-all;
+      }
+
+      .page-faq .faq-guide-outro {
+        margin: 1.75rem 0 0;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        line-height: 1.72;
+        color: var(--color-text-secondary);
+        word-break: keep-all;
+      }
+
+      .page-faq .faq-guide-outro a {
+        color: var(--color-primary);
+        font-weight: 750;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .page-faq .faq-guide-outro a:hover {
+        color: var(--color-primary-hover);
+      }
+    </style>
+    <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
+    <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
+  </head>
+  <body class="mc-app page-faq" data-mc-feature-id="0">
+    <script>
+      window.__MC_ASSETS_BASE = "./assets";
+    </script>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+    <header class="mc-global-header" role="banner">
+      <div class="container mc-global-header__inner">
+        <a class="mc-brand" href="./index.html">
+          <span class="mc-brand__mark" aria-hidden="true">
+            <img
+              src="assets/images/icon/mc-logo.svg"
+              width="44"
+              height="44"
+              alt="Money Calendar 머니캘린더 로고"
+              loading="eager"
+              decoding="async"
+            />
+          </span>
+          <span class="mc-brand__titles">
+            <span class="mc-brand__series">Money Calendar</span>
+            <span class="mc-brand__page">FAQ</span>
+          </span>
+        </a>
+        <div class="mc-global-header__tools">
+          <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+            <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+            <span class="theme-toggle__thumb" aria-hidden="true"></span>
+            <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+          </button>
+          <button
+            class="mc-hamburger hamburger"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-controls="drawer"
+            aria-expanded="false"
+            id="drawer-open"
+          >
+            <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+      <div class="drawer__backdrop" data-drawer-close></div>
+      <div class="drawer__panel" role="document">
+        <div class="drawer__top">
+          <p class="drawer__title">가계부 시리즈</p>
+          <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+        </div>
+        <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~15"></nav>
+        <div class="drawer__meta">
+          <p class="text-sm">작게 기록하고, 크게 흔들리지 않기.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mc-app__canvas">
+      <div class="container">
+        <main id="main">
+          <section class="card mt-16" aria-labelledby="faq-page-title">
+            <h1 id="faq-page-title" class="faq-page-title">
+              자주 묻는 질문<span class="faq-page-title-en" lang="en">FAQ</span>
+            </h1>
+
+            <div class="faq-accordion">
+              <details class="faq-item">
+                <summary class="faq-item__q">왜 가계부가 아니라 &apos;머니캘린더&apos;인가요?</summary>
+                <p class="faq-item__a">
+                  캘린더는 과거의 기록이 아닌 미래의 비전을 구조화하는 시스템이기 때문입니다.
+                </p>
+              </details>
+              <details class="faq-item">
+                <summary class="faq-item__q">1원 단위까지 기록하는 것이 왜 중요한가요?</summary>
+                <p class="faq-item__a">
+                  작은 가치(+1)를 제어하는 습관이 모여 미래의 큰 자산을 관리하는 힘이 되기 때문입니다.
+                </p>
+              </details>
+              <details class="faq-item">
+                <summary class="faq-item__q">공개형 웹 가계부의 장점은 무엇인가요?</summary>
+                <p class="faq-item__a">
+                  별도 앱 설치나 회원가입 없이 브라우저만으로 비전 설계와 기록을 이어 갈 수 있고, 데이터는 기기 안에
+                  머무는 로컬 우선 구조로 다루어져 접근성과 통제감을 함께 지향합니다. 누구나 같은 원칙 위에서 차분히
+                  쌓아 갈 수 있는 출발점을 웹이 제공한다는 점도 큰 장점입니다.
+                </p>
+              </details>
+            </div>
+
+            <p class="faq-guide-outro">더 자세한 내용은 <a href="./assets/demo-guide.html">사용가이드</a>에서 확인하세요.</p>
+          </section>
+
+          <footer class="page-foot mt-24 mb-20">
+            <p class="text-sm text-center">
+              © 2026 Money Calendar. All rights reserved. | <a href="/legal.html#privacy">개인정보처리방침</a> |
+              <a href="/legal.html#terms">이용약관</a> | <a href="/faq.html">FAQ</a>
+            </p>
+          </footer>
+        </main>
+      </div>
+    </div>
+
+    <script src="assets/js/nav-config.js"></script>
+    <script src="assets/js/app-shell.js"></script>
+  </body>
+</html>

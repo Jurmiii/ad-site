@@ -19,12 +19,12 @@ const GUIDE = {
 
 /** UI·엑셀·피드백 공통 (키 living/activity/essential 유지) */
 const SIM_LABELS = {
-  living: "필수 지출 (Needs)",
-  activity: "선택적 지출 (Wants)",
-  essential: "저축 및 투자 (Savings)",
+  living: "1. 필수(의무)",
+  activity: "2. 필요",
+  essential: "3. 선한 영향력",
 };
 
-const SIM_CHART_LABELS = ["필수(Needs)", "선택(Wants)", "저축(Savings)"];
+const SIM_CHART_LABELS = ["1. 필수(의무)", "2. 필요", "3. 선한 영향력"];
 
 /** @typedef {{ monthKey: string, income: number, fixed: number, total: number, living: number, activity: number, essential: number, confirmed: boolean, confirmedAt: string | null }} SimState */
 
