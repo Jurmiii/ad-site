@@ -331,10 +331,13 @@
   font-size: 0.8125rem;
   font-weight: 700;
   cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease;
 }
 
 .btn-ghost:hover {
-  background: var(--color-bg-soft);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .btn-ghost:focus-visible {

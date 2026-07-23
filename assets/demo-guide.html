@@ -11,7 +11,7 @@
   <title>가상 재정 시스템 투어 · Money Calendar</title>
   <meta name="description" content="머니 캘린더 1~16번 기능이 연결된 가상 재정 시나리오를 한 페이지에서 미리 봅니다. 메인 화면 데모 진입 전용." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://money-calender.netlify.app/assets/demo-tour.html" />
+  <meta property="og:url" content="https://money-calender.netlify.app/assets/demo-guide.html" />
   <meta property="og:title" content="가상 재정 시스템 투어 · Money Calendar" />
   <meta property="og:description" content="머니 캘린더 1~16번 기능이 연결된 가상 재정 시나리오를 한 페이지에서 미리 봅니다. 메인 화면 데모 진입 전용." />
   <meta property="og:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
@@ -22,18 +22,19 @@
   <meta name="twitter:title" content="가상 재정 시스템 투어 · Money Calendar" />
   <meta name="twitter:description" content="머니 캘린더 1~16번 기능이 연결된 가상 재정 시나리오를 한 페이지에서 미리 봅니다. 메인 화면 데모 진입 전용." />
   <meta name="twitter:image" content="https://money-calender.netlify.app/assets/images/og-img.webp" />
-  <link rel="canonical" href="https://money-calender.netlify.app/assets/demo-tour.html" />
+  <link rel="canonical" href="https://money-calender.netlify.app/assets/demo-guide.html" />
   <link rel="sitemap" type="application/xml" href="https://money-calender.netlify.app/sitemap.xml" title="Sitemap" />
 
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <script src="./js/theme.js"></script>
+  <link rel="stylesheet" href="./css/common.css" />
   <link rel="stylesheet" href="./css/journal-shell.css" />
   <link rel="stylesheet" href="./css/style.css" />
-  <link rel="stylesheet" href="./css/common.css" />
   <link rel="stylesheet" href="./daily/daily.css" />
   <link rel="stylesheet" href="./weekly-report/weekly-report.css" />
   <link rel="stylesheet" href="./css/demo-tour.css" />
+  <link rel="stylesheet" href="./debt-list.css" />
   <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
   <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
   <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
@@ -80,7 +81,7 @@
       </div>
       <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~16"></nav>
       <div class="drawer__meta">
-        <p class="text-sm">작게 기록하고, 크게 흔들리지 않기.</p>
+        <p class="text-sm">메뉴를 누르면 이 가이드의 해당 섹션으로 이동합니다.</p>
       </div>
     </div>
   </div>
@@ -88,6 +89,16 @@
   <main id="main" class="home-main">
     <div class="container home-shell">
       <div class="dt-tour-wrap">
+        <div class="dt-guide-top">
+          <a class="btn btn--ghost dt-guide-back" href="../index.html">
+            <span class="dt-guide-back__icon" aria-hidden="true">←</span>
+            뒤로가기
+          </a>
+          <p class="dt-guide-notice" role="note">
+            <strong>안내:</strong> 상단 메뉴(☰)는 실제 기능 페이지로 이동하지 않습니다.
+            이 사용가이드 안의 <strong>해당 섹션</strong>으로만 이동합니다.
+          </p>
+        </div>
         <header class="dt-hero">
           <h1 class="dt-hero__title">가상 재정 시스템 투어</h1>
           <p class="dt-hero__badge">DEMO TOUR - 머니 캘린더 가이드</p>
@@ -104,20 +115,142 @@
           <section id="section-1" class="dt-feature" aria-labelledby="dt-f1">
             <div class="dt-feature__head">
               <span class="dt-feature__num">01</span>
-              <h2 id="dt-f2" class="dt-feature__name">부채 리스트트</h2>
+              <h2 id="dt-f1" class="dt-feature__name">부채 리스트</h2>
             </div>
             <p class="dt-feature__guide dt-guide-text dt-prose-br">
-              빚을 성격별로 분리해 적고, <strong>감정이 아닌 순서로</strong>상환 계획을 세우는 출발점입니다.
+              빚을 성격별로 분리해 적고, <strong>감정이 아닌 순서로</strong> 상환 계획을 세우는 출발점입니다.
+              아래는 실제 화면과 같은 구성의 <strong>예시</strong>입니다. (입력·수정은 되지 않습니다)
             </p>
-            <h2>긴급한 빚 (고이율/압류/지인)</h2>
-            <p class="text-sm mt-10">연체 리스크가 크거나 관계 손상이 큰 항목을 먼저 적습니다.</p>
-            <h2>일반 빚</h2>
-            <p class="text-sm mt-10">정기 상환 중인 대출·카드 잔액을 월 납입 기준으로 정리합니다.</p>
-            <h2>협의 중인 빚 (메모)</h2>
-            <p class="text-sm mt-10">상환 유예·분할 협의 상태, 다음 연락 일정, 합의 조건을 메모합니다.</p>
-            <p class="text-body"><strong>현실적으로 상환 가능한 금액으로 최대한 쪼개는 것이 완주의 비결입니다.</strong></p>
+            <div class="dt-mock-wrap">
+              <div class="dt-mock dt-mock--debt page-debt" aria-hidden="true">
+                <div class="dt-mock__body dt-mock__body--debt">
+                  <!-- 잔액 요약 -->
+                  <section class="dashboard card dt-debt-card" aria-label="잔액 요약 예시">
+                    <h3 class="dash-title">잔액 요약</h3>
+                    <p class="dash-legend text-sm">긴급·일반·협의 잔액을 한눈에 보고, 총 부채를 직시합니다.</p>
+                    <div class="dash-grid mt-20">
+                      <div class="dash-tile dash-tile--urgent">
+                        <p class="dash-label">긴급</p>
+                        <p class="dash-value">1,200,000원</p>
+                      </div>
+                      <div class="dash-tile dash-tile--normal">
+                        <p class="dash-label">일반</p>
+                        <p class="dash-value">3,450,000원</p>
+                      </div>
+                      <div class="dash-tile dash-tile--memo">
+                        <p class="dash-label">협의</p>
+                        <p class="dash-value">800,000원</p>
+                      </div>
+                      <div class="dash-tile dash-tile--total">
+                        <p class="dash-label">총 잔액</p>
+                        <p class="dash-value">5,450,000원</p>
+                      </div>
+                    </div>
+                  </section>
+
+                  <!-- 부채 입력 예시 -->
+                  <section class="card mt-24 debt-form-card dt-debt-card" aria-label="부채 입력 예시">
+                    <div class="debt-form-card__head">
+                      <div class="debt-form-card__intro">
+                        <h3 class="dash-title">부채 입력</h3>
+                        <p class="text-sm mt-10">금액은 1원 단위로 저장됩니다. 현실적으로 상환 가능한 금액으로 쪼개 적으세요.</p>
+                      </div>
+                      <aside class="debt-tip" role="note">
+                        <p class="text-sm"><strong>Tip:</strong> 현실적으로 상환 가능한 금액으로 쪼개서 끝까지 완주하세요.</p>
+                      </aside>
+                    </div>
+                    <div class="debt-form mt-20">
+                      <div class="debt-form__grid">
+                        <div class="field">
+                          <span class="field-label">부채명</span>
+                          <input type="text" value="OO은행 햇살론" readonly tabindex="-1" />
+                        </div>
+                        <div class="field">
+                          <span class="field-label">잔액</span>
+                          <div class="money-wrap">
+                            <input class="money-input" type="text" value="1,200,000" readonly tabindex="-1" />
+                            <span class="won" aria-hidden="true">원</span>
+                          </div>
+                        </div>
+                        <div class="field">
+                          <span class="field-label">종류</span>
+                          <select disabled tabindex="-1" aria-disabled="true">
+                            <option selected>긴급</option>
+                          </select>
+                        </div>
+                        <div class="field debt-form__memo">
+                          <span class="field-label">메모</span>
+                          <textarea readonly tabindex="-1">매월 최소 상환 · 우선 정리</textarea>
+                        </div>
+                      </div>
+                      <div class="debt-form__actions mt-16">
+                        <button class="btn" type="button" disabled tabindex="-1">추가하기</button>
+                      </div>
+                    </div>
+                  </section>
+
+                  <!-- 부채 목록 예시 -->
+                  <section class="card mt-24 dt-debt-card" aria-label="부채 목록 예시">
+                    <div class="flex-between flex-wrap gap-12">
+                      <h3 class="dash-title">부채 목록</h3>
+                      <p class="text-sm">3건</p>
+                    </div>
+                    <div class="table-wrap mt-16">
+                      <table class="data-table" aria-label="부채 목록 예시">
+                        <thead>
+                          <tr>
+                            <th scope="col">종류</th>
+                            <th scope="col">부채명</th>
+                            <th scope="col">잔액</th>
+                            <th scope="col">메모</th>
+                            <th scope="col"><span class="sr-only">관리</span></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><span class="debt-kind debt-kind--urgent">긴급</span></td>
+                            <td>OO은행 햇살론</td>
+                            <td class="debt-balance">1,200,000원</td>
+                            <td class="debt-memo">매월 최소 상환 · 우선 정리</td>
+                            <td>
+                              <div class="debt-actions">
+                                <button class="btn btn--ghost btn--sm" type="button" disabled tabindex="-1">수정</button>
+                                <button class="btn btn--ghost btn--sm" type="button" disabled tabindex="-1">삭제</button>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><span class="debt-kind debt-kind--normal">일반</span></td>
+                            <td>신용카드 할부</td>
+                            <td class="debt-balance">3,450,000원</td>
+                            <td class="debt-memo">12개월 분할</td>
+                            <td>
+                              <div class="debt-actions">
+                                <button class="btn btn--ghost btn--sm" type="button" disabled tabindex="-1">수정</button>
+                                <button class="btn btn--ghost btn--sm" type="button" disabled tabindex="-1">삭제</button>
+                              </div>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><span class="debt-kind debt-kind--memo">협의</span></td>
+                            <td>지인 차용</td>
+                            <td class="debt-balance">800,000원</td>
+                            <td class="debt-memo">분할 협의 중 · 다음 연락 4/28</td>
+                            <td>
+                              <div class="debt-actions">
+                                <button class="btn btn--ghost btn--sm" type="button" disabled tabindex="-1">수정</button>
+                                <button class="btn btn--ghost btn--sm" type="button" disabled tabindex="-1">삭제</button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
           </section>
-        </div>
 
         <!-- 2 -->
         <section id="section-2" class="dt-feature" aria-labelledby="dt-f2">
@@ -886,7 +1019,7 @@
           편리합니다.
         </p>
         <div class="dt-cta__row dt-cta__row--single">
-          <a class="btn btn--lg dt-cta__primary" href="./income-design/01_income_design.html">내 기록 시작하기</a>
+          <a class="btn btn--lg dt-cta__primary" href="./income-design/02_income_design.html">내 기록 시작하기</a>
         </div>
       </section>
 

@@ -54,12 +54,6 @@
         display: flex;
         justify-content: center;
       }
-      .page-home .site-footer__copyright {
-        grid-column: 1 / -1;
-        width: 100%;
-        display: block;
-        text-align: center;
-      }
     </style>
     <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
     <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
@@ -138,58 +132,62 @@
 
     <footer class="site-footer">
       <div class="container site-footer__inner">
-        <section class="site-footer__useful" aria-label="유용한 사이트">
-          <h3 class="site-footer__headline">유용한 사이트</h3>
-          <nav class="site-footer__links" aria-label="공공 금융 플랫폼 바로가기">
-            <a
-              class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
-              href="https://www.payinfo.or.kr/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span class="site-footer__link-title">어카운트인포</span>
-              <span class="site-footer__link-desc">내 계좌 한눈에 · 전 금융권 계좌·자동이체 통합</span>
-            </a>
-            <a
-              class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
-              href="https://sleepmoney.kinfa.or.kr/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span class="site-footer__link-title">서민금융진흥원</span>
-              <span class="site-footer__link-desc">휴면예금 찾기 · 잊고 있던 내 돈 찾기</span>
-            </a>
-            <a
-              class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
-              href="https://fine.fss.or.kr/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span class="site-footer__link-title">금융감독원 파인</span>
-              <span class="site-footer__link-desc">금융정보 조회 · 민원 안내</span>
-            </a>
-            <a
-              class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
-              href="https://www.hometax.go.kr/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span class="site-footer__link-title">홈택스</span>
-              <span class="site-footer__link-desc">연말정산 · 소득 증빙 관리</span>
-            </a>
-          </nav>
-        </section>
+        <div class="site-footer__top">
+          <div class="site-footer__meta">
+            <div class="site-footer__primary">
+              <p class="site-footer__brand">Money Calendar</p>
+              <p class="text-sm">정적 웹 기반 · 정보 제공 목적의 재정 도구 모음</p>
+              <p class="site-footer__motto" lang="ko">1원의 가치를 생각합니다.</p>
+            </div>
+            <p class="text-sm site-footer__legal">
+              본 서비스는 투자·세무·법률 자문을 제공하지 않습니다. 중요한 결정은 전문가 상담과 공식 자료를 병행하세요.
+            </p>
+          </div>
 
-        <div class="site-footer__primary">
-          <p class="site-footer__brand">Money Calendar</p>
-          <p class="text-sm">정적 웹 기반 · 정보 제공 목적의 재정 도구 모음</p>
-          <p class="site-footer__motto" lang="ko">1원의 가치를 생각합니다.</p>
+          <section class="site-footer__useful" aria-label="유용한 사이트">
+            <h3 class="site-footer__headline">유용한 사이트</h3>
+            <nav class="site-footer__links" aria-label="공공 금융 플랫폼 바로가기">
+              <a
+                class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
+                href="https://www.payinfo.or.kr/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="site-footer__link-title">어카운트인포</span>
+                <span class="site-footer__link-desc">내 계좌 한눈에 · 전 금융권 계좌·자동이체 통합</span>
+              </a>
+              <a
+                class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
+                href="https://sleepmoney.kinfa.or.kr/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="site-footer__link-title">서민금융진흥원</span>
+                <span class="site-footer__link-desc">휴면예금 찾기 · 잊고 있던 내 돈 찾기</span>
+              </a>
+              <a
+                class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
+                href="https://fine.fss.or.kr/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="site-footer__link-title">금융감독원 파인</span>
+                <span class="site-footer__link-desc">금융정보 조회 · 민원 안내</span>
+              </a>
+              <a
+                class="btn btn--pill btn--ghost site-footer__link site-footer__link--finance"
+                href="https://www.hometax.go.kr/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="site-footer__link-title">홈택스</span>
+                <span class="site-footer__link-desc">연말정산 · 소득 증빙 관리</span>
+              </a>
+            </nav>
+          </section>
         </div>
-        <p class="text-sm site-footer__legal">
-          본 서비스는 투자·세무·법률 자문을 제공하지 않습니다. 중요한 결정은 전문가 상담과 공식 자료를 병행하세요.
-        </p>
 
-        <p class="text-sm text-center mt-20 mb-0 site-footer__copyright">
+        <p class="text-sm mb-0 site-footer__copyright">
           © 2026 Money Calendar. All rights reserved. | <a href="legal.html#privacy">개인정보처리방침</a> |
           <a href="legal.html#terms">이용약관</a> | <a href="/faq.html">FAQ</a>
         </p>

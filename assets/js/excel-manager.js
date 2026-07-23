@@ -183,6 +183,34 @@
         },
       ],
     },
+    DebtList: {
+      key: "DebtList",
+      label: "부채리스트",
+      sheets: [
+        {
+          name: "Debts",
+          rowMode: "multi",
+          columns: [
+            { key: "name", label: "name", type: "text", required: true },
+            { key: "balance", label: "balance", type: "int", required: true },
+            {
+              key: "kind",
+              label: "kind",
+              type: "enum",
+              required: true,
+              enum: ["urgent", "normal", "memo"],
+            },
+            { key: "memo", label: "memo", type: "text", required: false, optional: true },
+          ],
+          sampleRow: {
+            name: "OO은행 햇살론",
+            balance: 1200000,
+            kind: "urgent",
+            memo: "매월 최소 상환",
+          },
+        },
+      ],
+    },
     VisionBudget: {
       key: "VisionBudget",
       label: "비전예산",
@@ -539,6 +567,21 @@
     XLSX.utils.book_append_sheet(wb, wsReport, "종합_보고서");
 
     var inc = masterLoadJson("moneyCalendar.incomeDesign.v1", null);
+    var debts = masterLoadJson("moneyCalendar.debtList.v1", []);
+    masterAppendRows(
+      wb,
+      "00_부채리스트",
+      Array.isArray(debts)
+        ? debts.map(function (d) {
+            return {
+              name: d && d.name != null ? String(d.name) : "",
+              balance: Math.max(0, Math.trunc(Number(d && d.balance) || 0)),
+              kind: d && d.kind ? String(d.kind) : "normal",
+              memo: d && d.memo != null ? String(d.memo) : "",
+            };
+          })
+        : []
+    );
     masterAppendRows(wb, "01_계층형수입설계", inc && typeof inc === "object" ? [inc] : []);
 
     var vis = masterLoadJson("moneyCalendar.visionBudget.v1", null);
@@ -909,11 +952,7 @@
     var headLabel = document.createElement("span");
     headLabel.className = "excel-control-box__label";
     headLabel.textContent = "Excel Control Center";
-    var headSub = document.createElement("span");
-    headSub.className = "excel-control-box__schema";
-    headSub.textContent = opts.schema.label || opts.schema.key;
     head.appendChild(headLabel);
-    head.appendChild(headSub);
 
     var slogan = document.createElement("p");
     slogan.className = "mc-excel-slogan";

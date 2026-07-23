@@ -455,7 +455,9 @@ html[data-theme="dark"] .tx-amt {
 }
 
 .diary-item__icon-btn:hover {
-  border-color: var(--border-strong);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .diary-item__icon-btn--danger {
@@ -486,7 +488,9 @@ html[data-theme="dark"] .tx-amt {
 }
 
 .money-cal__month-btn:hover:not(:disabled) {
-  border-color: var(--border-strong);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .money-cal__month-btn:disabled {
@@ -518,8 +522,9 @@ html[data-theme="dark"] .tx-amt {
 }
 
 .money-cal__month-nav-title:hover {
-  border-color: var(--border-default);
-  background: color-mix(in srgb, var(--color-surface) 88%, var(--color-primary));
+  border-color: var(--hover-border-soft);
+  background: var(--hover-fill-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .money-cal__month-dropdown {
@@ -632,7 +637,9 @@ html[data-theme="dark"] .tx-amt {
 }
 
 .nospend-cell-actions__btn:hover {
-  border-color: var(--border-strong);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .nospend-cell-actions__btn--danger {
@@ -661,8 +668,9 @@ html[data-theme="dark"] .tx-amt {
 }
 
 .daily-rate-btn:hover {
-  border-color: var(--border-strong);
-  background: var(--color-surface-2);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .daily-rate-btn.is-active {
@@ -724,8 +732,9 @@ html[data-theme="dark"] .tx-amt {
 }
 
 .money-cal__cell:hover {
-  border-color: var(--border-strong);
-  background: var(--color-surface-2);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .money-cal__cell--pad {

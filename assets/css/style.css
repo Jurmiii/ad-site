@@ -1,4 +1,7 @@
-/* Money Calendar — Home (App-like cover) */
+/* Money Calendar — Home (App-like cover)
+ * 의존: common.css + journal-shell.css
+ * 담당: .page-home 전용 커버·어바웃·푸터 레이아웃만 (공통 헤더/드로어/토글은 common·journal)
+ */
 
 /* 홈만: 종이 패턴 없음 — 순수 화이트(라이트) / 테마 단색(다크) */
 html:has(body.page-home) {
@@ -21,88 +24,10 @@ html[data-theme="dark"] .page-home {
   background-color: var(--color-bg);
 }
 
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.skip-link:focus {
-  left: 16px;
-  top: 16px;
-  width: auto;
-  height: auto;
-  padding: 10px 14px;
-  background: #0f172a;
-  color: #fff;
-  border-radius: 10px;
-  z-index: 1000;
-}
+/* skip-link / theme-toggle / hamburger / drawer → common.css + journal-shell.css */
 
 .card {
-  border-radius: 28px;
-}
-
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 70;
-  background: color-mix(in srgb, var(--color-bg) 84%, transparent);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border-default);
-}
-
-.page-home .mc-fav-bar {
-  /* flex·max-width: common.css — 제목 영역과 균형 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-width: 0;
-  flex-wrap: nowrap;
-}
-
-.page-home .mc-fav-bar.mc-fav-bar--grid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 6px;
-  align-items: stretch;
-  min-height: 34px;
-}
-
-.page-home .mc-fav-bar__cell {
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.page-home .mc-fav-bar__link {
-  font-size: clamp(0.55rem, 1.05vw, 0.65rem);
-  font-weight: 750;
-  line-height: 1.15;
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  padding: 5px 6px;
-  border-radius: 999px;
-  border: 1px solid var(--border-default);
-  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: center;
-  box-sizing: border-box;
-}
-
-.page-home .mc-fav-bar__link:hover {
-  border-color: var(--border-strong);
-  color: var(--color-text-primary);
+  border-radius: var(--radius-3xl);
 }
 
 .brand__logo {
@@ -111,251 +36,18 @@ html[data-theme="dark"] .page-home {
   display: block;
 }
 
-.brand__text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.brand__name {
+/* 홈 브랜드 타이포: common clamp 대비 고정 1rem 유지 */
+.page-home .brand__name {
   font-weight: 850;
   font-size: 1rem;
   letter-spacing: -0.02em;
   color: var(--color-text-primary);
 }
 
-.brand__tag {
+.page-home .brand__tag {
   font-size: 0.75rem;
   color: var(--color-text-muted);
   font-weight: 600;
-}
-
-.theme-toggle {
-  position: relative;
-  border-radius: 999px;
-  border: 1px solid var(--border-default);
-  background: color-mix(in srgb, var(--color-text-muted) 18%, var(--color-surface));
-  cursor: pointer;
-  padding: 0;
-  display: inline-block;
-  transition:
-    transform 0.12s ease,
-    background-color 0.22s ease,
-    border-color 0.22s ease,
-    box-shadow 0.22s ease;
-}
-
-.theme-toggle:hover {
-  border-color: var(--border-strong);
-  background: color-mix(in srgb, var(--color-text-muted) 22%, var(--color-surface));
-}
-
-.theme-toggle:active {
-  transform: scale(0.99);
-}
-
-.theme-toggle:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-}
-
-.theme-toggle__thumb {
-  position: absolute;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
-  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.18);
-  transform: translateX(0);
-  transition: transform 0.22s ease, background-color 0.22s ease, box-shadow 0.22s ease;
-}
-
-html[data-theme="dark"] .theme-toggle__thumb {
-  background: color-mix(in srgb, var(--color-primary) 20%, rgba(229, 231, 235, 0.95));
-}
-
-.theme-toggle__icon {
-  display: none;
-}
-
-/* green accent instead of icons */
-.theme-toggle::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--color-primary) 18%, transparent);
-  opacity: 0.22;
-  pointer-events: none;
-}
-
-html[data-theme="dark"] .theme-toggle::before {
-  opacity: 0.35;
-}
-
-/* switch "on" state (dark mode) */
-html[data-theme="dark"] .theme-toggle {
-  background: color-mix(in srgb, var(--color-primary) 28%, var(--color-surface));
-  border-color: color-mix(in srgb, var(--color-primary) 34%, var(--border-default));
-}
-
-html[data-theme="dark"] .theme-toggle:hover {
-  background: color-mix(in srgb, var(--color-primary) 34%, var(--color-surface));
-}
-
-.hamburger {
-  border: 1px solid var(--border-default);
-  background: var(--color-surface-2);
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
-}
-
-.hamburger:hover {
-  background: var(--color-surface);
-  border-color: var(--border-strong);
-}
-
-.hamburger:active {
-  transform: scale(0.98);
-}
-
-.hamburger:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.22);
-}
-
-.hamburger__icon {
-  width: 18px;
-  height: 12px;
-  position: relative;
-}
-
-.hamburger__icon::before,
-.hamburger__icon::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  border-radius: 99px;
-  background: var(--color-text-primary);
-  opacity: 0.82;
-}
-
-.hamburger__icon::before {
-  top: 0;
-  box-shadow: 0 5px 0 var(--color-text-primary), 0 10px 0 var(--color-text-primary);
-}
-
-.drawer {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  display: grid;
-  grid-template-columns: 1fr;
-}
-
-.drawer[hidden] {
-  display: none;
-}
-
-.drawer__backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.44);
-  opacity: 0;
-  transition: opacity 0.24s ease;
-}
-
-.drawer__panel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  max-height: 100dvh;
-  width: min(380px, 94vw);
-  padding: 16px 14px calc(18px + env(safe-area-inset-bottom, 0px));
-  background: color-mix(in srgb, var(--mc-paper-veil) 94%, transparent);
-  backdrop-filter: blur(18px);
-  border-left: 1px solid var(--border-default);
-  transform: translate3d(12px, 0, 0);
-  opacity: 0;
-  transition: transform 0.24s ease, opacity 0.24s ease;
-  box-shadow: -20px 0 50px rgba(0, 0, 0, 0.18);
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow: hidden;
-}
-
-.drawer.is-open .drawer__backdrop {
-  opacity: 1;
-}
-
-.drawer.is-open .drawer__panel {
-  transform: translate3d(0, 0, 0);
-  opacity: 1;
-}
-
-.is-drawer-open {
-  overflow: hidden;
-}
-
-html.is-drawer-open {
-  overflow: hidden;
-  height: 100%;
-}
-
-html.is-drawer-open body {
-  overflow: hidden;
-}
-
-.drawer__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 4px 2px 8px;
-}
-
-.drawer__title {
-  font-size: 0.8125rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-}
-
-.drawer__close {
-  min-height: 44px;
-  min-width: 52px;
-  padding: 0 14px;
-  border-radius: 14px;
-  border: 1px solid var(--border-default);
-  background: var(--color-surface);
-  cursor: pointer;
-  font-weight: 750;
-  color: var(--color-text-primary);
-}
-
-.drawer__close:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.28);
-}
-
-.drawer__nav {
-  margin-top: 4px;
-}
-
-/* 홈은 journal-shell.css 를 함께 로드하므로,
-   메뉴(4개 카테고리 + 1~15) 레이아웃은 기능 페이지와 100% 동일하게 유지한다.
-   (home 전용 오버라이드 제거/무력화) */
-
-.drawer__meta {
-  margin-top: auto;
-  flex-shrink: 0;
-  padding-top: 12px;
-  border-top: 1px solid var(--border-default);
 }
 
 .home-main {
@@ -466,13 +158,6 @@ html.is-drawer-open body {
     width: 100%;
     justify-content: center;
   }
-}
-
-.btn--lg {
-  min-height: 52px;
-  padding: 12px 22px;
-  border-radius: 22px;
-  font-size: 1rem;
 }
 
 .cover__progress {
@@ -602,24 +287,7 @@ html.is-drawer-open body {
   gap: 12px;
 }
 
-.btn--pill {
-  min-height: 52px;
-  border-radius: 999px;
-  width: 100%;
-  justify-content: center;
-  font-size: 0.95rem;
-}
-
-.btn--ghost {
-  background: var(--color-surface-2);
-  color: var(--color-text-primary);
-  border: 1px solid var(--border-default);
-}
-
-.btn--ghost:hover {
-  background: var(--color-surface);
-  border-color: var(--border-strong);
-}
+/* btn--pill / btn--ghost → common.css */
 
 .bottom-nav-space {
   height: 0;
@@ -650,99 +318,6 @@ html.is-drawer-open body {
   }
 }
 
-.site-footer {
-  padding: 26px 0 30px;
-  border-top: 1px solid var(--border-default);
-  background: var(--color-bg);
-}
-
-.site-footer__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 18px;
-  text-align: center;
-}
-
-.site-footer__useful {
-  width: 100%;
-  display: grid;
-  gap: 10px;
-  justify-items: center;
-}
-
-.site-footer__headline {
-  font-size: 1.0625rem; /* ~17px */
-  font-weight: 850;
-  letter-spacing: -0.02em;
-  color: var(--color-text-primary);
-}
-
-.site-footer__brand {
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  font-size: 1rem;
-}
-
-.site-footer__motto {
-  margin-top: 16px;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  font-style: italic;
-  color: var(--color-text-muted);
-  letter-spacing: -0.01em;
-}
-
-.site-footer__legal {
-  max-width: 52ch;
-  line-height: 1.55;
-  color: var(--color-text-muted);
-}
-
-.site-footer__links {
-  width: 100%;
-  margin-top: 0;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  align-items: stretch;
-  justify-items: stretch;
-}
-
-.site-footer__link.btn.btn--pill {
-  padding: 10px 12px;
-  min-height: 0;
-  border-radius: 14px;
-  font-size: 0.8125rem;
-  font-weight: 750;
-  gap: 4px;
-  justify-content: center;
-}
-
-.site-footer__link--finance {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  line-height: 1.28;
-}
-
-.site-footer__link-title {
-  font-weight: 850;
-  font-size: 0.8125rem;
-  letter-spacing: -0.02em;
-  color: var(--color-text-primary);
-}
-
-.site-footer__link-desc {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  line-height: 1.35;
-}
-
 @media (max-width: 900px) {
   .entry__row {
     grid-template-columns: 1fr;
@@ -757,12 +332,5 @@ html.is-drawer-open body {
   .about__grid {
     grid-template-columns: 1fr;
   }
-
-  .site-footer__inner {
-    align-items: center;
-  }
-
-  .site-footer__links {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
+

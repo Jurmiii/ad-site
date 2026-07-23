@@ -103,6 +103,64 @@
   line-height: 1.78;
 }
 
+.dt-guide-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12, 12px) var(--space-16, 16px);
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding: 12px 14px;
+  border-radius: var(--radius-lg, 18px);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 28%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+}
+
+.dt-guide-back {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 8px 14px;
+  gap: 6px;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.dt-guide-back__icon {
+  font-weight: 800;
+  line-height: 1;
+}
+
+.dt-guide-notice {
+  flex: 1 1 16rem;
+  margin: 0;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 650;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+
+.dt-guide-notice strong {
+  color: var(--color-text-primary);
+  font-weight: 800;
+}
+
+@media (max-width: 720px) {
+  .dt-guide-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .dt-guide-back {
+    align-self: flex-start;
+  }
+
+  .dt-guide-notice {
+    text-align: left;
+  }
+}
+
 .page-demo-tour .dt-tour-wrap {
   width: 100%;
   max-width: 100%;
@@ -965,4 +1023,57 @@ html[data-theme="dark"] .page-demo-tour .dt-mr-diff--good {
 .page-demo-tour .dt-mock--weekly-report .wk-summary,
 .page-demo-tour .dt-mock--weekly-report .wk-tip {
   text-align: left;
+}
+
+/* —— 1. 부채 리스트 예시 목업 (실제 페이지 레이아웃 미러) —— */
+.page-demo-tour .dt-mock--debt {
+  background: color-mix(in srgb, var(--mc-paper-bg, var(--color-bg-soft)) 55%, var(--color-surface));
+}
+
+.page-demo-tour .dt-mock__body--debt {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 16px 16px 18px;
+}
+
+.page-demo-tour .dt-mock--debt .dt-debt-card {
+  margin: 0;
+  box-shadow: none;
+}
+
+.page-demo-tour .dt-mock--debt .dt-debt-card + .dt-debt-card {
+  margin-top: 16px;
+}
+
+.page-demo-tour .dt-mock--debt input,
+.page-demo-tour .dt-mock--debt select,
+.page-demo-tour .dt-mock--debt textarea,
+.page-demo-tour .dt-mock--debt button {
+  pointer-events: none;
+  cursor: default;
+}
+
+.page-demo-tour .dt-mock--debt input[readonly],
+.page-demo-tour .dt-mock--debt textarea[readonly],
+.page-demo-tour .dt-mock--debt select:disabled,
+.page-demo-tour .dt-mock--debt button:disabled {
+  opacity: 1;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border-color: var(--border-default);
+}
+
+.page-demo-tour .dt-mock--debt .debt-tip {
+  white-space: nowrap;
+}
+
+.page-demo-tour .dt-mock--debt .debt-form__memo textarea {
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+  .page-demo-tour .dt-mock--debt .debt-tip {
+    white-space: normal;
+  }
 }

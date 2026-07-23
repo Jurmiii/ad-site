@@ -24,7 +24,9 @@
 
 #tl-prev:hover:not(:disabled),
 #tl-next:hover:not(:disabled) {
-  border-color: var(--border-strong);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 #tl-prev:disabled,
@@ -61,8 +63,9 @@ button.tl-month-btn.tl-month-label {
 }
 
 button.tl-month-btn.tl-month-label:hover {
-  border-color: var(--border-default);
-  background: color-mix(in srgb, var(--color-surface) 88%, var(--color-primary));
+  border-color: var(--hover-border-soft);
+  background: var(--hover-fill-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .money-cal__month-picker-wrap .money-cal__month-dropdown {

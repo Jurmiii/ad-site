@@ -1,0 +1,247 @@
+/* 1. 부채 리스트 — 공통 셸 위 화면 전용 */
+
+.page-debt {
+  padding-bottom: var(--space-24);
+}
+
+.page-debt .dash-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.page-debt .dash-legend {
+  margin-top: var(--space-10);
+}
+
+.page-debt .dash-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-12);
+}
+
+.page-debt .dash-tile {
+  padding: var(--space-14) var(--space-16);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  background: color-mix(in srgb, var(--color-surface-2) 88%, transparent);
+  min-width: 0;
+}
+
+.page-debt .dash-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.page-debt .dash-value {
+  margin-top: 6px;
+  font-size: clamp(1rem, 0.9rem + 0.6vw, 1.25rem);
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  word-break: break-all;
+}
+
+.page-debt .dash-tile--urgent {
+  border-color: color-mix(in srgb, var(--color-expense) 35%, var(--border-default));
+  background: color-mix(in srgb, var(--color-expense) 8%, var(--color-surface));
+}
+
+.page-debt .dash-tile--total {
+  border-color: color-mix(in srgb, var(--color-primary) 35%, var(--border-default));
+  background: color-mix(in srgb, var(--color-primary) 8%, var(--color-surface));
+}
+
+.page-debt .debt-form-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-16);
+  flex-wrap: wrap;
+}
+
+.page-debt .debt-form-card__intro {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.page-debt .debt-tip {
+  flex: 0 0 auto;
+  margin: 0;
+  margin-left: auto;
+  padding: var(--space-10) var(--space-12);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--color-text-primary);
+  background: color-mix(in srgb, var(--color-surface-2) 92%, transparent);
+  max-width: none;
+  white-space: nowrap;
+}
+
+.page-debt .debt-tip p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.page-debt .debt-form {
+  max-width: none;
+  width: 100%;
+}
+
+.page-debt .debt-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-16);
+  align-items: start;
+}
+
+.page-debt .debt-form__grid > .field {
+  min-width: 0;
+  margin: 0;
+}
+
+.page-debt .debt-form__memo textarea {
+  width: 100%;
+  /* 드롭다운(min-height: 48px)과 동일 높이 */
+  min-height: 48px;
+  height: 48px;
+  max-height: 48px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: 1.35;
+  resize: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.page-debt .debt-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-10);
+  justify-content: center;
+}
+
+.page-debt .table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+}
+
+.page-debt .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+}
+
+.page-debt .data-table th,
+.page-debt .data-table td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-default);
+  vertical-align: top;
+  font-size: 0.875rem;
+}
+
+.page-debt .data-table th {
+  font-weight: 800;
+  color: var(--color-text-muted);
+  background: color-mix(in srgb, var(--color-surface-2) 90%, transparent);
+  white-space: nowrap;
+}
+
+.page-debt .data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.page-debt .debt-empty-row td {
+  color: var(--color-text-muted);
+  text-align: center;
+  padding: 28px 14px;
+}
+
+.page-debt .debt-kind {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-default);
+  font-size: 0.75rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.page-debt .debt-kind--urgent {
+  color: var(--color-expense);
+  border-color: color-mix(in srgb, var(--color-expense) 40%, var(--border-default));
+  background: color-mix(in srgb, var(--color-expense) 10%, var(--color-surface));
+}
+
+.page-debt .debt-kind--normal {
+  color: var(--color-text-secondary);
+  background: var(--color-surface-2);
+}
+
+.page-debt .debt-kind--memo {
+  color: var(--color-income);
+  border-color: color-mix(in srgb, var(--color-income) 40%, var(--border-default));
+  background: color-mix(in srgb, var(--color-income) 10%, var(--color-surface));
+}
+
+.page-debt .debt-balance {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.page-debt .debt-memo {
+  color: var(--color-text-secondary);
+  max-width: 16rem;
+}
+
+.page-debt .debt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.page-debt .debt-actions .btn {
+  min-height: 36px;
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+}
+
+@media (max-width: 768px) {
+  .page-debt .dash-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-debt .debt-form__grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-14);
+  }
+
+  .page-debt .debt-form-card__head {
+    flex-direction: column;
+  }
+
+  .page-debt .debt-tip {
+    margin-left: 0;
+    max-width: none;
+    width: auto;
+    flex-basis: auto;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-debt .dash-grid {
+    grid-template-columns: 1fr;
+  }
+}

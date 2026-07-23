@@ -103,6 +103,7 @@
 .excel-control-box__btn--master:hover {
   background: color-mix(in srgb, var(--color-primary) 16%, var(--color-surface));
   border-color: color-mix(in srgb, var(--color-primary) 55%, var(--border-default));
+  box-shadow: var(--hover-glow-soft);
 }
 
 .excel-control-box__btn--master:active {
@@ -165,7 +166,6 @@ html[data-theme="dark"] .excel-control-box {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between;
   gap: 8px 12px;
   margin-bottom: 0;
   padding-bottom: 10px;
@@ -178,12 +178,6 @@ html[data-theme="dark"] .excel-control-box {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-text-muted);
-}
-
-.excel-control-box__schema {
-  font-size: 0.8125rem;
-  font-weight: 800;
-  color: var(--color-text-secondary);
 }
 
 .excel-control-box__actions {
@@ -217,11 +211,14 @@ html[data-theme="dark"] .excel-control-box {
 .excel-control-box__btn--ghost {
   background: var(--color-surface);
   color: var(--color-text-primary);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease, color 0.2s ease;
 }
 
 .excel-control-box__btn--ghost:hover:not(:disabled) {
-  background: var(--color-surface-2);
-  border-color: var(--border-strong);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
+  color: var(--color-text-primary);
 }
 
 .excel-control-box__btn--primary {
@@ -279,6 +276,14 @@ html[data-theme="dark"] .excel-control-box {
   cursor: pointer;
   border: 1px dashed color-mix(in srgb, var(--border-strong) 90%, var(--color-primary) 10%);
   background: color-mix(in srgb, var(--color-surface-2) 82%, var(--color-surface));
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease, transform 0.12s ease;
+}
+
+.excel-dropzone--inline.dropzone:hover {
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  border-style: solid;
+  box-shadow: var(--hover-glow-soft);
 }
 
 html[data-theme="dark"] .excel-dropzone--inline.dropzone {
@@ -384,12 +389,13 @@ html[data-theme="dark"] .dropzone.is-dragover {
   font-weight: 750;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease;
 }
 
 .excel-btn:hover {
-  background: var(--color-surface-2);
-  border-color: var(--border-strong);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .excel-btn:active {

@@ -1,24 +1,12 @@
-/* Money Calendar — 종이 가계부 시리즈 공통 셸 (기능 페이지) */
-
 /*
- * Freeze directive: 1~15 기능의 제목·설명·섹션 구조·텍스트·버튼·번호 체계는 정책상 고정.
- * 아래는 기기별 UI 배율만 조정: PC 1.0 / 태블릿(≤1024px) 0.85 / 모바일(≤480px) 0.75
+ * Money Calendar — 종이 가계부 시리즈 공통 셸 (기능 페이지)
+ *
+ * 의존: common.css (토큰·버튼·테마토글·햄버거·skip-link)
+ * 담당: .mc-app 종이 배경, 글로벌 헤더, 드로어, 즐겨찾기, 페이지 인트로, 스크롤탑
+ *
+ * Freeze: 1~16 기능의 제목·설명·섹션 구조·텍스트·버튼·번호 체계는 정책상 고정.
+ * 기기 배율: --mc-ui-scale (common.css) → html font-size
  */
-:root {
-  --mc-ui-scale: 1;
-}
-
-@media (max-width: 1024px) {
-  :root:has(body.mc-app) {
-    --mc-ui-scale: 0.85;
-  }
-}
-
-@media (max-width: 480px) {
-  :root:has(body.mc-app) {
-    --mc-ui-scale: 0.75;
-  }
-}
 
 html:has(body.mc-app) {
   font-size: calc(100% * var(--mc-ui-scale));
@@ -40,33 +28,14 @@ body.mc-app {
   overflow-wrap: break-word;
 }
 
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-}
-
-.skip-link:focus {
-  left: 16px;
-  top: 16px;
-  width: auto;
-  height: auto;
-  padding: 10px 14px;
-  background: #0f172a;
-  color: #fff;
-  border-radius: 10px;
-  z-index: 1000;
-}
+/* skip-link → common.css */
 
 /* 맨 위로(기능·사용 가이드 데모): 우측 하단 고정, 사이드 광고 Safe Zone — rem으로 기기 배율 반영 */
 .mc-scroll-top {
   position: fixed;
   right: max(2.25rem, calc(env(safe-area-inset-right, 0px) + 1.5rem));
   bottom: max(2.5rem, calc(env(safe-area-inset-bottom, 0px) + 1.75rem));
-  z-index: 85;
+  z-index: var(--z-scroll-top);
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -83,13 +52,14 @@ body.mc-app {
   color: var(--color-text-primary);
   cursor: pointer;
   box-shadow: 0 10px 32px rgba(15, 23, 42, 0.14);
-  transition: opacity 0.22s ease, transform 0.18s ease, border-color 0.18s ease;
+  transition: opacity 0.22s ease, transform 0.18s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.22s ease;
   font: inherit;
 }
 
 .mc-scroll-top:hover {
-  border-color: color-mix(in srgb, var(--color-primary) 35%, var(--border-default));
-  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  border-color: var(--hover-border-soft);
+  background: var(--hover-fill-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .mc-scroll-top:focus-visible {
@@ -129,7 +99,7 @@ html[data-theme="dark"] .mc-scroll-top {
   position: absolute;
   inset: 0;
   min-height: 100%;
-  z-index: -1;
+  z-index: var(--z-paper);
   pointer-events: none;
   background-color: var(--mc-paper-bg);
   background-image: var(--mc-paper-texture);
@@ -144,16 +114,8 @@ html[data-theme="dark"] .mc-scroll-top {
   overflow-x: clip;
 }
 
-/* —— Global header —— */
-.mc-global-header {
-  position: sticky;
-  top: 0;
-  z-index: 70;
-  background: color-mix(in srgb, var(--mc-paper-veil) 92%, transparent);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border-default);
-  box-shadow: 0 1px 0 color-mix(in srgb, var(--color-text-primary) 4%, transparent);
-}
+/* —— Global header (sticky·배경 공통 → common.css) —— */
+/* .mc-global-header sticky / body.mc-app 배경 오버라이드는 common.css */
 
 /* 헤더 즐겨찾기(최대 5) — 한 줄·5칸 고정, flex 비율은 common.css */
 .mc-fav-bar {
@@ -198,10 +160,13 @@ html[data-theme="dark"] .mc-scroll-top {
   white-space: nowrap;
   text-align: center;
   box-sizing: border-box;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease, color 0.2s ease;
 }
 
 .mc-fav-bar__link:hover {
-  border-color: var(--border-strong);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
   color: var(--color-text-primary);
 }
 
@@ -232,6 +197,14 @@ html[data-theme="dark"] .mc-scroll-top {
   background: color-mix(in srgb, var(--color-surface) 90%, transparent);
   user-select: none;
   min-width: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease, color 0.2s ease;
+}
+
+.mc-fav-dropdown > summary:hover {
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
+  color: var(--color-text-primary);
 }
 
 .mc-fav-dropdown__summary-label {
@@ -280,14 +253,18 @@ html[data-theme="dark"] .mc-scroll-top {
   display: block;
   padding: 10px 12px;
   border-radius: 10px;
+  border: 1px solid transparent;
   font-size: 0.875rem;
   font-weight: 750;
   color: var(--color-text-secondary);
   text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease, color 0.2s ease;
 }
 
 .mc-fav-dropdown__link:hover {
-  background: var(--color-surface-2);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
   color: var(--color-text-primary);
 }
 
@@ -401,7 +378,8 @@ html[data-theme="dark"] .mc-scroll-top {
 
 .mc-drawer-fav-tip__close:hover {
   color: var(--color-text-primary);
-  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  background: var(--hover-fill-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .mc-brand {
@@ -460,103 +438,22 @@ html[data-theme="dark"] .mc-scroll-top {
   flex-shrink: 0;
 }
 
-/* Theme toggle (기능 페이지용) — 치수는 common.css --mc-header-scale */
+/* Theme toggle / Hamburger 비주얼 → common.css (.theme-toggle, .hamburger, .mc-hamburger)
+ * 아래는 기능 헤더 배경만 미세 조정 */
 .mc-global-header .theme-toggle {
-  position: relative;
-  border-radius: 999px;
-  border: 1px solid var(--border-default);
   background: color-mix(in srgb, var(--color-text-muted) 16%, var(--color-surface));
-  cursor: pointer;
-  padding: 0;
-  transition: transform 0.12s ease, background-color 0.22s ease, border-color 0.22s ease;
 }
 
-.mc-global-header .theme-toggle:hover {
-  border-color: var(--border-strong);
-}
-
-.mc-global-header .theme-toggle:active {
-  transform: scale(0.99);
-}
-
-.mc-global-header .theme-toggle:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-}
-
-.mc-global-header .theme-toggle__thumb {
-  position: absolute;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--color-primary) 14%, var(--color-surface));
-  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.14);
-  transform: translateX(0);
-  transition: transform 0.22s ease;
-}
-
-html[data-theme="dark"] .mc-global-header .theme-toggle {
-  background: color-mix(in srgb, var(--color-primary) 26%, var(--color-surface));
-  border-color: color-mix(in srgb, var(--color-primary) 32%, var(--border-default));
-}
-
-.mc-global-header .theme-toggle__icon {
-  display: none;
-}
-
-/* Hamburger — 치수는 common.css */
-.mc-hamburger,
-.mc-global-header .hamburger {
-  border: 1px solid var(--border-default);
+.mc-global-header .hamburger,
+.mc-hamburger {
   background: var(--color-surface);
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: transform 0.12s ease, background 0.2s ease;
-}
-
-.mc-hamburger:hover,
-.mc-global-header .hamburger:hover {
-  background: var(--color-surface-2);
-  border-color: var(--border-strong);
-}
-
-.mc-hamburger:focus-visible,
-.mc-global-header .hamburger:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
-}
-
-.mc-hamburger__icon,
-.mc-global-header .hamburger__icon {
-  position: relative;
-  width: 18px;
-  height: 12px;
-}
-
-.mc-hamburger__icon::before,
-.mc-global-header .hamburger__icon::before,
-.mc-hamburger__icon::after,
-.mc-global-header .hamburger__icon::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  border-radius: 99px;
-  background: var(--color-text-primary);
-  opacity: 0.85;
-}
-
-.mc-hamburger__icon::before,
-.mc-global-header .hamburger__icon::before {
-  top: 0;
-  box-shadow: 0 5px 0 var(--color-text-primary), 0 10px 0 var(--color-text-primary);
 }
 
 /* Drawer */
 .drawer {
   position: fixed;
   inset: 0;
-  z-index: 90;
+  z-index: var(--z-drawer);
   display: grid;
   grid-template-columns: 1fr;
 }
@@ -642,6 +539,7 @@ html.is-drawer-open body {
   cursor: pointer;
   font-weight: 750;
   color: var(--color-text-primary);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease;
 }
 
 .drawer__close:focus-visible {
@@ -668,7 +566,7 @@ html.is-drawer-open body {
   border-radius: 16px;
   border: 1px solid var(--border-default);
   background: var(--color-surface);
-  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease, transform 0.12s ease;
 }
 
 .mc-drawer__item-link {
@@ -708,9 +606,12 @@ html.is-drawer-open body {
   place-items: center;
 }
 
-.mc-drawer__fav:hover,
+.mc-drawer__fav:hover {
+  background: var(--hover-fill-soft);
+  box-shadow: var(--hover-glow-soft);
+}
+
 .mc-drawer__fav:focus-visible {
-  background: var(--color-surface-2);
   outline: none;
   box-shadow: var(--focus-ring);
 }
@@ -771,8 +672,9 @@ html.is-drawer-open body {
 }
 
 .mc-drawer__row:hover {
-  background: var(--color-surface-2);
-  border-color: var(--border-strong);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .mc-drawer__row.is-active {
@@ -1001,12 +903,14 @@ html[data-theme="dark"] .mc-security-tip {
   margin-right: 2px;
   padding: 8px 10px;
   border-radius: 12px;
+  border: 1px solid transparent;
   font-weight: 800;
   font-size: clamp(0.72rem, 0.55rem + 0.65vw, 0.8125rem);
   color: var(--color-text-secondary);
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.22s ease, color 0.2s ease;
 }
 
 @media (max-width: 768px) {
@@ -1025,8 +929,10 @@ html[data-theme="dark"] .mc-security-tip {
 }
 
 .mc-header-contact:hover {
-  color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+  color: var(--color-text-primary);
+  background: var(--hover-fill-soft);
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .mc-header-contact:focus-visible {
@@ -1065,6 +971,8 @@ html[data-theme="dark"] .mc-security-tip {
 
 .mc-drawer__contact-link:hover {
   background: color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+  border-color: var(--hover-border-soft);
+  box-shadow: var(--hover-glow-soft);
 }
 
 .mc-drawer__contact-link:focus-visible {
