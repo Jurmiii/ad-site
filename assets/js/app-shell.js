@@ -82,6 +82,7 @@
   var DEMO_KEYS_KEY = "moneyCalendar.demoKeys.v1";
   var DEMO_TUTORIAL_DONE_KEY = "moneyCalendar.demoTutorialDone.v1";
   var DRAWER_FAV_TIP_KEY = "moneyCalendar.drawerFavTipDismissed.v1";
+  var DRAWER_SCROLL_KEY = "moneyCalendar.drawerScrollTop.v1";
 
   function showNotice(message) {
     try {
@@ -276,7 +277,7 @@
     a.href = contactPageHref();
     a.textContent = "문의하기";
     var loc = (window.location.pathname || "").replace(/\\/g, "/").toLowerCase();
-    if (loc.indexOf("contact.html") >= 0) {
+    if (loc.indexOf("contact.html") >= 0 || /(^|\/)contact\/?$/.test(loc)) {
       a.setAttribute("aria-current", "page");
     }
     tools.insertBefore(a, tools.firstChild);
@@ -295,7 +296,7 @@
     link.href = contactPageHref();
     link.textContent = "문의하기";
     var loc = (window.location.pathname || "").replace(/\\/g, "/").toLowerCase();
-    if (loc.indexOf("contact.html") >= 0) {
+    if (loc.indexOf("contact.html") >= 0 || /(^|\/)contact\/?$/.test(loc)) {
       link.setAttribute("aria-current", "page");
     }
     wrap.appendChild(link);
@@ -332,13 +333,27 @@
     return String(b).replace(/\/+$/, "");
   }
 
-  /** 문의 페이지(contact.html)로 가는 상대 경로 — 호스트 서브경로 없는 배포 기준 */
+  /** Netlify Clean URL 사용 여부 — Live Server/localhost 는 rewrite 없음 */
+  function prefersCleanUrls() {
+    try {
+      if (String(location.protocol || "") === "file:") return false;
+      var h = String(location.hostname || "").toLowerCase();
+      if (!h || h === "localhost" || h === "127.0.0.1" || h === "[::1]" || h === "0.0.0.0") {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /** 문의 페이지 — 배포: Clean URL / 로컬: 실제 html */
   function contactPageHref() {
+    if (prefersCleanUrls()) return "/contact";
     var base = assetBase();
     if (base === "..") return "../../contact.html";
-    // assets/ 루트 페이지(예: debt-list) — __MC_ASSETS_BASE 가 "./" 또는 "."
     if (base === "." || base === "./") return "../contact.html";
-    return "./contact.html";
+    return "../contact.html";
   }
 
   function joinBase(rel) {
@@ -358,10 +373,21 @@
     return !!(body && body.classList && body.classList.contains("page-demo-tour"));
   }
 
+  /**
+   * 내비 링크:
+   * - 배포(Netlify): /debt-list
+   * - Live Server: ./debt-list.html 또는 ../income-design/...html
+   */
   function navHref(item) {
     if (isDemoGuidePage()) return "#section-" + String(item.id);
     var pq = parsePathAndQuery(item.path);
-    return joinBase(pq.path) + pq.search;
+    var clean = String(pq.path || "")
+      .replace(/\\/g, "/")
+      .replace(/^\.\//, "")
+      .replace(/\.html$/i, "")
+      .replace(/^\/+/, "");
+    if (prefersCleanUrls()) return "/" + clean + pq.search;
+    return joinBase(clean + ".html") + pq.search;
   }
 
   function currentFeatureId() {
@@ -493,6 +519,46 @@
     section("기록", 6, 9);
     section("분석", 10, 13);
     section("관리", 14, 16);
+
+    var drawerEl = document.getElementById("drawer");
+    if (drawerEl && !drawerEl.hidden) restoreDrawerScroll();
+  }
+
+  function getDrawerScrollEl() {
+    return document.getElementById("mc-drawer-list");
+  }
+
+  function saveDrawerScroll() {
+    var el = getDrawerScrollEl();
+    if (!el) return;
+    try {
+      sessionStorage.setItem(DRAWER_SCROLL_KEY, String(el.scrollTop || 0));
+    } catch (e) {}
+  }
+
+  function restoreDrawerScroll() {
+    var el = getDrawerScrollEl();
+    if (!el) return;
+    var raw = null;
+    try {
+      raw = sessionStorage.getItem(DRAWER_SCROLL_KEY);
+    } catch (e) {
+      return;
+    }
+    if (raw == null || raw === "") return;
+    var y = parseInt(raw, 10);
+    if (!Number.isFinite(y) || y < 0) return;
+
+    function apply() {
+      var max = Math.max(0, el.scrollHeight - el.clientHeight);
+      el.scrollTop = Math.min(y, max);
+    }
+
+    apply();
+    window.requestAnimationFrame(function () {
+      apply();
+      window.setTimeout(apply, 40);
+    });
   }
 
   function tryShowDrawerFavTip() {
@@ -557,12 +623,14 @@
       document.body.classList.add("is-drawer-open");
       setExpanded(true);
       tryShowDrawerFavTip();
+      restoreDrawerScroll();
       var focusTarget = drawer.querySelector(".drawer__close");
       if (focusTarget) focusTarget.focus();
     }
 
     function closeDrawer() {
       if (drawer.hidden) return;
+      saveDrawerScroll();
       drawer.classList.remove("is-open");
       document.documentElement.classList.remove("is-drawer-open");
       document.body.classList.remove("is-drawer-open");
@@ -583,6 +651,22 @@
       var t = e.target;
       if (t && t.closest && t.closest("[data-drawer-close]")) closeDrawer();
     });
+
+    var list = document.getElementById("mc-drawer-list");
+    if (list) {
+      list.addEventListener(
+        "click",
+        function (e) {
+          var t = e.target;
+          if (!t || !t.closest) return;
+          if (t.closest(".mc-drawer__fav")) return;
+          var a = t.closest("a.mc-drawer__item-link, a.drawer__item");
+          if (!a) return;
+          saveDrawerScroll();
+        },
+        true
+      );
+    }
 
     window.addEventListener("keydown", function (e) {
       if (e.key === "Escape") closeDrawer();
@@ -680,7 +764,9 @@
     if (!id || id < 1 || id > 16) return;
     if (document.querySelector('[data-mc-security-tip="1"]')) return;
 
-    var exportHref = joinBase("backup-security/14_export_restore.html");
+    var exportHref = prefersCleanUrls()
+      ? "/backup-security/14_export_restore"
+      : joinBase("backup-security/14_export_restore.html");
 
     var el = document.createElement("aside");
     el.className = "mc-security-tip";

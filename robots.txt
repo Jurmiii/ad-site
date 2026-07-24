@@ -10,4 +10,4 @@ Allow: /assets/css/
 Allow: /assets/js/
 Allow: /assets/images/
 
-Sitemap: https://money-calender.netlify.app/sitemap.xml
+Sitemap: https://money-calender.kr/sitemap.xml

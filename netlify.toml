@@ -1,4 +1,366 @@
 # Money Calendar — 정적 사이트. 배포(게시) 루트는 리포지터리 루트(.)이며, 메인 진입은 /index.html 입니다.
 # Netlify UI에서 Publish directory 를 `assets` 로 두지 마세요(중복·경로 혼선만 유발).
+#
+# Clean URL: /debt-list  →  /assets/debt-list.html  (200 rewrite)
+# 구 URL 301: /assets/debt-list.html  →  /debt-list
+
 [build]
   publish = "."
+
+[build.processing]
+  skip_processing = false
+
+[build.processing.html]
+  pretty_urls = true
+
+# ─── 1) 구 URL(/assets/…​.html) → Clean URL (301) ───────────────────────────
+
+[[redirects]]
+  from = "/assets/debt-list.html"
+  to = "/debt-list"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/demo-guide.html"
+  to = "/demo-guide"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/legal.html"
+  to = "/legal"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/privacy-policy.html"
+  to = "/privacy-policy"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/daily/index.html"
+  to = "/daily"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/budget-setup/index.html"
+  to = "/budget-setup"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/export-center/index.html"
+  to = "/export-center"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/roadmap/index.html"
+  to = "/roadmap"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/income-design/:page.html"
+  to = "/income-design/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/vision-budget/:page.html"
+  to = "/vision-budget/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/budget-lock/:page.html"
+  to = "/budget-lock/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/budget-simulator/:page.html"
+  to = "/budget-simulator/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/daily-quick/:page.html"
+  to = "/daily-quick/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/daily-note/:page.html"
+  to = "/daily-note/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/daily-sense/:page.html"
+  to = "/daily-sense/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/daily-nospend/:page.html"
+  to = "/daily-nospend/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/weekly-report/:page.html"
+  to = "/weekly-report/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/monthly-review/:page.html"
+  to = "/monthly-review/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/timeline/:page.html"
+  to = "/timeline/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/ai-feedback/:page.html"
+  to = "/ai-feedback/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/backup-security/:page.html"
+  to = "/backup-security/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/vision-simulator/:page.html"
+  to = "/vision-simulator/:page"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/assets/community/:page.html"
+  to = "/community/:page"
+  status = 301
+  force = true
+
+# ─── 2) Clean URL → 실제 파일 (200 rewrite) ─────────────────────────────────
+
+[[redirects]]
+  from = "/debt-list"
+  to = "/assets/debt-list.html"
+  status = 200
+
+[[redirects]]
+  from = "/debt-list/"
+  to = "/assets/debt-list.html"
+  status = 200
+
+[[redirects]]
+  from = "/demo-guide"
+  to = "/assets/demo-guide.html"
+  status = 200
+
+[[redirects]]
+  from = "/demo-guide/"
+  to = "/assets/demo-guide.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily"
+  to = "/assets/daily/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily/"
+  to = "/assets/daily/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/budget-setup"
+  to = "/assets/budget-setup/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/budget-setup/"
+  to = "/assets/budget-setup/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/export-center"
+  to = "/assets/export-center/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/export-center/"
+  to = "/assets/export-center/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/roadmap"
+  to = "/assets/roadmap/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/roadmap/"
+  to = "/assets/roadmap/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/income-design/:page"
+  to = "/assets/income-design/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/income-design/:page/"
+  to = "/assets/income-design/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/vision-budget/:page"
+  to = "/assets/vision-budget/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/vision-budget/:page/"
+  to = "/assets/vision-budget/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/budget-lock/:page"
+  to = "/assets/budget-lock/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/budget-lock/:page/"
+  to = "/assets/budget-lock/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/budget-simulator/:page"
+  to = "/assets/budget-simulator/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/budget-simulator/:page/"
+  to = "/assets/budget-simulator/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-quick/:page"
+  to = "/assets/daily-quick/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-quick/:page/"
+  to = "/assets/daily-quick/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-note/:page"
+  to = "/assets/daily-note/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-note/:page/"
+  to = "/assets/daily-note/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-sense/:page"
+  to = "/assets/daily-sense/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-sense/:page/"
+  to = "/assets/daily-sense/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-nospend/:page"
+  to = "/assets/daily-nospend/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-nospend/:page/"
+  to = "/assets/daily-nospend/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/weekly-report/:page"
+  to = "/assets/weekly-report/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/weekly-report/:page/"
+  to = "/assets/weekly-report/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/monthly-review/:page"
+  to = "/assets/monthly-review/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/monthly-review/:page/"
+  to = "/assets/monthly-review/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/timeline/:page"
+  to = "/assets/timeline/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/timeline/:page/"
+  to = "/assets/timeline/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/ai-feedback/:page"
+  to = "/assets/ai-feedback/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/ai-feedback/:page/"
+  to = "/assets/ai-feedback/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/backup-security/:page"
+  to = "/assets/backup-security/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/backup-security/:page/"
+  to = "/assets/backup-security/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/vision-simulator/:page"
+  to = "/assets/vision-simulator/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/vision-simulator/:page/"
+  to = "/assets/vision-simulator/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/community/:page"
+  to = "/assets/community/:page.html"
+  status = 200
+
+[[redirects]]
+  from = "/community/:page/"
+  to = "/assets/community/:page.html"
+  status = 200
