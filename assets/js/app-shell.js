@@ -333,18 +333,9 @@
     return String(b).replace(/\/+$/, "");
   }
 
-  /** Netlify Clean URL 사용 여부 — Live Server/localhost 는 rewrite 없음 */
+  /** 루트 Clean URL(/debt-list) 미사용 — 상대경로·Live Server·Netlify 동일 동작 */
   function prefersCleanUrls() {
-    try {
-      if (String(location.protocol || "") === "file:") return false;
-      var h = String(location.hostname || "").toLowerCase();
-      if (!h || h === "localhost" || h === "127.0.0.1" || h === "[::1]" || h === "0.0.0.0") {
-        return false;
-      }
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return false;
   }
 
   /** 문의 페이지 — 배포: Clean URL / 로컬: 실제 html */

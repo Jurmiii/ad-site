@@ -1,7 +1,7 @@
 /**
  * Money Calendar — 기능 1~16 내비게이션 (기획서 명칭·번호와 동일)
- * path는 Clean URL 기준(앞에 / 없음, .html 없음). 실제 파일은 /assets/ 아래.
- * Netlify가 /debt-list → /assets/debt-list.html 로 rewrite 한다.
+ * path는 assets/ 기준 상대 경로(.html 없이 저장, 런타임에 .html 부여).
+ * 예: debt-list → ./debt-list.html 또는 ../income-design/02_income_design.html
  */
 (function (w) {
   "use strict";
