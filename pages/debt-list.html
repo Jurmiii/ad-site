@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/favicon.ico" />
+  <!-- Primary SEO -->
+  <title>1. 부채 리스트 | 머니캘린더</title>
+  <meta name="description" content="예산 수립의 첫걸음, 현재 재정 상태를 정직하게 직면하는 부채 리스트입니다. 성격별 빚 정리부터 구체적인 상환 계획 수립까지, 0원으로 가기 위한 재정 관리의 근본을 시작하세요." />
+  <meta name="keywords" content="부채리스트, 부채상환계획, 재정 점검, 가계부, 예산수립, 빚상환, 머니캘린더, 자산관리" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Canonical & Sitemap -->
+  <link rel="canonical" href="https://money-calender.kr/debt-list" />
+  <link rel="sitemap" type="application/xml" href="https://money-calender.kr/sitemap.xml" />
+
+  <!-- Open Graph (SNS) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="머니캘린더" />
+  <meta property="og:url" content="https://money-calender.kr/debt-list" />
+  <meta property="og:title" content="1. 부채 리스트 | 머니캘린더" />
+  <meta property="og:description" content="0원으로 가기 위한 정직한 직면. 성격별 빚을 정리하고 상환 계획을 세우는 재정 관리의 시작점." />
+  <meta property="og:image" content="https://money-calender.kr/assets/images/og-img.webp" />
+  <meta property="og:image:type" content="image/webp" />
+  <meta property="og:locale" content="ko_KR" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="1. 부채 리스트 | 머니캘린더" />
+  <meta name="twitter:description" content="0원으로 가기 위한 정직한 직면. 성격별 빚을 정리하고 상환 계획을 세우는 재정 관리의 시작점." />
+  <meta name="twitter:image" content="https://money-calender.kr/assets/images/og-img.webp" />
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="/assets/js/theme.js"></script>
+  <link rel="stylesheet" href="/assets/css/common.css" />
+  <link rel="stylesheet" href="/assets/css/journal-shell.css" />
+  <link rel="stylesheet" href="/assets/js/excel-manager.css" />
+  <link rel="stylesheet" href="/assets/debt-list.css" />
+  <meta name="google-site-verification" content="7i_rpPDwpUXzAcBkjp3VumqiimkvEHN-YGlGc42rnYs" />
+  <meta name="msvalidate.01" content="0864DC772EF287289FE8A7E607432F6B" />
+  <meta name="naver-site-verification" content="d4941a2de5b39d824e2e63e9f995d841125ad743" />
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9538725948062236"
+     crossorigin="anonymous"></script>
+
+</head>
+
+<body class="mc-app page-debt" data-mc-feature-id="1">
+  <script>
+    window.__MC_ASSETS_BASE = "/assets";
+  </script>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <header class="mc-global-header" role="banner">
+    <div class="container mc-global-header__inner">
+      <a class="mc-brand" href="/">
+        <span class="mc-brand__mark" aria-hidden="true">
+          <img src="/assets/images/icon/mc-logo.svg" width="44" height="44" alt="Money Calendar 머니캘린더 로고" loading="eager"
+            decoding="async" />
+        </span>
+        <span class="mc-brand__titles">
+          <span class="mc-brand__series">Money Calendar</span>
+          <span class="mc-brand__page">1. 부채 리스트</span>
+        </span>
+      </a>
+      <div class="mc-global-header__tools">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="테마 전환" aria-pressed="false">
+          <span class="theme-toggle__icon theme-toggle__sun" aria-hidden="true"></span>
+          <span class="theme-toggle__thumb" aria-hidden="true"></span>
+          <span class="theme-toggle__icon theme-toggle__moon" aria-hidden="true"></span>
+        </button>
+        <button class="mc-hamburger hamburger" type="button" aria-label="메뉴 열기" aria-controls="drawer"
+          aria-expanded="false" id="drawer-open">
+          <span class="mc-hamburger__icon hamburger__icon" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="기능 메뉴" hidden>
+    <div class="drawer__backdrop" data-drawer-close></div>
+    <div class="drawer__panel" role="document">
+      <div class="drawer__top">
+        <p class="drawer__title">가계부 시리즈</p>
+        <button class="drawer__close" type="button" aria-label="메뉴 닫기" data-drawer-close>닫기</button>
+      </div>
+      <nav class="drawer__nav" id="mc-drawer-list" aria-label="기능 1~16"></nav>
+      <div class="drawer__meta">
+        <p class="text-sm">작게 나누어 상환하면, 끝까지 갑니다.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="mc-app__canvas">
+    <div class="container">
+      <main id="main">
+        <header class="mc-page-intro">
+          <h1 class="mc-page-intro__title">1. 부채 리스트</h1>
+          <p class="mc-page-intro__kicker mc-intro-single-line">0원으로 가기 위한 정직한 직면</p>
+          <p class="mc-page-intro__lead text-body">
+            빚을 성격별로 분리해 적고, 감정이 아닌 순서로 상환 계획을 세우는 출발점입니다.
+          </p>
+        </header>
+
+        <div id="excel-control-root" class="mc-excel-slot"></div>
+
+        <section class="dashboard card mt-24" aria-labelledby="dash-title">
+          <h2 id="dash-title" class="dash-title">잔액 요약</h2>
+          <p class="dash-legend text-sm">긴급·일반·협의 잔액을 한눈에 보고, 총 부채를 직시합니다.</p>
+          <div class="dash-grid mt-20">
+            <div class="dash-tile dash-tile--urgent">
+              <p class="dash-label">긴급</p>
+              <p id="dash-urgent" class="dash-value">0원</p>
+            </div>
+            <div class="dash-tile dash-tile--normal">
+              <p class="dash-label">일반</p>
+              <p id="dash-normal" class="dash-value">0원</p>
+            </div>
+            <div class="dash-tile dash-tile--memo">
+              <p class="dash-label">협의</p>
+              <p id="dash-memo" class="dash-value">0원</p>
+            </div>
+            <div class="dash-tile dash-tile--total">
+              <p class="dash-label">총 잔액</p>
+              <p id="dash-total" class="dash-value">0원</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="card mt-24 debt-form-card" aria-labelledby="form-title">
+          <div class="debt-form-card__head">
+            <div class="debt-form-card__intro">
+              <h2 id="form-title">부채 입력</h2>
+              <p class="text-sm mt-10">금액은 1원 단위로 저장됩니다. 현실적으로 상환 가능한 금액으로 쪼개 적으세요.</p>
+            </div>
+            <aside class="debt-tip" role="note">
+              <p class="text-sm"><strong>Tip:</strong> 현실적으로 상환 가능한 금액으로 쪼개서 끝까지 완주하세요.</p>
+            </aside>
+          </div>
+          <form id="debt-form" class="debt-form mt-20" novalidate>
+            <div class="debt-form__grid">
+              <label class="field">
+                <span class="field-label">부채명</span>
+                <input id="debt-name" type="text" name="name" autocomplete="off" placeholder="예: OO은행 햇살론" required
+                  maxlength="80" />
+              </label>
+              <label class="field">
+                <span class="field-label">잔액</span>
+                <div class="money-wrap">
+                  <input id="debt-balance" class="money-input" type="tel" inputmode="numeric" autocomplete="off"
+                    placeholder="0" required />
+                  <span class="won" aria-hidden="true">원</span>
+                </div>
+              </label>
+              <label class="field">
+                <span class="field-label">종류</span>
+                <select id="debt-kind" name="kind">
+                  <option value="urgent">긴급</option>
+                  <option value="normal" selected>일반</option>
+                  <option value="memo">협의</option>
+                </select>
+              </label>
+              <label class="field debt-form__memo">
+                <span class="field-label">메모</span>
+                <textarea id="debt-memo" name="memo" placeholder="상환 계획 및 메모" maxlength="200"></textarea>
+              </label>
+            </div>
+            <div class="debt-form__actions mt-16">
+              <button class="btn" type="submit" id="debt-submit">추가하기</button>
+              <button class="btn btn--ghost" type="button" id="debt-reset" hidden>입력 취소</button>
+            </div>
+            <p id="debt-form-hint" class="text-sm mt-10 text-center" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+
+        <section class="card mt-24" aria-labelledby="list-title">
+          <div class="flex-between flex-wrap gap-12">
+            <h2 id="list-title">부채 목록</h2>
+            <p class="text-sm" id="list-count">0건</p>
+          </div>
+          <div class="table-wrap mt-16">
+            <table class="data-table" aria-label="부채 목록">
+              <thead>
+                <tr>
+                  <th scope="col">종류</th>
+                  <th scope="col">부채명</th>
+                  <th scope="col">잔액</th>
+                  <th scope="col">메모</th>
+                  <th scope="col"><span class="sr-only">관리</span></th>
+                </tr>
+              </thead>
+              <tbody id="debt-tbody">
+                <tr class="debt-empty-row">
+                  <td colspan="5">아직 등록된 부채가 없습니다. 위에서 첫 항목을 추가해 보세요.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Kakao AdFit -->
+        <ins class="kakao_ad_area" style="display:none;" data-ad-unit="DAN-jGaTWdkt4JHwlfwT" data-ad-width="300"
+          data-ad-height="250"></ins>
+        <script type="text/javascript" src="//t1.daumcdn.net/kas/static/ba.min.js" async></script>
+
+        <section class="card mt-24" aria-labelledby="seo-title">
+          <h2 id="seo-title">부채 리스트: 0원으로 가는 첫걸음</h2>
+          <p class="text-body mt-10">
+            부채를 기록하는 것은 비전을 향한 정직한 직면입니다. 긴급·일반·협의로 성격을 나누면, 상환 순서를 감정 대신
+            <strong>우선순위</strong>로 정할 수 있습니다. 이후
+            <a href="/pages/income-design/02_income_design.html"><strong>2번 계층형 수입 설계</strong></a>에서 가용 소득을
+            정리하고, 예산 흐름으로 이어가세요.
+          </p>
+        </section>
+
+        <!-- SEO Description Section -->
+        <section class="card mt-24" aria-labelledby="seo-why-title">
+          <h2 id="seo-why-title">왜 예산 수립 전 '부채 리스트' 작성이 가장 먼저인가요?</h2>
+          <p class="text-body mt-10">
+            머니캘린더의 재정 관리 프로세스는 정직한 직면에서 출발합니다. 부채 리스트는 단순한 빚의 수치를 적는 목록이 아니라,
+            0(Zero)의 상태로 돌아가기 위해 현재의 재정 상태를 객관적으로 점검하는 가장 근본적인 자료입니다.
+          </p>
+          <p class="text-body mt-10">
+            긴급한 부채, 일반 부채, 협의 중인 부채를 성격별로 명확히 분류하고 상환 우선순위를 정함으로써 감정이 아닌 구조와
+            시스템으로 상환 계획을 수립할 수 있습니다. 예산을 세우기 전, 자산의 출발점을 바로잡는 구체적인 가이드를 확인해보세요.
+          </p>
+        </section>
+
+        <footer class="page-foot mt-24 mb-20">
+          <p class="text-sm text-center">
+            © 2026 Money Calendar. All rights reserved. |
+            <a href="/legal.html#privacy">개인정보처리방침</a> |
+            <a href="/legal.html#terms">이용약관</a> |
+            <a href="/faq.html">FAQ</a>
+          </p>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="/assets/js/nav-config.js"></script>
+  <script src="/assets/js/excel-manager.js"></script>
+  <script src="/assets/js/app-shell.js"></script>
+  <script src="/assets/debt-list.js"></script>
+</body>
+
+</html>

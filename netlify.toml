@@ -1,9 +1,7 @@
-# Money Calendar — 정적 사이트. 배포 루트는 리포지터리 루트(.).
-# Netlify UI Publish directory 를 `assets` 로 두지 마세요.
-#
-# pretty_urls: /assets/debt-list.html → /assets/debt-list 접근 가능
-# 루트 Clean URL(/debt-list) rewrite 는 <base href="/assets/"> 의존으로
-# Live Server·상대경로와 충돌하여 레이아웃이 깨지므로 사용하지 않습니다.
+# Money Calendar
+# HTML: pages/ | static: assets/
+# Clean URL (200 rewrite). CSS/JS use /assets/... (no <base> tag)
+# Live Server: open /pages/....html directly (no rewrite)
 
 [build]
   publish = "."
@@ -13,3 +11,436 @@
 
 [build.processing.html]
   pretty_urls = true
+
+[[redirects]]
+  from = "/debt-list"
+  to = "/pages/debt-list.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/debt-list.html"
+  to = "/debt-list"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/demo-guide"
+  to = "/pages/demo-guide.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/demo-guide.html"
+  to = "/demo-guide"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/budget-setup"
+  to = "/pages/budget-setup/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/budget-setup/"
+  to = "/pages/budget-setup/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/budget-setup/index.html"
+  to = "/budget-setup"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/export-center"
+  to = "/pages/export-center/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/export-center/"
+  to = "/pages/export-center/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/export-center/index.html"
+  to = "/export-center"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/roadmap"
+  to = "/pages/roadmap/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/roadmap/"
+  to = "/pages/roadmap/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/roadmap/index.html"
+  to = "/roadmap"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/daily"
+  to = "/pages/daily/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/daily/"
+  to = "/pages/daily/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/daily/index.html"
+  to = "/daily"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/income-design/02_income_design"
+  to = "/pages/income-design/02_income_design.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/income-design/02_income_design.html"
+  to = "/income-design/02_income_design"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/vision-budget/03_vision_allocation"
+  to = "/pages/vision-budget/03_vision_allocation.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/vision-budget/03_vision_allocation.html"
+  to = "/vision-budget/03_vision_allocation"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/budget-lock/04_budget_lock"
+  to = "/pages/budget-lock/04_budget_lock.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/budget-lock/04_budget_lock.html"
+  to = "/budget-lock/04_budget_lock"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/budget-simulator/05_budget_simulator"
+  to = "/pages/budget-simulator/05_budget_simulator.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/budget-simulator/05_budget_simulator.html"
+  to = "/budget-simulator/05_budget_simulator"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/daily-quick/06_daily_quick_input"
+  to = "/pages/daily-quick/06_daily_quick_input.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/daily-quick/06_daily_quick_input.html"
+  to = "/daily-quick/06_daily_quick_input"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/daily-note/07_daily_note_review"
+  to = "/pages/daily-note/07_daily_note_review.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/daily-note/07_daily_note_review.html"
+  to = "/daily-note/07_daily_note_review"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/daily-sense/08_one_won_sense"
+  to = "/pages/daily-sense/08_one_won_sense.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/daily-sense/08_one_won_sense.html"
+  to = "/daily-sense/08_one_won_sense"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/daily-nospend/09_no_spending_calendar"
+  to = "/pages/daily-nospend/09_no_spending_calendar.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/daily-nospend/09_no_spending_calendar.html"
+  to = "/daily-nospend/09_no_spending_calendar"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/weekly-report/10_weekly_practice_report"
+  to = "/pages/weekly-report/10_weekly_practice_report.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/weekly-report/10_weekly_practice_report.html"
+  to = "/weekly-report/10_weekly_practice_report"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/monthly-review/11_monthly_budget_review"
+  to = "/pages/monthly-review/11_monthly_budget_review.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/monthly-review/11_monthly_budget_review.html"
+  to = "/monthly-review/11_monthly_budget_review"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/timeline/12_past_data_timeline"
+  to = "/pages/timeline/12_past_data_timeline.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/timeline/12_past_data_timeline.html"
+  to = "/timeline/12_past_data_timeline"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/ai-feedback/13_ai_finance_feedback"
+  to = "/pages/ai-feedback/13_ai_finance_feedback.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/ai-feedback/13_ai_finance_feedback.html"
+  to = "/ai-feedback/13_ai_finance_feedback"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/backup-security/14_export_restore"
+  to = "/pages/backup-security/14_export_restore.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/backup-security/14_export_restore.html"
+  to = "/backup-security/14_export_restore"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/vision-simulator/15_vision_goal_simulator"
+  to = "/pages/vision-simulator/15_vision_goal_simulator.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/vision-simulator/15_vision_goal_simulator.html"
+  to = "/vision-simulator/15_vision_goal_simulator"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/community/16_financial_health_diagnosis"
+  to = "/pages/community/16_financial_health_diagnosis.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/community/16_financial_health_diagnosis.html"
+  to = "/community/16_financial_health_diagnosis"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact"
+  to = "/contact.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/faq"
+  to = "/faq.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/legal"
+  to = "/legal.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/privacy-policy"
+  to = "/privacy-policy.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/success"
+  to = "/success.html"
+  status = 200
+  force = true
+
+# /pages/*.html → Clean URL (Netlify only; Live Server keeps /pages/ path)
+[[redirects]]
+  from = "/pages/debt-list.html"
+  to = "/debt-list"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/demo-guide.html"
+  to = "/demo-guide"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/budget-setup/index.html"
+  to = "/budget-setup"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/export-center/index.html"
+  to = "/export-center"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/roadmap/index.html"
+  to = "/roadmap"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/daily/index.html"
+  to = "/daily"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/income-design/02_income_design.html"
+  to = "/income-design/02_income_design"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/vision-budget/03_vision_allocation.html"
+  to = "/vision-budget/03_vision_allocation"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/budget-lock/04_budget_lock.html"
+  to = "/budget-lock/04_budget_lock"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/budget-simulator/05_budget_simulator.html"
+  to = "/budget-simulator/05_budget_simulator"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/daily-quick/06_daily_quick_input.html"
+  to = "/daily-quick/06_daily_quick_input"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/daily-note/07_daily_note_review.html"
+  to = "/daily-note/07_daily_note_review"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/daily-sense/08_one_won_sense.html"
+  to = "/daily-sense/08_one_won_sense"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/daily-nospend/09_no_spending_calendar.html"
+  to = "/daily-nospend/09_no_spending_calendar"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/weekly-report/10_weekly_practice_report.html"
+  to = "/weekly-report/10_weekly_practice_report"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/monthly-review/11_monthly_budget_review.html"
+  to = "/monthly-review/11_monthly_budget_review"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/timeline/12_past_data_timeline.html"
+  to = "/timeline/12_past_data_timeline"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/ai-feedback/13_ai_finance_feedback.html"
+  to = "/ai-feedback/13_ai_finance_feedback"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/backup-security/14_export_restore.html"
+  to = "/backup-security/14_export_restore"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/vision-simulator/15_vision_goal_simulator.html"
+  to = "/vision-simulator/15_vision_goal_simulator"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pages/community/16_financial_health_diagnosis.html"
+  to = "/community/16_financial_health_diagnosis"
+  status = 301
+  force = true

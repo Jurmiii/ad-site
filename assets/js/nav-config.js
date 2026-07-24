@@ -1,7 +1,8 @@
 /**
  * Money Calendar — 기능 1~16 내비게이션 (기획서 명칭·번호와 동일)
- * path는 assets/ 기준 상대 경로(.html 없이 저장, 런타임에 .html 부여).
- * 예: debt-list → ./debt-list.html 또는 ../income-design/02_income_design.html
+ * path는 pages/ 기준(.html 없이 저장).
+ * - 배포: /debt-list (Netlify rewrite)
+ * - 로컬: /pages/debt-list.html
  */
 (function (w) {
   "use strict";

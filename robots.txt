@@ -9,5 +9,6 @@ Allow: /
 Allow: /assets/css/
 Allow: /assets/js/
 Allow: /assets/images/
+Allow: /pages/
 
 Sitemap: https://money-calender.kr/sitemap.xml

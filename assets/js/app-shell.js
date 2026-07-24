@@ -1,15 +1,14 @@
 /**
  * Global header / drawer — 1~16 기능 내비, 현재 페이지 강조
- * 각 HTML에서 window.__MC_ASSETS_BASE 를 설정하세요 (예: ".." 또는 ".")
+ * HTML: window.__MC_ASSETS_BASE = "/assets" (정적 CSS/JS/이미지 루트)
+ * 페이지 HTML은 /pages/…, 배포(Netlify)에서는 Clean URL(/debt-list) rewrite 사용
  */
 (function () {
   "use strict";
 
   function injectBrandMark() {
     // 로고는 프로젝트에 포함된 단일 파일(mc-logo.svg)을 사용한다.
-    // 각 HTML에서 window.__MC_ASSETS_BASE 를 "." 또는 ".." 로 설정하므로,
-    // 여기서는 그 값을 이용해 상대 경로를 안전하게 생성한다.
-    var base = (window && window.__MC_ASSETS_BASE) || ".";
+    var base = (window && window.__MC_ASSETS_BASE) || "/assets";
     var src = String(base).replace(/\/$/, "") + "/images/icon/mc-logo.svg";
     var imgHtml =
       '<img src="' +
@@ -329,28 +328,40 @@
 
   function assetBase() {
     var b = window.__MC_ASSETS_BASE;
-    if (b == null || b === "") return ".";
+    if (b == null || b === "") return "/assets";
     return String(b).replace(/\/+$/, "");
   }
 
-  /** 루트 Clean URL(/debt-list) 미사용 — 상대경로·Live Server·Netlify 동일 동작 */
+  /** Netlify 등 배포 호스트에서만 Clean URL. Live Server(localhost)는 /pages/….html */
   function prefersCleanUrls() {
-    return false;
+    try {
+      var h = String((window.location && window.location.hostname) || "").toLowerCase();
+      if (!h || h === "localhost" || h === "127.0.0.1" || h === "[::1]") return false;
+      if (h.indexOf("192.168.") === 0 || h.indexOf("10.") === 0) return false;
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
-  /** 문의 페이지 — 배포: Clean URL / 로컬: 실제 html */
   function contactPageHref() {
     if (prefersCleanUrls()) return "/contact";
-    var base = assetBase();
-    if (base === "..") return "../../contact.html";
-    if (base === "." || base === "./") return "../contact.html";
-    return "../contact.html";
+    return "/contact.html";
   }
 
+  /** 기능 페이지 파일 경로 (/pages/… ) */
   function joinBase(rel) {
-    var base = assetBase();
-    if (base === ".") return "./" + rel.replace(/^\.\//, "");
-    return base + "/" + rel.replace(/^\.\//, "");
+    var path = String(rel || "").replace(/^\.\//, "").replace(/^\/+/, "");
+    return "/pages/" + path;
+  }
+
+  function toCleanPath(pathNoHtml) {
+    var clean = String(pathNoHtml || "")
+      .replace(/\\/g, "/")
+      .replace(/^\.\//, "")
+      .replace(/^\/+/, "")
+      .replace(/\/index$/i, "");
+    return "/" + clean;
   }
 
   function parsePathAndQuery(full) {
@@ -366,8 +377,8 @@
 
   /**
    * 내비 링크:
-   * - 배포(Netlify): /debt-list
-   * - Live Server: ./debt-list.html 또는 ../income-design/...html
+   * - 배포(Netlify): /debt-list (rewrite → /pages/debt-list.html)
+   * - Live Server: /pages/debt-list.html
    */
   function navHref(item) {
     if (isDemoGuidePage()) return "#section-" + String(item.id);
@@ -377,7 +388,11 @@
       .replace(/^\.\//, "")
       .replace(/\.html$/i, "")
       .replace(/^\/+/, "");
-    if (prefersCleanUrls()) return "/" + clean + pq.search;
+    if (prefersCleanUrls()) return toCleanPath(clean) + pq.search;
+    // index 라우트 (daily, budget-setup 등)
+    if (/\/index$/i.test(clean) || clean === "index") {
+      return joinBase(clean.replace(/\/index$/i, "") + "/index.html") + pq.search;
+    }
     return joinBase(clean + ".html") + pq.search;
   }
 
