@@ -81,7 +81,6 @@
   var DEMO_KEYS_KEY = "moneyCalendar.demoKeys.v1";
   var DEMO_TUTORIAL_DONE_KEY = "moneyCalendar.demoTutorialDone.v1";
   var DRAWER_FAV_TIP_KEY = "moneyCalendar.drawerFavTipDismissed.v1";
-  var DRAWER_SCROLL_KEY = "moneyCalendar.drawerScrollTop.v1";
 
   function showNotice(message) {
     try {
@@ -256,12 +255,6 @@
         }
       }
     }
-    var contactDd = document.createElement("a");
-    contactDd.className = "mc-fav-dropdown__link mc-fav-dropdown__link--contact";
-    contactDd.href = contactPageHref();
-    contactDd.textContent = "문의하기";
-    panel.appendChild(contactDd);
-
     dd.appendChild(summary);
     dd.appendChild(panel);
   }
@@ -496,22 +489,34 @@
           t.textContent = item.title;
           a.appendChild(num);
           a.appendChild(t);
-
-          var starBtn = document.createElement("button");
-          starBtn.type = "button";
-          starBtn.className = "mc-drawer__fav" + (isFavorite(item.id) ? " is-on" : "");
-          starBtn.setAttribute("data-mc-fav-id", String(item.id));
-          starBtn.setAttribute("aria-label", (isFavorite(item.id) ? "즐겨찾기 해제: " : "즐겨찾기 추가: ") + item.title);
-          starBtn.setAttribute("aria-pressed", isFavorite(item.id) ? "true" : "false");
-          starBtn.textContent = isFavorite(item.id) ? "★" : "☆";
-          starBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleFavorite(item.id);
-          });
-
           row.appendChild(a);
-          row.appendChild(starBtn);
+
+          var favOn = isFavorite(item.id);
+          if (isDemoGuidePage()) {
+            // 사용가이드: 추가/해제 불가. 이미 즐겨찾기인 항목만 ★ 표시
+            if (favOn) {
+              var starMark = document.createElement("span");
+              starMark.className = "mc-drawer__fav is-on is-static";
+              starMark.setAttribute("aria-hidden", "true");
+              starMark.textContent = "★";
+              row.appendChild(starMark);
+            }
+          } else {
+            var starBtn = document.createElement("button");
+            starBtn.type = "button";
+            starBtn.className = "mc-drawer__fav" + (favOn ? " is-on" : "");
+            starBtn.setAttribute("data-mc-fav-id", String(item.id));
+            starBtn.setAttribute("aria-label", (favOn ? "즐겨찾기 해제: " : "즐겨찾기 추가: ") + item.title);
+            starBtn.setAttribute("aria-pressed", favOn ? "true" : "false");
+            starBtn.textContent = favOn ? "★" : "☆";
+            starBtn.addEventListener("click", function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleFavorite(item.id);
+            });
+            row.appendChild(starBtn);
+          }
+
           list.appendChild(row);
         });
 
@@ -527,43 +532,48 @@
     section("관리", 14, 16);
 
     var drawerEl = document.getElementById("drawer");
-    if (drawerEl && !drawerEl.hidden) restoreDrawerScroll();
+    if (drawerEl && !drawerEl.hidden) scheduleScrollDrawerActiveIntoView();
   }
 
   function getDrawerScrollEl() {
     return document.getElementById("mc-drawer-list");
   }
 
-  function saveDrawerScroll() {
-    var el = getDrawerScrollEl();
-    if (!el) return;
+  /** 사용가이드: 페이지 스크롤 기준 현재 섹션 id (1~16). 창 스크롤은 변경하지 않음. */
+  function getDemoGuideActiveFromScroll() {
+    if (!isDemoGuidePage()) return 0;
+    var activationY = 120;
+    var cur = 1;
+    for (var i = 1; i <= 16; i++) {
+      var el = document.getElementById("section-" + i);
+      if (!el) continue;
+      if (el.getBoundingClientRect().top - activationY <= 0) cur = i;
+      else break;
+    }
+    return cur;
+  }
+
+  /** 드로어 목록(#mc-drawer-list)만 스크롤해 active 행이 보이게 함. 페이지 스크롤 금지. */
+  function scrollDrawerActiveIntoView() {
+    var list = getDrawerScrollEl();
+    if (!list) return;
+    var row = list.querySelector(".mc-drawer__row.is-active");
+    if (!row) return;
     try {
-      sessionStorage.setItem(DRAWER_SCROLL_KEY, String(el.scrollTop || 0));
+      var listRect = list.getBoundingClientRect();
+      var rowRect = row.getBoundingClientRect();
+      var offset = rowRect.top - listRect.top + list.scrollTop;
+      var target = offset - list.clientHeight / 2 + rowRect.height / 2;
+      var max = Math.max(0, list.scrollHeight - list.clientHeight);
+      list.scrollTop = Math.max(0, Math.min(target, max));
     } catch (e) {}
   }
 
-  function restoreDrawerScroll() {
-    var el = getDrawerScrollEl();
-    if (!el) return;
-    var raw = null;
-    try {
-      raw = sessionStorage.getItem(DRAWER_SCROLL_KEY);
-    } catch (e) {
-      return;
-    }
-    if (raw == null || raw === "") return;
-    var y = parseInt(raw, 10);
-    if (!Number.isFinite(y) || y < 0) return;
-
-    function apply() {
-      var max = Math.max(0, el.scrollHeight - el.clientHeight);
-      el.scrollTop = Math.min(y, max);
-    }
-
-    apply();
+  function scheduleScrollDrawerActiveIntoView() {
+    scrollDrawerActiveIntoView();
     window.requestAnimationFrame(function () {
-      apply();
-      window.setTimeout(apply, 40);
+      scrollDrawerActiveIntoView();
+      window.setTimeout(scrollDrawerActiveIntoView, 40);
     });
   }
 
@@ -614,6 +624,88 @@
     if (!drawer || !openBtn) return;
 
     var lastFocus = null;
+    var pageScrollLockY = 0;
+
+    function getPageScrollY() {
+      return (
+        window.scrollY ||
+        window.pageYOffset ||
+        (document.documentElement && document.documentElement.scrollTop) ||
+        (document.body && document.body.scrollTop) ||
+        0
+      );
+    }
+
+    function focusEl(el) {
+      if (!el || typeof el.focus !== "function") return;
+      try {
+        el.focus({ preventScroll: true });
+      } catch (e) {
+        try {
+          el.focus();
+        } catch (e2) {}
+      }
+    }
+
+    function headerScrollOffset() {
+      var header = document.querySelector(".site-header, .mc-global-header");
+      if (header) {
+        var h = header.getBoundingClientRect().height;
+        if (Number.isFinite(h) && h > 0) return Math.round(h) + 8;
+      }
+      return 72;
+    }
+
+    /** body 스크롤 잠금 중에도 섹션 절대 스크롤 위치를 계산 */
+    function getDemoSectionScrollY(sectionId) {
+      var el = document.getElementById("section-" + sectionId);
+      if (!el) return null;
+      var base =
+        document.body.style.position === "fixed" ? pageScrollLockY : getPageScrollY();
+      var y = base + el.getBoundingClientRect().top - headerScrollOffset();
+      return Math.max(0, Math.round(y));
+    }
+
+    function setDemoHash(sectionId) {
+      var hash = "#section-" + sectionId;
+      try {
+        if (String(window.location.hash || "") === hash) {
+          // 같은 해시라도 이후 unlock 스크롤이 동작하도록 유지
+          return;
+        }
+        if (window.history && typeof window.history.pushState === "function") {
+          window.history.pushState(null, "", hash);
+        } else {
+          window.location.hash = hash;
+        }
+      } catch (e) {
+        try {
+          window.location.hash = hash;
+        } catch (e2) {}
+      }
+    }
+
+    function lockPageScroll() {
+      pageScrollLockY = getPageScrollY();
+      document.documentElement.classList.add("is-drawer-open");
+      document.body.classList.add("is-drawer-open");
+      document.body.style.position = "fixed";
+      document.body.style.top = "-" + pageScrollLockY + "px";
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    }
+
+    function unlockPageScroll() {
+      document.documentElement.classList.remove("is-drawer-open");
+      document.body.classList.remove("is-drawer-open");
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      window.scrollTo(0, pageScrollLockY);
+    }
 
     function setExpanded(v) {
       openBtn.setAttribute("aria-expanded", v ? "true" : "false");
@@ -625,26 +717,28 @@
       lastFocus = document.activeElement;
       drawer.hidden = false;
       drawer.classList.add("is-open");
-      document.documentElement.classList.add("is-drawer-open");
-      document.body.classList.add("is-drawer-open");
+      lockPageScroll();
       setExpanded(true);
-      tryShowDrawerFavTip();
-      restoreDrawerScroll();
-      var focusTarget = drawer.querySelector(".drawer__close");
-      if (focusTarget) focusTarget.focus();
+      if (!isDemoGuidePage()) tryShowDrawerFavTip();
+      // 모든 페이지: 현재 페이지(또는 사용가이드 현재 섹션) 메뉴가 보이도록
+      var activeId = isDemoGuidePage()
+        ? getDemoGuideActiveFromScroll() || inferFeatureId()
+        : inferFeatureId();
+      buildDrawerList(activeId);
+      scheduleScrollDrawerActiveIntoView();
+      focusEl(drawer.querySelector(".drawer__close"));
     }
 
     function closeDrawer() {
       if (drawer.hidden) return;
-      saveDrawerScroll();
       drawer.classList.remove("is-open");
-      document.documentElement.classList.remove("is-drawer-open");
-      document.body.classList.remove("is-drawer-open");
+      unlockPageScroll();
       setExpanded(false);
       window.setTimeout(function () {
         drawer.hidden = true;
-        if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+        focusEl(lastFocus);
         lastFocus = null;
+        window.scrollTo(0, pageScrollLockY);
       }, 240);
     }
 
@@ -668,7 +762,25 @@
           if (t.closest(".mc-drawer__fav")) return;
           var a = t.closest("a.mc-drawer__item-link, a.drawer__item");
           if (!a) return;
-          saveDrawerScroll();
+
+          // 사용가이드: 기능 페이지 이동이 아니라 해당 섹션으로 스크롤
+          if (!isDemoGuidePage()) return;
+          var href = a.getAttribute("href") || "";
+          var m = String(href).match(/#?section-(\d+)/);
+          if (!m) return;
+          var id = parseInt(m[1], 10);
+          if (!Number.isFinite(id) || id < 1) return;
+          if (id > 16) id = 16;
+
+          e.preventDefault();
+          e.stopPropagation();
+
+          var targetY = getDemoSectionScrollY(id);
+          if (targetY != null) pageScrollLockY = targetY;
+          setDemoHash(id);
+          // 먼저 잠금 해제·섹션으로 스크롤한 뒤 active 표시 (잠금 중 sync면 이전 섹션으로 덮임)
+          closeDrawer();
+          buildDrawerList(id);
         },
         true
       );
@@ -688,7 +800,9 @@
     }
     if (!sections.length) return;
 
-    var activeId = inferFeatureId();
+    var activeId = getDemoGuideActiveFromScroll() || inferFeatureId();
+    buildDrawerList(activeId);
+
     function setActive(id) {
       if (!id || id === activeId) return;
       activeId = id;
@@ -696,15 +810,7 @@
     }
 
     function computeActiveFromScroll() {
-      // 가장 안전한 방식: 섹션 top 기준으로 "현재"를 결정 (오프바이원 방지)
-      var activationY = 120;
-      var cur = sections[0].id;
-      for (var j = 0; j < sections.length; j++) {
-        var top = sections[j].el.getBoundingClientRect().top;
-        if (top - activationY <= 0) cur = sections[j].id;
-        else break;
-      }
-      setActive(cur);
+      setActive(getDemoGuideActiveFromScroll() || sections[0].id);
     }
 
     var raf = 0;
@@ -725,19 +831,38 @@
   function wireDemoGuideActiveOnClick() {
     if (!isDemoGuidePage()) return;
 
+    function headerScrollOffset() {
+      var header = document.querySelector(".site-header, .mc-global-header");
+      if (header) {
+        var h = header.getBoundingClientRect().height;
+        if (Number.isFinite(h) && h > 0) return Math.round(h) + 8;
+      }
+      return 72;
+    }
+
+    function scrollToSection(id) {
+      var el = document.getElementById("section-" + id);
+      if (!el) return;
+      var y =
+        (window.scrollY || window.pageYOffset || 0) +
+        el.getBoundingClientRect().top -
+        headerScrollOffset();
+      window.scrollTo(0, Math.max(0, Math.round(y)));
+    }
+
     document.addEventListener("click", function (e) {
       var t = e.target;
       if (!t || !t.closest) return;
       var a = t.closest('a[href^="#section-"]');
       if (!a) return;
 
-      // only our menus
+      // only our menus (드로어는 wireDrawer에서 섹션 이동 처리)
       var inDrawer = !!a.closest("#mc-drawer-list");
+      if (inDrawer) return;
       var inFavBar = !!a.closest("#mc-fav-bar");
       var inFavDd = !!a.closest("#mc-fav-dropdown");
-      if (!inDrawer && !inFavBar && !inFavDd) return;
+      if (!inFavBar && !inFavDd) return;
 
-      // href="#section-x"에서 x 추출 (인덱스 연산 금지)
       var id = 0;
       try {
         var m = String(a.getAttribute("href") || "").match(/section-(\d+)/);
@@ -746,9 +871,10 @@
       if (!Number.isFinite(id) || id < 1) return;
       if (id > 16) id = 16;
 
-      // (1) 기존 active 제거 -> (2) 클릭된 요소에만 active 부여
+      e.preventDefault();
+
       try {
-        var navRoot = a.closest("#mc-drawer-list, #mc-fav-bar, #mc-fav-dropdown");
+        var navRoot = a.closest("#mc-fav-bar, #mc-fav-dropdown");
         if (navRoot) {
           navRoot.querySelectorAll("a.active").forEach(function (el) {
             el.classList.remove("active");
@@ -757,11 +883,20 @@
         a.classList.add("active");
       } catch (e2) {}
 
-      // 해시가 같아도 UI 갱신이 되도록 강제 리빌드
+      try {
+        var hash = "#section-" + id;
+        if (window.history && typeof window.history.pushState === "function") {
+          window.history.pushState(null, "", hash);
+        } else {
+          window.location.hash = hash;
+        }
+      } catch (e3) {}
+
+      scrollToSection(id);
       buildDrawerList(id);
       try {
         window.dispatchEvent(new Event("mc-demo-guide-active-sync"));
-      } catch (e3) {}
+      } catch (e4) {}
     });
   }
 
@@ -808,8 +943,35 @@
     var isTour = body.classList.contains("page-demo-tour");
     var isMcApp = body.classList.contains("mc-app");
     var isHome = body.classList.contains("page-home");
+    var withHomeFab =
+      isTour || body.classList.contains("page-legal") || body.classList.contains("page-faq");
 
     if (!isTour && !isMcApp && !isHome) return;
+
+    var mount = body;
+    if (withHomeFab) {
+      var stack = document.createElement("div");
+      stack.id = "mc-fab-stack";
+      stack.className = "mc-fab-stack";
+      stack.setAttribute("data-mc-fab-stack", "1");
+
+      var home = document.createElement("a");
+      home.id = "mc-home-fab";
+      home.className = "mc-home-fab";
+      home.href = "/";
+      home.setAttribute("aria-label", "홈으로");
+      home.setAttribute("title", "홈으로");
+      home.setAttribute("data-mc-home-fab", "1");
+      home.innerHTML =
+        '<svg class="mc-home-fab__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+        '<path d="M3 10.5L12 3l9 7.5"/>' +
+        '<path d="M5.5 9.5V21h13V9.5"/>' +
+        "</svg>" +
+        '<span class="mc-home-fab__label">HOME</span>';
+      stack.appendChild(home);
+      body.appendChild(stack);
+      mount = stack;
+    }
 
     var btn = document.createElement("button");
     btn.id = "mc-scroll-top";
@@ -824,7 +986,7 @@
       '<path d="M12 19V5M5 12l7-7 7 7"/>' +
       "</svg>" +
       '<span class="mc-scroll-top__label">TOP</span>';
-    document.body.appendChild(btn);
+    mount.appendChild(btn);
 
     var REVEAL_SCROLL_Y = 300;
 
@@ -867,6 +1029,35 @@
       window.visualViewport &&
         window.visualViewport.addEventListener("resize", sync);
     } catch (e) {}
+  }
+
+  /** 사용가이드: 햄버거 메뉴에 섹션 이동 안내 툴팁 */
+  function injectDemoGuideHamburgerTip() {
+    if (!isDemoGuidePage()) return;
+    var openBtn = document.getElementById("drawer-open");
+    if (!openBtn || openBtn.getAttribute("data-mc-guide-tip") === "1") return;
+
+    var tipId = "mc-hamburger-guide-tip";
+    var tipText =
+      "상단 메뉴(☰)는 실제 기능 페이지로 이동하지 않습니다. 이 사용가이드 안의 해당 섹션으로만 이동합니다.";
+
+    openBtn.setAttribute("data-mc-guide-tip", "1");
+    openBtn.setAttribute("aria-describedby", tipId);
+
+    var wrap = openBtn.parentElement;
+    if (wrap && !wrap.classList.contains("mc-hamburger-tip-wrap")) {
+      var tipWrap = document.createElement("div");
+      tipWrap.className = "mc-hamburger-tip-wrap";
+      wrap.insertBefore(tipWrap, openBtn);
+      tipWrap.appendChild(openBtn);
+
+      var tip = document.createElement("div");
+      tip.id = tipId;
+      tip.className = "mc-hamburger-tip";
+      tip.setAttribute("role", "tooltip");
+      tip.textContent = tipText;
+      tipWrap.appendChild(tip);
+    }
   }
 
   function injectFeatureGuide() {
@@ -941,6 +1132,10 @@
     injectContactNavLink();
     // Mobile drawer: '문의하기' 항목 제거(메뉴 구조 일원화)
     injectScrollTopButton();
+    injectDemoGuideHamburgerTip();
+    try {
+      sessionStorage.removeItem("moneyCalendar.drawerScrollTop.v1");
+    } catch (e) {}
     buildDrawerList(inferFeatureId());
     wireDrawer();
     if (isDemoGuidePage()) {

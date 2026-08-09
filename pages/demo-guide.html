@@ -93,16 +93,6 @@
   <main id="main" class="home-main">
     <div class="container home-shell">
       <div class="dt-tour-wrap">
-        <div class="dt-guide-top">
-          <a class="btn btn--ghost dt-guide-back" href="/">
-            <span class="dt-guide-back__icon" aria-hidden="true">←</span>
-            뒤로가기
-          </a>
-          <p class="dt-guide-notice" role="note">
-            <strong>안내:</strong> 상단 메뉴(☰)는 실제 기능 페이지로 이동하지 않습니다.
-            이 사용가이드 안의 <strong>해당 섹션</strong>으로만 이동합니다.
-          </p>
-        </div>
         <header class="dt-hero">
           <h1 class="dt-hero__title">가상 재정 시스템 투어</h1>
           <p class="dt-hero__badge">DEMO TOUR - 머니 캘린더 가이드</p>
@@ -267,26 +257,87 @@
           </p>
           <div class="dt-mock-wrap">
             <div class="dt-mock dt-mock--income" aria-hidden="true">
-              <div class="dt-mock__body">
-                <div class="dt-inc-grid">
-                  <div class="dt-inc-cell">
-                    <div class="dt-inc-cell__k">실제 소득</div>
-                    <div class="dt-inc-cell__v">0원</div>
+              <div class="dt-mock__body dt-inc-mock">
+                <h3 class="dt-mock-h">실시간 합산 대시보드</h3>
+                <p class="text-sm dt-mock-lead">확정 자산 = 실제+예정 · 잠재 자산 = 기타+희망</p>
+                <div class="dt-inc-dash">
+                  <div class="dt-inc-dash__tile dt-inc-dash__tile--confirmed">
+                    <span class="dt-inc-dash__k">확정 자산</span>
+                    <strong class="dt-inc-dash__v">300만원</strong>
+                    <span class="dt-inc-dash__s">실제 + 예정</span>
                   </div>
-                  <div class="dt-inc-cell">
-                    <div class="dt-inc-cell__k">예정 소득</div>
-                    <div class="dt-inc-cell__v">0원</div>
+                  <div class="dt-inc-dash__tile dt-inc-dash__tile--latent">
+                    <span class="dt-inc-dash__k">잠재 자산</span>
+                    <strong class="dt-inc-dash__v">50만원</strong>
+                    <span class="dt-inc-dash__s">기타 + 희망</span>
                   </div>
-                  <div class="dt-inc-cell">
-                    <div class="dt-inc-cell__k">기타 소득</div>
-                    <div class="dt-inc-cell__v">0원</div>
-                  </div>
-                  <div class="dt-inc-cell">
-                    <div class="dt-inc-cell__k">희망 소득</div>
-                    <div class="dt-inc-cell__v">0원</div>
+                  <div class="dt-inc-dash__tile dt-inc-dash__tile--total">
+                    <span class="dt-inc-dash__k">총 소득</span>
+                    <strong class="dt-inc-dash__v">350만원</strong>
+                    <span class="dt-inc-dash__s">4계층 합계</span>
                   </div>
                 </div>
-                <p class="text-sm mt-10 dt-mock__foot-sum">합계 0원</p>
+                <div class="dt-inc-bar" role="img" aria-label="소득 계층 비율">
+                  <span class="dt-inc-bar__seg dt-inc-bar__seg--real" style="width:71.4%"></span>
+                  <span class="dt-inc-bar__seg dt-inc-bar__seg--sched" style="width:14.3%"></span>
+                  <span class="dt-inc-bar__seg dt-inc-bar__seg--other" style="width:5.7%"></span>
+                  <span class="dt-inc-bar__seg dt-inc-bar__seg--hope" style="width:8.6%"></span>
+                </div>
+
+                <h3 class="dt-mock-h dt-mock-h--spaced">수입 계층 입력</h3>
+                <ol class="dt-inc-tiers">
+                  <li class="dt-inc-tier dt-inc-tier--real">
+                    <span class="dt-inc-tier__badge">1</span>
+                    <div class="dt-inc-tier__meta">
+                      <strong>실제소득</strong>
+                      <span>현재 확보된 가용 자산</span>
+                    </div>
+                    <strong class="dt-inc-tier__amt">250만원</strong>
+                  </li>
+                  <li class="dt-inc-tier dt-inc-tier--sched">
+                    <span class="dt-inc-tier__badge">2</span>
+                    <div class="dt-inc-tier__meta">
+                      <strong>예정소득</strong>
+                      <span>확실도 높은 입금 예정</span>
+                    </div>
+                    <strong class="dt-inc-tier__amt">50만원</strong>
+                  </li>
+                  <li class="dt-inc-tier dt-inc-tier--other">
+                    <span class="dt-inc-tier__badge">3</span>
+                    <div class="dt-inc-tier__meta">
+                      <strong>기타소득</strong>
+                      <span>부수입·비정기</span>
+                    </div>
+                    <strong class="dt-inc-tier__amt">20만원</strong>
+                  </li>
+                  <li class="dt-inc-tier dt-inc-tier--hope">
+                    <span class="dt-inc-tier__badge">✦</span>
+                    <div class="dt-inc-tier__meta">
+                      <strong>희망소득</strong>
+                      <span>N잡·목표 소득</span>
+                    </div>
+                    <strong class="dt-inc-tier__amt">30만원</strong>
+                  </li>
+                </ol>
+
+                <h3 class="dt-mock-h dt-mock-h--spaced">구조화 데이터</h3>
+                <div class="table-wrap dt-mini-table-wrap">
+                  <table class="data-table dt-mini-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">계층</th>
+                        <th scope="col" class="num">금액</th>
+                        <th scope="col" class="num">비중</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td>실제소득</td><td class="num">2,500,000</td><td class="num">71.4%</td></tr>
+                      <tr><td>예정소득</td><td class="num">500,000</td><td class="num">14.3%</td></tr>
+                      <tr><td>기타소득</td><td class="num">200,000</td><td class="num">5.7%</td></tr>
+                      <tr><td>희망소득</td><td class="num">300,000</td><td class="num">8.6%</td></tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
@@ -303,12 +354,54 @@
           </p>
           <div class="dt-mock-wrap">
             <div class="dt-mock dt-mock--wf" aria-hidden="true">
-              <div class="dt-mock__body">
-                <div class="dt-wf-row"><span>월 가용 수입</span><strong>0원</strong></div>
-                <div class="dt-wf-row"><span>고정 지출</span><strong>0원</strong></div>
-                <div class="dt-wf-row"><span>가용 비전 상한</span><strong>0원</strong></div>
-                <div class="dt-wf-row"><span>비전 할당 합계</span><strong>0원</strong></div>
-                <div class="dt-wf-row"><span>잔여 가용</span><strong style="color: var(--color-primary)">0원</strong></div>
+              <div class="dt-mock__body dt-vb-mock">
+                <div class="dt-vb-block">
+                  <h3 class="dt-mock-h">전체 수입(가용)</h3>
+                  <div class="dt-vb-field"><span>월 가용 수입</span><strong>350만원</strong></div>
+                </div>
+                <div class="dt-vb-block">
+                  <h3 class="dt-mock-h">고정 지출(필수 생활비)</h3>
+                  <div class="dt-vb-field"><span>이번 달 고정 지출 합계</span><strong>120만원</strong></div>
+                </div>
+                <div class="dt-vb-live">
+                  <h3 class="dt-mock-h">실시간 가용 예산</h3>
+                  <div class="dt-vb-live__grid">
+                    <div><span>가용 비전 상한</span><strong>230만원</strong></div>
+                    <div><span>비전 할당 합계</span><strong>80만원</strong></div>
+                    <div><span>잔여</span><strong class="dt-vb-live__ok">150만원</strong></div>
+                  </div>
+                </div>
+                <div class="dt-vb-block">
+                  <h3 class="dt-mock-h">비전 설정 · 예시</h3>
+                  <div class="dt-vb-form-preview">
+                    <span class="dt-vb-chip">1. 필수(의무)</span>
+                    <strong>비상금 1,000만 원</strong>
+                    <div class="dt-vb-form-preview__row"><span>최종 목표</span><span>1,000만원</span></div>
+                    <div class="dt-vb-form-preview__row"><span>현재까지</span><span>320만원</span></div>
+                    <div class="dt-vb-form-preview__row"><span>이번 달 할당</span><span>50만원</span></div>
+                  </div>
+                </div>
+                <div class="dt-vb-block">
+                  <h3 class="dt-mock-h">우선순위 배분</h3>
+                  <ul class="dt-vb-list">
+                    <li>
+                      <span class="dt-vb-list__num">1</span>
+                      <div>
+                        <strong>비상금</strong>
+                        <span>필수 · 월 50만원</span>
+                      </div>
+                      <em>32%</em>
+                    </li>
+                    <li>
+                      <span class="dt-vb-list__num">2</span>
+                      <div>
+                        <strong>일본 여행 시드</strong>
+                        <span>필요 · 월 30만원</span>
+                      </div>
+                      <em>45%</em>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -326,29 +419,78 @@
             필요할 때만 전용 절차로 락을 해제한 뒤 조정하고 다시 확정할 수 있습니다.
           </p>
           <div class="dt-mock-wrap">
-            <div class="dt-mock" aria-hidden="true">
-              <div class="dt-lock dt-lock--compare">
-                <div class="dt-lock-state">
-                  <span class="dt-lock-state__ic" aria-hidden="true">
-                    <svg class="dt-lock-svg dt-lock-svg--open" viewBox="0 0 24 24" width="52" height="52" fill="none"
-                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
-                        d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                    </svg>
-                  </span>
-                  <span class="dt-lock-state__lbl">확정 전</span>
-                  <p class="dt-lock-state__cap">예산 작성 / 수정 가능</p>
+            <div class="dt-mock dt-mock--lock" aria-hidden="true">
+              <div class="dt-mock__body dt-lock-mock">
+                <div class="dt-lock-mock__month">
+                  <h3 class="dt-mock-h">기준 월 · 상태</h3>
+                  <div class="dt-lock-mock__status">
+                    <span>2026년 4월</span>
+                    <span class="dt-lock-mock__badge">LOCK · 확정됨</span>
+                  </div>
                 </div>
-                <div class="dt-lock-state">
-                  <span class="dt-lock-state__ic" aria-hidden="true">
-                    <svg class="dt-lock-svg dt-lock-svg--closed" viewBox="0 0 24 24" width="52" height="52" fill="none"
-                      xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                      <path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
-                        d="M16.5 10.5V6.75a4.5 4.5 0 00-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-                    </svg>
-                  </span>
-                  <span class="dt-lock-state__lbl">확정 후</span>
-                  <p class="dt-lock-state__cap">닫힌 자물쇠 · LOCK · 2026년 4월 예산</p>
+                <div class="dt-lock-mock__data">
+                  <h3 class="dt-mock-h">예산안 데이터</h3>
+                  <div class="dt-lock-mock__grid">
+                    <div class="dt-lock-mock__fieldset">
+                      <p class="dt-lock-mock__legend">소득 (4단계)</p>
+                      <div class="dt-lock-mock__row"><span>실제소득</span><strong>250만원</strong></div>
+                      <div class="dt-lock-mock__row"><span>예정소득</span><strong>50만원</strong></div>
+                      <div class="dt-lock-mock__row"><span>기타소득</span><strong>20만원</strong></div>
+                      <div class="dt-lock-mock__row"><span>희망소득</span><strong>30만원</strong></div>
+                    </div>
+                    <div class="dt-lock-mock__fieldset">
+                      <p class="dt-lock-mock__legend">예산 배분</p>
+                      <div class="dt-lock-mock__row"><span>1. 필수(의무)</span><strong>115만원</strong></div>
+                      <div class="dt-lock-mock__row"><span>2. 필요</span><strong>69만원</strong></div>
+                      <div class="dt-lock-mock__row"><span>3. 선한 영향력</span><strong>46만원</strong></div>
+                      <p class="text-sm dt-lock-mock__note">4. 요망은 잔여에서 별도 관리</p>
+                    </div>
+                  </div>
+                  <p class="text-sm dt-lock-mock__sum">총 소득 350만원 · 배분 합 230만원 · 잔여 120만원</p>
+                  <div class="dt-lock-mock__btns">
+                    <span class="dt-fake-btn dt-fake-btn--primary">이번 달 예산안 확정하기</span>
+                    <span class="dt-fake-btn">락 해제 (수정)</span>
+                  </div>
+                </div>
+                <div class="dt-lock-mock__history">
+                  <h3 class="dt-mock-h">변경 이력 타임라인</h3>
+                  <ol class="dt-lock-mock__tl">
+                    <li><strong>확정</strong> · 2026.04.01 09:12 · 필수 115 / 필요 69 / 선한 46</li>
+                    <li><strong>해제</strong> · 2026.04.08 21:40 · 통신비 인상 반영</li>
+                    <li><strong>재확정</strong> · 2026.04.08 21:55 · 필요 66 → 69</li>
+                  </ol>
+                </div>
+                <div class="dt-lock-mock__archive">
+                  <h3 class="dt-mock-h">확정 스냅샷 보존함</h3>
+                  <div class="table-wrap dt-mini-table-wrap">
+                    <table class="data-table dt-mini-table">
+                      <thead>
+                        <tr>
+                          <th scope="col">기준 월</th>
+                          <th scope="col">확정 일시</th>
+                          <th scope="col" class="num">총 소득</th>
+                          <th scope="col" class="num">배분 합</th>
+                          <th scope="col" class="num">잔여</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>2026-04</td>
+                          <td>04.08 21:55</td>
+                          <td class="num">350만</td>
+                          <td class="num">230만</td>
+                          <td class="num">120만</td>
+                        </tr>
+                        <tr>
+                          <td>2026-03</td>
+                          <td>03.02 10:04</td>
+                          <td class="num">340만</td>
+                          <td class="num">220만</td>
+                          <td class="num">120만</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -362,62 +504,91 @@
             <h2 id="dt-f5" class="dt-feature__name">카테고리별 예산 분배 시뮬레이터</h2>
           </div>
           <p class="dt-feature__guide dt-guide-text dt-prose-br">
-            <strong>배분 막대·도넛·합계 요약</strong>으로 비율을 읽습니다.
+            분배 가능 금액 안에서 <strong>필수·필요·선한 영향력</strong> 비중을 슬라이더와 도넛으로 맞춥니다.
           </p>
           <div class="dt-mock-wrap">
-            <div class="dt-mock" aria-hidden="true">
-              <div class="dt-mock__body dt-bs-mock">
-                <p class="text-sm dt-bs-mock__kicker">가용 수입·배분을 입력하면 아래에 반영됩니다</p>
-                <ul class="dt-bs-legend" role="list">
-                  <li><span class="dt-bs-dot dt-bs-dot--food"></span> 식비 <strong>0원</strong></li>
-                  <li><span class="dt-bs-dot dt-bs-dot--home"></span> 주거비 <strong>0원</strong></li>
-                  <li><span class="dt-bs-dot dt-bs-dot--tel"></span> 통신비 <strong>0원</strong></li>
-                </ul>
-                <div class="dt-stack-bar" role="img" aria-label="식비·주거·통신 비중 막대">
-                  <span class="dt-stack-bar__seg dt-stack-bar__seg--food" style="width: 33.33%"></span>
-                  <span class="dt-stack-bar__seg dt-stack-bar__seg--home" style="width: 33.33%"></span>
-                  <span class="dt-stack-bar__seg dt-stack-bar__seg--tel" style="width: 33.34%"></span>
+            <div class="dt-mock dt-mock--sim" aria-hidden="true">
+              <div class="dt-mock__body dt-sim-mock">
+                <div class="dt-sim-base">
+                  <h3 class="dt-mock-h">기준값 · 2026년 4월</h3>
+                  <div class="dt-sim-base__grid">
+                    <div><span>전체 수입(가용)</span><strong>350만원</strong></div>
+                    <div><span>고정 지출</span><strong>120만원</strong></div>
+                  </div>
+                  <p class="dt-sim-pool">분배 가능 금액 <strong>230만원</strong></p>
                 </div>
-                <div class="dt-donut-wrap">
-                  <div class="dt-donut" aria-hidden="true"></div>
-                  <div class="dt-donut-legend text-sm">
-                    <span><span class="dt-bs-dot dt-bs-dot--food"></span> 0%</span>
-                    <span><span class="dt-bs-dot dt-bs-dot--home"></span> 0%</span>
-                    <span><span class="dt-bs-dot dt-bs-dot--tel"></span> 0%</span>
+                <div class="dt-sim-adjust">
+                  <div class="dt-sim-adjust__head">
+                    <h3 class="dt-mock-h">카테고리 조정</h3>
+                    <span class="dt-lock-mock__badge dt-lock-mock__badge--muted">편집 가능</span>
+                  </div>
+                  <div class="dt-sim-item">
+                    <div class="dt-sim-item__head">
+                      <div>
+                        <strong>1. 필수(의무)</strong>
+                        <span>주거·식재료·교통·보험 등</span>
+                      </div>
+                      <em>115만원</em>
+                    </div>
+                    <div class="dt-sim-range"><span style="width:50%"></span></div>
+                    <div class="dt-sim-meta"><span>50%</span><span>권장 50%</span></div>
+                  </div>
+                  <div class="dt-sim-item">
+                    <div class="dt-sim-item__head">
+                      <div>
+                        <strong>2. 필요</strong>
+                        <span>외식·쇼핑·취미·여행</span>
+                      </div>
+                      <em>69만원</em>
+                    </div>
+                    <div class="dt-sim-range"><span style="width:30%"></span></div>
+                    <div class="dt-sim-meta"><span>30%</span><span>권장 30%</span></div>
+                  </div>
+                  <div class="dt-sim-item">
+                    <div class="dt-sim-item__head">
+                      <div>
+                        <strong>3. 선한 영향력</strong>
+                        <span>저축·투자·비상금·상환</span>
+                      </div>
+                      <em>46만원</em>
+                    </div>
+                    <div class="dt-sim-range"><span style="width:20%"></span></div>
+                    <div class="dt-sim-meta"><span>20%</span><span>권장 20%</span></div>
+                  </div>
+                  <div class="dt-bs-summary">
+                    <div class="dt-bs-summary__tile"><span class="dt-bs-summary__k">합계</span><span class="dt-bs-summary__v">230만원</span></div>
+                    <div class="dt-bs-summary__tile"><span class="dt-bs-summary__k">남는 금액</span><span class="dt-bs-summary__v dt-bs-summary__v--ok">0원</span></div>
+                    <div class="dt-bs-summary__tile"><span class="dt-bs-summary__k">상태</span><span class="dt-bs-summary__v">정상</span></div>
                   </div>
                 </div>
-                <div class="dt-bs-summary">
-                  <div class="dt-bs-summary__tile">
-                    <span class="dt-bs-summary__k">합계</span>
-                    <span class="dt-bs-summary__v">0원</span>
+                <div class="dt-sim-viz">
+                  <h3 class="dt-mock-h">비중 시각화</h3>
+                  <div class="dt-sim-donut-wrap">
+                    <div class="dt-sim-donut" role="img" aria-label="필수 50 필요 30 선한 20"></div>
+                    <ul class="dt-sim-donut-legend">
+                      <li><span class="dt-fh-dot dt-sim-dot--need"></span>필수 50%</li>
+                      <li><span class="dt-fh-dot dt-sim-dot--want"></span>필요 30%</li>
+                      <li><span class="dt-fh-dot dt-sim-dot--save"></span>선한 20%</li>
+                    </ul>
                   </div>
-                  <div class="dt-bs-summary__tile">
-                    <span class="dt-bs-summary__k">남는 금액</span>
-                    <span class="dt-bs-summary__v dt-bs-summary__v--ok">0원</span>
-                  </div>
-                  <div class="dt-bs-summary__tile">
-                    <span class="dt-bs-summary__k">상태</span>
-                    <span class="dt-bs-summary__v">—</span>
+                  <div class="table-wrap dt-mini-table-wrap">
+                    <table class="data-table dt-mini-table">
+                      <thead>
+                        <tr>
+                          <th scope="col">항목</th>
+                          <th scope="col" class="num">현재</th>
+                          <th scope="col" class="num">권장</th>
+                          <th scope="col" class="num">차이</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr><td>필수</td><td class="num">50%</td><td class="num">50%</td><td class="num">0</td></tr>
+                        <tr><td>필요</td><td class="num">30%</td><td class="num">30%</td><td class="num">0</td></tr>
+                        <tr><td>선한 영향력</td><td class="num">20%</td><td class="num">20%</td><td class="num">0</td></tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
-                <p class="text-sm dt-bs-divider-label">초과·경고는 실제 입력 값에 따라 표시됩니다</p>
-                <div class="dt-bs-summary dt-bs-summary--warn">
-                  <div class="dt-bs-summary__tile">
-                    <span class="dt-bs-summary__k">합계</span>
-                    <span class="dt-bs-summary__v">0원</span>
-                  </div>
-                  <div class="dt-bs-summary__tile">
-                    <span class="dt-bs-summary__k">남는 금액</span>
-                    <span class="dt-bs-summary__v dt-bs-summary__v--bad">0원</span>
-                  </div>
-                  <div class="dt-bs-summary__tile">
-                    <span class="dt-bs-summary__k">상태</span>
-                    <span class="dt-bs-summary__v dt-bs-summary__v--bad">—</span>
-                  </div>
-                </div>
-                <p class="text-sm dt-bs-warn-msg" role="status">
-                  수치를 입력한 뒤, 필요 시 이 영역에 검증 메시지가 나타납니다.
-                </p>
               </div>
             </div>
           </div>
@@ -499,18 +670,45 @@
           </p>
           <div class="dt-mock-wrap">
             <div class="dt-mock dt-mock--daily-list" aria-hidden="true">
-              <div class="dt-mock__body">
+              <div class="dt-mock__body dt-note-mock">
+                <h3 class="dt-mock-h">오늘의 소비 평가</h3>
+                <p class="text-sm dt-mock-lead">Good / Normal / Bad와 한 문장으로 하루를 남깁니다.</p>
                 <div class="daily-rating-row">
                   <button type="button" class="daily-rate-btn" tabindex="-1" disabled>Good</button>
                   <button type="button" class="daily-rate-btn is-active" tabindex="-1" disabled>Normal</button>
                   <button type="button" class="daily-rate-btn" tabindex="-1" disabled>Bad</button>
                 </div>
+                <div class="dt-note-form">
+                  <div class="dt-note-form__date">
+                    <span class="field-label">날짜</span>
+                    <span class="dt-note-form__value">2026-04-12</span>
+                  </div>
+                  <div class="dt-note-form__input">
+                    <span class="field-label">한 줄 평</span>
+                    <span class="dt-note-form__value">점심은 도시락, 저녁만 외식했다.</span>
+                  </div>
+                  <span class="dt-fake-btn">입력</span>
+                </div>
                 <ul class="diary-list dt-diary-mock-list">
                   <li class="diary-item diary-item--row">
                     <div class="diary-item__body">
-                      <span class="diary-item__text">「오늘은 계획 안에서 소비했다.」</span>
+                      <span class="diary-item__text">「점심은 도시락, 저녁만 외식했다.」</span>
                       <span class="diary-item__sep"> — </span>
-                      <span class="diary-item__meta">2026. 4. 7. 오후 9:00</span>
+                      <span class="diary-item__meta">2026. 4. 12. · Normal</span>
+                    </div>
+                  </li>
+                  <li class="diary-item diary-item--row">
+                    <div class="diary-item__body">
+                      <span class="diary-item__text">「계획 안에서 장을 봤다.」</span>
+                      <span class="diary-item__sep"> — </span>
+                      <span class="diary-item__meta">2026. 4. 11. · Good</span>
+                    </div>
+                  </li>
+                  <li class="diary-item diary-item--row">
+                    <div class="diary-item__body">
+                      <span class="diary-item__text">「충동 배송비까지 나갔다. 내일 조정.」</span>
+                      <span class="diary-item__sep"> — </span>
+                      <span class="diary-item__meta">2026. 4. 10. · Bad</span>
                     </div>
                   </li>
                 </ul>
@@ -532,35 +730,38 @@
           <div class="dt-mock-wrap">
             <div class="dt-mock dt-mock--sense" aria-hidden="true">
               <div class="dt-mock__body">
-                <div class="daily-quick dt-demo-quick">
+                <div class="daily-quick dt-demo-quick dt-sense-mock">
                   <h3 class="daily-quick__title">퀵 입력 · 지출</h3>
                   <div class="daily-quick__grid mt-16">
                     <label class="field">
                       <span class="field-label">금액</span>
                       <div class="money-wrap">
-                        <input class="money-input daily-quick-amount" type="text" readonly tabindex="-1" value="" />
+                        <input class="money-input daily-quick-amount" type="text" readonly tabindex="-1" value="18,500" />
                         <span class="won" aria-hidden="true">원</span>
                       </div>
                     </label>
                     <label class="field">
                       <span class="field-label">카테고리</span>
-                      <input class="daily-quick-cat" type="text" readonly tabindex="-1" value="" />
+                      <input class="daily-quick-cat" type="text" readonly tabindex="-1" value="식비 · 점심" />
                     </label>
                   </div>
+                  <label class="dt-sense-check">
+                    <span class="dt-sense-check__box" aria-hidden="true"></span>
+                    <span>돌발 지출로 표시</span>
+                  </label>
                   <div class="daily-quick__live mt-16">
                     <p class="daily-quick__budget dt-sense-lead">
-                      오늘의 한 건 지출(0원)이 흐름 안에서 차지하는 <strong>비중</strong>을 보면, 비전을 채우는 한
-                      조각의 무게가 보입니다.
+                      오늘의 한 건 지출(<strong>18,500원</strong>)은 이번 달 예산 280만원 기준
+                      <strong>약 0.66%</strong>, 오늘 가용 잔액 대비 <strong>12%</strong>입니다.
                     </p>
                     <div class="daily-pct-wrap">
                       <div class="daily-pct-bar" role="presentation">
-                        <span class="daily-pct-fill" style="width: 8%"></span>
+                        <span class="daily-pct-fill" style="width: 12%"></span>
                       </div>
-                      <p class="text-sm daily-pct-label">
-                        예산·지출이 있으면 1원 단위 비중으로 풀어 표시됩니다
-                      </p>
+                      <p class="text-sm daily-pct-label">오늘 시작 잔액 15만원 · 지출 후 잔액 131,500원</p>
                     </div>
                   </div>
+                  <span class="dt-fake-btn dt-fake-btn--primary dt-fake-btn--block">지출로 기록에 추가</span>
                 </div>
               </div>
             </div>
@@ -575,11 +776,11 @@
           </div>
           <p class="dt-feature__guide dt-guide-text dt-prose-br">
             수립한 예산 밖의 <strong>돌발 지출이 없었던 날</strong>에 예산 준수(Budget Integrity) 스티커가 붙습니다. 인색함이
-            아니라 <strong>계획의 완벽함</strong>을 지향합니다.
+            아니라 <strong>계획의 완벽함</strong>을 지향합니다. 스티커가 없는 날은 예산 밖 지출이 있었던 날입니다.
           </p>
           <div class="dt-mock-wrap">
             <div class="dt-mock dt-mock--embed-cal" aria-hidden="true">
-              <p class="money-cal__demo-kicker">2026년 4월 · 예산 준수(BI) 스티커</p>
+              <p class="money-cal__demo-kicker">2026년 4월 · 준수(BI)와 미준수 날이 섞인 예시</p>
               <div class="money-calendar">
                 <div class="money-cal__dow" aria-hidden="true">
                   <div class="money-cal__dow-cell">일</div>
@@ -845,7 +1046,7 @@
           <div class="dt-mock-wrap">
             <div class="dt-mock dt-mock--review" aria-hidden="true">
               <div class="dt-mock__body dt-mr-mock">
-                <p class="text-sm dt-mr-mock__kicker">기준 월 2026년 4월</p>
+                <p class="text-sm dt-mr-mock__kicker">기준 월 2026년 4월 · Needs / Wants / Savings</p>
                 <div class="table-wrap dt-mr-table-wrap">
                   <table class="data-table dt-mr-table">
                     <thead>
@@ -858,50 +1059,48 @@
                     </thead>
                     <tbody>
                       <tr>
-                        <td>식비</td>
-                        <td class="num">0</td>
-                        <td class="num">0</td>
-                        <td class="num dt-mr-diff--good">0</td>
+                        <td>필수 (Needs)</td>
+                        <td class="num">1,150,000</td>
+                        <td class="num">1,086,000</td>
+                        <td class="num dt-mr-diff--good">+64,000</td>
                       </tr>
                       <tr>
-                        <td>통신비</td>
-                        <td class="num">0</td>
-                        <td class="num">0</td>
-                        <td class="num dt-mr-diff--good">0</td>
+                        <td>필요 (Wants)</td>
+                        <td class="num">690,000</td>
+                        <td class="num">742,000</td>
+                        <td class="num dt-mr-diff--bad">−52,000</td>
                       </tr>
                       <tr>
-                        <td>주거·공과</td>
-                        <td class="num">0</td>
-                        <td class="num">0</td>
+                        <td>저축·투자 (Savings)</td>
+                        <td class="num">460,000</td>
+                        <td class="num">460,000</td>
                         <td class="num">0</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <p class="text-sm mt-16 dt-mr-chart-title">배분(필수 지출·선택적 지출·저축 및 투자) 대비 지출</p>
+                <p class="text-sm mt-16 dt-mr-chart-title">배분(필수·선택·저축) 대비 지출</p>
                 <div class="mr-chart dt-mr-chart" role="img" aria-label="배분 대비 지출 막대 데모">
                   <div class="mr-chart-row">
                     <span class="mr-chart-label">필수</span>
-                    <div class="mr-bar"><span style="width: 0%"></span></div>
-                    <span class="mr-chart-pct">0%</span>
+                    <div class="mr-bar"><span style="width: 94%"></span></div>
+                    <span class="mr-chart-pct">94%</span>
                   </div>
                   <div class="mr-chart-row">
                     <span class="mr-chart-label">선택</span>
-                    <div class="mr-bar"><span style="width: 0%"></span></div>
-                    <span class="mr-chart-pct">0%</span>
+                    <div class="mr-bar"><span style="width: 100%"></span></div>
+                    <span class="mr-chart-pct">108%</span>
                   </div>
                   <div class="mr-chart-row">
                     <span class="mr-chart-label">저축</span>
-                    <div class="mr-bar"><span style="width: 0%"></span></div>
-                    <span class="mr-chart-pct">0%</span>
+                    <div class="mr-bar"><span style="width: 100%"></span></div>
+                    <span class="mr-chart-pct">100%</span>
                   </div>
                 </div>
                 <ul class="dt-mr-notes text-sm">
-                  <li>
-                    <strong>기록이 쌓이면</strong> 여기에 배분 대비 지출에 대한 복기 메시지가 나타납니다.
-                  </li>
-                  <li><strong>예·실차이</strong>는 직접 입력한 데일리와 예산 설계에 따라 달라집니다.</li>
-                  <li class="dt-mr-notes__one">한 줄평: (입력한 한 줄 소비 코멘트)</li>
+                  <li><strong>Wants</strong>가 계획 대비 초과했습니다. 외식·배달 횟수 상한을 1개 고정해 보세요.</li>
+                  <li><strong>Needs</strong>는 여유를 유지했습니다. 고정비 구조는 안정적입니다.</li>
+                  <li class="dt-mr-notes__one">한 줄평: 주말 배달만 줄여도 선택 지출이 맞춰진다.</li>
                 </ul>
               </div>
             </div>
@@ -979,14 +1178,38 @@
             </li>
           </ul>
           <div class="dt-mock-wrap">
-            <div class="dt-mock dt-mock--export-philosophy" aria-hidden="true">
-              <div class="dt-mock__body dt-export-philosophy">
-                <div class="dt-export-philosophy__row">
-                  <span>데이터 통합 내보내기</span><span class="dt-export-philosophy__tag">Excel</span>
+            <div class="dt-mock dt-mock--export" aria-hidden="true">
+              <div class="dt-mock__body dt-bk-mock">
+                <div class="dt-bk-block">
+                  <h3 class="dt-mock-h">데이터 통합 내보내기</h3>
+                  <p class="text-sm dt-mock-lead">1~16 전 기능 통합 엑셀로 내려받거나, 워크북을 불러와 동기화합니다.</p>
+                  <div class="dt-bk-excel">
+                    <span class="dt-fake-btn dt-fake-btn--primary">1~16 전 기능 통합 엑셀 추출</span>
+                    <span class="dt-fake-btn">현재 화면 엑셀 저장</span>
+                    <span class="dt-fake-btn">엑셀 불러오기</span>
+                  </div>
                 </div>
-                <div class="dt-export-philosophy__row">
-                  <span>암호화 백업 · 복원</span><span class="dt-export-philosophy__tag">보안</span>
+                <div class="dt-bk-split">
+                  <div class="dt-bk-panel">
+                    <h3 class="dt-mock-h">암호화 백업</h3>
+                    <div class="dt-bk-pass">
+                      <span class="field-label">백업 비밀번호</span>
+                      <span class="dt-bk-pass__field">••••••••</span>
+                      <span class="dt-fake-btn dt-fake-btn--primary">백업하기</span>
+                    </div>
+                  </div>
+                  <div class="dt-bk-panel">
+                    <h3 class="dt-mock-h">복원</h3>
+                    <p class="text-sm dt-mock-lead">보안 백업 zip을 선택한 뒤 비밀번호로 복원합니다.</p>
+                    <div class="dt-bk-restore">
+                      <span class="dt-fake-btn">파일 선택</span>
+                      <span class="dt-bk-file">money-calendar-backup-2026-04-12.zip</span>
+                      <span class="dt-bk-pass__field">복원 비밀번호</span>
+                      <span class="dt-fake-btn">복원하기</span>
+                    </div>
+                  </div>
                 </div>
+                <p class="text-sm dt-bk-hint">※ 비밀번호 분실 시 복원이 어려울 수 있으니 본인만 아는 곳에 기록해 주세요.</p>
               </div>
             </div>
           </div>
@@ -1001,6 +1224,85 @@
           <p class="dt-feature__guide dt-guide-text dt-prose-br">
             목표를 수치로 바라보면, 오늘의 선택이 <strong>미래 시점</strong>에 닿는 경로가 보입니다.
           </p>
+          <div class="dt-mock-wrap">
+            <div class="dt-mock dt-mock--vision" aria-hidden="true">
+              <div class="dt-mock__body dt-vs-mock">
+                <p class="dt-vs-mock__kicker">기준 · 연 수익률 가정 5%</p>
+
+                <div class="dt-vs-metrics">
+                  <div class="dt-vs-metric">
+                    <span class="dt-vs-metric__label">목표 자산액</span>
+                    <strong class="dt-vs-metric__value">5,000만원</strong>
+                  </div>
+                  <div class="dt-vs-metric">
+                    <span class="dt-vs-metric__label">현재 누적</span>
+                    <strong class="dt-vs-metric__value">800만원</strong>
+                  </div>
+                  <div class="dt-vs-metric">
+                    <span class="dt-vs-metric__label">월 비전 적립</span>
+                    <strong class="dt-vs-metric__value">50만원</strong>
+                  </div>
+                </div>
+
+                <div class="dt-vs-dday">
+                  <p class="dt-vs-dday__title">목표 달성 예정</p>
+                  <p class="dt-vs-dday__main">현재 비전 적립 속도(월 50만원)로 약 72개월 뒤 목표에 근접한다는 단순 추정입니다.</p>
+                  <p class="dt-vs-dday__sub">참고 달력 시점: 약 2032년 4월 · D-Day 약 2,190일 후</p>
+                </div>
+
+                <div class="dt-vs-curve-block">
+                  <p class="dt-vs-curve-block__title">비전이 자라는 성장 곡선</p>
+                  <svg class="dt-vs-curve" viewBox="0 0 640 180" role="img" aria-label="비전 적립 기준 예상 잔액 곡선 데모">
+                    <defs>
+                      <linearGradient id="dt-vs-fill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="currentColor" stop-opacity="0.22" />
+                        <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <line class="dt-vs-curve__axis" x1="36" y1="150" x2="604" y2="150" />
+                    <path class="dt-vs-curve__area"
+                      d="M36 138 C 120 132, 180 118, 240 98 S 360 62, 420 48 S 540 28, 604 18 L 604 150 L 36 150 Z"
+                      fill="url(#dt-vs-fill)" />
+                    <path class="dt-vs-curve__line"
+                      d="M36 138 C 120 132, 180 118, 240 98 S 360 62, 420 48 S 540 28, 604 18"
+                      fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" />
+                    <circle class="dt-vs-curve__dot" cx="36" cy="138" r="4.5" />
+                    <circle class="dt-vs-curve__dot" cx="604" cy="18" r="5" />
+                    <text class="dt-vs-curve__label" x="36" y="170">지금</text>
+                    <text class="dt-vs-curve__label" x="220" y="170">3년</text>
+                    <text class="dt-vs-curve__label" x="400" y="170">6년</text>
+                    <text class="dt-vs-curve__label" x="580" y="170">10년</text>
+                  </svg>
+                  <p class="text-sm dt-guide-text dt-chart-caption">10년 · 예상 잔액(복리·월 적립 반영)</p>
+                </div>
+
+                <div class="dt-vs-fork">
+                  <p class="dt-vs-fork__title">곡선 끝, 완성도의 분기점</p>
+                  <div class="dt-vs-fork__cols">
+                    <div class="dt-vs-fork__col dt-vs-fork__col--low">
+                      <span class="dt-vs-fork__tag">미완 · 99%</span>
+                      <strong class="dt-vs-fork__amt">9,900만원</strong>
+                      <span class="dt-vs-fork__hint">거의 달성(비유)</span>
+                    </div>
+                    <div class="dt-vs-fork__gap" aria-hidden="true">
+                      <span>한 조각</span>
+                      <span>↔</span>
+                    </div>
+                    <div class="dt-vs-fork__col dt-vs-fork__col--high">
+                      <span class="dt-vs-fork__tag">완성 · 100%</span>
+                      <strong class="dt-vs-fork__amt">1억원</strong>
+                      <span class="dt-vs-fork__hint">비전에 닿는 완성</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dt-ai dt-guide-text dt-vs-msg">
+                  작은 선택 한 조각이 모여 비전의 완성도를 결정합니다.<br />
+                  월 50만원의 반복이 10년 뒤의 곡선을 만듭니다.
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- 16 -->
@@ -1012,24 +1314,122 @@
           <p class="dt-feature__guide dt-guide-text dt-prose-br">
             지표로 상태를 점검하고, 다음 달 계획을 더 <strong>흔들리지 않게</strong> 보정합니다.
           </p>
+          <div class="dt-mock-wrap">
+            <div class="dt-mock dt-mock--health" aria-hidden="true">
+              <div class="dt-mock__body dt-fh-mock">
+                <div class="dt-fh-hero">
+                  <div class="dt-fh-hero__head">
+                    <h3 class="dt-fh-hero__title">이번 달 성취</h3>
+                    <p class="dt-fh-hero__sub">2026년 4월</p>
+                  </div>
+                  <p class="dt-fh-hero__msg">
+                    이번 달 예산의 견고함: 여유 12%. 돌발 지출 방어율 94% (예산 외 표시 지출 8만원).
+                    가치 있는 배정을 지키셨습니다.
+                  </p>
+                  <div class="dt-fh-kpi" aria-label="요약 지표">
+                    <div class="dt-fh-kpi__item">
+                      <span class="dt-fh-kpi__label">총 수입</span>
+                      <strong class="dt-fh-kpi__value">320만원</strong>
+                    </div>
+                    <div class="dt-fh-kpi__item">
+                      <span class="dt-fh-kpi__label">총 지출</span>
+                      <strong class="dt-fh-kpi__value">246만원</strong>
+                    </div>
+                    <div class="dt-fh-kpi__item">
+                      <span class="dt-fh-kpi__label">예산</span>
+                      <strong class="dt-fh-kpi__value">280만원</strong>
+                    </div>
+                    <div class="dt-fh-kpi__item">
+                      <span class="dt-fh-kpi__label">예산 대비</span>
+                      <strong class="dt-fh-kpi__value dt-fh-kpi__value--good">+34만원</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dt-fh-block">
+                  <div class="dt-fh-block__head">
+                    <h3 class="dt-fh-block__title">건전성 지표 차트</h3>
+                    <p class="dt-fh-block__hint">2026-04 · 눈금 최대 320만원</p>
+                  </div>
+                  <p class="text-sm dt-fh-block__lead">수입·예산(상한)·지출을 같은 눈금으로 나란히 비교합니다.</p>
+                  <div class="dt-fh-composite" role="img" aria-label="수입 예산 지출 비교">
+                    <div class="dt-fh-composite__col">
+                      <div class="dt-fh-composite__track">
+                        <div class="dt-fh-composite__bar dt-fh-composite__bar--income" style="height: 100%"></div>
+                      </div>
+                      <span class="dt-fh-composite__label">수입</span>
+                      <span class="dt-fh-composite__val">320만</span>
+                    </div>
+                    <div class="dt-fh-composite__col">
+                      <div class="dt-fh-composite__track">
+                        <div class="dt-fh-composite__bar dt-fh-composite__bar--budget" style="height: 87.5%"></div>
+                      </div>
+                      <span class="dt-fh-composite__label">예산</span>
+                      <span class="dt-fh-composite__val">280만</span>
+                    </div>
+                    <div class="dt-fh-composite__col">
+                      <div class="dt-fh-composite__track">
+                        <div class="dt-fh-composite__bar dt-fh-composite__bar--expense" style="height: 76.9%"></div>
+                      </div>
+                      <span class="dt-fh-composite__label">지출</span>
+                      <span class="dt-fh-composite__val">246만</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dt-fh-block">
+                  <div class="dt-fh-block__head">
+                    <h3 class="dt-fh-block__title">총 수입 vs 총 지출</h3>
+                    <p class="dt-fh-block__hint">예산 대비 여유 유지</p>
+                  </div>
+                  <div class="dt-fh-compare">
+                    <div class="dt-fh-compare__row">
+                      <span class="dt-fh-compare__label">수입</span>
+                      <span class="dt-fh-compare__track">
+                        <span class="dt-fh-compare__fill dt-fh-compare__fill--income" style="width: 100%"></span>
+                      </span>
+                      <span class="dt-fh-compare__value">320만원</span>
+                    </div>
+                    <div class="dt-fh-compare__row">
+                      <span class="dt-fh-compare__label">지출</span>
+                      <span class="dt-fh-compare__track">
+                        <span class="dt-fh-compare__fill dt-fh-compare__fill--expense" style="width: 76.9%"></span>
+                      </span>
+                      <span class="dt-fh-compare__value">246만원</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dt-fh-block">
+                  <div class="dt-fh-block__head">
+                    <h3 class="dt-fh-block__title">지출 카테고리 비중</h3>
+                    <p class="dt-fh-block__hint">상위 비중 기준</p>
+                  </div>
+                  <div class="dt-fh-donut-wrap">
+                    <div class="dt-fh-donut" role="img" aria-label="지출 카테고리 도넛">
+                      <span class="dt-fh-donut__center">
+                        <span class="dt-fh-donut__center-label">지출</span>
+                        <strong class="dt-fh-donut__center-val">246만</strong>
+                      </span>
+                    </div>
+                    <ul class="dt-fh-legend">
+                      <li><span class="dt-fh-dot dt-fh-dot--food"></span>식비 <strong>32%</strong></li>
+                      <li><span class="dt-fh-dot dt-fh-dot--home"></span>주거 <strong>28%</strong></li>
+                      <li><span class="dt-fh-dot dt-fh-dot--transit"></span>교통 <strong>15%</strong></li>
+                      <li><span class="dt-fh-dot dt-fh-dot--etc"></span>기타 <strong>25%</strong></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
 
-      <section class="dt-cta" aria-labelledby="dt-cta-title">
-        <h2 id="dt-cta-title" class="dt-hero__title" style="font-size: 1.15rem">나만의 머니 캘린더로 이어지기</h2>
-        <p class="dt-guide-text dt-prose-br"
-          style="margin: 12px 0 0; color: var(--color-text-secondary); font-weight: 650">
-          웹에서 기록을 시작하면, 위에서 본 흐름이 직접 입력한 수치로만 채워집니다. 입력·편집은 브라우저에서 가장
-          편리합니다.
-        </p>
-        <div class="dt-cta__row dt-cta__row--single">
-          <a class="btn btn--lg dt-cta__primary" href="/pages/income-design/02_income_design.html">내 기록 시작하기</a>
-        </div>
-      </section>
-
       <footer class="page-foot mt-24 mb-20 dt-page-foot">
         <p class="text-sm text-center dt-guide-text">© 2026 Money Calendar. All rights reserved. | <a
-            href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a></p>
+            href="/legal.html#privacy">개인정보처리방침</a> | <a href="/legal.html#terms">이용약관</a> | <a
+            href="/faq.html">FAQ</a></p>
       </footer>
     </div>
     </div>
@@ -1056,6 +1456,41 @@
           "</svg>" +
           '<span class="money-cal__sticker-zero">BI</span>' +
           "</span>";
+        /* 준수(스티커) / 미준수(지출) — 실제처럼 일부만 스티커 */
+        var biDays = {
+          1: 1,
+          2: 1,
+          3: 1,
+          5: 1,
+          6: 1,
+          8: 1,
+          9: 1,
+          12: 1,
+          13: 1,
+          15: 1,
+          16: 1,
+          19: 1,
+          20: 1,
+          22: 1,
+          23: 1,
+          26: 1,
+          27: 1,
+          29: 1,
+          30: 1,
+        };
+        var overspend = {
+          4: "12,800원",
+          7: "45,200원",
+          10: "8,900원",
+          11: "23,100원",
+          14: "156,000원",
+          17: "6,700원",
+          18: "33,400원",
+          21: "19,500원",
+          24: "28,000원",
+          25: "11,200원",
+          28: "8,700원",
+        };
         var i;
         for (i = 0; i < first; i++) {
           var pad = document.createElement("div");
@@ -1064,21 +1499,30 @@
         }
         for (i = 1; i <= dim; i++) {
           var cell = document.createElement("div");
-          cell.className = "money-cal__cell has-nospend";
           var num = document.createElement("span");
           num.className = "money-cal__num";
           num.textContent = String(i);
           var amt = document.createElement("span");
           amt.className = "money-cal__amt";
-          amt.textContent = "0원";
-          var sticker = document.createElement("span");
-          sticker.className = "money-cal__sticker";
-          sticker.setAttribute("role", "img");
-          sticker.setAttribute("aria-label", "예산 준수 Budget Integrity");
-          sticker.innerHTML = stickerInner;
           cell.appendChild(num);
           cell.appendChild(amt);
-          cell.appendChild(sticker);
+
+          if (biDays[i]) {
+            cell.className = "money-cal__cell has-nospend";
+            amt.textContent = "0원";
+            var sticker = document.createElement("span");
+            sticker.className = "money-cal__sticker";
+            sticker.setAttribute("role", "img");
+            sticker.setAttribute("aria-label", "예산 준수 Budget Integrity");
+            sticker.innerHTML = stickerInner;
+            cell.appendChild(sticker);
+          } else if (overspend[i]) {
+            cell.className = "money-cal__cell has-overspend";
+            amt.textContent = overspend[i];
+          } else {
+            cell.className = "money-cal__cell";
+            amt.textContent = "—";
+          }
           grid.appendChild(cell);
         }
       }

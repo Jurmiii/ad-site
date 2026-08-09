@@ -45,20 +45,24 @@ body.mc-app {
   min-height: 3.125rem;
   padding: 0.5rem 0.375rem;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--border-default) 82%, transparent);
-  background: color-mix(in srgb, var(--color-surface) 76%, transparent);
+  /* 종이 배경과 구분: 살짝 올려 보이되 포인트 컬러는 약하게만 */
+  border: 1px solid color-mix(in srgb, var(--color-text-muted) 34%, var(--border-default));
+  background: color-mix(in srgb, var(--color-bg-soft) 72%, var(--color-surface));
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary);
   cursor: pointer;
-  box-shadow: 0 10px 32px rgba(15, 23, 42, 0.14);
-  transition: opacity 0.22s ease, transform 0.18s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.22s ease;
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-text-primary) 6%, transparent),
+    0 8px 22px rgba(15, 23, 42, 0.12);
+  transition: opacity 0.22s ease, transform 0.18s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.22s ease, color 0.2s ease;
   font: inherit;
 }
 
 .mc-scroll-top:hover {
   border-color: var(--hover-border-soft);
   background: var(--hover-fill-soft);
+  color: var(--color-text-primary);
   box-shadow: var(--hover-glow-soft);
 }
 
@@ -81,11 +85,148 @@ body.mc-app {
 }
 
 html[data-theme="dark"] .mc-scroll-top {
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.42);
+  border-color: color-mix(in srgb, var(--color-text-muted) 48%, var(--border-default));
+  background: color-mix(in srgb, var(--color-bg-soft) 78%, #1e293b);
+  color: var(--color-text-secondary);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06),
+    0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+/* 사용가이드·법적고지·FAQ: HOME + TOP 세로 스택 (HOME이 TOP 위) */
+.mc-fab-stack {
+  position: fixed;
+  right: max(2.25rem, calc(env(safe-area-inset-right, 0px) + 1.5rem));
+  bottom: max(2.5rem, calc(env(safe-area-inset-bottom, 0px) + 1.75rem));
+  z-index: var(--z-scroll-top);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.mc-fab-stack .mc-scroll-top {
+  position: static;
+  right: auto;
+  bottom: auto;
+}
+
+.mc-home-fab {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  width: 3.125rem;
+  min-height: 3.125rem;
+  padding: 0.5rem 0.375rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--color-text-muted) 34%, var(--border-default));
+  background: color-mix(in srgb, var(--color-bg-soft) 72%, var(--color-surface));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--color-text-primary) 6%, transparent),
+    0 8px 22px rgba(15, 23, 42, 0.12);
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.22s ease, color 0.2s ease;
+  font: inherit;
+}
+
+.mc-home-fab:hover {
+  border-color: var(--hover-border-soft);
+  background: var(--hover-fill-soft);
+  color: var(--color-text-primary);
+  box-shadow: var(--hover-glow-soft);
+}
+
+.mc-home-fab:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-primary) 55%, transparent);
+  outline-offset: 3px;
+}
+
+.mc-home-fab__icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+.mc-home-fab__label {
+  font-size: 0.58rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  opacity: 0.92;
+}
+
+html[data-theme="dark"] .mc-home-fab {
+  border-color: color-mix(in srgb, var(--color-text-muted) 48%, var(--border-default));
+  background: color-mix(in srgb, var(--color-bg-soft) 78%, #1e293b);
+  color: var(--color-text-secondary);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06),
+    0 10px 28px rgba(0, 0, 0, 0.4);
+}
+
+/* 사용가이드: 햄버거 섹션 이동 안내 툴팁 */
+.mc-hamburger-tip-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.mc-hamburger-tip {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: calc(var(--z-drawer) + 2);
+  width: min(17.5rem, calc(100vw - 2rem));
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, var(--border-default));
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.16);
+  color: var(--color-text-secondary);
+  font-size: 0.78rem;
+  font-weight: 650;
+  line-height: 1.45;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+}
+
+.mc-hamburger-tip::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 16px;
+  width: 10px;
+  height: 10px;
+  border-left: 1px solid color-mix(in srgb, var(--color-primary) 30%, var(--border-default));
+  border-top: 1px solid color-mix(in srgb, var(--color-primary) 30%, var(--border-default));
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  transform: rotate(45deg);
+}
+
+.mc-hamburger-tip-wrap:hover .mc-hamburger-tip,
+.mc-hamburger-tip-wrap:focus-within .mc-hamburger-tip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+html[data-theme="dark"] .mc-hamburger-tip {
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
 }
 
 .mc-app {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -106,12 +247,35 @@ html[data-theme="dark"] .mc-scroll-top {
 }
 
 .mc-app__canvas {
-  flex: 1;
-  padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
-  /* 본문은 일반 블록 플로우만 사용 (제목·가이드가 위로 밀리지 않도록) */
-  min-height: 0;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  /* 메인 site-footer 하단(14px)과 맞춤 — 컨테이너 패딩(1.5rem)과 합쳐 카피 위치 유사 */
+  padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
   max-width: 100%;
   overflow-x: clip;
+}
+
+/* 짧은 본문: 카피라이트를 뷰포트 하단으로 (margin-top:auto가 0으로 무너지지 않게 채움) */
+.mc-app__canvas > .container {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mc-app__canvas main {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mc-app__canvas main > .page-foot {
+  margin-top: auto;
+  margin-bottom: 0;
+  /* auto가 0이어도 본문과 최소 간격 유지(기존 mt-24) */
+  padding-top: var(--space-24);
 }
 
 /* —— Global header (sticky·배경 공통 → common.css) —— */
@@ -235,18 +399,36 @@ html[data-theme="dark"] .mc-scroll-top {
 }
 
 .mc-fav-dropdown__panel {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  min-width: min(280px, calc(100vw - 48px));
-  max-height: min(60vh, 320px);
-  overflow: auto;
+  position: fixed;
+  top: auto;
+  right: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: min(240px, calc(100vw - 48px));
+  max-height: none;
+  overflow: visible;
   padding: 8px;
   border-radius: 14px;
   border: 1px solid var(--border-default);
   background: color-mix(in srgb, var(--color-surface) 96%, transparent);
   backdrop-filter: blur(12px);
   box-shadow: 0 18px 50px rgba(15, 23, 42, 0.14);
+  z-index: 1100;
+}
+
+html[data-theme="dark"] .mc-fav-dropdown__panel {
+  background: color-mix(in srgb, #111827 94%, transparent);
+  border-color: color-mix(in srgb, var(--border-default) 80%, #fff 8%);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(16px);
+}
+
+html[data-theme="dark"] .mc-fav-dropdown > summary {
+  background: color-mix(in srgb, #111827 88%, transparent);
 }
 
 .mc-fav-dropdown__link {
@@ -254,7 +436,7 @@ html[data-theme="dark"] .mc-scroll-top {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid transparent;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 750;
   color: var(--color-text-secondary);
   text-decoration: none;
@@ -306,6 +488,12 @@ html[data-theme="dark"] .mc-scroll-top {
 
   .mc-fav-dropdown {
     display: block;
+  }
+
+  /* 로고 링크가 헤더를 가로로 채우지 않도록 (드롭다운 중앙 정렬용) */
+  .mc-brand,
+  .brand {
+    flex: 0 1 auto;
   }
 }
 
@@ -500,17 +688,12 @@ html[data-theme="dark"] .mc-scroll-top {
   opacity: 1;
 }
 
-.is-drawer-open {
-  overflow: hidden;
-}
-
-html.is-drawer-open {
-  overflow: hidden;
-  height: 100%;
-}
-
+/* 페이지 스크롤 잠금은 app-shell.js (body position:fixed + scroll 복원)에서 처리.
+   html height:100% 는 스크롤 위치를 잃게 만들어 닫을 때 화면이 위로 튀는 원인이 됨. */
+html.is-drawer-open,
 html.is-drawer-open body {
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 .drawer__top {
@@ -558,11 +741,12 @@ html.is-drawer-open body {
 }
 
 .mc-drawer__row {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
   min-height: 0;
-  padding: 12px 12px;
+  padding: 0;
   border-radius: 16px;
   border: 1px solid var(--border-default);
   background: var(--color-surface);
@@ -576,12 +760,15 @@ html.is-drawer-open body {
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: 8px;
-  padding: 0;
+  /* 행 전체(호버 영역)를 클릭 가능하게 — 별 버튼 자리만 비움 */
+  padding: 12px 52px 12px 12px;
   border: none;
   background: transparent;
-  border-radius: 0;
+  border-radius: 16px;
   text-decoration: none;
   color: inherit;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .mc-drawer__row .mc-drawer__item-link {
@@ -589,7 +776,16 @@ html.is-drawer-open body {
   background: transparent;
 }
 
+.mc-drawer__row:not(:has(.mc-drawer__fav)) .mc-drawer__item-link {
+  padding-right: 12px;
+}
+
 .mc-drawer__fav {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
   flex: 0 0 auto;
   width: 40px;
   height: 40px;
@@ -620,6 +816,17 @@ html.is-drawer-open body {
   color: #ca8a04;
 }
 
+/* 사용가이드: 기존 즐겨찾기 표시만 (토글 불가) */
+.mc-drawer__fav.is-static {
+  pointer-events: none;
+  cursor: default;
+}
+
+.mc-drawer__fav.is-static:hover {
+  background: transparent;
+  box-shadow: none;
+}
+
 .mc-drawer__section {
   border: 1px solid var(--border-default);
   border-radius: 16px;
@@ -644,7 +851,6 @@ html.is-drawer-open body {
 }
 
 .mc-drawer__section .mc-drawer__row {
-  padding: 12px 12px;
   border-radius: 16px;
 }
 
@@ -940,13 +1146,6 @@ html[data-theme="dark"] .mc-security-tip {
   box-shadow: var(--focus-ring);
 }
 
-.mc-fav-dropdown__link--contact {
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid var(--border-default);
-  font-weight: 850;
-  color: var(--color-primary);
-}
 
 .mc-drawer__contact-wrap {
   flex-shrink: 0;

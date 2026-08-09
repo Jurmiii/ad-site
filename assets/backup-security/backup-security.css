@@ -4,6 +4,16 @@
   max-width: 100%;
 }
 
+/* 카카오 광고: 백업/복원 카드와 SEO 섹션 사이 슬롯 보장 */
+.page-bk ins.kakao_ad_area {
+  width: 300px;
+  max-width: 100%;
+  min-height: 250px;
+  margin-left: auto;
+  margin-right: auto;
+  clear: both;
+}
+
 .page-bk .bk-section h2 {
   font-size: 1.05rem;
   font-weight: 800;
@@ -72,28 +82,23 @@
 
 .bk-pass-wrap--restore-inline {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   gap: 8px;
   min-width: 0;
   width: 100%;
+  max-width: min(100%, 380px);
+  flex: 1 1 220px;
+  box-sizing: border-box;
 }
 
 .page-bk .bk-pass-wrap--restore-inline .bk-pass-input {
+  flex: 1 1 auto;
   min-width: 0;
+  width: auto;
   max-width: 100%;
-}
-
-@media (max-width: 480px) {
-  .page-bk .bk-pass-wrap--restore-inline {
-    max-width: 100%;
-    flex: 1 1 100%;
-  }
-
-  .page-bk .bk-pass-wrap--restore-inline .bk-pass-input {
-    max-width: 16rem;
-    width: 100%;
-    box-sizing: border-box;
-  }
+  min-height: 48px;
+  height: 48px;
+  box-sizing: border-box;
 }
 
 .bk-h2 {
@@ -173,8 +178,9 @@
   }
 
   .bk-restore-toolbar .bk-pass-wrap--restore-inline {
-    flex: 1 1 min(100%, 280px);
-    min-width: 12ch;
+    flex: 1 1 220px;
+    min-width: 0;
+    max-width: min(100%, 380px);
   }
 
   .bk-restore-toolbar #btn-restore {
@@ -200,10 +206,12 @@
 
 .bk-action-btn {
   flex: 0 0 auto;
+  width: auto;
+  min-width: 0;
   min-height: 48px;
-  padding-left: 18px;
-  padding-right: 18px;
-  align-self: stretch;
+  padding: 0 14px;
+  white-space: nowrap;
+  align-self: center;
 }
 
 .bk-file-row {
@@ -216,9 +224,10 @@
 
 .bk-file-btn {
   flex: 0 0 auto;
+  width: auto;
   min-height: 48px;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 0 14px;
+  white-space: nowrap;
 }
 
 .bk-file-name {
@@ -235,29 +244,66 @@
 
 @media (max-width: 520px) {
   .bk-action-line {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 8px;
   }
 
-  .bk-pass-wrap--compact {
-    max-width: none;
-  }
-
+  .bk-pass-wrap--compact,
   .page-bk .bk-panel--backup .bk-pass-wrap--compact {
+    flex: 1 1 auto;
+    min-width: 0;
     max-width: none;
+    width: auto;
   }
 
   .bk-action-btn {
-    width: 100%;
+    flex: 0 0 auto;
+    width: auto;
+    min-height: 44px;
+    padding: 0 12px;
+    font-size: 0.875rem;
+  }
+
+  .bk-file-btn {
+    flex: 0 0 auto;
+    width: auto;
+    min-height: 44px;
+    padding: 0 12px;
+    font-size: 0.875rem;
   }
 
   .bk-restore-toolbar {
-    flex-direction: column;
-    align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .bk-restore-toolbar .bk-file-name {
+    flex: 1 1 calc(100% - 7rem);
+    min-width: 0;
+  }
+
+  .bk-restore-toolbar .bk-pass-wrap--restore-inline {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
+
+  .bk-restore-toolbar .bk-pass-wrap--restore-inline .bk-pass-input {
+    width: 100%;
+    max-width: none;
+    height: 44px;
+    min-height: 44px;
   }
 
   .bk-restore-toolbar #btn-restore {
-    width: 100%;
+    flex: 0 0 auto;
+    width: auto;
   }
 }
 

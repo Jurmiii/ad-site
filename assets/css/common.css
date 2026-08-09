@@ -127,6 +127,9 @@ html[data-theme="dark"] {
       transparent 1px,
       transparent 26px
     );
+  /* 오버스크롤·스크롤 거터 배경이 라이트(#fff)로 비치지 않도록 메인과 동일 */
+  background-color: var(--color-bg);
+  color-scheme: dark;
 }
 
 /* 기능 페이지 UI 배율 — journal-shell이 html font-size에 반영 */
@@ -184,7 +187,9 @@ html[data-theme="dark"] {
 }
 
 html {
-  background-color: #ffffff;
+  /* 라이트/다크 모두 토큰 사용 — 오버스크롤·거터가 하얀색으로 비치지 않음 */
+  background-color: var(--color-bg);
+  color-scheme: light;
   overflow-x: clip;
   max-width: 100%;
   font-size: 100%;
@@ -213,6 +218,11 @@ html {
 }
 
 *::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+html[data-theme="dark"] *::-webkit-scrollbar-track,
+html[data-theme="dark"] *::-webkit-scrollbar-corner {
   background: transparent;
 }
 
@@ -430,6 +440,13 @@ input[type="month"]::-ms-clear {
   font-size: clamp(0.65rem, 0.52rem + 0.55vw, 0.75rem);
   color: var(--color-text-muted);
   font-weight: 600;
+}
+
+/* 모바일: 홈·기능 페이지 공통 — 한글 태그 숨김, 로고를 Money Calendar만으로 통일 */
+@media (max-width: 720px) {
+  .brand__tag {
+    display: none;
+  }
 }
 
 /* Smooth theme transition (respects reduce motion) */
@@ -726,39 +743,71 @@ html[data-theme="dark"] .theme-toggle:hover {
   box-shadow: 0 5px 0 var(--color-text-primary), 0 10px 0 var(--color-text-primary);
 }
 
-/* 브랜드가 가로를 우선(즐겨찾기 영역은 필요 시 수축) */
+/* 즐겨찾기 바(데스크톱) — 필요 시만 수축 */
 .site-header__inner .mc-fav-bar,
-.site-header__inner .mc-fav-dropdown,
 .mc-global-header__inner .mc-fav-bar,
-.mc-global-header__inner .mc-fav-dropdown,
-.page-home .site-header__inner .mc-fav-bar,
-.page-home .site-header__inner .mc-fav-dropdown {
+.page-home .site-header__inner .mc-fav-bar {
   flex: 0 1 40%;
   min-width: 0;
   max-width: min(28rem, 48%);
 }
 
-@media (max-width: 768px) {
-  .site-header__inner .mc-fav-bar,
-  .site-header__inner .mc-fav-dropdown,
-  .mc-global-header__inner .mc-fav-bar,
-  .mc-global-header__inner .mc-fav-dropdown,
-  .page-home .site-header__inner .mc-fav-bar,
-  .page-home .site-header__inner .mc-fav-dropdown {
-    flex: 0 1 34%;
-    max-width: min(13.5rem, 38%);
+/* 1024↓: 드롭다운을 헤더 가로 중앙에 고정, 너비는 max(1024)↔min(모바일) clamp */
+@media (max-width: 1024px) {
+  .site-header__inner,
+  .mc-global-header__inner,
+  .page-home .site-header__inner {
+    position: relative;
   }
-}
 
-@media (max-width: 480px) {
-  .site-header__inner .mc-fav-bar,
+  /* 로고 영역: 가로로 늘어나지 않고 로고(+텍스트) 크기에 맞춤 */
+  .site-header .brand,
+  .mc-global-header .mc-brand,
+  .page-home .site-header .brand {
+    flex: 0 1 auto;
+    width: auto;
+    max-width: calc(50% - 0.5rem - (clamp(7.5rem, 22vw, 11rem) / 2));
+    min-width: 0;
+  }
+
+  .site-header .brand .brand__text,
+  .mc-global-header .mc-brand .mc-brand__titles,
+  .mc-global-header .mc-brand .brand__text,
+  .page-home .site-header .brand .brand__text {
+    flex: 0 1 auto;
+    width: auto;
+    max-width: 100%;
+  }
+
+  .site-header .header-actions,
+  .mc-global-header .mc-global-header__tools,
+  .page-home .site-header .header-actions {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
   .site-header__inner .mc-fav-dropdown,
-  .mc-global-header__inner .mc-fav-bar,
   .mc-global-header__inner .mc-fav-dropdown,
-  .page-home .site-header__inner .mc-fav-bar,
   .page-home .site-header__inner .mc-fav-dropdown {
-    flex: 0 1 30%;
-    max-width: min(11rem, 36%);
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: clamp(7.5rem, 22vw, 11rem);
+    max-width: min(11rem, calc(100% - 7.5rem));
+    min-width: 7.5rem;
+    height: fit-content;
+    margin: auto;
+    flex: none;
+    z-index: 5;
+  }
+
+  .site-header__inner .mc-fav-dropdown > summary,
+  .mc-global-header__inner .mc-fav-dropdown > summary,
+  .page-home .site-header__inner .mc-fav-dropdown > summary {
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
@@ -818,6 +867,38 @@ html[data-theme="dark"] .theme-toggle:hover {
   justify-content: start;
   gap: 5px;
   align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .site-footer__top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    align-items: end;
+  }
+
+  .site-footer__meta {
+    grid-column: 1;
+    grid-row: 1 / -1;
+  }
+
+  .site-footer__useful {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: end;
+    justify-self: end;
+    max-width: none;
+    width: auto;
+  }
+
+  .site-footer__headline {
+    margin-bottom: 4px;
+  }
+
+  .site-footer__links {
+    grid-template-columns: repeat(4, max-content);
+    width: auto;
+  }
 }
 
 .site-footer__link.btn.btn--pill {
@@ -909,7 +990,24 @@ html[data-theme="dark"] .theme-toggle:hover {
   color: var(--color-text-muted);
 }
 
-@media (max-width: 720px) {
+/* 메인: 카피라이트 위 구분선만 화면 전체 폭 */
+.page-home .site-footer__copyright {
+  position: relative;
+  border-top: none;
+}
+
+.page-home .site-footer__copyright::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  border-top: 1px solid var(--border-default);
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
   .site-footer__top {
     flex-direction: column;
     align-items: stretch;
@@ -917,7 +1015,12 @@ html[data-theme="dark"] .theme-toggle:hover {
   }
 
   .site-footer__useful {
-    max-width: min(100%, 17rem);
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .site-footer__links {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -1279,12 +1382,14 @@ html[data-theme="dark"] select:focus {
 }
 
 /* 기능·가이드 등 공통: 카카오 광고 상단 여백(메인 index와 동일) + 가운데 정렬 */
+/* display는 AdFit(inline style)이 제어 — CSS에서 display를 강제하지 않음 */
 ins.kakao_ad_area {
-  display: block;
-  width: 100%;
+  width: 300px;
   max-width: 100%;
-  margin: 56px 0 0;
+  min-height: 250px;
+  margin: 56px auto 0;
   text-align: center;
+  box-sizing: border-box;
 }
 
 ins.kakao_ad_area > iframe,
@@ -1300,6 +1405,8 @@ ins.kakao_ad_area > span {
 /* 메인(홈)만 왼쪽 정렬 — 광고 위쪽 margin-top(56px / 600px↓ 40px)은 그대로 */
 .page-home ins.kakao_ad_area {
   text-align: left;
+  margin-left: 0;
+  margin-right: auto;
 }
 
 .page-home ins.kakao_ad_area > iframe,
