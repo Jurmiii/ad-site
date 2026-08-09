@@ -989,6 +989,16 @@
     mount.appendChild(btn);
 
     var REVEAL_SCROLL_Y = 300;
+    var FOOTER_CLEAR_GAP = 16;
+    var fabHost = document.getElementById("mc-fab-stack") || btn;
+    var clearanceRaf = 0;
+    var fabBaseBottomPx = 40;
+
+    function refreshFabBaseBottom() {
+      var fs = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      // CSS: max(2.5rem, env(safe-area-inset-bottom) + 1.75rem) — 데스크톱은 safe≈0
+      fabBaseBottomPx = Math.max(2.5 * fs, 1.75 * fs);
+    }
 
     function getScrollY() {
       return window.pageYOffset != null
@@ -1009,8 +1019,35 @@
       return getScrollY() >= REVEAL_SCROLL_Y;
     }
 
+    function updateFabFooterClearance() {
+      if (!fabHost) return;
+      if (fabHost === btn && btn.hidden) {
+        fabHost.style.transform = "";
+        return;
+      }
+      var footer =
+        document.querySelector("footer.site-footer") ||
+        document.querySelector("footer.page-foot") ||
+        document.querySelector("footer");
+      if (!footer) {
+        fabHost.style.transform = "";
+        return;
+      }
+      var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+      if (vh <= 0) return;
+      var footerTop = footer.getBoundingClientRect().top;
+      var fabBottomNatural = vh - fabBaseBottomPx;
+      var lift = Math.max(0, Math.ceil(fabBottomNatural - (footerTop - FOOTER_CLEAR_GAP)));
+      fabHost.style.transform = lift > 0 ? "translateY(-" + lift + "px)" : "";
+    }
+
     function sync() {
       btn.hidden = !shouldShow();
+      if (clearanceRaf) cancelAnimationFrame(clearanceRaf);
+      clearanceRaf = requestAnimationFrame(function () {
+        clearanceRaf = 0;
+        updateFabFooterClearance();
+      });
     }
 
     btn.addEventListener("click", function () {
@@ -1021,13 +1058,25 @@
       }
     });
 
+    refreshFabBaseBottom();
     sync();
     window.addEventListener("scroll", sync, { passive: true });
-    window.addEventListener("resize", sync);
-    window.addEventListener("load", sync);
+    window.addEventListener("resize", function () {
+      refreshFabBaseBottom();
+      sync();
+    });
+    window.addEventListener("load", function () {
+      refreshFabBaseBottom();
+      sync();
+    });
     try {
-      window.visualViewport &&
-        window.visualViewport.addEventListener("resize", sync);
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", function () {
+          refreshFabBaseBottom();
+          sync();
+        });
+        window.visualViewport.addEventListener("scroll", sync, { passive: true });
+      }
     } catch (e) {}
   }
 
